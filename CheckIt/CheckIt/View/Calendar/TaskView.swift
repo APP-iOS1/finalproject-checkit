@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct TaskView: View {
+    @Binding var currentDate: Date
+    @Binding var currentMonth: Int
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 10) {
-                Text("01.17 수요일")
+                Text("\(extraData_MonthDay()[0]).\(extraData_MonthDay()[1]) \(extraData_MonthDay()[2])")
                     .font(.title2.bold())
                     .padding(.top, 25)
                 
@@ -46,6 +49,19 @@ struct TaskView: View {
             Spacer()
         }
     }
+    
+    //MARK: 현재 날짜의 달, 일(day), 요일만 String으로 변환. 반환형식 예시: 01
+    ///달력이 나타내는 달, 일(day)을 알려주기 위한 함수. 현재 날짜(currentDate)변수의 데이터를 Date -> String 타입 변환,
+    ///"MM DD"형식으로 반환. (예시: 01)
+        func extraData_MonthDay() -> [String] {
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "ko")
+            formatter.dateFormat = "MM DD EEEE"
+            
+            let date = formatter.string(from: currentDate)
+            
+            return date.components(separatedBy: " ")
+        }
 }
 
 //MARK: 일정 구분선
