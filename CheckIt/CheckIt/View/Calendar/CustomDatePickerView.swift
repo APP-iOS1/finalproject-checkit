@@ -15,12 +15,12 @@ struct CustomDatePickerView: View {
     @State var currentMonth: Int = 0
     
     var body: some View {
-        VStack(spacing: 35) {
+        VStack(spacing: 25) {
             //요일 array
             let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
             
+            //MARK: 라벨(연도, 달, 화살표)
             HStack(spacing: 20) {
-                
                 Text("\(extraData()[0]).\(extraData()[1])")
                     .font(.title.bold())
                 
@@ -44,7 +44,9 @@ struct CustomDatePickerView: View {
             }
             .padding(.horizontal)
             
-            //요일뷰
+            Divider()
+            
+            //MARK: 요일뷰
             HStack(spacing: 0) {
                 ForEach(days, id: \.self) { day in
                     Text(day)
@@ -54,11 +56,11 @@ struct CustomDatePickerView: View {
                 }
             }
             
-            //날짜뷰
+            //MARK: 날짜뷰
             //lazy grid
             let columns = Array(repeating: GridItem(.flexible()), count: 7)
             
-            LazyVGrid(columns: columns, spacing: 15) {
+            LazyVGrid(columns: columns, spacing: 5) {
                 ForEach(extractDate()) { value in
                     CardView(value: value)
                 }
@@ -69,19 +71,24 @@ struct CustomDatePickerView: View {
             currentDate = getCurrentMonth()
         }
     }
-    
+
+//MARK: 달력 디테일뷰 생성
+///달력 디테일뷰(day 데이터) 구성하는 함수
     @ViewBuilder
     func CardView(value: DateValue) -> some View {
         VStack {
             if value.day != -1 {
                 Text("\(value.day)")
-                    .font(.title3.bold())
+                    .font(.body.bold())
             }
         }
-        .padding(.vertical, 8)
-        .frame(height: 60, alignment: .top)
+        .padding(.vertical, 5)
+        .frame(height: 50, alignment: .top)
     }
-    
+
+//MARK: 현재 날짜에서 연도, 달만 String으로 변환. 반환형식 예시: 2023 01
+///달력이 나타내는 연도, 달을 알려주기 위한 함수. 현재 날짜(currentDate)변수의 데이터를 Date -> String 타입 변환,
+///"YYYY MM"형식으로 반환. (예시: 2023 01)
     func extraData() -> [String] {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY MM"
@@ -90,24 +97,23 @@ struct CustomDatePickerView: View {
         
         return date.components(separatedBy: " ")
     }
-    
-    ///현재 달(month) 받아오는 함수
+
+//MARK: Month GET
+///현재 달(month) 받아오는 함수
     func getCurrentMonth() -> Date {
         let calendar = Calendar.current
         
-        //현재 날짜(dates) get
         guard let currentMonth = calendar.date(byAdding: .month, value: self.currentMonth, to: Date()) else { return Date() }
         
         return currentMonth
     }
-    
-    ///날짜 추출해주는 함수. 배열로 반환한다.
+
+//MARK: 날짜 GET
+///날짜 추출해주는 함수. DateValue 배열로 반환한다.
     func extractDate() -> [DateValue] {
         let calendar = Calendar.current
         
-        //현재 날짜(dates) get
         let currentMonth = getCurrentMonth()
-        
         var days = currentMonth.getAllDates().compactMap { date -> DateValue in
             
             //일(day) get
@@ -129,16 +135,13 @@ struct CustomDatePickerView: View {
 //MARK: 현재 달(month) 날짜들을 Date 타입으로 Get
 extension Date {
     
-    ///현재 달(month)에 관한 데이터를 Date 배열 타입으로 반환해주는 함수
     func getAllDates() -> [Date] {
         let calendar = Calendar.current
         
-        //시작 날짜 get
         let startDate = calendar.date(from: Calendar.current.dateComponents([.year, .month], from: self))!
         
         let range = calendar.range(of: .day, in: .month, for: startDate)
         
-        //날짜 Get
         return range?.compactMap { day -> Date in
             return calendar.date(byAdding: .day, value: day - 1, to: startDate)!
         } ?? []
