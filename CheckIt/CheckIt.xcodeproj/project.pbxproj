@@ -11,6 +11,7 @@
 		864DC4872977B19F005DB201 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC4862977B19F005DB201 /* TaskView.swift */; };
 		864DC4892977B2F9005DB201 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC4882977B2F9005DB201 /* CustomDatePickerView.swift */; };
 		864DC48F2977B962005DB201 /* DateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC48E2977B962005DB201 /* DateValue.swift */; };
+		864DC4912977DF8C005DB201 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC4902977DF8C005DB201 /* PickerView.swift */; };
 		FD4E259D297783CC00F6F875 /* CheckItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E259C297783CC00F6F875 /* CheckItApp.swift */; };
 		FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E259E297783CC00F6F875 /* ContentView.swift */; };
 		FD4E25A1297783CC00F6F875 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD4E25A0297783CC00F6F875 /* Assets.xcassets */; };
@@ -57,6 +58,7 @@
 		864DC4862977B19F005DB201 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		864DC4882977B2F9005DB201 /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
 		864DC48E2977B962005DB201 /* DateValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValue.swift; sourceTree = "<group>"; };
+		864DC4902977DF8C005DB201 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		FD4E2599297783CC00F6F875 /* CheckIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD4E259C297783CC00F6F875 /* CheckItApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItApp.swift; sourceTree = "<group>"; };
 		FD4E259E297783CC00F6F875 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				864DC4842977B111005DB201 /* CalendarView.swift */,
 				864DC4882977B2F9005DB201 /* CustomDatePickerView.swift */,
 				864DC4862977B19F005DB201 /* TaskView.swift */,
+				864DC4902977DF8C005DB201 /* PickerView.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */,
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
 				864DC4852977B111005DB201 /* CalendarView.swift in Sources */,
+				864DC4912977DF8C005DB201 /* PickerView.swift in Sources */,
 				FD4E259D297783CC00F6F875 /* CheckItApp.swift in Sources */,
 				864DC48F2977B962005DB201 /* DateValue.swift in Sources */,
 				864DC4892977B2F9005DB201 /* CustomDatePickerView.swift in Sources */,

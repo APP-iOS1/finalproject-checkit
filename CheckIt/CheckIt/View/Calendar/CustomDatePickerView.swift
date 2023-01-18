@@ -41,6 +41,8 @@ struct CustomDatePickerView: View {
                         .font(.title2)
                 }
                 Spacer(minLength: 0)
+                
+                PickerView()
             }
             .padding(.horizontal)
             
