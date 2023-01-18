@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  CheckIt
 //
-//  Created by sole on 2023/01/18.
+//  Created by 윤예린 on 2023/01/18.
 //
 
 import SwiftUI
@@ -31,6 +31,7 @@ struct ContentView: View {
                     Text("마이")
                 }
         }
+
     }
 }
 
