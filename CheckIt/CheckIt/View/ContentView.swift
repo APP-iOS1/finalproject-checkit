@@ -15,7 +15,7 @@ struct ContentView: View {
                     Image(systemName: "checkmark.square.fill")
                     Text("출석체크")
                 }
-            Text("동아리")
+            GroupMainView()
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("동아리")
