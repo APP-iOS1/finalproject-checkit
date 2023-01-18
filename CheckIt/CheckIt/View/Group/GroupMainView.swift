@@ -54,29 +54,31 @@ struct GroupMainView: View {
                     VStack(spacing: 20) {
                         ForEach(1..<7) { _ in
                             // MARK: - 동아리 리스트
-                            HStack {
-                                Spacer()
-                                
-                                Image("chocobi")
-                                    .resizable()
-                                    .frame(width: 90, height: 90)
-                                    .clipShape(Circle())
-                                
-                                Spacer()
-                                
-                                VStack(alignment: .leading, spacing: 10) {
-                                    Text("호이의 SSG 응원방")
-                                        .font(.title3)
+                            NavigationLink(destination: CategoryView()) {
+                                HStack {
+                                    Spacer()
                                     
-                                    Text("We are landers\nWe are victory")
-                                        .font(.body)
+                                    Image("chocobi")
+                                        .resizable()
+                                        .frame(width: 90, height: 90)
+                                        .clipShape(Circle())
+                                    
+                                    Spacer()
+                                    
+                                    VStack(alignment: .leading, spacing: 10) {
+                                        Text("호이의 SSG 응원방")
+                                            .font(.title3)
+                                        
+                                        Text("We are landers\nWe are victory")
+                                            .font(.body)
+                                    }
+                                    
+                                    Spacer()
                                 }
-                                
-                                Spacer()
-                            }
-                            .frame(width: 310, height: 125)
-                            .background(Color.myLightGray)
+                                .frame(width: 310, height: 125)
+                                .background(Color.myLightGray)
                             .cornerRadius(15)
+                            }
                         }
                     }
                 }
