@@ -49,6 +49,18 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
+            Spacer()
+            
+            Image("CheckItLogo")
+                .resizable()
+                .scaledToFit()
+            
+            // FIXME - 수정 예정
+            Text("동아리 관리는 Check - It")
+                .font(.title2)
+            
+            Spacer()
+            
             SignInWithAppleButton(onRequest: { _ in }, onCompletion: { _ in })
                 .frame(width: 280, height: 50)
             
@@ -59,6 +71,8 @@ struct LoginView: View {
             GoogleSignInButton(action: signInWithGoogle)
                 .frame(width: 280, height: 60)
                 .cornerRadius(12)
+            
+            Spacer()
         }
     }
     
