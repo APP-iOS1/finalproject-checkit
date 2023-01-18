@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5FF27AA2977D1D00059C312 /* QuitGroupAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A92977D1D00059C312 /* QuitGroupAlert.swift */; };
+		A5FF27AC2977D2640059C312 /* alertTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27AB2977D2640059C312 /* alertTestView.swift */; };
 		2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE322977AC1D00D8CAFB /* LoginView.swift */; };
 		2869DE362977B00C00D8CAFB /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 2869DE352977B00C00D8CAFB /* GoogleSignIn */; };
 		2869DE382977B00C00D8CAFB /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2869DE372977B00C00D8CAFB /* GoogleSignInSwift */; };
@@ -74,6 +76,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A5FF27A92977D1D00059C312 /* QuitGroupAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitGroupAlert.swift; sourceTree = "<group>"; };
+		A5FF27AB2977D2640059C312 /* alertTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alertTestView.swift; sourceTree = "<group>"; };
 		2869DE322977AC1D00D8CAFB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
@@ -258,6 +262,8 @@
 		FD4E25CC2977841900F6F875 /* Group */ = {
 			isa = PBXGroup;
 			children = (
+				A5FF27AB2977D2640059C312 /* alertTestView.swift */,
+				A5FF27A92977D1D00059C312 /* QuitGroupAlert.swift */,
 				2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */,
 				2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */,
 				2869DE412977CD4B00D8CAFB /* LateCostView.swift */,
@@ -473,6 +479,8 @@
 				2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */,
 				2869DE402977CC8800D8CAFB /* AttendanceCellView.swift in Sources */,
 				FD4E259D297783CC00F6F875 /* CheckItApp.swift in Sources */,
+				A5FF27AA2977D1D00059C312 /* QuitGroupAlert.swift in Sources */,
+				A5FF27AC2977D2640059C312 /* alertTestView.swift in Sources */,
 				2869DE3E2977CC5400D8CAFB /* AttendanceView.swift in Sources */,
 				864DC4852977B111005DB201 /* CalendarView.swift in Sources */,
 				864DC4912977DF8C005DB201 /* PickerView.swift in Sources */,
@@ -641,7 +649,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = BW4MN2W69K;
+				DEVELOPMENT_TEAM = JB8T59WMFR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
@@ -654,7 +662,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -676,7 +684,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = BW4MN2W69K;
+				DEVELOPMENT_TEAM = JB8T59WMFR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
@@ -689,7 +697,8 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
