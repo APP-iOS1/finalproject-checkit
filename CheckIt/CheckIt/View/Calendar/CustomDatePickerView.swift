@@ -12,7 +12,7 @@ struct CustomDatePickerView: View {
     @Binding var currentDate: Date
     
     //화살표 누르면 달(month) 업데이트
-    @State var currentMonth: Int = 0
+    @Binding var currentMonth: Int
     
     var body: some View {
         VStack(spacing: 25) {
@@ -21,7 +21,7 @@ struct CustomDatePickerView: View {
             
             //MARK: 라벨(연도, 달, 화살표)
             HStack(spacing: 20) {
-                Text("\(extraData()[0]).\(extraData()[1])")
+                Text("\(extraData_YearMonth()[0]).\(extraData_YearMonth()[1])")
                     .font(.title.bold())
                 
                 Button {
@@ -63,6 +63,15 @@ struct CustomDatePickerView: View {
             LazyVGrid(columns: columns, spacing: 5) {
                 ForEach(extractDate()) { value in
                     CardView(value: value)
+                        .background (
+                            Rectangle()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(Color.myGray)
+                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1 : 0)
+                        )
+                        .onTapGesture {
+                            currentDate = value.date
+                        }
                 }
             }
         }
@@ -78,18 +87,43 @@ struct CustomDatePickerView: View {
     func CardView(value: DateValue) -> some View {
         VStack {
             if value.day != -1 {
-                Text("\(value.day)")
-                    .font(.body.bold())
+                
+                if let task = tasks.first(where: { task in
+                    return isSameDay(date1: task.taskDate, date2: value.date)
+                }){
+                    Text("\(value.day)")
+                        .font(.body.bold())
+                    Spacer()
+                    
+                    HStack(spacing: 8) {
+                        ForEach(task.task) {_ in
+                            Circle()
+                                .fill(Color.myRed)
+                                .frame(width: 7, height: 7)
+                        }
+                    }
+                } else {
+                    Text("\(value.day)")
+                        .font(.body.bold())
+                    Spacer()
+                }
             }
         }
         .padding(.vertical, 5)
         .frame(height: 50, alignment: .top)
     }
 
-//MARK: 현재 날짜에서 연도, 달만 String으로 변환. 반환형식 예시: 2023 01
+//MARK: 날짜 비교
+    func isSameDay(date1: Date, date2: Date) -> Bool {
+        let calendar = Calendar.current
+        
+        return calendar.isDate(date1, inSameDayAs: date2)
+    }
+    
+//MARK: 현재 날짜의 연도, 달만 String으로 변환. 반환형식 예시: 2023 01
 ///달력이 나타내는 연도, 달을 알려주기 위한 함수. 현재 날짜(currentDate)변수의 데이터를 Date -> String 타입 변환,
 ///"YYYY MM"형식으로 반환. (예시: 2023 01)
-    func extraData() -> [String] {
+    func extraData_YearMonth() -> [String] {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY MM"
         
