@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ScheduleView: View {
+struct TaskView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 10) {
@@ -62,7 +62,7 @@ struct ExDivider: View {
     }
 }
 
-struct ScheduleView_Previews: PreviewProvider {
+struct TaskView_Previews: PreviewProvider {
     static var previews: some View {
         CalendarView()
     }

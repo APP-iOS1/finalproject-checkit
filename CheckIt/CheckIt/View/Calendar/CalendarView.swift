@@ -19,7 +19,7 @@ struct CalendarView: View {
             Divider()
             
             //일정섹션
-            ScheduleView()
+            TaskView()
             Spacer()
         }
         .padding(.vertical)
