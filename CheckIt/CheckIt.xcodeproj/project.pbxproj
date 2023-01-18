@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5FF27A02977AD3F0059C312 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF279F2977AD3E0059C312 /* MyPageView.swift */; };
+		A5FF27A22977AD640059C312 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A12977AD630059C312 /* QuestionView.swift */; };
+		A5FF27A42977AEF80059C312 /* MyPageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A32977AEF80059C312 /* MyPageButton.swift */; };
+		A5FF27A62977BD130059C312 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A52977BD130059C312 /* Profile.swift */; };
+		A5FF27A82977C3F30059C312 /* PremiumRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A72977C3F30059C312 /* PremiumRateView.swift */; };
 		A5FF27AA2977D1D00059C312 /* QuitGroupAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A92977D1D00059C312 /* QuitGroupAlert.swift */; };
 		A5FF27AC2977D2640059C312 /* alertTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27AB2977D2640059C312 /* alertTestView.swift */; };
 		2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE322977AC1D00D8CAFB /* LoginView.swift */; };
@@ -76,6 +81,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A5FF279F2977AD3E0059C312 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		A5FF27A12977AD630059C312 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		A5FF27A32977AEF80059C312 /* MyPageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageButton.swift; sourceTree = "<group>"; };
+		A5FF27A52977BD130059C312 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		A5FF27A72977C3F30059C312 /* PremiumRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumRateView.swift; sourceTree = "<group>"; };
 		A5FF27A92977D1D00059C312 /* QuitGroupAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitGroupAlert.swift; sourceTree = "<group>"; };
 		A5FF27AB2977D2640059C312 /* alertTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alertTestView.swift; sourceTree = "<group>"; };
 		2869DE322977AC1D00D8CAFB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -291,6 +301,11 @@
 		FD4E25CE2977842A00F6F875 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				A5FF279F2977AD3E0059C312 /* MyPageView.swift */,
+				A5FF27A12977AD630059C312 /* QuestionView.swift */,
+				A5FF27A32977AEF80059C312 /* MyPageButton.swift */,
+				A5FF27A52977BD130059C312 /* Profile.swift */,
+				A5FF27A72977C3F30059C312 /* PremiumRateView.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -462,6 +477,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5FF27A22977AD640059C312 /* QuestionView.swift in Sources */,
+				FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */,
+				A5FF27A02977AD3F0059C312 /* MyPageView.swift in Sources */,
+				A5FF27A62977BD130059C312 /* Profile.swift in Sources */,
+				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
+				A5FF27A42977AEF80059C312 /* MyPageButton.swift in Sources */,
+				A5FF27A82977C3F30059C312 /* PremiumRateView.swift in Sources */,
 				2869DE422977CD4B00D8CAFB /* LateCostView.swift in Sources */,
 				FD4E26002977D89C00F6F875 /* MapAlert.swift in Sources */,
 				FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */,
@@ -699,6 +721,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				
+
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
