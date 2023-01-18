@@ -42,7 +42,7 @@ struct CategoryView: View {
                 AttendanceStatusView()
             }
             if clickedIndex == 2 {
-                Text("동아리 정보")
+                Text("동아리 정보 뷰")
             }
             
             Spacer()
