@@ -15,6 +15,9 @@ struct CalendarView: View {
         VStack {
             //달력섹션
             CustomDatePickerView(currentDate: $currentDate)
+            
+            Divider()
+            
             //일정섹션
             ScheduleView()
             Spacer()
