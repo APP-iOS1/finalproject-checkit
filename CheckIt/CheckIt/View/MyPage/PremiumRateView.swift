@@ -39,7 +39,7 @@ struct premiumRateView: View {
                 
                 HStack {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(.myYellow)
+                        .foregroundColor(.myOrange)
                     
                     Text("최대 인원 무제한")
                         .foregroundColor(.myGreen)
@@ -55,7 +55,7 @@ struct premiumRateView: View {
                 
                 HStack {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(.myYellow)
+                        .foregroundColor(.myOrange)
 
                     
                     Text("광고 제거")
@@ -72,7 +72,7 @@ struct premiumRateView: View {
                 
                 HStack {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(.myYellow)
+                        .foregroundColor(.myOrange)
                     
                     
                     Text("Custom QR Code")
@@ -89,7 +89,7 @@ struct premiumRateView: View {
 
                 HStack {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(.myYellow)
+                        .foregroundColor(.myOrange)
 
                     
                     Text("Custom MapPin")

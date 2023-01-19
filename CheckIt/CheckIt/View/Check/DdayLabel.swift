@@ -15,13 +15,13 @@ struct DdayLabel: View {
             .foregroundColor(.white)
             .overlay {
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.myYellow)
+                        .stroke(Color.myOrange)
                         .frame(width: 65, height: 35)
             }
             .overlay {
                 Text("\(dDay)")
                     .font(.callout.bold())
-                    .foregroundColor(.myYellow)
+                    .foregroundColor(.myOrange)
                     
             }
     }

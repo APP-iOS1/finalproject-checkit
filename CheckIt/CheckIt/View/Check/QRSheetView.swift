@@ -15,7 +15,7 @@ struct QRSheetView: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.myGreen, .myYellow]),
+            LinearGradient(gradient: Gradient(colors: [.myGreen, .myOrange]),
                            startPoint: .top, endPoint: .bottom)
             .edgesIgnoringSafeArea(.all)
             
