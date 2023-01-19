@@ -55,7 +55,7 @@ struct LateCostView: View {
                         
                         Text("지각")
                         Text("1")   //지각 횟수
-                            .foregroundColor(.myYellow)
+                            .foregroundColor(.myOrange)
                             .bold()
                         
                         Divider().frame(height:20)
