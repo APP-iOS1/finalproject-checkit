@@ -10,17 +10,9 @@ import SwiftUI
 struct PickerView: View {
     
     @State var selectedGroup = "전체"
-    var groups = ["전체", "지니의 맛집 탐방", "호이의 SSG 응원방", "허니부리 또구 교실", "또리의 이력서 클럽"]
+    var groups = ["전체", "지니의 맛집 탐방", "호이의 SSG 응원방", "허니부리 또구 교실", "또리의 이력서 클럽dddddddddddddd"]
     
     var body: some View {
-//        Picker("Choose a group", selection: $selectedGroup) {
-//            ForEach(groups, id: \.self) { group in
-//                Text(group)
-//                    .font(.caption2)
-//                    .lineLimit(1)
-//            }
-//        }
-//        .padding()
         Menu {
             Picker(selection: $selectedGroup) {
                 ForEach(groups, id: \.self) { group in

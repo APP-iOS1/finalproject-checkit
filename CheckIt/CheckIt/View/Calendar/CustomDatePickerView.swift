@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomDatePickerView: View {
-   
+    @ObservedObject var extraData = ExtraData()
     @Binding var currentDate: Date
     
     //화살표 누르면 달(month) 업데이트
@@ -19,7 +19,7 @@ struct CustomDatePickerView: View {
             //요일 array
             let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
             
-            //MARK: 라벨(연도, 달, 화살표)
+            //MARK: - 라벨(연도, 달, 화살표)
             HStack(spacing: 20) {
                 Text("\(extraData_YearMonth()[0]).\(extraData_YearMonth()[1])")
                     .font(.title.bold())
@@ -48,7 +48,7 @@ struct CustomDatePickerView: View {
             
             Divider()
             
-            //MARK: 요일뷰
+            //MARK: - 요일뷰
             HStack(spacing: 0) {
                 ForEach(days, id: \.self) { day in
                     Text(day)
@@ -58,7 +58,7 @@ struct CustomDatePickerView: View {
                 }
             }
             
-            //MARK: 날짜뷰
+            //MARK: - 날짜뷰
             //lazy grid
             let columns = Array(repeating: GridItem(.flexible()), count: 7)
             
@@ -69,7 +69,7 @@ struct CustomDatePickerView: View {
                             Rectangle()
                                 .frame(width: 50, height: 50)
                                 .foregroundColor(Color.myGray)
-                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1 : 0)
+                                .opacity(extraData.isSameDay(date1: value.date, date2: currentDate) ? 1 : 0)
                         )
                         .onTapGesture {
                             currentDate = value.date
@@ -83,7 +83,7 @@ struct CustomDatePickerView: View {
         }
     }
 
-//MARK: 달력 디테일뷰 생성
+//MARK: - 달력 디테일뷰 생성
 ///달력 디테일뷰(day 데이터) 구성하는 함수
     @ViewBuilder
     func CardView(value: DateValue) -> some View {
@@ -91,7 +91,7 @@ struct CustomDatePickerView: View {
             if value.day != -1 {
                 
                 if let task = tasks.first(where: { task in
-                    return isSameDay(date1: task.taskDate, date2: value.date)
+                    return extraData.isSameDay(date1: task.taskDate, date2: value.date)
                 }){
                     Text("\(value.day)")
                         .font(.body.bold())
@@ -114,15 +114,8 @@ struct CustomDatePickerView: View {
         .padding(.vertical, 5)
         .frame(height: 50, alignment: .top)
     }
-
-//MARK: 날짜 비교
-    func isSameDay(date1: Date, date2: Date) -> Bool {
-        let calendar = Calendar.current
-        
-        return calendar.isDate(date1, inSameDayAs: date2)
-    }
     
-//MARK: 현재 날짜의 연도, 달만 String으로 변환. 반환형식 예시: 2023 01
+//MARK: - 현재 날짜의 연도, 달만 String으로 변환. 반환형식 예시: 2023 01
 ///달력이 나타내는 연도, 달을 알려주기 위한 함수. 현재 날짜(currentDate)변수의 데이터를 Date -> String 타입 변환,
 ///"YYYY MM"형식으로 반환. (예시: 2023 01)
     func extraData_YearMonth() -> [String] {
@@ -134,7 +127,7 @@ struct CustomDatePickerView: View {
         return date.components(separatedBy: " ")
     }
 
-//MARK: Month GET
+//MARK: - Month GET
 ///현재 달(month) 받아오는 함수
     func getCurrentMonth() -> Date {
         let calendar = Calendar.current
