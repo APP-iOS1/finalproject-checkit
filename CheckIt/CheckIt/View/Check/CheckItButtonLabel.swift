@@ -10,7 +10,7 @@ import SwiftUI
 struct CheckItButtonLabel: View {
     var isActive: Bool
     var text: String = "Check It!"
-    
+    // 
     private var inActiveLabel: some View {
         get {
             RoundedRectangle(cornerRadius: 15)
