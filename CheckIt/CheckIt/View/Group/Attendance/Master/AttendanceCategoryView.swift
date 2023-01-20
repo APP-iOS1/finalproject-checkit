@@ -29,13 +29,13 @@ struct AttendanceCategoryView: View {
         VStack {
             switch selection {
             case .attendanced:
-                AttendanceDetailStatusView(attendanceStatus: tempCostData.filter {$0.attendance == selection.rawValue})
+                AttendanceDetailStatusView(attendanceStatus: tempCostData.filter {$0.attendance == selection.rawValue}, category: selection)
             case .lated:
-                AttendanceDetailStatusView(attendanceStatus: tempCostData.filter {$0.attendance == selection.rawValue})
+                AttendanceDetailStatusView(attendanceStatus: tempCostData.filter {$0.attendance == selection.rawValue}, category: selection)
             case .absented:
-                AttendanceDetailStatusView(attendanceStatus: tempCostData.filter {$0.attendance == selection.rawValue})
+                AttendanceDetailStatusView(attendanceStatus: tempCostData.filter {$0.attendance == selection.rawValue}, category: selection)
             case .officalyAbsented:
-                AttendanceDetailStatusView(attendanceStatus: tempCostData.filter {$0.attendance == selection.rawValue})
+                AttendanceDetailStatusView(attendanceStatus: tempCostData.filter {$0.attendance == selection.rawValue}, category: selection)
             }
         }
     }
