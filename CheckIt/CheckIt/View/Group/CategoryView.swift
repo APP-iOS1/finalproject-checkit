@@ -56,7 +56,8 @@ struct CategoryView: View {
                                 .font(i == clickedIndex ? .system(size: 18).bold(): .system(size: 18))
                         }
                     })
-                    .padding()
+                    .padding(.top)
+                    .padding(.horizontal)
                 }
             }
             .frame(width: 330)
