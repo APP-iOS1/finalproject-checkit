@@ -44,9 +44,16 @@ struct CustomDatePickerView: View {
     @Binding var currentMonth: Int
     
     var body: some View {
-        VStack(spacing: 25) {
+        VStack(spacing: 20) {
             //요일 array
             let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
+            
+            HStack {
+                PickerView()
+                Spacer()
+            }
+            .padding(.horizontal)
+            .padding(.top,8)
             
             //MARK: - 라벨(연도, 달, 화살표)
             HStack(spacing: 20) {
@@ -71,7 +78,7 @@ struct CustomDatePickerView: View {
                 }
                 Spacer(minLength: 0)
                 
-                PickerView()
+                
             }
             .padding(.horizontal)
             
