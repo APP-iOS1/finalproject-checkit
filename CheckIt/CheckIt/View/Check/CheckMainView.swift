@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//FIXME: 더미데이터입니다.
 let cards: [CheckItCard] = [
     CheckItCard(),
     CheckItCard(dDay: "D-1", groupName: "또리의 이력서 클럽", place: "홍대 이력서가 젤조아", date: "3월 25일", time: "오후 6:00 - 오후 8:00", isActiveButton: false),
@@ -30,6 +31,7 @@ struct CheckMainView: View {
     }
 }
 
+//MARK: - Previews
 struct CheckMainView_Previews: PreviewProvider {
     static var previews: some View {
         CheckMainView()
