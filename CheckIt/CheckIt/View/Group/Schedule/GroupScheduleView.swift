@@ -28,139 +28,113 @@ struct GroupScheduleView: View {
                 ScrollView {
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(Color("myLightGray"))
-                            .frame(width: .infinity, height:160)
+                            .foregroundColor(Color.myLightGray)
+                            .frame(width: .infinity, height:150)
                         
                         HStack {
                             VStack(alignment: .leading){
-                                RoundedRectangle(cornerRadius: 10)
-                                    .frame(width: 45, height: 25)
-                                    .foregroundColor(.white)
-                                    .overlay{
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color("myGreen"), lineWidth: 1)
-                                        Text("출석")
-                                            .foregroundColor(Color("myGreen"))
-                                            .font(.caption)
-                                    }
-                                
-                                HStack {
-                                    Image(systemName: "mappin.and.ellipse")
-                                    Text("신촌 베이스볼클럽")        //위치
-                                }
-                                .padding(.top, 5)
-                                
+                                //날짜
                                 HStack {
                                     Image(systemName: "calendar")
-                                    Text("3월 17일")              //날짜
-                                    
+                                        .foregroundColor(Color.myGreen)
+                                    Text("3월 17일")
+                                }
+                                
+                                //시간
+                                HStack {
+                                    Image(systemName: "clock")
+                                        .foregroundColor(Color.myGreen)
+                                    Text("오후 3:00 ~ 오후 7:00")
                                 }
                                 .padding(.vertical, 5)
                                 
+                                //장소
                                 HStack {
-                                    Image(systemName: "clock")
-                                    Text("오후 3:00 ~ 오후 7:00")  //시간
+                                    Image(systemName: "mappin.and.ellipse")
+                                        .foregroundColor(Color.myGreen)
+                                    Text("신촌 베이스볼클럽")
                                 }
-                                .padding(.bottom, 5)
-                                
                             }
                             
                             Spacer()
                         }
                         .padding(.leading, 20)
                     }
-                    .padding(.vertical, 20)
+                    .padding(.vertical, 10)
                     .padding(.horizontal, 40)
                     
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(Color("myLightGray"))
-                            .frame(width: .infinity, height:160)
+                            .foregroundColor(Color.myLightGray)
+                            .frame(width: .infinity, height:150)
                         
                         HStack {
                             VStack(alignment: .leading){
-                                RoundedRectangle(cornerRadius: 10)
-                                    .frame(width: 45, height: 25)
-                                    .foregroundColor(.white)
-                                    .overlay{
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color("myYellow"), lineWidth: 1)
-                                        Text("지각")
-                                            .foregroundColor(Color("myYellow"))
-                                            .font(.caption)
-                                    }
-                                
-                                HStack {
-                                    Image(systemName: "mappin.and.ellipse")
-                                    Text("신촌 베이스볼클럽")        //위치
-                                }
-                                .padding(.top, 5)
-                                
+                                //날짜
                                 HStack {
                                     Image(systemName: "calendar")
-                                    Text("3월 10일")              //날짜
-                                    
+                                        .foregroundColor(Color.myGreen)
+                                    Text("3월 10일")
+                                }
+                                
+                                //시간
+                                HStack {
+                                    Image(systemName: "clock")
+                                        .foregroundColor(Color.myGreen)
+                                    Text("오후 3:00 ~ 오후 7:00")
                                 }
                                 .padding(.vertical, 5)
                                 
+                                //장소
                                 HStack {
-                                    Image(systemName: "clock")
-                                    Text("오후 3:00 ~ 오후 7:00")  //시간
+                                    Image(systemName: "mappin.and.ellipse")
+                                        .foregroundColor(Color.myGreen)
+                                    Text("신촌 베이스볼클럽")
                                 }
-                                .padding(.bottom, 5)
-                                
                             }
                             
                             Spacer()
                         }
                         .padding(.leading, 20)
                     }
+                    .padding(.vertical, 10)
                     .padding(.horizontal, 40)
-                    .padding(.bottom, 20)
                     
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(Color("myLightGray"))
-                            .frame(width: .infinity, height:160)
+                            .foregroundColor(Color.myLightGray)
+                            .frame(width: .infinity, height:150)
                         
                         HStack {
                             VStack(alignment: .leading){
-                                RoundedRectangle(cornerRadius: 10)
-                                    .frame(width: 45, height: 25)
-                                    .foregroundColor(.white)
-                                    .overlay{
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color("myYellow"), lineWidth: 1)
-                                        Text("지각")
-                                            .foregroundColor(Color("myYellow"))
-                                            .font(.caption)
-                                    }
-                                
-                                HStack {
-                                    Image(systemName: "mappin.and.ellipse")
-                                    Text("신촌 베이스볼클럽")        //위치
-                                }
-                                .padding(.top, 5)
-                                
+                                //날짜
                                 HStack {
                                     Image(systemName: "calendar")
-                                    Text("3월 3일")              //날짜
-                                    
+                                        .foregroundColor(Color.myGreen)
+                                    Text("3월 3일")
+                                }
+                                
+                                //시간
+                                HStack {
+                                    Image(systemName: "clock")
+                                        .foregroundColor(Color.myGreen)
+                                    Text("오후 3:00 ~ 오후 7:00")
                                 }
                                 .padding(.vertical, 5)
                                 
+                                //장소
                                 HStack {
-                                    Image(systemName: "clock")
-                                    Text("오후 3:00 ~ 오후 7:00")  //시간
+                                    Image(systemName: "mappin.and.ellipse")
+                                        .foregroundColor(Color.myGreen)
+                                    Text("신촌 베이스볼클럽")
                                 }
-                                .padding(.bottom, 5)
-                                
                             }
                             
                             Spacer()
                         }
                         .padding(.leading, 20)
                     }
+                    .padding(.vertical, 10)
                     .padding(.horizontal, 40)
                 }
             }
