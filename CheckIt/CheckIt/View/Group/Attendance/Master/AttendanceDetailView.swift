@@ -17,13 +17,6 @@ struct LateCost: Identifiable, Hashable {
 struct AttendanceDetailView: View {
     @State private var selectedTap: AttendanceCategory = .attendanced
     
-    //    var totalCost: Int {
-    //        tempCostData
-    //            .filter{ $0.isChecked }
-    //            .map{ $0.cost }
-    //            .reduce(0, +)
-    //    }
-    
     var body: some View {
         VStack {
             AttendancePickerView(selectedTap: $selectedTap)
