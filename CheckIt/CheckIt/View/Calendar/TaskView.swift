@@ -48,16 +48,6 @@ struct TaskView: View {
             Spacer()
         }
     }
-    
-//    //MARK: - Day GET
-//    ///현재 달(month) 받아오는 함수
-//    func getCurrentDay() -> Date {
-//        let calendar = Calendar.current
-//
-//        guard let currentDay = calendar.date(byAdding: .day, value: self.currentDay, to: Date()) else { return Date() }
-//
-//        return currentDay
-//    }
 }
 
 //MARK: - 일정 구분선
