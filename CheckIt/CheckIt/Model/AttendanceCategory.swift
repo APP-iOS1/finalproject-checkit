@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AttendanceCategory: CaseIterable, String {
+enum AttendanceCategory: String, CaseIterable {
     case attendanced = "출석"
     case lated = "지각"
     case absented = "결석"
