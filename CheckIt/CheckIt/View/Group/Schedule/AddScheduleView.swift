@@ -127,6 +127,7 @@ struct AddScheduleView: View {
                                     .frame(height: 100)
                                     .padding(.bottom, 23)
                             }
+                            .offset(x:-6)
                             
                         }
                         .padding(.leading, 20)
@@ -209,6 +210,7 @@ struct AddScheduleView: View {
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
                             .frame(width: .infinity, height: 60)
+                            .foregroundColor(Color.myGreen)
                         Text("일정 만들기")
                             .foregroundColor(.white)
                             .font(.title3.bold())
