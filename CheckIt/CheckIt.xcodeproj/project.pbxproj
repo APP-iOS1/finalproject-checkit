@@ -15,6 +15,7 @@
 		2807AA99297A514D00B1676C /* AttendanceCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AA98297A514D00B1676C /* AttendanceCategory.swift */; };
 		2807AA9B297A536300B1676C /* AttendanceCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AA9A297A536300B1676C /* AttendanceCategoryView.swift */; };
 		2807AA9D297A5E0500B1676C /* AttendancePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AA9C297A5E0500B1676C /* AttendancePickerView.swift */; };
+		2807AAA1297A5FEE00B1676C /* AttendanceDetailStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AAA0297A5FEE00B1676C /* AttendanceDetailStatusView.swift */; };
 		2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE322977AC1D00D8CAFB /* LoginView.swift */; };
 		2869DE362977B00C00D8CAFB /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 2869DE352977B00C00D8CAFB /* GoogleSignIn */; };
 		2869DE382977B00C00D8CAFB /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2869DE372977B00C00D8CAFB /* GoogleSignInSwift */; };
@@ -96,6 +97,7 @@
 		2807AA98297A514D00B1676C /* AttendanceCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCategory.swift; sourceTree = "<group>"; };
 		2807AA9A297A536300B1676C /* AttendanceCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCategoryView.swift; sourceTree = "<group>"; };
 		2807AA9C297A5E0500B1676C /* AttendancePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendancePickerView.swift; sourceTree = "<group>"; };
+		2807AAA0297A5FEE00B1676C /* AttendanceDetailStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceDetailStatusView.swift; sourceTree = "<group>"; };
 		2869DE322977AC1D00D8CAFB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				2869DE432977CF0200D8CAFB /* LateCostCellView.swift */,
 				2807AA9A297A536300B1676C /* AttendanceCategoryView.swift */,
 				2807AA9C297A5E0500B1676C /* AttendancePickerView.swift */,
+				2807AAA0297A5FEE00B1676C /* AttendanceDetailStatusView.swift */,
 			);
 			path = Master;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2807AAA1297A5FEE00B1676C /* AttendanceDetailStatusView.swift in Sources */,
 				2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */,
 				2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */,
 				2BDA61F52977D2C400FDD307 /* Modifiers.swift in Sources */,
