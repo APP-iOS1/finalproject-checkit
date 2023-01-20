@@ -15,7 +15,7 @@ struct QRSheetView: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.myGreen, .myOrange]),
+            LinearGradient(gradient: Gradient(colors: [.myGreen, .white]),
                            startPoint: .top, endPoint: .bottom)
             .edgesIgnoringSafeArea(.all)
             
@@ -31,6 +31,10 @@ struct QRSheetView: View {
         }
         .presentationDragIndicator(.visible)
     }
+    
+    
+    //MARK: - Method(generateQRCode)
+    /// 문자열을 넣으면 QR 코드를 반환하는 메서드입니다.
     func generateQRCode(from string: String) -> UIImage {
         filter.message = Data(string.utf8)
         
@@ -44,6 +48,8 @@ struct QRSheetView: View {
     }
 }
 
+
+//MARK: - Previews
 struct QRSheetView_Previews: PreviewProvider {
     static var previews: some View {
         QRSheetView()
