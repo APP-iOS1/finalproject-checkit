@@ -37,7 +37,7 @@ struct AddScheduleView: View {
                         .frame(width: .infinity, height:300)
                         .overlay{
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.myYellow, lineWidth: 1)
+                                .stroke(Color.myOrange, lineWidth: 1)
                         }
                     HStack {
                         VStack(alignment:.leading){
@@ -142,7 +142,7 @@ struct AddScheduleView: View {
                         .frame(width: .infinity, height:180)
                         .overlay{
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.myYellow, lineWidth: 1)
+                                .stroke(Color.myOrange, lineWidth: 1)
                         }
                     HStack {
                         VStack(alignment:.leading){
