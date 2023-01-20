@@ -15,7 +15,7 @@ struct LateCostCellView: View {
         case "출석":
             return Color.myGreen
         case "지각":
-            return Color.myYellow
+            return Color.myOrange
         case "결석":
             return Color.myRed
         case "공결":

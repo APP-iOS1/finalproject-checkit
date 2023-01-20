@@ -33,7 +33,7 @@ struct TaskView: View {
                     .padding(.top, 20)
                     
                     HStack(spacing: 30) {
-                        ExDivider(color: .myYellow)
+                        ExDivider(color: .myOrange)
                         VStack(alignment: .leading, spacing: 5) {
                             Text("9 : 50 PM")
                                 .font(.body)

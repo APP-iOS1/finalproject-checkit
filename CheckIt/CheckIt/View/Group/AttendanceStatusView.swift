@@ -13,11 +13,11 @@ struct AttendanceStatusView: View {
             ZStack {
                 VStack {
                     RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(Color.myYellow)
+                        .foregroundColor(Color.myOrange)
                         .frame(width: .infinity, height:100)
                         .overlay{
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.myYellow, lineWidth: 3)
+                                .stroke(Color.myOrange, lineWidth: 3)
                         }
                         .padding(.horizontal, 50)
                 }
