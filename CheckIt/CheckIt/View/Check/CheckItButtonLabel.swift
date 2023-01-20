@@ -9,24 +9,39 @@ import SwiftUI
 
 struct CheckItButtonLabel: View {
     var isActive: Bool
-    var buttonColor: Color {
-        get{ isActive ? .myGreen : .myGray }
-    }
     var text: String = "Check It!"
-    var buttonText: String {
-        get { text }
+    // 
+    private var inActiveLabel: some View {
+        get {
+            RoundedRectangle(cornerRadius: 15)
+                .foregroundColor(.myGray)
+        }
+    }
+    
+    private var activeLabel: some View {
+        get {
+            LinearGradient(gradient: Gradient(colors: [.gradientLightGreen, .gradientGreen]),
+                           startPoint: .top, endPoint: .bottom)
+            .clipShape(RoundedRectangle(cornerRadius: 18))
+        }
+    }
+    
+    private var buttonLabel: some View {
+        get {
+            return isActive ? AnyView(activeLabel) : AnyView(inActiveLabel)
+        }
     }
     var body: some View {
-        RoundedRectangle(cornerRadius: 15)
-            .frame(height: 62)
-            .foregroundColor(buttonColor)
-            .overlay{
-                Text("\(buttonText)")
-                    .foregroundColor(.white)
-                    .font(.title2.bold())
-            }
+       buttonLabel
+        .frame(height: 62)
+        .overlay {
+            Text("\(text)")
+                .font(.title2.bold())
+                .foregroundColor(.white)
+        }
     }
 }
+//
 
 //struct CheckItButton_Previews: PreviewProvider {
 //    static var previews: some View {

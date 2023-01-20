@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// 출석하기 뷰 안에서 QR 버튼의 라벨입니다.
 struct QRButtonLabel: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 5)
