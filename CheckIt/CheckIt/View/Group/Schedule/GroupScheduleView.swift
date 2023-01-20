@@ -19,11 +19,12 @@ struct GroupScheduleView: View {
                         AddScheduleView()
                     } label: {
                         Image(systemName: "plus")
+                            .resizable()
+                            .frame(width:20, height:20)
                             .foregroundColor(.black)
                     }
                 }
-                .padding(.horizontal, 30)
-                .padding(.bottom)
+                .padding(.horizontal, 40)
                 
                 ScrollView {
                     ZStack{
