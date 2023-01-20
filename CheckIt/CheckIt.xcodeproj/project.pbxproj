@@ -173,6 +173,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2807AA97297A4AFC00B1676C /* Master */ = {
+			isa = PBXGroup;
+			children = (
+				2869DE412977CD4B00D8CAFB /* LateCostView.swift */,
+				2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */,
+				2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */,
+				2869DE432977CF0200D8CAFB /* LateCostCellView.swift */,
+			);
+			path = Master;
+			sourceTree = "<group>";
+		};
 		FD4E2590297783CC00F6F875 = {
 			isa = PBXGroup;
 			children = (
@@ -340,12 +351,9 @@
 		FDE5805D297A380200B7AC28 /* Attendance */ = {
 			isa = PBXGroup;
 			children = (
-				2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */,
-				2869DE412977CD4B00D8CAFB /* LateCostView.swift */,
+				2807AA97297A4AFC00B1676C /* Master */,
 				1A41F4432977AA600051F464 /* AttendanceStatusView.swift */,
-				2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */,
 				1A41F4452977AA820051F464 /* LateFeeView.swift */,
-				2869DE432977CF0200D8CAFB /* LateCostCellView.swift */,
 			);
 			path = Attendance;
 			sourceTree = "<group>";
