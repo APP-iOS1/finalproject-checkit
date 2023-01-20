@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-//MARK: 샘플 일정 데이터
+//MARK: - 샘플 일정 데이터
 struct Task: Identifiable {
     var id = UUID().uuidString
     var title: String
@@ -52,7 +52,7 @@ var tasks: [TaskMetaData] = [
     ], taskDate: getSampleDate(offset: 20))
 ]
 
-//MARK: 메인 뷰
+//MARK: - 메인 뷰
 struct CalendarView: View {
     
     @State var currentDate: Date = Date()
