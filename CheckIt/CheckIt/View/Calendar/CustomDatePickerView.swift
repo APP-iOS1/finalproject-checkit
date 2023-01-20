@@ -7,6 +7,36 @@
 
 import SwiftUI
 
+//MARK: - 날짜 output class
+class ExtraData: ObservableObject {
+    let formatter = DateFormatter()
+    var date: String = ""
+    
+    //MARK: - Date 데이터를 String으로 변환. 반환형식 예시: 2023 01 02 월요일 AM 01 22
+    ///달력이 나타내는 날짜를 알려주기 위한 클래스. 현재 날짜(currentDate)변수의 데이터를 Date -> String 타입 변환,
+    ///"MM DD"형식으로 반환. (예시: 01)
+    func selectedDate(date: Date) -> [String] {
+        formatter.locale = Locale(identifier: "ko")
+        formatter.dateFormat = "YYYY MM DD EEEE a HH mm"
+        
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+        
+        self.date = formatter.string(from: date)
+        print(type(of: formatter.locale))
+        return self.date.components(separatedBy: " ")
+    }
+    
+    //MARK: - 날짜 비교
+    ///날짜를 비교하는 함수. date1, date2를 인수로 받는다.
+    ///반환 타입은 Bool
+    func isSameDay(date1: Date, date2: Date) -> Bool {
+        let calendar = Calendar.current
+        
+        return calendar.isDate(date1, inSameDayAs: date2)
+    }
+}
+
 struct CustomDatePickerView: View {
     @ObservedObject var extraData = ExtraData()
     @Binding var currentDate: Date
@@ -21,7 +51,7 @@ struct CustomDatePickerView: View {
             
             //MARK: - 라벨(연도, 달, 화살표)
             HStack(spacing: 20) {
-                Text("\(extraData_YearMonth()[0]).\(extraData_YearMonth()[1])")
+                Text("\(extraData.selectedDate(date: currentDate)[0]).\(extraData.selectedDate(date: currentDate)[1])")
                     .font(.title.bold())
                 
                 Button {
@@ -115,17 +145,17 @@ struct CustomDatePickerView: View {
         .frame(height: 50, alignment: .top)
     }
     
-//MARK: - 현재 날짜의 연도, 달만 String으로 변환. 반환형식 예시: 2023 01
-///달력이 나타내는 연도, 달을 알려주기 위한 함수. 현재 날짜(currentDate)변수의 데이터를 Date -> String 타입 변환,
-///"YYYY MM"형식으로 반환. (예시: 2023 01)
-    func extraData_YearMonth() -> [String] {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY MM"
-        
-        let date = formatter.string(from: currentDate)
-        
-        return date.components(separatedBy: " ")
-    }
+////MARK: - 현재 날짜의 연도, 달만 String으로 변환. 반환형식 예시: 2023 01
+/////달력이 나타내는 연도, 달을 알려주기 위한 함수. 현재 날짜(currentDate)변수의 데이터를 Date -> String 타입 변환,
+/////"YYYY MM"형식으로 반환. (예시: 2023 01)
+//    func extraData_YearMonth() -> [String] {
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "YYYY MM"
+//
+//        let date = formatter.string(from: currentDate)
+//
+//        return date.components(separatedBy: " ")
+//    }
 
 //MARK: - Month GET
 ///현재 달(month) 받아오는 함수
