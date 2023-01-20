@@ -24,15 +24,42 @@ struct CategoryView: View {
                     Button(action: {
                         clickedIndex = i
                     }, label: {
-                        Text(categories[i])
-                            .foregroundColor(i == clickedIndex ? .black : .gray)
-                            .font(i == clickedIndex ? .system(size: 18).bold(): .system(size: 18))
+                        if i == 1 {
+                            Text(categories[i])
+                                .foregroundColor(i == clickedIndex ? .black : .gray)
+                                .background(i == clickedIndex ?
+                                            Color.black
+                                    .frame(
+                                        width: 70,
+                                        height: 3)
+                                    .offset(y: 17)
+                                            :
+                                                Color.white
+                                    .frame(height: 3)
+                                    .offset(y: 15)
+                                )
+                                .font(i == clickedIndex ? .system(size: 18).bold(): .system(size: 18))
+                        } else {
+                            Text(categories[i])
+                                .foregroundColor(i == clickedIndex ? .black : .gray)
+                                .background(i == clickedIndex ?
+                                            Color.black
+                                    .frame(
+                                        width: 100,
+                                        height: 3)
+                                        .offset(y: 17)
+                                            :
+                                                Color.white
+                                    .frame(height: 3)
+                                    .offset(y: 15)
+                                )
+                                .font(i == clickedIndex ? .system(size: 18).bold(): .system(size: 18))
+                        }
                     })
                     .padding()
                 }
             }
             .frame(width: 330)
-            .border(Color("myGreen"))
             .padding(.bottom, 20)
             
             if clickedIndex == 0 {
