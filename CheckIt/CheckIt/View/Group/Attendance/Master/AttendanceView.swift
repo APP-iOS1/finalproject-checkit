@@ -15,7 +15,7 @@ struct AttendanceView: View {
             ScrollView(showsIndicators: false) {
                 VStack{
                     ForEach(sampleAttendance, id: \.self) { idx in
-                        NavigationLink(destination: LateCostView()) {
+                        NavigationLink(destination: AttendanceDetailView()) {
                             AttendanceCellView()
                         }
                     }
