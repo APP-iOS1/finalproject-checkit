@@ -66,7 +66,7 @@ struct CalendarView: View {
             Divider()
             
             //일정섹션
-            TaskView(currentDate: $currentDate, currentMonth: $currentMonth)
+            TaskView(currentDate: $currentDate)
             Spacer()
         }
         .padding(.vertical)

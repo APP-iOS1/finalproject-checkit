@@ -17,13 +17,12 @@ class ExtraData: ObservableObject {
     ///"MM DD"형식으로 반환. (예시: 01)
     func selectedDate(date: Date) -> [String] {
         formatter.locale = Locale(identifier: "ko")
-        formatter.dateFormat = "YYYY MM DD EEEE a HH mm"
+        formatter.dateFormat = "yyyy MM dd EEEE a HH mm"
         
         formatter.amSymbol = "AM"
         formatter.pmSymbol = "PM"
         
         self.date = formatter.string(from: date)
-        print(type(of: formatter.locale))
         return self.date.components(separatedBy: " ")
     }
     
@@ -112,9 +111,9 @@ struct CustomDatePickerView: View {
             currentDate = getCurrentMonth()
         }
     }
-
-//MARK: - 달력 디테일뷰 생성
-///달력 디테일뷰(day 데이터) 구성하는 함수
+    
+    //MARK: - 달력 디테일뷰 생성
+    ///달력 디테일뷰(day 데이터) 구성하는 함수
     @ViewBuilder
     func CardView(value: DateValue) -> some View {
         VStack {
@@ -145,20 +144,8 @@ struct CustomDatePickerView: View {
         .frame(height: 50, alignment: .top)
     }
     
-////MARK: - 현재 날짜의 연도, 달만 String으로 변환. 반환형식 예시: 2023 01
-/////달력이 나타내는 연도, 달을 알려주기 위한 함수. 현재 날짜(currentDate)변수의 데이터를 Date -> String 타입 변환,
-/////"YYYY MM"형식으로 반환. (예시: 2023 01)
-//    func extraData_YearMonth() -> [String] {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "YYYY MM"
-//
-//        let date = formatter.string(from: currentDate)
-//
-//        return date.components(separatedBy: " ")
-//    }
-
-//MARK: - Month GET
-///현재 달(month) 받아오는 함수
+    //MARK: - Month GET
+    ///현재 달(month) 받아오는 함수
     func getCurrentMonth() -> Date {
         let calendar = Calendar.current
         
@@ -166,9 +153,10 @@ struct CustomDatePickerView: View {
         
         return currentMonth
     }
-
-//MARK: 날짜 GET
-///날짜 추출해주는 함수. DateValue 배열로 반환한다.
+    
+    
+    //MARK: - 날짜 GET
+    ///날짜 추출해주는 함수. DateValue 배열로 반환한다.
     func extractDate() -> [DateValue] {
         let calendar = Calendar.current
         
