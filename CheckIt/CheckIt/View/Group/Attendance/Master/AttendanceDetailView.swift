@@ -7,12 +7,11 @@
 
 import SwiftUI
 
-struct LateCost: Identifiable {
+struct LateCost: Identifiable, Hashable {
     var id = UUID().uuidString
     let name: String
     var attendance: String
     let cost: Int
-    var isChecked: Bool
 }
 
 struct AttendanceDetailView: View {
