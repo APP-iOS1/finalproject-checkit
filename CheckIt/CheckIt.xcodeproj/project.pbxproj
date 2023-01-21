@@ -42,6 +42,10 @@
 		A5FF27A82977C3F30059C312 /* PremiumRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A72977C3F30059C312 /* PremiumRateView.swift */; };
 		A5FF27AA2977D1D00059C312 /* QuitGroupAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A92977D1D00059C312 /* QuitGroupAlert.swift */; };
 		A5FF27AC2977D2640059C312 /* alertTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27AB2977D2640059C312 /* alertTestView.swift */; };
+		FD2D07F7297BFCB900CC010E /* GeoCodingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D07F6297BFCB900CC010E /* GeoCodingResponse.swift */; };
+		FD2D07FB297BFDEC00CC010E /* GeoCodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */; };
+		FD2D07FE297BFE3000CC010E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FD2D07FD297BFE3000CC010E /* Alamofire */; };
+		FD2D0800297C0FB100CC010E /* CustomSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D07FF297C0FB100CC010E /* CustomSymbols.swift */; };
 		FD4E259D297783CC00F6F875 /* CheckItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E259C297783CC00F6F875 /* CheckItApp.swift */; };
 		FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E259E297783CC00F6F875 /* ContentView.swift */; };
 		FD4E25A1297783CC00F6F875 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD4E25A0297783CC00F6F875 /* Assets.xcassets */; };
@@ -71,7 +75,6 @@
 		FD4E25F82977B9E900F6F875 /* CheckMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F72977B9E900F6F875 /* CheckMapView.swift */; };
 		FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F92977BA6600F6F875 /* QRSheetView.swift */; };
 		FD4E25FE2977C44C00F6F875 /* QRButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */; };
-		FD4E26002977D89C00F6F875 /* MapAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25FF2977D89C00F6F875 /* MapAlert.swift */; };
 		FDE58061297A53A600B7AC28 /* ToastAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE58060297A53A500B7AC28 /* ToastAlert.swift */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +129,9 @@
 		A5FF27A72977C3F30059C312 /* PremiumRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumRateView.swift; sourceTree = "<group>"; };
 		A5FF27A92977D1D00059C312 /* QuitGroupAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitGroupAlert.swift; sourceTree = "<group>"; };
 		A5FF27AB2977D2640059C312 /* alertTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alertTestView.swift; sourceTree = "<group>"; };
+		FD2D07F6297BFCB900CC010E /* GeoCodingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCodingResponse.swift; sourceTree = "<group>"; };
+		FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCodingService.swift; sourceTree = "<group>"; };
+		FD2D07FF297C0FB100CC010E /* CustomSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSymbols.swift; sourceTree = "<group>"; };
 		FD4E2599297783CC00F6F875 /* CheckIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD4E259C297783CC00F6F875 /* CheckItApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItApp.swift; sourceTree = "<group>"; };
 		FD4E259E297783CC00F6F875 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -145,7 +151,6 @@
 		FD4E25F72977B9E900F6F875 /* CheckMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckMapView.swift; sourceTree = "<group>"; };
 		FD4E25F92977BA6600F6F875 /* QRSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRSheetView.swift; sourceTree = "<group>"; };
 		FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRButtonLabel.swift; sourceTree = "<group>"; };
-		FD4E25FF2977D89C00F6F875 /* MapAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAlert.swift; sourceTree = "<group>"; };
 		FDE58060297A53A500B7AC28 /* ToastAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastAlert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -163,6 +168,7 @@
 				FD4E25DE297785E800F6F875 /* FirebaseAuth in Frameworks */,
 				FD4E25EC297785E800F6F875 /* FirebaseStorage in Frameworks */,
 				FD4E25EA297785E800F6F875 /* FirebaseFirestoreSwift in Frameworks */,
+				FD2D07FE297BFE3000CC010E /* Alamofire in Frameworks */,
 				FD4E25D6297785E800F6F875 /* FirebaseAnalytics in Frameworks */,
 				FD4E25E6297785E800F6F875 /* FirebaseFirestore in Frameworks */,
 				FD4E25D8297785E800F6F875 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
@@ -203,6 +209,15 @@
 			path = Master;
 			sourceTree = "<group>";
 		};
+		FD2D07F8297BFD2500CC010E /* API */ = {
+			isa = PBXGroup;
+			children = (
+				FD2D07F6297BFCB900CC010E /* GeoCodingResponse.swift */,
+				FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		FD4E2590297783CC00F6F875 = {
 			isa = PBXGroup;
 			children = (
@@ -228,6 +243,7 @@
 			children = (
 				FD4E25D22977859E00F6F875 /* GoogleService-Info.plist */,
 				FD4E259C297783CC00F6F875 /* CheckItApp.swift */,
+				FD2D07F8297BFD2500CC010E /* API */,
 				FD4E25C9297783F000F6F875 /* UIConfig */,
 				FD4E25C7297783D900F6F875 /* Model */,
 				FD4E25C8297783E000F6F875 /* ViewModel */,
@@ -296,6 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				FD4E25D02977849900F6F875 /* ColorExtension.swift */,
+				FD2D07FF297C0FB100CC010E /* CustomSymbols.swift */,
 			);
 			path = UIConfig;
 			sourceTree = "<group>";
@@ -350,7 +367,6 @@
 			children = (
 				FD4E25EF2977AC8500F6F875 /* CheckItCard.swift */,
 				FD4E25F72977B9E900F6F875 /* CheckMapView.swift */,
-				FD4E25FF2977D89C00F6F875 /* MapAlert.swift */,
 				FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */,
 				FD4E25F92977BA6600F6F875 /* QRSheetView.swift */,
 				FD4E25F52977B84A00F6F875 /* CheckMainView.swift */,
@@ -433,6 +449,7 @@
 				FD4E25ED297785E800F6F875 /* FirebaseStorageCombine-Community */,
 				2869DE352977B00C00D8CAFB /* GoogleSignIn */,
 				2869DE372977B00C00D8CAFB /* GoogleSignInSwift */,
+				FD2D07FD297BFE3000CC010E /* Alamofire */,
 			);
 			productName = CheckIt;
 			productReference = FD4E2599297783CC00F6F875 /* CheckIt.app */;
@@ -509,6 +526,7 @@
 			packageReferences = (
 				FD4E25D4297785E800F6F875 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				2869DE342977B00C00D8CAFB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				FD2D07FC297BFE3000CC010E /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = FD4E259A297783CC00F6F875 /* Products */;
 			projectDirPath = "";
@@ -558,6 +576,7 @@
 				2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */,
 				2BDA61F52977D2C400FDD307 /* Modifiers.swift in Sources */,
 				A5FF27A22977AD640059C312 /* QuestionView.swift in Sources */,
+				FD2D0800297C0FB100CC010E /* CustomSymbols.swift in Sources */,
 				FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */,
 				A5FF27A02977AD3F0059C312 /* MyPageView.swift in Sources */,
 				A5FF27A62977BD130059C312 /* Profile.swift in Sources */,
@@ -566,7 +585,6 @@
 				A5FF27A42977AEF80059C312 /* MyPageButton.swift in Sources */,
 				A5FF27A82977C3F30059C312 /* PremiumRateView.swift in Sources */,
 				2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */,
-				FD4E26002977D89C00F6F875 /* MapAlert.swift in Sources */,
 				FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */,
 				FD4E25F22977AF8B00F6F875 /* CheckItButtonLabel.swift in Sources */,
 				A5C48C11297A606D007D49DF /* GroupMemberListCell.swift in Sources */,
@@ -592,10 +610,12 @@
 				2869DE3E2977CC5400D8CAFB /* AttendanceView.swift in Sources */,
 				864DC4852977B111005DB201 /* CalendarView.swift in Sources */,
 				864DC4912977DF8C005DB201 /* PickerView.swift in Sources */,
+				FD2D07F7297BFCB900CC010E /* GeoCodingResponse.swift in Sources */,
 				FD4E259D297783CC00F6F875 /* CheckItApp.swift in Sources */,
 				2807AA9B297A536300B1676C /* AttendanceCategoryView.swift in Sources */,
 				1A41F4462977AA820051F464 /* LateFeeView.swift in Sources */,
 				1A41F4402977A8D40051F464 /* GroupScheduleView.swift in Sources */,
+				FD2D07FB297BFDEC00CC010E /* GeoCodingService.swift in Sources */,
 				A5C48C0D297A506D007D49DF /* GroupInformationView.swift in Sources */,
 				1A41F4482977AE3C0051F464 /* CategoryView.swift in Sources */,
 				1A41F4422977A8F70051F464 /* AddScheduleView.swift in Sources */,
@@ -947,6 +967,14 @@
 				minimumVersion = 6.2.4;
 			};
 		};
+		FD2D07FC297BFE3000CC010E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		FD4E25D4297785E800F6F875 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -967,6 +995,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2869DE342977B00C00D8CAFB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		FD2D07FD297BFE3000CC010E /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD2D07FC297BFE3000CC010E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 		FD4E25D5297785E800F6F875 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
