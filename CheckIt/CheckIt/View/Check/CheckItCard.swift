@@ -18,7 +18,7 @@ struct CheckItCard: View {
     var isActiveButton: Bool = true
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
-            .frame(width: 330, height: 560)
+            .frame(width: 330, height: 600)
             .foregroundColor(.myLightGray)
             .overlay {
                 VStack(alignment: .center) {
@@ -41,14 +41,12 @@ struct CheckItCard: View {
                         //동아리 사진
                         groupImage
                             .resizable()
-                            .frame(width: 245, height: 186)
+                            .frame(width: 246, height: 186.81)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding(10)
-//                        Rectangle()
-//                            .foregroundColor(.myGray)
-//                            .frame(width: 245, height: 186)
-//                            .padding(10)
+
                         
-                        // Check It 버튼
+                    // Check It 버튼
                     NavigationLink(destination: CheckMapView()) {
                             CheckItButtonLabel(isActive: isActiveButton, text: "Check It!")
                         }
@@ -77,28 +75,24 @@ struct CheckItCard: View {
     //MARK: - View(InformationSection)
     private var InformationSection: some View {
         VStack(alignment: .leading) {
-            // 장소
-            HStack {
-                Image(systemName: "mappin")
-                    .foregroundColor(.myGreen)
-                    
-                Text("\(place)")
-            } // - HStack
-            .padding(.vertical, 3)
-            
             // 날짜
             HStack {
-                Image(systemName: "calendar")
-                    .foregroundColor(.myGreen)
+                customSymbols(name: "calendar")
                 Text("\(date)")
             } // - HStack
             .padding(.vertical, 3)
             
             // 시간
             HStack {
-                Image(systemName: "clock")
-                    .foregroundColor(.myGreen)
+                customSymbols(name: "clock")
                 Text("\(time)")
+            } // - HStack
+            .padding(.vertical, 3)
+            
+            // 장소
+            HStack {
+                customSymbols(name: "mapPin")
+                Text("\(place)")
             } // - HStack
             .padding(.vertical, 3)
         } // - VStack
