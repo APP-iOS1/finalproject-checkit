@@ -11,7 +11,7 @@ struct DdayLabel: View {
     var dDay: String = "D-day"
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
-            .frame(width: 65, height: 35)
+            .frame(width: 65, height: 35.16)
             .foregroundColor(.white)
             .overlay {
                     RoundedRectangle(cornerRadius: 10)
@@ -20,7 +20,7 @@ struct DdayLabel: View {
             }
             .overlay {
                 Text("\(dDay)")
-                    .font(.callout.bold())
+                    .font(.system(size: 13).bold())
                     .foregroundColor(.myOrange)
                     
             }
