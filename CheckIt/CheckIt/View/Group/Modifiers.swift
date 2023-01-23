@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// MARK: -Modifier : Gruop View에서 사용하는 버튼 속성
+// MARK: -Modifier : 동아리 탭에서 사용하는 버튼 속성
 struct GruopCustomButtonModifier : ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -16,6 +16,6 @@ struct GruopCustomButtonModifier : ViewModifier {
             .font(.title2).bold()
             .foregroundColor(.white)
             .background(Color.myGreen)
-            .cornerRadius(12)
+            .cornerRadius(15)
     }
 }
