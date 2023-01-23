@@ -20,21 +20,28 @@ struct MakeGroupModalView: View {
             
             HStack {
                 Button {
-                    // FIXME: -
+                    // MARK: - 동아리 이미지 추가하는 버튼
                     isJoined.toggle()
                     dismiss()
                 } label: {
-                    // FIXME: - 동그라미 플러스 이미지(빈 이미지)로 바꿔야함
-                    Image("chocobi")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                        .clipShape(Circle())
+                    ZStack {
+                        Circle().fill(Color.myLightGray)
+                            .scaledToFit()
+                            .frame(width: 110, height: 90)
+                        
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                    }
                 }
+                
+                Spacer()
                 
                 VStack(alignment: .leading, spacing: 20) {
                     Text("동아리 기본정보")
                         .font(.title3)
                     
+                    // MARK: - 동아리 이름 텍스트필드
                     TextField("동아리 이름을 입력해주세요!", text: $groupName)
                         .font(.body)
 
@@ -48,6 +55,7 @@ struct MakeGroupModalView: View {
                     .stroke(.black, lineWidth: 0.5)
                     .frame(width: .infinity, height: 100)
                 
+                // MARK: - 동아리 상세내용 텍스트필드
                 TextField("동아리의 상세 내용을 적어주세요.", text: $groupDescription)
                     .font(.body)
                     .padding()
@@ -56,7 +64,7 @@ struct MakeGroupModalView: View {
             }
             
             Button {
-                // FIXME: -
+                // MARK: - 동아리 개설하기 버튼
                 isJoined.toggle()
                 dismiss()
             } label: {

@@ -27,6 +27,7 @@
 		2BDA61F12977C6CE00FDD307 /* MakeGroupModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */; };
 		2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */; };
 		2BDA61F52977D2C400FDD307 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F42977D2C300FDD307 /* Modifiers.swift */; };
+		2BDA61F9297E939500FDD307 /* MainPlusSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F8297E939500FDD307 /* MainPlusSheetView.swift */; };
 		864DC4852977B111005DB201 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC4842977B111005DB201 /* CalendarView.swift */; };
 		864DC4872977B19F005DB201 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC4862977B19F005DB201 /* TaskView.swift */; };
 		864DC4892977B2F9005DB201 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC4882977B2F9005DB201 /* CustomDatePickerView.swift */; };
@@ -111,6 +112,7 @@
 		2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeGroupModalView.swift; sourceTree = "<group>"; };
 		2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGruopModalView.swift; sourceTree = "<group>"; };
 		2BDA61F42977D2C300FDD307 /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
+		2BDA61F8297E939500FDD307 /* MainPlusSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPlusSheetView.swift; sourceTree = "<group>"; };
 		864DC4842977B111005DB201 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		864DC4862977B19F005DB201 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		864DC4882977B2F9005DB201 /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 				2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */,
 				2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */,
 				2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */,
+				2BDA61F8297E939500FDD307 /* MainPlusSheetView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -563,6 +566,7 @@
 				A5FF27A62977BD130059C312 /* Profile.swift in Sources */,
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
 				2BDA61F12977C6CE00FDD307 /* MakeGroupModalView.swift in Sources */,
+				2BDA61F9297E939500FDD307 /* MainPlusSheetView.swift in Sources */,
 				A5FF27A42977AEF80059C312 /* MyPageButton.swift in Sources */,
 				A5FF27A82977C3F30059C312 /* PremiumRateView.swift in Sources */,
 				2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */,

@@ -8,43 +8,24 @@
 import SwiftUI
 
 struct GroupMainView: View {
+    @State var showingPlusSheet: Bool = false
     @State var isMakingGroup: Bool = false
     @State var isJoiningGroup: Bool = false
     
     var body: some View {
         NavigationStack {
-            VStack {
-                HStack(spacing: 15) {
-                    Spacer()
-                    
-                    // MARK: - 동아리 개설하기 버튼
+            VStack(alignment: .trailing) {
+                HStack {
                     Button {
-                        isMakingGroup.toggle()
+                        showingPlusSheet.toggle()
                     } label: {
-                        // FIXME: - 심볼 수정하기, 지금은 일정을 추가하는 느낌
-                        Image(systemName: "note.text.badge.plus")
+                        Image(systemName: "plus")
                             .resizable()
-                            .foregroundColor(Color("myYellow"))
-                            .frame(width:34,height: 30)
+                            .frame(width: 30, height: 30)
                     }
-                    .sheet(isPresented: $isMakingGroup) {
-                        MakeGroupModalView()
-                            .presentationDetents([.large])
-                    }
-                    
-                    // MARK: - 동아리 참가하기 버튼
-                    Button {
-                        isJoiningGroup.toggle()
-                    } label: {
-                        Image(systemName: "iphone.and.arrow.forward")
-                            .resizable()
-                            .foregroundColor(Color("myYellow"))
-                            .frame(width:28,height: 30)
-                            .padding(.trailing, 30)
-                    }
-                    .sheet(isPresented: $isJoiningGroup) {
-                        JoinGruopModalView()
-                            .presentationDetents([.height(300)])
+                    .sheet(isPresented: $showingPlusSheet) {
+                        MainPlusSheetView()
+                            .presentationDetents([.height(420)])
                     }
                 }
                 .padding()
@@ -52,6 +33,7 @@ struct GroupMainView: View {
                 
                 ScrollView {
                     VStack(spacing: 20) {
+                        // FIXME: - 동아리 리스트 데이터 연결하기
                         ForEach(1..<7) { _ in
                             // MARK: - 동아리 리스트
                             NavigationLink(destination: CategoryView()) {
@@ -75,14 +57,15 @@ struct GroupMainView: View {
                                     
                                     Spacer()
                                 }
-                                .frame(width: 310, height: 125)
+                                .frame(height: 120)
                                 .background(Color.myLightGray)
-                            .cornerRadius(15)
+                                .cornerRadius(15)
                             }
                         }
                     }
                 }
             }
+            .padding(.horizontal, 40)
         }
     }
 }
