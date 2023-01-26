@@ -21,7 +21,7 @@ struct GroupMainView: View {
                     } label: {
                         Image(systemName: "plus")
                             .resizable()
-                            .frame(width: 30, height: 30)
+                            .frame(width: 25, height: 25)
                     }
                     .sheet(isPresented: $showingPlusSheet) {
                         MainPlusSheetView()
@@ -49,17 +49,20 @@ struct GroupMainView: View {
                                     
                                     VStack(alignment: .leading, spacing: 10) {
                                         Text("호이의 SSG 응원방")
-                                            .font(.title3)
+                                            .font(.system(size: 16, weight: .regular))
+                                            .bold()
                                         
                                         Text("We are landers\nWe are victory")
-                                            .font(.body)
+                                            .font(.system(size: 13, weight: .regular))
+                                        
+                                        // FIXME: - 운영진, 방장 표시 넣어줘야함
                                     }
                                     
                                     Spacer()
                                 }
                                 .frame(height: 120)
                                 .background(Color.myLightGray)
-                                .cornerRadius(15)
+                                .cornerRadius(18)
                             }
                         }
                     }

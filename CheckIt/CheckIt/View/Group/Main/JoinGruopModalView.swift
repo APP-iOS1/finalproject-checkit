@@ -15,10 +15,10 @@ struct JoinGruopModalView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             Text("동아리 참가하기")
-                .font(.title.bold())
+                .font(.system(size: 24, weight: .bold))
             
-            TextField("초대 코드를 입력해주세요!", text: $invitationCode)
-                .font(.title3)
+            TextField("공유 받은 초대 코드를 입력해주세요!", text: $invitationCode)
+                .font(.system(size: 16, weight: .regular))
                 .padding()
                 .frame(height: 65)
                 .background(Color.myLightGray)

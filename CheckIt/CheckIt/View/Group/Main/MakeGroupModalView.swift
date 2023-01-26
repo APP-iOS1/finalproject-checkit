@@ -16,7 +16,7 @@ struct MakeGroupModalView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             Text("동아리 개설하기")
-                .font(.title.bold())
+                .font(.system(size: 24, weight: .bold))
             
             HStack {
                 Button {
@@ -39,12 +39,13 @@ struct MakeGroupModalView: View {
                 
                 VStack(alignment: .leading, spacing: 20) {
                     Text("동아리 기본정보")
-                        .font(.title3)
+                        .font(.system(size: 17, weight: .regular))
                     
                     // MARK: - 동아리 이름 텍스트필드
+                    // FIXME: - 글자수 제한해줘야함, 현재 한줄로 계속 이어짐
                     TextField("동아리 이름을 입력해주세요!", text: $groupName)
-                        .font(.body)
-
+                        .font(.system(size: 14, weight: .regular))
+                    
                     Divider()
                         .background(.black)
                 }
@@ -53,14 +54,14 @@ struct MakeGroupModalView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 15)
                     .stroke(.black, lineWidth: 0.5)
-                    .frame(width: .infinity, height: 100)
+                    .frame(height: 100)
                 
                 // MARK: - 동아리 상세내용 텍스트필드
+                // FIXME: - 글자수 제한해줘야함, 현재 한줄로 계속 이어짐
                 TextField("동아리의 상세 내용을 적어주세요.", text: $groupDescription)
-                    .font(.body)
+                    .font(.system(size: 14, weight: .regular))
                     .padding()
-                    .frame(height: 80)
-                    .lineLimit(2)
+                    .frame(height: 75)
             }
             
             Button {
