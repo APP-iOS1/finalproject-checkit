@@ -40,18 +40,19 @@ struct MakeGroupModalView: View {
             // MARK: - 동아리 이름 텍스트필드
             CustomTextField(
                 text: $groupName,
-                placeholder: "동아리 이름을 입력해주세요!",
+                placeholder: "동아리 이름을 입력해주세요! (필수)",
                 maximumCount: 12)
             .font(.system(size: 13, weight: .regular))
             
-            // MARK: - 동아리 상세내용 텍스트필드
+            // MARK: - 동아리 상세 내용 텍스트필드
             CustomTextField(
                 text: $groupDescription,
-                placeholder: "동아리의 상세 내용을 적어주세요.",
+                placeholder: "동아리의 상세 내용을 적어주세요. (필수)",
                 maximumCount: 30)
             .font(.system(size: 14, weight: .regular))
             
             // MARK: - 동아리 개설하기 버튼
+            // FIXME: - 둘다 입력하지 않으면 개설하기 버튼 비활성화 시키기
             Button {
                 isJoined.toggle()
                 dismiss()

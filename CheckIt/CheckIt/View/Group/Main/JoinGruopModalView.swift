@@ -17,6 +17,7 @@ struct JoinGruopModalView: View {
             Text("동아리 참가하기")
                 .font(.system(size: 22, weight: .bold))
             
+            // MARK: - 동아리 초대 코드 텍스트필드
             TextField("공유 받은 초대 코드를 입력해주세요!", text: $invitationCode)
                 .font(.system(size: 16, weight: .regular))
                 .padding()
@@ -24,6 +25,7 @@ struct JoinGruopModalView: View {
                 .background(Color.myLightGray)
                 .cornerRadius(10)
             
+            // MARK: - 동아리 참가하기 버튼
             Button {
                 isJoined.toggle()
                 dismiss()
