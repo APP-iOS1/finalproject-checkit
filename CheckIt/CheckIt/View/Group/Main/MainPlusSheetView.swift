@@ -24,14 +24,7 @@ struct MainPlusSheetView: View {
                 isMakingGroup.toggle()
             } label: {
                 Text("동아리 개설하기")
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundColor(.black)
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .frame(height: 60)
-                    .overlay(RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.black, lineWidth: 3))
-                    .background(Color.white)
-                    .cornerRadius(20)
+                    .modifier(MainPlusSheetButtonModifier())
             }
             .sheet(isPresented: $isMakingGroup) {
                 MakeGroupModalView()
@@ -46,14 +39,7 @@ struct MainPlusSheetView: View {
                 isJoiningGroup.toggle()
             } label: {
                 Text("동아리 참가하기")
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundColor(.black)
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .frame(height: 60)
-                    .overlay(RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.black, lineWidth: 3))
-                    .background(Color.white)
-                    .cornerRadius(20)
+                    .modifier(MainPlusSheetButtonModifier())
             }
             .sheet(isPresented: $isJoiningGroup) {
                 JoinGruopModalView()
