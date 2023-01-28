@@ -12,51 +12,48 @@ struct MakeGroupModalView: View {
     @State private var groupDescription: String = ""
     @State private var isJoined: Bool = false
     @Environment(\.dismiss) var dismiss
+    @State private var text: String = ""
     
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             Text("동아리 개설하기")
-                .font(.title.bold())
+                .font(.system(size: 24, weight: .bold))
             
-            HStack {
-                Button {
-                    // FIXME: -
-                    isJoined.toggle()
-                    dismiss()
-                } label: {
-                    // FIXME: - 동그라미 플러스 이미지(빈 이미지)로 바꿔야함
-                    Image("chocobi")
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                        .clipShape(Circle())
-                }
-                
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("동아리 기본정보")
-                        .font(.title3)
-                    
-                    TextField("동아리 이름을 입력해주세요!", text: $groupName)
-                        .font(.body)
-
-                    Divider()
-                        .background(.black)
-                }
-            }
-            
-            ZStack {
-                RoundedRectangle(cornerRadius: 15)
-                    .stroke(.black, lineWidth: 0.5)
-                    .frame(width: .infinity, height: 100)
-                
-                TextField("동아리의 상세 내용을 적어주세요.", text: $groupDescription)
-                    .font(.body)
-                    .padding()
-                    .frame(height: 80)
-                    .lineLimit(2)
-            }
-            
+            // MARK: - 동아리 이미지 추가하는 버튼
             Button {
-                // FIXME: -
+                isJoined.toggle()
+            } label: {
+                ZStack {
+                    Circle().fill(Color.myLightGray)
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
+                    
+                    Image(systemName: "plus")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                }
+            }
+            
+            Text("동아리 기본정보")
+                .font(.system(size: 17, weight: .regular))
+            
+            // MARK: - 동아리 이름 텍스트필드
+            CustomTextField(
+                text: $groupName,
+                placeholder: "동아리 이름을 입력해주세요! (필수)",
+                maximumCount: 12)
+            .font(.system(size: 13, weight: .regular))
+            
+            // MARK: - 동아리 상세 내용 텍스트필드
+            CustomTextField(
+                text: $groupDescription,
+                placeholder: "동아리의 상세 내용을 적어주세요. (필수)",
+                maximumCount: 30)
+            .font(.system(size: 14, weight: .regular))
+            
+            // MARK: - 동아리 개설하기 버튼
+            // FIXME: - 둘다 입력하지 않으면 개설하기 버튼 비활성화 시키기
+            Button {
                 isJoined.toggle()
                 dismiss()
             } label: {
