@@ -9,9 +9,25 @@ import SwiftUI
 
 extension Color {
     static var myGreen = Color("myGreen")
-    static var myYellow = Color("myYellow")
+    static var myOrange = Color("myOrange")
     static var myRed = Color("myRed")
     static var myGray = Color("myGray")
     static var myLightGray = Color("myLightGray")
     static var myBlack = Color("myBlack")
+    static var gradientGreen = Color("gradientGreen")
+    static var gradientLightGreen = Color("gradientLightGreen")
+    static var toastAlertGray = Color(hex: 0xD9D9D9, alpha: 0.6)
+    
+    
+    init(hex: UInt, alpha: Double = 1) {
+            self.init(
+                .sRGB,
+                red: Double((hex >> 16) & 0xff) / 255,
+                green: Double((hex >> 08) & 0xff) / 255,
+                blue: Double((hex >> 00) & 0xff) / 255,
+                opacity: alpha
+            )
+        }
 }
+
+
