@@ -46,7 +46,7 @@ struct AddScheduleView: View {
                                 .padding(.top,7)
                             
                             HStack{
-                                Image(systemName: "calendar")
+                                customSymbols(name: "calendar")
                                     .frame(width: 20, height: 20)
                                     .foregroundColor(.myGreen)
                                 ZStack {
@@ -60,7 +60,7 @@ struct AddScheduleView: View {
                             .padding(.bottom,7)
                             
                             HStack {
-                                Image(systemName: "clock")
+                                customSymbols(name: "clock")
                                     .frame(width: 20, height: 20)
                                     .foregroundColor(.myGreen)
                                 ZStack {
@@ -82,7 +82,7 @@ struct AddScheduleView: View {
                             .padding(.bottom,7)
                             
                             HStack{
-                                Image(systemName: "mappin.and.ellipse")
+                                customSymbols(name: "mapPin")
                                     .frame(width: 20, height: 20)
                                     .foregroundColor(.myGreen)
                                 ZStack {
