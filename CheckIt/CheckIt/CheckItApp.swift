@@ -23,11 +23,19 @@ struct CheckItApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
+    @StateObject private var groupStore = GroupStore()
+    @StateObject private var scheduleStore = ScheduleStore()
+    @StateObject private var attendanceStore = AttendanceStore()
+    @StateObject private var memberStore = MemberStore()
     
     var body: some Scene {
         WindowGroup {
             NavigationView {
                 ContentView()
+                    .environmentObject(groupStore)
+                    .environmentObject(scheduleStore)
+                    .environmentObject(attendanceStore)
+                    .environmentObject(memberStore)
             }
         }
     }
