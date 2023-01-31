@@ -12,6 +12,8 @@ struct GroupMainView: View {
     @State var isMakingGroup: Bool = false
     @State var isJoiningGroup: Bool = false
     
+    @EnvironmentObject var groupStores: GroupStore
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .trailing) {
@@ -86,11 +88,18 @@ struct GroupMainView: View {
             }
             .padding(.horizontal, 40)
         }
+        .onAppear {
+            Task {
+                await groupStores.fetchGroups("Dpcvu3OOAUuq3ccDhBcW")
+                print("동아리들: \(groupStores.groups)")
+            }
+        }
     }
 }
 
 struct GroupMainView_Previews: PreviewProvider {
     static var previews: some View {
         GroupMainView()
+            .environmentObject(GroupStore())
     }
 }
