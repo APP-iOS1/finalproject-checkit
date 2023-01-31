@@ -24,12 +24,38 @@ class GroupStore: ObservableObject {
                 .setData([
                     "id": group.id,
                     "host_id": group.hostID,
+                    "name": group.name,
                     "invitationCode": group.invitationCode,
                     "image": group.image,
                     "description": group.description,
                     "schedule_id": group.scheduleID])
+            
+            // FIXME: - position관련 정보는 enum으로 수정 필요
+            
+            await createMember(database.collection("Group"), documentID: group.id, uid: uid, position: "방장")
         } catch {
             print("동아리 생성 에러: \(error.localizedDescription)")
+        }
+        
+    }
+    
+    // MARK: - 동아리 멤버를 생성하는 메소드이다.
+    /// - Parameter ref: 컬렉션 레퍼런스로 멤버가 속할 동아리의 컬렉션을 참조
+    /// - Parameter documentID: 동아리의 docuemnt ID
+    /// - Parameter uid: 동아리 멤버 컬렉션에 들어갈 uid
+    /// - Parameter position: 멤버의 직책
+    ///
+    /// 동아리에 멤버를 추가하는 메소드입니다.
+    func createMember(_ ref: CollectionReference, documentID: String, uid: String, position: String) async {
+        do {
+            try await ref.document(documentID).collection("Member")
+                .document(uid)
+                .setData([
+                    "uid": uid,
+                    "position": position
+                ])
+        } catch {
+            print("동아리 멤버 추가 에러: \(error.localizedDescription)")
         }
     }
 }
