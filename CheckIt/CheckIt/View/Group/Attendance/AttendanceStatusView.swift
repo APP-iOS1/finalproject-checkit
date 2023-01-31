@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct AttendanceStatusView: View {
+    @EnvironmentObject var attendanceStore: AttendanceStore
+    var selectedSchedule: Schedule?
+    
     var body: some View {
         ScrollView {
             ZStack {
