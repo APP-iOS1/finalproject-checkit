@@ -31,7 +31,7 @@ class GroupStore: ObservableObject {
                     "schedule_id": group.scheduleID])
             
             // FIXME: - position관련 정보는 enum으로 수정 필요
-            
+    
             await createMember(database.collection("Group"), documentID: group.id, uid: uid, position: "방장")
         } catch {
             print("동아리 생성 에러: \(error.localizedDescription)")
@@ -58,5 +58,43 @@ class GroupStore: ObservableObject {
             print("동아리 멤버 추가 에러: \(error.localizedDescription)")
         }
     }
+    
+    // MARK: - 자신이 속한 동아리 데이터를 가져오는 메소드
+    /// - Parameter uid: 로그인한 사용자의 uid
+    /// 자신이 속한 동아리의 데이터를 groups 프로퍼티 래퍼에 저장한다.
+    func fetchGroups(_ uid: String) async {
+        // FIXME: - 현재 더미데이터로 유저가 속한 그룹의 id를 선언함
+        let groupID: [String] = ["bBpYMyPqY3OD1eIdRbGc"]
+        do {
+            let querySnapshot = try await database.collection("Group")
+                .whereField("id", in: groupID)
+                .getDocuments()
+            
+            for document in querySnapshot.documents {
+                let data = document.data()
+                
+                let id = data["id"] as? String ?? ""
+                let name = data["name"] as? String ?? ""
+                let invitationCode = data["invitationCode"] as? String ?? ""
+                let image = data["image"] as? String ?? ""
+                let hostID = data["hostID"] as? String ?? ""
+                let description = data["description"] as? String ?? ""
+                let scheduleID = data["scheduleID"] as? [String] ?? []
+                
+                let group = Group(id: id,
+                                  name: name,
+                                  invitationCode: invitationCode,
+                                  image: image,
+                                  hostID: hostID,
+                                  description: description,
+                                  scheduleID: scheduleID)
+                
+                DispatchQueue.main.async {
+                    self.groups.append(group)
+                }
+            }
+        } catch {
+            print("동아리 가져오기 에러: \(error.localizedDescription)")
+        }
+    }
 }
-
