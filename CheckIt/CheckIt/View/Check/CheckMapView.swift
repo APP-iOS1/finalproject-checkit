@@ -7,10 +7,17 @@
 
 import SwiftUI
 import MapKit
+import VisionKit
 
 struct CheckMapView: View {
+    ///카메라 띄우기 위한 설정
+    @State private var isDeviceCapacity = false
+    @State private var showDeviceNotCapacityAlert = false
+    @State private var showCameraScannerView = false
+    
     //FIXME: 테스트 코드입니다.
-    @State var isPresentedQR: Bool = false
+    @State var showQRCode: Bool = false
+    @State private var isGroupHost: Bool = true //테스트용 추후에 서버에서 받은 값으로 변경 예정
     @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.478846, longitude: 126.620930), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
     @State var isAlert: Bool = false
     
@@ -40,14 +47,35 @@ struct CheckMapView: View {
                 Spacer()
                 
                     .toolbar {
-                        Button(action: { isPresentedQR.toggle() } ) {
+                        Button {
+                            if isGroupHost {
+                                if isDeviceCapacity {
+                                    self.showCameraScannerView.toggle()
+                                } else {
+                                    self.showDeviceNotCapacityAlert = true
+                                }
+                            } else {
+                                showQRCode.toggle()
+                            }
+                            print(isDeviceCapacity, "isDeviceCapacity")
+                            print(showCameraScannerView, "showCameraScannerView")
+                            print(showDeviceNotCapacityAlert, "이게 뭘까")
+                        } label: {
                             QRButtonLabel()
                         }
+
                     } // - toolbar
             } // - VStack
-            .sheet(isPresented: $isPresentedQR) {
-                QRSheetView()
-                .presentationDetents([.medium])
+            .alert("스캐너 사용불가", isPresented: $showDeviceNotCapacityAlert, actions: {})
+            .sheet(isPresented: isGroupHost ? $showCameraScannerView : $showQRCode) {
+
+                if isGroupHost {
+                    CameraScanner(startScanning: $showCameraScannerView, notCapacityScanner: showDeviceNotCapacityAlert)
+
+                } else {
+                    QRSheetView()
+                        .presentationDetents([.medium])
+                }
             } // - sheet
 
             
@@ -67,6 +95,11 @@ struct CheckMapView: View {
             
         } // - ZStack
 //        .animation(.linear(duration: 0.3), value: isAlert)
+        .onAppear {
+            isDeviceCapacity = (DataScannerViewController.isSupported && DataScannerViewController.isAvailable) //QR스캔 사용할 수 있는지 확인
+            print(isDeviceCapacity, "onappear - isDeviceCapacity")
+            
+        }
         .animation(.easeOut(duration: 0.3), value: isAlert)
         .transition(.opacity)
     }
