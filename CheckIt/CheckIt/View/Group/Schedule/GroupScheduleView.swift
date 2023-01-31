@@ -36,14 +36,14 @@ struct GroupScheduleView: View {
                             VStack(alignment: .leading){
                                 //날짜
                                 HStack {
-                                    Image(systemName: "calendar")
+                                    customSymbols(name: "calendar")
                                         .foregroundColor(Color.myGreen)
                                     Text("3월 17일")
                                 }
                                 
                                 //시간
                                 HStack {
-                                    Image(systemName: "clock")
+                                    customSymbols(name: "clock")
                                         .foregroundColor(Color.myGreen)
                                     Text("오후 3:00 ~ 오후 7:00")
                                 }
@@ -51,7 +51,7 @@ struct GroupScheduleView: View {
                                 
                                 //장소
                                 HStack {
-                                    Image(systemName: "mappin.and.ellipse")
+                                    customSymbols(name: "mapPin")
                                         .foregroundColor(Color.myGreen)
                                     Text("신촌 베이스볼클럽")
                                 }
@@ -73,14 +73,14 @@ struct GroupScheduleView: View {
                             VStack(alignment: .leading){
                                 //날짜
                                 HStack {
-                                    Image(systemName: "calendar")
+                                    customSymbols(name: "calendar")
                                         .foregroundColor(Color.myGreen)
                                     Text("3월 10일")
                                 }
                                 
                                 //시간
                                 HStack {
-                                    Image(systemName: "clock")
+                                    customSymbols(name: "clock")
                                         .foregroundColor(Color.myGreen)
                                     Text("오후 3:00 ~ 오후 7:00")
                                 }
@@ -88,7 +88,7 @@ struct GroupScheduleView: View {
                                 
                                 //장소
                                 HStack {
-                                    Image(systemName: "mappin.and.ellipse")
+                                    customSymbols(name: "mapPin")
                                         .foregroundColor(Color.myGreen)
                                     Text("신촌 베이스볼클럽")
                                 }
@@ -110,14 +110,14 @@ struct GroupScheduleView: View {
                             VStack(alignment: .leading){
                                 //날짜
                                 HStack {
-                                    Image(systemName: "calendar")
+                                    customSymbols(name: "calendar")
                                         .foregroundColor(Color.myGreen)
                                     Text("3월 3일")
                                 }
                                 
                                 //시간
                                 HStack {
-                                    Image(systemName: "clock")
+                                    customSymbols(name: "clock")
                                         .foregroundColor(Color.myGreen)
                                     Text("오후 3:00 ~ 오후 7:00")
                                 }
@@ -125,7 +125,7 @@ struct GroupScheduleView: View {
                                 
                                 //장소
                                 HStack {
-                                    Image(systemName: "mappin.and.ellipse")
+                                    customSymbols(name: "mapPin")
                                         .foregroundColor(Color.myGreen)
                                     Text("신촌 베이스볼클럽")
                                 }
