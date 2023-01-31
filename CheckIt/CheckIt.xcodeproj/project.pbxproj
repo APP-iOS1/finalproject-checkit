@@ -44,6 +44,8 @@
 		864DC4892977B2F9005DB201 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC4882977B2F9005DB201 /* CustomDatePickerView.swift */; };
 		864DC48F2977B962005DB201 /* DateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC48E2977B962005DB201 /* DateValue.swift */; };
 		864DC4912977DF8C005DB201 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC4902977DF8C005DB201 /* PickerView.swift */; };
+		A5775BD02988E9E8000DFC3F /* CameraScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */; };
+		A5775BD22988ECC1000DFC3F /* CameraScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD12988ECC1000DFC3F /* CameraScanner.swift */; };
 		A5C48C0D297A506D007D49DF /* GroupInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C0C297A506D007D49DF /* GroupInformationView.swift */; };
 		A5C48C0F297A5221007D49DF /* GroupPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C0E297A5221007D49DF /* GroupPosition.swift */; };
 		A5C48C11297A606D007D49DF /* GroupMemberListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C10297A606D007D49DF /* GroupMemberListCell.swift */; };
@@ -143,6 +145,8 @@
 		864DC4882977B2F9005DB201 /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
 		864DC48E2977B962005DB201 /* DateValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValue.swift; sourceTree = "<group>"; };
 		864DC4902977DF8C005DB201 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewController.swift; sourceTree = "<group>"; };
+		A5775BD12988ECC1000DFC3F /* CameraScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScanner.swift; sourceTree = "<group>"; };
 		A5C48C0C297A506D007D49DF /* GroupInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInformationView.swift; sourceTree = "<group>"; };
 		A5C48C0E297A5221007D49DF /* GroupPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupPosition.swift; sourceTree = "<group>"; };
 		A5C48C10297A606D007D49DF /* GroupMemberListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMemberListCell.swift; sourceTree = "<group>"; };
@@ -407,6 +411,8 @@
 				FD4E25F32977B20800F6F875 /* DdayLabel.swift */,
 				FD4E25F12977AF8B00F6F875 /* CheckItButtonLabel.swift */,
 				FDE58060297A53A500B7AC28 /* ToastAlert.swift */,
+				A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */,
+				A5775BD12988ECC1000DFC3F /* CameraScanner.swift */,
 			);
 			path = Check;
 			sourceTree = "<group>";
@@ -608,6 +614,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2822CE1E2988B61900316139 /* Attendance.swift in Sources */,
+				A5775BD22988ECC1000DFC3F /* CameraScanner.swift in Sources */,
 				2807AAA1297A5FEE00B1676C /* AttendanceDetailStatusView.swift in Sources */,
 				2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */,
 				2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */,
@@ -632,6 +639,7 @@
 				FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */,
 				FDE58061297A53A600B7AC28 /* ToastAlert.swift in Sources */,
 				1A41F4442977AA600051F464 /* AttendanceStatusView.swift in Sources */,
+				A5775BD02988E9E8000DFC3F /* CameraScannerViewController.swift in Sources */,
 				FD4E25FE2977C44C00F6F875 /* QRButtonLabel.swift in Sources */,
 				FD4E25F42977B20800F6F875 /* DdayLabel.swift in Sources */,
 				FD4E25F62977B84A00F6F875 /* CheckMainView.swift in Sources */,
@@ -827,14 +835,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JB8T59WMFR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Check It!에서 카메라에 접근하고자 합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
-				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Check It!에서 지도에 접근하고자 합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -862,14 +870,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JB8T59WMFR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Check It!에서 카메라에 접근하고자 합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
-				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Check It!에서 지도에 접근하고자 합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
