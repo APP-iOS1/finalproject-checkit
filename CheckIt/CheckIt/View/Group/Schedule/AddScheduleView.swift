@@ -18,6 +18,7 @@ struct AddScheduleView: View {
     @State private var absentFee: Int = 0
     
     @EnvironmentObject var scheduleStore: ScheduleStore
+    var group: Group
     
     var body: some View {
         ScrollView {
@@ -172,9 +173,9 @@ struct AddScheduleView: View {
                     let start1 = start.getAllTimeInfo()
                     let end1 = end.getAllTimeInfo()
                     
-                    let schedule = Schedule(id: UUID().uuidString, groupName: "허미니의또구동아리", lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: placeholderText)
+                    let schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: placeholderText)
                     
-                    scheduleStore.addSchedule(schedule)
+                    scheduleStore.addSchedule(schedule, group: group)
                     
                 } label: {
                     Text("일정 만들기")
@@ -188,6 +189,6 @@ struct AddScheduleView: View {
 
 struct AddScheduleView_Previews: PreviewProvider {
     static var previews: some View {
-        AddScheduleView()
+        AddScheduleView(group: Group.sampleGroup)
     }
 }
