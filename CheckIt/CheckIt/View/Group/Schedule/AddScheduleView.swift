@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct AddScheduleView: View {
-    @State var startTime: Date = Date()
-    @State var endTime: Date = Date()
-    @State var place: String = ""
-    @State var memo: String = ""
-    @State var placeholderText: String = "메모(선택)"
-    @State var lateMin: Int = 0
-    @State var lateFee: Int = 0
-    @State var absentFee: Int = 0
+    @State private var startTime: Date = Date()
+    @State private var endTime: Date = Date()
+    @State private var place: String = ""
+    @State private var memo: String = ""
+    @State private var placeholderText: String = "메모(선택)"
+    @State private var lateMin: Int = 0
+    @State private var lateFee: Int = 0
+    @State private var absentFee: Int = 0
     
     @EnvironmentObject var scheduleStore: ScheduleStore
     
@@ -37,14 +37,19 @@ struct AddScheduleView: View {
                         customSymbols(name: "calendar")
                         
                         // MARK: - 시작 시간 DatePicker
+                        // FIXME: - 미래 시간 선택되게 수정하기
                         DatePicker(selection: $startTime, in: ...Date(), displayedComponents: .date) {
                             Text("날짜를 선택해주세요.")
+                        }
+                        .onChange(of: startTime) {newValue in
+                            
                         }
                     }
                     
                     HStack(spacing: 12) {
                         customSymbols(name: "clock")
                         // MARK: - 시작 시간 DatePicker
+                        // FIXME: - 시작 시간이 종료 시간보다 뒤면 안되는 조건 추가하기
                         DatePicker("시작 시간", selection: $startTime,
                                    displayedComponents: .hourAndMinute)
                     }
@@ -161,6 +166,8 @@ struct AddScheduleView: View {
                 // MARK: - 일정 만들기 버튼
                 Button {
                     let schedule = Schedule(id: UUID().uuidString, groupName: "허미니의또구동아리", lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: Date(), endTime: Date(), agreeTime: lateMin, memo: placeholderText)
+                    print(startTime, endTime)
+                    scheduleStore.addSchedule(schedule)
                 } label: {
                     Text("일정 만들기")
                         .modifier(GruopCustomButtonModifier())
