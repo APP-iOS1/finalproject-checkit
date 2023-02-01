@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GroupScheduleView: View {
+    var group: Group
     
     var body: some View {
         NavigationStack {
@@ -16,7 +17,7 @@ struct GroupScheduleView: View {
                     Spacer()
                     
                     NavigationLink {
-                        AddScheduleView()
+                        AddScheduleView(group: group)
                     } label: {
                         Image(systemName: "plus")
                             .resizable()
@@ -146,6 +147,6 @@ struct GroupScheduleView: View {
 
 struct GroupScheduleView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupScheduleView()
+        GroupScheduleView(group: Group.sampleGroup)
     }
 }

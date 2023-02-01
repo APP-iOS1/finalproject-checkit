@@ -46,7 +46,7 @@ class ScheduleStore: ObservableObject {
     }
     
     // MARK: - addSchedule 함수
-    func addSchedule(_ schedule: Schedule) {
+    func addSchedule(_ schedule: Schedule, group: Group) {
         database.collection("Schedule")
             .document(schedule.id)
             .setData(["groupName": schedule.groupName,
@@ -61,5 +61,18 @@ class ScheduleStore: ObservableObject {
                      ])
         
         fetchSchedule()
+        addScheduleInGroup(schedule.id, group: group)
+    }
+    
+    // MARK: - addScheduleInGroup 함수
+    func addScheduleInGroup(_ scheduleId: String, group: Group) {
+        var scheduleList = group.scheduleID
+        let newScheduleList = scheduleList.append(scheduleId)
+        print(group)
+        database.collection("Group")
+            .document(group.id)
+            .updateData([
+                "schedule_id": newScheduleList
+            ])
     }
 }
