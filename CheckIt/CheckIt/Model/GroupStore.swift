@@ -9,6 +9,11 @@ import Foundation
 import Firebase
 import FirebaseStorage
 
+enum GroupJoinCategory {
+    case alreadyJoined
+    case newJoined
+}
+
 class GroupStore: ObservableObject {
     @Published var groups: [Group] = []
     
@@ -65,7 +70,10 @@ class GroupStore: ObservableObject {
     func fetchGroups(_ uid: String) async {
         // FIXME: - 현재 더미데이터로 유저가 속한 그룹의 id를 선언함
         let groupID: [String] = ["bBpYMyPqY3OD1eIdRbGc", "A08B4C57-C0A7-4677-90D8-15E81F0C2E1B"]
-        self.groups.removeAll()
+        DispatchQueue.main.async {
+            self.groups.removeAll()
+        }
+        
         do {
             let querySnapshot = try await database.collection("Group")
                 .whereField("id", in: groupID)
@@ -98,4 +106,5 @@ class GroupStore: ObservableObject {
             print("동아리 가져오기 에러: \(error.localizedDescription)")
         }
     }
+    
 }
