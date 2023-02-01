@@ -15,4 +15,12 @@ struct Group: Identifiable {
     var hostID: String
     var description: String    
     var scheduleID: [String]
+    
+    static let sampleGroup: Group = Group(id: "1",
+                                          name: "허미니의 또구동아리",
+                                          invitationCode: "ㅇㄴㅁㅇㅁㄴㅇ",
+                                          image: "",
+                                          hostID: "",
+                                          description: "야구동아리입니다",
+                                          scheduleID: [])
 }

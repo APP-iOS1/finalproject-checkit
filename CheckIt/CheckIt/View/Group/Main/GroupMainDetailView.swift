@@ -54,8 +54,8 @@ struct GroupMainDetailView: View {
     }
 }
 
-//struct GroupMainDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GroupMainDetailView(group: <#T##Group#>)
-//    }
-//}
+struct GroupMainDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        GroupMainDetailView(group: Group.sampleGroup)
+    }
+}
