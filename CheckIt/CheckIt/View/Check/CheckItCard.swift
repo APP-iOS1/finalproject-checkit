@@ -42,7 +42,7 @@ struct CheckItCard: View {
                     
                     
                     // Check It 버튼
-                    NavigationLink(destination: ContentView()) {
+                    NavigationLink(destination: CheckMapView()) {
                         CheckItButtonLabel(isActive: data.isActiveButton, text: "Check It!")
                     }
                     .frame(width: 200)
