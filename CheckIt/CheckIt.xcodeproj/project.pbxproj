@@ -26,6 +26,7 @@
 		2822CE242988DDF000316139 /* ScheduleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE232988DDF000316139 /* ScheduleStore.swift */; };
 		2822CE262988DE1400316139 /* AttendanceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE252988DE1400316139 /* AttendanceStore.swift */; };
 		2822CE282988DE3300316139 /* MemberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE272988DE3300316139 /* MemberStore.swift */; };
+		283B27B32989F20E00E4D400 /* GroupMainDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B27B22989F20E00E4D400 /* GroupMainDetailView.swift */; };
 		2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE322977AC1D00D8CAFB /* LoginView.swift */; };
 		2869DE362977B00C00D8CAFB /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 2869DE352977B00C00D8CAFB /* GoogleSignIn */; };
 		2869DE382977B00C00D8CAFB /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2869DE372977B00C00D8CAFB /* GoogleSignInSwift */; };
@@ -129,6 +130,7 @@
 		2822CE232988DDF000316139 /* ScheduleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScheduleStore.swift; path = CheckIt/Model/ScheduleStore.swift; sourceTree = SOURCE_ROOT; };
 		2822CE252988DE1400316139 /* AttendanceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AttendanceStore.swift; path = CheckIt/Model/AttendanceStore.swift; sourceTree = SOURCE_ROOT; };
 		2822CE272988DE3300316139 /* MemberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MemberStore.swift; path = CheckIt/Model/MemberStore.swift; sourceTree = SOURCE_ROOT; };
+		283B27B22989F20E00E4D400 /* GroupMainDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMainDetailView.swift; sourceTree = "<group>"; };
 		2869DE322977AC1D00D8CAFB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
@@ -453,6 +455,7 @@
 			isa = PBXGroup;
 			children = (
 				2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */,
+				283B27B22989F20E00E4D400 /* GroupMainDetailView.swift */,
 				2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */,
 				2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */,
 				2BDA61F8297E939500FDD307 /* MainPlusSheetView.swift */,
@@ -617,6 +620,7 @@
 			files = (
 				2822CE1E2988B61900316139 /* Attendance.swift in Sources */,
 				A5775BD22988ECC1000DFC3F /* CameraScanner.swift in Sources */,
+				283B27B32989F20E00E4D400 /* GroupMainDetailView.swift in Sources */,
 				2807AAA1297A5FEE00B1676C /* AttendanceDetailStatusView.swift in Sources */,
 				2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */,
 				2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */,
