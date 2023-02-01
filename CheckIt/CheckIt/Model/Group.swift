@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Group {
+struct Group: Identifiable {
     var id: String
     var name: String
     var invitationCode: String

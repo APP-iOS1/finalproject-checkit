@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Member {
+struct Member: Identifiable {
     var uid: String
     var position: String
 }
