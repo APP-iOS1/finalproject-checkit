@@ -46,20 +46,45 @@ class ScheduleStore: ObservableObject {
     }
     
     // MARK: - addSchedule 함수
-    func addSchedule(_ schedule: Schedule) {
-        database.collection("Schedule")
-            .document(schedule.id)
-            .setData(["groupName": schedule.groupName,
-                      "lateFee": schedule.lateFee,
-                      "absenteeFee": schedule.absenteeFee,
-                      "location": schedule.location,
-                      "agreeTime": schedule.agreeTime,
-                      "memo": schedule.memo,
-                      "startTime": schedule.startTime,
-                      "endTime": schedule.endTime,
-                      "id": schedule.id
-                     ])
+    func addSchedule(_ schedule: Schedule, group: Group) async {
+        do {
+            try await database.collection("Schedule")
+                .document(schedule.id)
+                .setData(["groupName": schedule.groupName,
+                          "lateFee": schedule.lateFee,
+                          "absenteeFee": schedule.absenteeFee,
+                          "location": schedule.location,
+                          "agreeTime": schedule.agreeTime,
+                          "memo": schedule.memo,
+                          "startTime": schedule.startTime,
+                          "endTime": schedule.endTime,
+                          "id": schedule.id
+                         ])
+        } catch {
+            print("add schedule error: \(error.localizedDescription)")
+        }
         
         fetchSchedule()
+        await addScheduleInGroup(schedule.id, group: group)
+        // FIXME: - 일정을 만들때 해당하는 출석부도 만들어야 한다.
+        // 연속으로 일정을 만드는 경우 이전일정은 저장은 안되는 문제도 존재
+    }
+    
+    // MARK: - addScheduleInGroup 함수
+    func addScheduleInGroup(_ scheduleId: String, group: Group) async {
+        var scheduleList = group.scheduleID
+        scheduleList.append(scheduleId)
+        let newScheduleList = scheduleList
+        
+        do {
+            try await database.collection("Group")
+                .document(group.id)
+                .updateData([
+                    "schedule_id": newScheduleList
+                ])
+                
+        } catch {
+            print("addScheduleInGroup error: \(error.localizedDescription)")
+        }
     }
 }
