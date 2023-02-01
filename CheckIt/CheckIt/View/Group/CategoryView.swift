@@ -11,10 +11,11 @@ struct CategoryView: View {
     @State var clickedIndex: Int = 0
     
     let categories: [String] = ["동아리 일정", "출석부", "동아리 정보"]
+    var group: Group
     
     var body: some View {
         VStack {
-            Text("허니미니의 또구 동아리")
+            Text(group.name)
                 .font(.title2)
                 .bold()
                 .padding()
@@ -64,7 +65,7 @@ struct CategoryView: View {
             .padding(.bottom, 20)
             
             if clickedIndex == 0 {
-                GroupScheduleView()
+                GroupScheduleView(group: group)
             }
             if clickedIndex == 1 {
                 AttendanceStatusView()
@@ -80,6 +81,6 @@ struct CategoryView: View {
 
 struct CategoryView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryView()
+        CategoryView(group: Group.sampleGroup)
     }
 }

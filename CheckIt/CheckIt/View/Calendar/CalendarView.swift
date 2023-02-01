@@ -8,7 +8,7 @@
 import SwiftUI
 
 //MARK: - 샘플 일정 데이터
-struct Task: Identifiable {
+struct SampleTask: Identifiable {
     var id = UUID().uuidString
     var title: String
     var time: Date = Date()
@@ -16,7 +16,7 @@ struct Task: Identifiable {
 
 struct TaskMetaData: Identifiable {
     var id = UUID().uuidString
-    var task: [Task]
+    var task: [SampleTask]
     var taskDate: Date
 }
 
@@ -30,25 +30,25 @@ func getSampleDate(offset: Int) -> Date {
 
 var tasks: [TaskMetaData] = [
     TaskMetaData(task: [
-        Task(title: "샘플1"),
-        Task(title: "샘플2"),
-        Task(title: "샘플3")
+        SampleTask(title: "샘플1"),
+        SampleTask(title: "샘플2"),
+        SampleTask(title: "샘플3")
     ], taskDate: getSampleDate(offset: 1)),
     
     TaskMetaData(task: [
-        Task(title: "샘플4")
+        SampleTask(title: "샘플4")
     ], taskDate: getSampleDate(offset: -3)),
     
     TaskMetaData(task: [
-        Task(title: "샘플5"),
-        Task(title: "샘플6")
+        SampleTask(title: "샘플5"),
+        SampleTask(title: "샘플6")
     ], taskDate: getSampleDate(offset: -8)),
     
     TaskMetaData(task: [
-        Task(title: "샘플7"),
-        Task(title: "샘플8"),
-        Task(title: "샘플9"),
-        Task(title: "샘플10")
+        SampleTask(title: "샘플7"),
+        SampleTask(title: "샘플8"),
+        SampleTask(title: "샘플9"),
+        SampleTask(title: "샘플10")
     ], taskDate: getSampleDate(offset: 20))
 ]
 

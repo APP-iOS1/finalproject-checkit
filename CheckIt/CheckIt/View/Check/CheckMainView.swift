@@ -7,28 +7,110 @@
 
 import SwiftUI
 
-//FIXME: 더미데이터입니다.
-let cards: [CheckItCard] = [
-    CheckItCard(),
-    CheckItCard(dDay: "D-1", groupName: "또리의 이력서 클럽", place: "홍대 이력서가 젤조아", date: "3월 25일", time: "오후 6:00 - 오후 8:00", isActiveButton: false),
-    CheckItCard(dDay: "D-21", groupName: "노이의 SSG 응원방", place: "이기자 빌딩", date: "4월 14일", time: "오후 7:00 - 오후 9:00", isActiveButton: false),
-    CheckItCard(dDay: "D-30", groupName: "또리의 이력서 클럽", place: "홍대 이력서가 젤조아", date: "4월 14일", time: "오후 6:00 - 오후 8:00", isActiveButton: false),
-    CheckItCard(dDay: "-", groupName: "지니의 맛집탐방", place: "-", date: "-", time: "-", isActiveButton: false)
-]
-
 struct CheckMainView: View {
+    @State var x : CGFloat = 0
+    @State var count : CGFloat = 0
+    @State var screen = UIScreen.main.bounds.width - 30
+    @State var op : CGFloat = 0
+    
+    //FIXME: 더미데이터입니다.
+    @State var data = [
+        Card(id: 0, dDay: "D-day", groupName: "허니미니의 또구 동아리", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: true, show: false),
+        Card(id: 1, dDay: "D-day", groupName: "또리의 이력서 클럽", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false),
+        Card(id: 2, dDay: "D-day", groupName: "노이의 SSG 응원방", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false),
+        Card(id: 3, dDay: "D-day", groupName: "지니의 맛집탐방", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false)
+    ]
+    
     var body: some View {
-        NavigationStack {
-            TabView {
-                ForEach(0..<cards.count) { index in
-                    cards[index]
-                }
+        NavigationView{
+            
+            VStack{
                 
-            } // - TabView
-            .tabViewStyle(.page)
-            .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                Spacer()
+                
+                HStack(spacing: 50) {
+                    
+                    ForEach(data){i in
+                        
+                        CheckItCard(data: i)
+                            .offset(x: self.x)
+                            .highPriorityGesture(DragGesture()
+                                                 
+                                .onChanged({ (value) in
+                                    
+                                    if value.translation.width > 0{
+                                        
+                                        self.x = value.location.x
+                                    }
+                                    else{
+                                        
+                                        self.x = value.location.x - self.screen
+                                    }
+                                    
+                                })
+                                    .onEnded({ (value) in
+                                        
+                                        if value.translation.width > 0{
+                                            
+                                            
+                                            if value.translation.width > ((self.screen - 80) / 2) && Int(self.count) != 0{
+                                                
+                                                
+                                                self.count -= 1
+                                                self.updateHeight(value: Int(self.count))
+                                                self.x = -((self.screen + 15) * self.count)
+                                            }
+                                            else{
+                                                
+                                                self.x = -((self.screen + 15) * self.count)
+                                            }
+                                        }
+                                        else{
+                                            
+                                            
+                                            if -value.translation.width > ((self.screen - 80) / 2) && Int(self.count) !=  (self.data.count - 1){
+                                                
+                                                self.count += 1
+                                                self.updateHeight(value: Int(self.count))
+                                                self.x = -((self.screen + 15) * self.count)
+                                            }
+                                            else{
+                                                
+                                                self.x = -((self.screen + 15) * self.count)
+                                            }
+                                        }
+                                    })
+                            )
+                    }
+                }
+                .frame(width: UIScreen.main.bounds.width)
+                .offset(x: self.op)
+                
+                Spacer()
+            }
+            .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.top))
+            //            .navigationBarTitle("Carousel List")
+            .animation(.spring())
+            .onAppear {
+                
+                self.op = ((self.screen + 15) * CGFloat(self.data.count / 2)) - (self.data.count % 2 == 0 ? ((self.screen + 15) / 2) : 0)
+                
+                self.data[0].show = true
+            }
         }
     }
+    
+    func updateHeight(value : Int){
+        
+        
+        for i in 0..<data.count{
+            
+            data[i].show = false
+        }
+        
+        data[value].show = true
+    }
+    
 }
 
 //MARK: - Previews

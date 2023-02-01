@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct MakeGroupModalView: View {
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var groupStores: GroupStore
+    
     @State private var groupName: String = ""
     @State private var groupDescription: String = ""
     @State private var isJoined: Bool = false
-    @Environment(\.dismiss) var dismiss
     @State private var text: String = ""
     
     var body: some View {
@@ -52,14 +54,26 @@ struct MakeGroupModalView: View {
             .font(.system(size: 14, weight: .regular))
             
             // MARK: - 동아리 개설하기 버튼
-            // FIXME: - 둘다 입력하지 않으면 개설하기 버튼 비활성화 시키기
             Button {
                 isJoined.toggle()
                 dismiss()
+                
+                let group = Group(id: UUID().uuidString,
+                                  name: groupName,
+                                  invitationCode: UUID().uuidString,
+                                  image: "example",
+                                  hostID: "Dpcvu3OOAUuq3ccDhBcW",
+                                  description: groupDescription,
+                                  scheduleID: [])
+                Task {
+                    await groupStores.createGroup("Dpcvu3OOAUuq3ccDhBcW", group: group)
+                }
+                
             } label: {
                 Text("동아리 개설하기")
                     .modifier(GruopCustomButtonModifier())
             }
+            .disabled(groupName.isEmpty || groupDescription.isEmpty)
         }
         .padding(40)
         .presentationDragIndicator(.visible)
@@ -69,5 +83,6 @@ struct MakeGroupModalView: View {
 struct MakeGroupModalView_Previews: PreviewProvider {
     static var previews: some View {
         MakeGroupModalView()
+            .environmentObject(GroupStore())
     }
 }
