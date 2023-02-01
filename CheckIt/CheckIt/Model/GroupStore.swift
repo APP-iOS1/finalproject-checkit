@@ -12,6 +12,12 @@ import FirebaseStorage
 enum GroupJoinCategory {
     case alreadyJoined
     case newJoined
+    case notValidated
+}
+
+enum GroupCodeValidation {
+    case validated
+    case notValidated
 }
 
 class GroupStore: ObservableObject {
@@ -107,4 +113,33 @@ class GroupStore: ObservableObject {
         }
     }
     
+    // MARK: - 유저가 동아리에 참가하는 메소드
+    /// - Parameter code: 동아리 참가 코드
+    /// - Parameter uid: 참가하는 사용자의 uid
+    ///
+    ///  유저는 초대받은 코드를 입력하여 동아리에 참가하는 메소드
+    ///  이때 Member컬렉션에 직책과 uid정보를 추가해야하며, user 컬렉션에 참가한 동아리id를 추가해야한다.
+    func joinGroup(_ code: String, uid: String) async {
+        do {
+            try await database.collection("Group ")
+        } catch {
+            print("")
+        }
+    }
+    
+    /// - Parameter invitationCode: 동아리 참가 코드
+    ///
+    /// 유저가 유효한  참가코드를 입력했는지 확인하는 메소드
+    func checkedGroupCode(_ invitationCode: String) async -> GroupCodeValidation {
+        do {
+            let querySnapshot = try await database
+                .collection("Group")
+                .whereField("invitationCode", isEqualTo: invitationCode)
+                .getDocuments()
+            return (querySnapshot.isEmpty) ? .notValidated : .validated
+        } catch {
+            print("checkedJoinGroup error: \(error.localizedDescription)")
+            return .notValidated
+        }
+    }
 }
