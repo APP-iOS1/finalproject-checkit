@@ -8,8 +8,18 @@
 import SwiftUI
 
 struct MyPageView: View {
-    @State private var userName: String = "허대장"
-    @State private var userEmail: String = "captainhuh@navar.com"
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var groupStores: GroupStore
+    var userName: String {
+        userStore.fetchUserData()?.displayName ?? "N/A"
+    }
+   var userEmail: String {
+        userStore.fetchUserData()?.email ?? "N/A"
+    }
+    var userImageURL: URL {
+        userStore.fetchUserData()?.photoURL ?? URL(string: "N/A")!
+    }
+    
     
     @State private var primiumPlansButtonTitle: String = "프리미엄 요금제 알아보기"
     @State private var contackUsButtonTitle: String = "문의하기"
@@ -17,6 +27,7 @@ struct MyPageView: View {
     @State private var premiumButtonToggle: Bool = false
     var body: some View {
         VStack(alignment: .leading) {
+//            AsyncImage(url: userImageURL)
             Text("반갑습니다, \n\(userName)님")
                 .lineLimit(2)
                 .font(.system(size: 32, weight: .heavy))
@@ -24,7 +35,7 @@ struct MyPageView: View {
                 .padding(.top)
                 .padding(.bottom)
             
-            Profile(userEmailvalue: $userEmail)
+            Profile(userEmailvalue: userEmail, userImageURL: userImageURL)
                 .padding(.horizontal, 40)
             Spacer()
             
@@ -45,7 +56,7 @@ struct MyPageView: View {
             }
             Divider()
                 .padding(.horizontal, 24)
-            NavigationLink(destination: Text("로그아웃")) {
+            NavigationLink(destination: LogoutView) {
                 MyPageButton(buttonTitle: $logoutButtonTitle)
             }
             Divider()
@@ -55,10 +66,23 @@ struct MyPageView: View {
             
         }
     }
+    //MARK: - Logout Test Views
+    private var LogoutView: some View {
+        VStack {
+            Button(action: {
+                userStore.signOut()
+            }) {
+                Text("로그아웃하기")
+            }.buttonStyle(BorderedButtonStyle())
+            
+        }
+    }
 }
+
 
 struct MyPageView_Previews: PreviewProvider {
     static var previews: some View {
         MyPageView()
+        
     }
 }
