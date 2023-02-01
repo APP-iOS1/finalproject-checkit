@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct GroupMainDetailView: View {
+    let group: Group
+    
     var body: some View {
         VStack {
             HStack {
@@ -38,11 +40,11 @@ struct GroupMainDetailView: View {
                 
                 VStack(alignment: .leading, spacing: 10) {
                     // MARK: - 동아리 이름
-                    Text("호이의 SSG 응원방")
+                    Text(group.name)
                         .font(.system(size: 16, weight: .semibold))
                     
                     // MARK: - 동아리 상세 내용
-                    Text("We are landers\nWe are victory")
+                    Text(group.description)
                         .font(.system(size: 13, weight: .regular))
                 }
                 
@@ -52,8 +54,8 @@ struct GroupMainDetailView: View {
     }
 }
 
-struct GroupMainDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        GroupMainDetailView()
-    }
-}
+//struct GroupMainDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GroupMainDetailView(group: <#T##Group#>)
+//    }
+//}

@@ -36,10 +36,11 @@ struct GroupMainView: View {
                 ScrollView {
                     VStack(spacing: 20) {
                         // FIXME: - 동아리 리스트 데이터 연결하기
-                        ForEach(1..<7) { _ in
+                        
+                        ForEach(groupStores.groups) { group in
                             // MARK: - 동아리 리스트
                             NavigationLink(destination: CategoryView()) {
-                                GroupMainDetailView()
+                                GroupMainDetailView(group: group)
                                     .frame(height: 120)
                                     .background(Color.myLightGray)
                                     .cornerRadius(18)
