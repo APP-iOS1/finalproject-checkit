@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Attendance {
+struct Attendance: Identifiable {
     var id: String
     var uid: String
     var attendanceStatus: String

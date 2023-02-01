@@ -87,12 +87,13 @@ struct CheckMapView: View {
         //        .animation(.linear(duration: 0.3), value: isAlert)
         .animation(.easeOut(duration: 0.3), value: isAlert)
         .transition(.opacity)
-        .toolbarBackground(.black.opacity(0.01), for: .navigationBar)
+        .toolbarBackground(Material.ultraThinMaterial, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-
 
     }
 }
+
+
 
 struct CheckMapView_Previews: PreviewProvider {
     static var previews: some View {
