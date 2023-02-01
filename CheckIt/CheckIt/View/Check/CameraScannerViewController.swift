@@ -19,6 +19,7 @@ struct CameraScannerViewController: UIViewControllerRepresentable {
         Coordinator(self)
     }
     
+    
     func makeUIViewController(context: Context) -> DataScannerViewController {
         let viewController = DataScannerViewController(
             recognizedDataTypes: [.barcode()],
