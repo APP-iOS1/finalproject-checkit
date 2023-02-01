@@ -64,7 +64,8 @@ class GroupStore: ObservableObject {
     /// 자신이 속한 동아리의 데이터를 groups 프로퍼티 래퍼에 저장한다.
     func fetchGroups(_ uid: String) async {
         // FIXME: - 현재 더미데이터로 유저가 속한 그룹의 id를 선언함
-        let groupID: [String] = ["bBpYMyPqY3OD1eIdRbGc"]
+        let groupID: [String] = ["bBpYMyPqY3OD1eIdRbGc", "A08B4C57-C0A7-4677-90D8-15E81F0C2E1B"]
+        self.groups.removeAll()
         do {
             let querySnapshot = try await database.collection("Group")
                 .whereField("id", in: groupID)

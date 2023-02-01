@@ -21,104 +21,116 @@ struct AddScheduleView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment:.leading, spacing: 25) {
+            VStack(alignment:.leading, spacing: 20) {
                 Text("일정 추가하기")
                     .font(.system(size: 24, weight: .semibold))
                 
                 Divider()
                 
+                Text("일정 정보")
+                    .font(.system(size: 20, weight: .regular))
+                
                 // MARK: - 일정 정보 Section
-                Section {
-                    Text("일정 정보")
-                        .font(.system(size: 20, weight: .regular))
+                VStack(alignment:.leading, spacing: 20) {
                     
-                    HStack {
-                        customSymbols(name: "clock")
+                    HStack(spacing: 12) {
+                        customSymbols(name: "calendar")
                         
                         // MARK: - 시작 시간 DatePicker
-                        DatePicker("시작 시간을 입력하세요", selection: $startTime)
-                            .datePickerStyle(WheelDatePickerStyle())
-                            .labelsHidden()
-                    }
-                    
-                    HStack {
-                        customSymbols(name: "mapPin")
-                            .padding()
-                        
-                        VStack() {
-                            TextField("동아리 장소를 입력해주세요", text: $place)
-                                .frame(width: 200)
-                            
-                            Divider()
-                                .frame(width: 200)
+                        DatePicker(selection: $startTime, in: ...Date(), displayedComponents: .date) {
+                            Text("날짜를 선택해주세요.")
                         }
                     }
                     
-                    //                ZStack(alignment: .leading) {
-                    //                    if self.memo.isEmpty {
-                    //                        TextEditor(text: $placeholderText)
-                    //                            .padding(.horizontal,15)
-                    //                            .padding(.vertical,10)
-                    //                            .font(.subheadline)
-                    //                            .foregroundColor(.gray)
-                    //                            .multilineTextAlignment(.leading)
-                    //                            .frame(height: 100)
-                    //                            .background(Color.white)
-                    //                            .overlay(
-                    //                                RoundedRectangle(cornerRadius: 10)
-                    //                                    .stroke(Color.gray, lineWidth: 2)
-                    //                            )
-                    //                            .cornerRadius(10)
-                    //                            .padding(.bottom, 23)
-                    //                            .disabled(true)
-                    //                    }
-                    //                    TextEditor(text: $memo)
-                    //                        .padding(.horizontal,15)
-                    //                        .padding(.vertical,10)
-                    //                        .font(.subheadline)
-                    //                        .lineSpacing(10)
-                    //                        .multilineTextAlignment(.leading)
-                    //                        .opacity(self.memo.isEmpty ? 0.25 : 1)
-                    //                        .overlay(
-                    //                            RoundedRectangle(cornerRadius: 10)
-                    //                                .stroke(Color.myGray, lineWidth: 2)
-                    //                        )
-                    //                        .frame(height: 100)
-                    //                        .padding(.bottom, 23)
-                    //                }
+                    HStack(spacing: 12) {
+                        customSymbols(name: "clock")
+                        // MARK: - 시작 시간 DatePicker
+                        DatePicker("시작 시간", selection: $startTime,
+                                   displayedComponents: .hourAndMinute)
+                    }
+                    
+                    HStack(spacing: 12) {
+                        customSymbols(name: "clock")
+                        
+                        // MARK: - 종료 시간 DatePicker
+                        DatePicker("종료 시간", selection: $endTime,
+                                   displayedComponents: .hourAndMinute)
+                    }
+                    
+                    HStack(spacing: 12) {
+                        customSymbols(name: "mapPin")
+                        
+                        // MARK: - 동아리 장소 TextField
+                        TextField("동아리 장소를 입력해주세요!", text: $place)
+                            .frame(width: 200)
+                    }
+                    
+                    Spacer(minLength: 1)
+                    
+                    ZStack {
+                        // MARK: - 동아리 메모 TextEditor
+                        if self.memo.isEmpty {
+                            TextEditor(text: $placeholderText)
+                                .padding(.horizontal,15)
+                                .padding(.vertical,10)
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                                .multilineTextAlignment(.leading)
+                                .frame(height: 100)
+                                .background(Color.white)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.gray, lineWidth: 2)
+                                )
+                                .cornerRadius(10)
+                                .padding(.bottom, 23)
+                                .disabled(true)
+                        }
+                        TextEditor(text: $memo)
+                            .padding(.horizontal,15)
+                            .padding(.vertical,10)
+                            .font(.subheadline)
+                            .lineSpacing(10)
+                            .multilineTextAlignment(.leading)
+                            .opacity(self.memo.isEmpty ? 0.25 : 1)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.myGray, lineWidth: 2)
+                            )
+                            .frame(height: 100)
+                            .padding(.bottom, 23)
+                    }
                 }
+                .padding(5)
                 
                 Divider()
                 
-                /// 결석 기준 시간 정하기
-                // MARK: - 일정 정보 Section
-                Section {
-                    HStack {
-                        customSymbols(name: "clock")
-                            .padding(10)
-                        
+                // MARK: - 출석 인정 시간 Section
+                VStack(alignment: .leading, spacing: 25) {
                         Text("출석 인정 시간")
                             .font(.system(size: 20, weight: .regular))
-                    }
                     
-                    HStack {
                         HStack {
+                            customSymbols(name: "clock")
+                                .padding(10)
+                            
+                            // MARK: - 출석 인정 시간 TextField
                             TextField("", value: $lateMin, format: .number)
                                 .frame(width: 68)
                                 .textFieldStyle(.roundedBorder)
                             
                             Text("분 전부터 ~ 5분 후까지")
                         }
-                    }
                     
-                    HStack {
-                        VStack(alignment: .leading) {
+                    HStack(spacing: 35) {
+                        VStack(alignment: .leading, spacing: 20) {
                             HStack {
                                 Text("지각")
                                 Image(systemName: "questionmark.circle.fill")
-                                    .foregroundColor(.myGray)
+                                    .foregroundColor(.myBlack)
                             }
                             HStack {
+                                // MARK: - 지각비 TextField
                                 TextField("", value: $lateFee, format: .number)
                                     .frame(width: 68)
                                     .textFieldStyle(.roundedBorder)
@@ -126,13 +138,14 @@ struct AddScheduleView: View {
                             }
                         }
                         
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 20) {
                             HStack {
                                 Text("결석")
                                 Image(systemName: "questionmark.circle.fill")
-                                    .foregroundColor(.myGray)
+                                    .foregroundColor(.myBlack)
                             }
                             HStack {
+                                // MARK: - 결석비 TextField
                                 TextField("", value: $absentFee, format: .number)
                                     .frame(width: 68)
                                     .textFieldStyle(.roundedBorder)
@@ -140,7 +153,10 @@ struct AddScheduleView: View {
                             }
                         }
                     }
+                    .padding(5)
                 }
+                
+                Spacer()
                 
                 // MARK: - 일정 만들기 버튼
                 Button {
