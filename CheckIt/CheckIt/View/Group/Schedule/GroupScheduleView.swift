@@ -29,7 +29,7 @@ struct GroupScheduleView: View {
                 }
                 
                 VStack {
-                    List {
+                    ScrollView {
                         ForEach(scheduleStore.schedule) { schedule in
                             VStack {
                                 ZStack(alignment: .leading) {
@@ -42,15 +42,15 @@ struct GroupScheduleView: View {
                                         HStack {
                                             customSymbols(name: "calendar")
                                             // MARK: - 동아리 일정 날짜
-                                            Text("\(schedule.startTime)")
+                                            Text("\(schedule.startTime, format:.dateTime.day().month())")
                                         }
                                         
                                         HStack {
                                             customSymbols(name: "clock")
                                             // MARK: - 동아리 일정 시간
-                                            Text("\(schedule.startTime)")
+                                            Text("\(schedule.startTime, format:.dateTime.hour().minute())")
                                             Text("~")
-                                            Text("\(schedule.endTime)")
+                                            Text("\(schedule.endTime, format:.dateTime.hour().minute())")
                                         }
                                         
                                         HStack {
@@ -66,10 +66,10 @@ struct GroupScheduleView: View {
                     }
                 }
                 .onAppear {
-                    scheduleStore.fetchSchedule()
+                    scheduleStore.fetchSchedule(gruopName: group.name)
                 }
                 .refreshable {
-                    scheduleStore.fetchSchedule()
+                    scheduleStore.fetchSchedule(gruopName: group.name)
                 }
             }
             .padding(.horizontal, 40)
