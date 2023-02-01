@@ -9,6 +9,17 @@ import Foundation
 import Firebase
 import FirebaseStorage
 
+enum GroupJoinStatus {
+    case alreadyJoined
+    case newJoined
+    case notValidated
+}
+
+enum GroupCodeValidation {
+    case validated(String)
+    case notValidated
+}
+
 class GroupStore: ObservableObject {
     @Published var groups: [Group] = []
     
@@ -65,7 +76,10 @@ class GroupStore: ObservableObject {
     func fetchGroups(_ uid: String) async {
         // FIXME: - 현재 더미데이터로 유저가 속한 그룹의 id를 선언함
         let groupID: [String] = ["bBpYMyPqY3OD1eIdRbGc", "A08B4C57-C0A7-4677-90D8-15E81F0C2E1B"]
-        self.groups.removeAll()
+        DispatchQueue.main.async {
+            self.groups.removeAll()
+        }
+        
         do {
             let querySnapshot = try await database.collection("Group")
                 .whereField("id", in: groupID)
@@ -97,5 +111,59 @@ class GroupStore: ObservableObject {
         } catch {
             print("동아리 가져오기 에러: \(error.localizedDescription)")
         }
+    }
+    
+    // MARK: - 유저가 동아리에 참가하는 메소드
+    /// - Parameter code: 동아리 참가 코드
+    /// - Parameter uid: 참가하는 사용자의 uid
+    /// - Reuturn Value: 동아리 참가코드 입력시 반환되는 상태
+    ///
+    ///  유저는 초대받은 코드를 입력하여 동아리에 참가하는 메소드
+    ///  이때 Member컬렉션에 직책과 uid정보를 추가해야하며, user 컬렉션에 참가한 동아리id를 추가해야한다.
+    func joinGroup(_ code: String, uid: String) async -> GroupJoinStatus {
+        let status = await checkedGroupCode(code)
+        switch status {
+        case .validated(let groupId):
+            do {
+                // FIXME: - 동아리에 이미 가입되었는지 확인하는 로직이 필요함
+                try await database.collection("Group")
+                    .document(groupId)
+                    .collection("Member")
+                    .document(uid)
+                    .setData([
+                        "uid": uid,
+                        "position": "구성원"
+                    ])
+                return .newJoined
+                
+            } catch {
+                print("joinGroup error: \(error.localizedDescription)")
+                return .notValidated
+            }
+        case .notValidated:
+            return .notValidated
+        }
+    }
+    
+    
+    /// - Parameter invitationCode: 동아리 참가 코드
+    ///
+    /// 유저가 유효한  참가코드를 입력했는지 확인하는 메소드
+    func checkedGroupCode(_ invitationCode: String) async -> GroupCodeValidation {
+        do {
+            let querySnapshot = try await database
+                .collection("Group")
+                .whereField("invitationCode", isEqualTo: invitationCode)
+                .getDocuments()
+            return (querySnapshot.isEmpty) ? .notValidated : .validated(querySnapshot.documents.first!.documentID)
+        } catch {
+            print("checkedJoinGroup error: \(error.localizedDescription)")
+            return .notValidated
+        }
+    }
+    
+    /// 가입된 동아리인지 확인하는 메소드
+    func isJoinedGroup() {
+        
     }
 }
