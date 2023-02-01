@@ -174,8 +174,9 @@ struct AddScheduleView: View {
                     let end1 = end.getAllTimeInfo()
                     
                     let schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: placeholderText)
-                    
-                    scheduleStore.addSchedule(schedule, group: group)
+                    Task {
+                        await scheduleStore.addSchedule(schedule, group: group)
+                    }
                     
                 } label: {
                     Text("일정 만들기")
