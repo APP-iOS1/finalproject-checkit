@@ -12,6 +12,8 @@ struct JoinGruopModalView: View {
     @State private var isJoined: Bool = false
     @Environment(\.dismiss) var dismiss
     
+    @EnvironmentObject var groupStores: GroupStore
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             Text("동아리 참가하기")
@@ -28,7 +30,12 @@ struct JoinGruopModalView: View {
             // MARK: - 동아리 참가하기 버튼
             Button {
                 isJoined.toggle()
+//                Task {
+//                    await groupStores.joinGroup(invitationCode, uid: "Dpcvu3OOAUuq3ccDhBcW")
+//                }
+                
                 dismiss()
+                
             } label: {
                 Text("동아리 참가하기")
                     .modifier(GruopCustomButtonModifier())
@@ -42,5 +49,6 @@ struct JoinGruopModalView: View {
 struct JoinGruopModalView_Previews: PreviewProvider {
     static var previews: some View {
         JoinGruopModalView()
+            .environmentObject(GroupStore())
     }
 }
