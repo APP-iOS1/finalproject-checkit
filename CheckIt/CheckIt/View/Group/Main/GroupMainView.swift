@@ -16,9 +16,10 @@ struct GroupMainView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .trailing) {
+            VStack {
                 HStack {
                     // MARK: - 동아리 메인뷰 플러스 버튼 (동아리 개설하기, 동아리 참가하기)
+                    Spacer()
                     Button {
                         showingPlusSheet.toggle()
                     } label: {
