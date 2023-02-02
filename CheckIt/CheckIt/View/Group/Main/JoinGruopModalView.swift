@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct JoinGruopModalView: View {
-    @State private var invitationCode: String = ""
-    @State private var isJoined: Bool = false
     @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var groupStores: GroupStore
     @EnvironmentObject var userStores: UserStore
+    
+    @State private var invitationCode: String = ""
+    @State private var isJoined: Bool = false
+    @Binding var showToast: Bool
+    @Binding var toastMessage: String
     
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
@@ -33,16 +36,17 @@ struct JoinGruopModalView: View {
                 isJoined.toggle()
                 Task {
                     let statusCode = await groupStores.joinGroup(invitationCode, uid: userStores.userData?.uid ?? "")
+                    showToast.toggle()
+                    
                     switch statusCode {
                     case .alreadyJoined:
-                        print("이미 가입된 동아리입니다.")
+                        toastMessage = "이미 가입된 동아리입니다."
                     case .newJoined:
-                        print("동아리에 참가가 완료되었습니다.")
+                        toastMessage = "동아리 가입이 완료되었습니다."
                     case .notValidated:
-                        print("올바르지 않은 참가코드 입니다.")
+                        toastMessage = "올바르지 않은 초대코드 입니다."
                     }
                 }
-                
                 dismiss()
                 
             } label: {
@@ -56,8 +60,11 @@ struct JoinGruopModalView: View {
 }
 
 struct JoinGruopModalView_Previews: PreviewProvider {
+    @State static var showToast: Bool = false
+    @State static var toastMessage: String = ""
+    
     static var previews: some View {
-        JoinGruopModalView()
+        JoinGruopModalView(showToast: $showToast, toastMessage: $toastMessage)
             .environmentObject(GroupStore())
     }
 }
