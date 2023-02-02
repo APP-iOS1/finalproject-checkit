@@ -30,7 +30,7 @@ struct GroupScheduleView: View {
                 
                 VStack {
                     ScrollView {
-                        ForEach(scheduleStore.schedule) { schedule in
+                        ForEach(scheduleStore.scheduleList) { schedule in
                             VStack {
                                 ZStack(alignment: .leading) {
                                     RoundedRectangle(cornerRadius: 10)
