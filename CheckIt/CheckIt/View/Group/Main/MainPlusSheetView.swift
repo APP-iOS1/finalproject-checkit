@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct MainPlusSheetView: View {
     @State var isMakingGroup: Bool = false
     @State var isJoiningGroup: Bool = false
+    @State private var showToast: Bool = false
+    @State private var toastMessage: String = ""
     
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
@@ -42,12 +45,17 @@ struct MainPlusSheetView: View {
                     .modifier(MainPlusSheetButtonModifier())
             }
             .sheet(isPresented: $isJoiningGroup) {
-                JoinGruopModalView()
+                JoinGruopModalView(showToast: $showToast, toastMessage: $toastMessage)
                     .presentationDetents([.height(300)])
             }
         }
         .padding(.horizontal, 40)
         .presentationDragIndicator(.visible)
+        
+        .toast(isPresenting: $showToast){
+            AlertToast(type: .regular, title: toastMessage)
+            //AlertToast(type: .complete(.green)/.error(.red), title: toastMessage)
+        }
     }
 }
 
