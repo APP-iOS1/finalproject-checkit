@@ -94,7 +94,7 @@ class GroupStore: ObservableObject {
                 let image = data["image"] as? String ?? ""
                 let hostID = data["hostID"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
-                let scheduleID = data["scheduleID"] as? [String] ?? []
+                let scheduleID = data["schedule_id"] as? [String] ?? []
                 
                 let group = Group(id: id,
                                   name: name,
