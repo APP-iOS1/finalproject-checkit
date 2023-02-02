@@ -55,7 +55,6 @@
 		A5C48C0D297A506D007D49DF /* GroupInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C0C297A506D007D49DF /* GroupInformationView.swift */; };
 		A5C48C0F297A5221007D49DF /* GroupPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C0E297A5221007D49DF /* GroupPosition.swift */; };
 		A5C48C11297A606D007D49DF /* GroupMemberListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C10297A606D007D49DF /* GroupMemberListCell.swift */; };
-		A5CE01CA298A297D009D42A4 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CE01C9298A297D009D42A4 /* DateExtension.swift */; };
 		A5FF27A02977AD3F0059C312 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF279F2977AD3E0059C312 /* MyPageView.swift */; };
 		A5FF27A22977AD640059C312 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A12977AD630059C312 /* QuestionView.swift */; };
 		A5FF27A42977AEF80059C312 /* MyPageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A32977AEF80059C312 /* MyPageButton.swift */; };
@@ -168,7 +167,6 @@
 		A5C48C0C297A506D007D49DF /* GroupInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInformationView.swift; sourceTree = "<group>"; };
 		A5C48C0E297A5221007D49DF /* GroupPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupPosition.swift; sourceTree = "<group>"; };
 		A5C48C10297A606D007D49DF /* GroupMemberListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMemberListCell.swift; sourceTree = "<group>"; };
-		A5CE01C9298A297D009D42A4 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		A5FF279F2977AD3E0059C312 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		A5FF27A12977AD630059C312 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		A5FF27A32977AEF80059C312 /* MyPageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageButton.swift; sourceTree = "<group>"; };
@@ -390,7 +388,6 @@
 			children = (
 				FD4E25D02977849900F6F875 /* ColorExtension.swift */,
 				FD2D07FF297C0FB100CC010E /* CustomSymbols.swift */,
-				A5CE01C9298A297D009D42A4 /* DateExtension.swift */,
 			);
 			path = UIConfig;
 			sourceTree = "<group>";
@@ -663,7 +660,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2822CE1E2988B61900316139 /* Attendance.swift in Sources */,
-				A5CE01CA298A297D009D42A4 /* DateExtension.swift in Sources */,
 				A5775BD22988ECC1000DFC3F /* CameraScanner.swift in Sources */,
 				A5775BD42989FE21000DFC3F /* CameraScannerViewModel.swift in Sources */,
 				283B27B32989F20E00E4D400 /* GroupMainDetailView.swift in Sources */,
