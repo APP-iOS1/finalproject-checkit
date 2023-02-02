@@ -8,8 +8,8 @@
 import SwiftUI
 import FirebaseCore
 import GoogleSignIn
-import KakaoSDKCommon
-import KakaoSDKAuth
+import FirebaseCore
+
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -19,20 +19,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-            if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                return AuthController.handleOpenUrl(url: url)
-            }
-
-            return GIDSignIn.sharedInstance.handle(url)
-        }
-    
-//    @available(iOS 9.0, *)
-//    func application(_ application: UIApplication, open url: URL,
-//                     options: [UIApplication.OpenURLOptionsKey: Any])
-//      -> Bool {
-//      return GIDSignIn.sharedInstance.handle(url)
-//    }
+    @available(iOS 9.0, *)
+    func application(_ application: UIApplication, open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any])
+      -> Bool {
+      return GIDSignIn.sharedInstance.handle(url)
+    }
 }
 
 @main
@@ -46,28 +38,19 @@ struct CheckItApp: App {
     @StateObject private var memberStore = MemberStore()
     @State var isLogin: Bool = true
     
-    init() {
-            // Kakao SDK 초기화
-            KakaoSDK.initSDK(appKey: "7a4ee9f84ebf3bcf24029e1c6febb14d")
-        }
-    
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                ContentView().onOpenURL(perform: { url in
-                    if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                        AuthController.handleOpenUrl(url: url)
+                ContentView()
+                    .fullScreenCover(isPresented: self.$userStore.isPresentedLoginView) {
+                        LoginView()
                     }
-                })
-                .fullScreenCover(isPresented: self.$userStore.isPresentedLoginView) {
-                    LoginView()
-                }
-                
-                .environmentObject(userStore)
-                .environmentObject(groupStore)
-                .environmentObject(scheduleStore)
-                .environmentObject(attendanceStore)
-                .environmentObject(memberStore)
+//                ContentView()
+                    .environmentObject(userStore)
+                    .environmentObject(groupStore)
+                    .environmentObject(scheduleStore)
+                    .environmentObject(attendanceStore)
+                    .environmentObject(memberStore)
                     
 
             }

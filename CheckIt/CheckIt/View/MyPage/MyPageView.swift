@@ -11,14 +11,13 @@ struct MyPageView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var groupStores: GroupStore
     var userName: String {
-        userStore.userData?.displayName ?? "N/A"
+        userStore.fetchUserData()?.displayName ?? "N/A"
     }
-
-   var userEmail: String {
-        userStore.userData?.email ?? "N/A"
+    var userEmail: String {
+        userStore.fetchUserData()?.email ?? "N/A"
     }
     var userImageURL: URL {
-        userStore.userData?.photoURL ?? URL(string: "N/A")!
+        userStore.fetchUserData()?.photoURL ?? URL(string: "N/A")!
     }
     
     @State private var primiumPlansButtonTitle: String = "프리미엄 요금제 알아보기"
