@@ -13,6 +13,7 @@ struct GroupMainView: View {
     @State var isJoiningGroup: Bool = false
     
     @EnvironmentObject var groupStores: GroupStore
+    @EnvironmentObject var userStores: UserStore
     
     var body: some View {
         NavigationStack {
@@ -54,7 +55,7 @@ struct GroupMainView: View {
         }
         .onAppear {
             Task {
-                await groupStores.fetchGroups("Dpcvu3OOAUuq3ccDhBcW")
+                await groupStores.fetchGroups(userStores.fetchUserData()!.uid)
                 print("동아리들: \(groupStores.groups)")
             }
         }

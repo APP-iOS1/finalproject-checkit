@@ -65,7 +65,7 @@ struct CategoryView: View {
             .padding(.bottom, 20)
             
             if clickedIndex == 0 {
-                GroupScheduleView()
+                GroupScheduleView(group: group)
             }
             if clickedIndex == 1 {
                 AttendanceStatusView(scheduleIDList: group.scheduleID)

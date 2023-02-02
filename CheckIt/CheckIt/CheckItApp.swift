@@ -31,20 +31,28 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct CheckItApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+    @StateObject private var userStore = UserStore()
     @StateObject private var groupStore = GroupStore()
     @StateObject private var scheduleStore = ScheduleStore()
     @StateObject private var attendanceStore = AttendanceStore()
     @StateObject private var memberStore = MemberStore()
+    @State var isLogin: Bool = true
     
     var body: some Scene {
         WindowGroup {
             NavigationView {
                 ContentView()
+                    .fullScreenCover(isPresented: self.$userStore.isPresentedLoginView) {
+                        LoginView()
+                    }
+//                ContentView()
+                    .environmentObject(userStore)
                     .environmentObject(groupStore)
                     .environmentObject(scheduleStore)
                     .environmentObject(attendanceStore)
                     .environmentObject(memberStore)
+                    
+
             }
         }
     }

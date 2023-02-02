@@ -54,8 +54,6 @@ struct MakeGroupModalView: View {
             .font(.system(size: 14, weight: .regular))
             
             // MARK: - 동아리 개설하기 버튼
-            // FIXME: - 둘다 입력하지 않으면 개설하기 버튼 비활성화 시키기
-            
             Button {
                 isJoined.toggle()
                 dismiss()
@@ -75,6 +73,7 @@ struct MakeGroupModalView: View {
                 Text("동아리 개설하기")
                     .modifier(GruopCustomButtonModifier())
             }
+            .disabled(groupName.isEmpty || groupDescription.isEmpty)
         }
         .padding(40)
         .presentationDragIndicator(.visible)
