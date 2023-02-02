@@ -105,7 +105,7 @@ struct CustomDatePickerView: View {
                             Rectangle()
                                 .frame(width: 50, height: 50)
                                 .foregroundColor(Color.myGray)
-                                .opacity(extraData.isSameDay(date1: value.date, date2: currentDate) ? 1 : 0)
+                                .opacity((value.day != -1) && extraData.isSameDay(date1: value.date, date2: currentDate) ? 1 : 0)
                         )
                         .onTapGesture {
                             currentDate = value.date
@@ -134,10 +134,20 @@ struct CustomDatePickerView: View {
                     Spacer()
                     
                     HStack(spacing: 8) {
-                        ForEach(task.task) {_ in
-                            Circle()
-                                .fill(Color.myRed)
-                                .frame(width: 7, height: 7)
+                        //FIXME: 3+ 라벨 처리
+                        let taskNum = (task.task.count < 3 ? task.task.count : 3)
+                        if taskNum > 3 {
+                            Text("3+")
+                                .font(.caption2)
+                                .cornerRadius(5)
+                                .border(Color.myRed)
+//                                .frame(width: 9, height: 7)
+                        } else {
+                            ForEach(0..<taskNum) {_ in
+                                Circle()
+                                    .fill(Color.myRed)
+                                    .frame(width: 7, height: 7)
+                            }
                         }
                     }
                 } else {
