@@ -139,6 +139,8 @@ class GroupStore: ObservableObject {
                         "uid": uid,
                         "position": "구성원"
                     ])
+                //FIXME: - User를 파라미터의 User로 변경 필요
+                await addGroupsInUser(User(id: uid, email: "", name: "", groupID: []), joinedGroupId: groupId)
                 await fetchGroups(uid)
                 return .newJoined
                 
@@ -150,7 +152,6 @@ class GroupStore: ObservableObject {
             return .notValidated
         }
     }
-    
     
     /// - Parameter invitationCode: 동아리 참가 코드
     ///
@@ -165,6 +166,21 @@ class GroupStore: ObservableObject {
         } catch {
             print("checkedJoinGroup error: \(error.localizedDescription)")
             return .notValidated
+        }
+    }
+    
+    // MARK: - 가입한 동아리의 id를 UserCollection에 넣는 함수
+    func addGroupsInUser(_ user: User, joinedGroupId: String) async {
+        do {
+            var oldGroups = user.groupID
+            oldGroups.append(joinedGroupId)
+            try await database.collection("User")
+                .document(user.id)
+                .updateData([
+                    "group_id": oldGroups
+                ])
+        } catch {
+            print("addGroupsInUser error: \(error.localizedDescription)")
         }
     }
 }
