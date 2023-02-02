@@ -124,8 +124,13 @@ class GroupStore: ObservableObject {
         let status = await checkedGroupCode(code)
         switch status {
         case .validated(let groupId):
+            // FIXME: - userGroups을 파라미터로 받은 user group으로 변경해야함
+            let userGroups: [String] = []
+            if userGroups.contains(groupId) {
+                return .alreadyJoined
+            }
+            //FIXME: - 1. USer Collection의 groupid에 추가하기
             do {
-                // FIXME: - 동아리에 이미 가입되었는지 확인하는 로직이 필요함
                 try await database.collection("Group")
                     .document(groupId)
                     .collection("Member")
@@ -134,6 +139,7 @@ class GroupStore: ObservableObject {
                         "uid": uid,
                         "position": "구성원"
                     ])
+                await fetchGroups(uid)
                 return .newJoined
                 
             } catch {
@@ -160,10 +166,5 @@ class GroupStore: ObservableObject {
             print("checkedJoinGroup error: \(error.localizedDescription)")
             return .notValidated
         }
-    }
-    
-    /// 가입된 동아리인지 확인하는 메소드
-    func isJoinedGroup() {
-        
     }
 }
