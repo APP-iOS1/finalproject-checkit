@@ -21,7 +21,7 @@ struct CategoryView: View {
                 .padding()
             
             HStack {
-                ForEach(categories.indices) { i in
+                ForEach(categories.indices, id: \.self) { i in
                     Button(action: {
                         clickedIndex = i
                     }, label: {
@@ -68,13 +68,21 @@ struct CategoryView: View {
                 GroupScheduleView(group: group)
             }
             if clickedIndex == 1 {
-                AttendanceStatusView()
+                AttendanceStatusView(scheduleIDList: group.scheduleID)
             }
             if clickedIndex == 2 {
                 GroupInformationView()
             }
             
             Spacer()
+        }
+        .onAppear {
+            print(group.name, "네임")
+            print(group.scheduleID, "Sssss")
+            
+        }
+        .onDisappear {
+            print(group.scheduleID, "---------")
         }
     }
 }
