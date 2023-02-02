@@ -15,10 +15,10 @@ struct AttendanceStatusView: View {
     var body: some View {
         ScrollView {
             Text("\(test), ㄴㅇ")
-            ForEach(scheduleStore.scheduleList.indices, id: \.self) { index in
-                AttendanceStatusListCell(schedule: scheduleStore.scheduleList[index], attendance: attendanceStore.attendanceList[index])
-
-            }
+//            ForEach(scheduleStore.scheduleList.indices, id: \.self) { index in
+//                AttendanceStatusListCell(schedule: scheduleStore.scheduleList[index], attendance: attendanceStore.attendanceList[index])
+//
+//            }
 
         }
         .onAppear {
@@ -30,7 +30,7 @@ struct AttendanceStatusView: View {
 //            attendanceStore.fetchUserAttendance(scheduleID: scheduleIDList?[2] ?? "") { value in
 //                test = value
 //            }
-            scheduleStore.fetchUserScheduleList(scheduleList: scheduleIDList ?? [""])
+//            scheduleStore.fetchUserScheduleList(scheduleList: scheduleIDList ?? [""])
         }
     }
 }
