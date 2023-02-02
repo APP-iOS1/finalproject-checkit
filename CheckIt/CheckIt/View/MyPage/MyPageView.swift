@@ -11,13 +11,13 @@ struct MyPageView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var groupStores: GroupStore
     var userName: String {
-        userStore.fetchUserData()?.displayName ?? "N/A"
+        userStore.userData?.displayName ?? "N/A"
     }
    var userEmail: String {
-        userStore.fetchUserData()?.email ?? "N/A"
+        userStore.userData?.email ?? "N/A"
     }
     var userImageURL: URL {
-        userStore.fetchUserData()?.photoURL ?? URL(string: "N/A")!
+        userStore.userData?.photoURL ?? URL(string: "N/A")!
     }
     
     
