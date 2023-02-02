@@ -14,8 +14,9 @@ class ScheduleStore: ObservableObject {
     let database = Firestore.firestore()
     
     // MARK: - fetchSchedule 함수
-    func fetchSchedule() {
-        database.collection("Schedule").whereField("id", isEqualTo: "허미니의또구동아리")
+    
+    func fetchSchedule(gruopName: String) {
+           database.collection("Schedule").whereField("group_name", isEqualTo: gruopName)
             .getDocuments { (snapshot, error) in
                 self.scheduleList.removeAll()
                 
