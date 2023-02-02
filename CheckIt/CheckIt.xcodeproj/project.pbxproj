@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A3CB25E298A614E00EA5E84 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB25D298A614E00EA5E84 /* Card.swift */; };
 		1A41F4402977A8D40051F464 /* GroupScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */; };
 		1A41F4422977A8F70051F464 /* AddScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4412977A8F70051F464 /* AddScheduleView.swift */; };
 		1A41F4442977AA600051F464 /* AttendanceStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4432977AA600051F464 /* AttendanceStatusView.swift */; };
@@ -27,6 +28,8 @@
 		2822CE262988DE1400316139 /* AttendanceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE252988DE1400316139 /* AttendanceStore.swift */; };
 		2822CE282988DE3300316139 /* MemberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE272988DE3300316139 /* MemberStore.swift */; };
 		283B27B32989F20E00E4D400 /* GroupMainDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B27B22989F20E00E4D400 /* GroupMainDetailView.swift */; };
+		2845444D298A26F1001B2EED /* Ex+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845444C298A26F1001B2EED /* Ex+Date.swift */; };
+		2845444F298A2DAC001B2EED /* Ex+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845444E298A2DAC001B2EED /* Ex+String.swift */; };
 		2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE322977AC1D00D8CAFB /* LoginView.swift */; };
 		2869DE362977B00C00D8CAFB /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 2869DE352977B00C00D8CAFB /* GoogleSignIn */; };
 		2869DE382977B00C00D8CAFB /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2869DE372977B00C00D8CAFB /* GoogleSignInSwift */; };
@@ -60,6 +63,11 @@
 		A5FF27A82977C3F30059C312 /* PremiumRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A72977C3F30059C312 /* PremiumRateView.swift */; };
 		A5FF27AA2977D1D00059C312 /* QuitGroupAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27A92977D1D00059C312 /* QuitGroupAlert.swift */; };
 		A5FF27AC2977D2640059C312 /* alertTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FF27AB2977D2640059C312 /* alertTestView.swift */; };
+		FD03F4CA298B3D0E005B355D /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = FD03F4C9298B3D0E005B355D /* AlertToast */; };
+		FD03F4CD298B3E90005B355D /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = FD03F4CC298B3E90005B355D /* SDWebImageSwiftUI */; };
+		FD03F4D0298B3F7A005B355D /* FirebaseDatabaseUI in Frameworks */ = {isa = PBXBuildFile; productRef = FD03F4CF298B3F7A005B355D /* FirebaseDatabaseUI */; };
+		FD03F4D2298B3F7A005B355D /* FirebaseFirestoreUI in Frameworks */ = {isa = PBXBuildFile; productRef = FD03F4D1298B3F7A005B355D /* FirebaseFirestoreUI */; };
+		FD03F4D4298B3F7A005B355D /* FirebaseStorageUI in Frameworks */ = {isa = PBXBuildFile; productRef = FD03F4D3298B3F7A005B355D /* FirebaseStorageUI */; };
 		FD2D07F7297BFCB900CC010E /* GeoCodingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D07F6297BFCB900CC010E /* GeoCodingResponse.swift */; };
 		FD2D07FB297BFDEC00CC010E /* GeoCodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */; };
 		FD2D07FE297BFE3000CC010E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FD2D07FD297BFE3000CC010E /* Alamofire */; };
@@ -114,6 +122,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A3CB25D298A614E00EA5E84 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScheduleView.swift; sourceTree = "<group>"; };
 		1A41F4412977A8F70051F464 /* AddScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleView.swift; sourceTree = "<group>"; };
 		1A41F4432977AA600051F464 /* AttendanceStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceStatusView.swift; sourceTree = "<group>"; };
@@ -134,6 +143,8 @@
 		2822CE252988DE1400316139 /* AttendanceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AttendanceStore.swift; path = CheckIt/Model/AttendanceStore.swift; sourceTree = SOURCE_ROOT; };
 		2822CE272988DE3300316139 /* MemberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MemberStore.swift; path = CheckIt/Model/MemberStore.swift; sourceTree = SOURCE_ROOT; };
 		283B27B22989F20E00E4D400 /* GroupMainDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMainDetailView.swift; sourceTree = "<group>"; };
+		2845444C298A26F1001B2EED /* Ex+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Date.swift"; sourceTree = "<group>"; };
+		2845444E298A2DAC001B2EED /* Ex+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+String.swift"; sourceTree = "<group>"; };
 		2869DE322977AC1D00D8CAFB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
@@ -200,16 +211,21 @@
 				FD4E25E4297785E800F6F875 /* FirebaseDatabaseSwift in Frameworks */,
 				FD4E25DA297785E800F6F875 /* FirebaseAnalyticsSwift in Frameworks */,
 				FD4E25E0297785E800F6F875 /* FirebaseAuthCombine-Community in Frameworks */,
+				FD03F4CA298B3D0E005B355D /* AlertToast in Frameworks */,
+				FD03F4D4298B3F7A005B355D /* FirebaseStorageUI in Frameworks */,
 				FD4E25EE297785E800F6F875 /* FirebaseStorageCombine-Community in Frameworks */,
+				FD03F4D0298B3F7A005B355D /* FirebaseDatabaseUI in Frameworks */,
 				FD4E25E8297785E800F6F875 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				FD4E25DE297785E800F6F875 /* FirebaseAuth in Frameworks */,
 				FD4E25EC297785E800F6F875 /* FirebaseStorage in Frameworks */,
 				FD4E25EA297785E800F6F875 /* FirebaseFirestoreSwift in Frameworks */,
 				FD2D07FE297BFE3000CC010E /* Alamofire in Frameworks */,
 				FD4E25D6297785E800F6F875 /* FirebaseAnalytics in Frameworks */,
+				FD03F4CD298B3E90005B355D /* SDWebImageSwiftUI in Frameworks */,
 				FD4E25E6297785E800F6F875 /* FirebaseFirestore in Frameworks */,
 				FD4E25D8297785E800F6F875 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				FD4E25E2297785E800F6F875 /* FirebaseDatabase in Frameworks */,
+				FD03F4D2298B3F7A005B355D /* FirebaseFirestoreUI in Frameworks */,
 				FD4E25DC297785E800F6F875 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				2869DE362977B00C00D8CAFB /* GoogleSignIn in Frameworks */,
 			);
@@ -247,6 +263,15 @@
 			path = Master;
 			sourceTree = "<group>";
 		};
+		283B27B4298A266800E4D400 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2845444C298A26F1001B2EED /* Ex+Date.swift */,
+				2845444E298A2DAC001B2EED /* Ex+String.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		FD2D07F8297BFD2500CC010E /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,6 +304,7 @@
 		FD4E259B297783CC00F6F875 /* CheckIt */ = {
 			isa = PBXGroup;
 			children = (
+				283B27B4298A266800E4D400 /* Extensions */,
 				FD03F4BC2988F4BD005B355D /* Info.plist */,
 				FD4E25D22977859E00F6F875 /* GoogleService-Info.plist */,
 				FD4E259C297783CC00F6F875 /* CheckItApp.swift */,
@@ -334,6 +360,7 @@
 		FD4E25C7297783D900F6F875 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1A3CB25D298A614E00EA5E84 /* Card.swift */,
 				864DC48E2977B962005DB201 /* DateValue.swift */,
 				2807AA98297A514D00B1676C /* AttendanceCategory.swift */,
 				2822CE152988AFEC00316139 /* User.swift */,
@@ -506,6 +533,11 @@
 				2869DE352977B00C00D8CAFB /* GoogleSignIn */,
 				2869DE372977B00C00D8CAFB /* GoogleSignInSwift */,
 				FD2D07FD297BFE3000CC010E /* Alamofire */,
+				FD03F4C9298B3D0E005B355D /* AlertToast */,
+				FD03F4CC298B3E90005B355D /* SDWebImageSwiftUI */,
+				FD03F4CF298B3F7A005B355D /* FirebaseDatabaseUI */,
+				FD03F4D1298B3F7A005B355D /* FirebaseFirestoreUI */,
+				FD03F4D3298B3F7A005B355D /* FirebaseStorageUI */,
 			);
 			productName = CheckIt;
 			productReference = FD4E2599297783CC00F6F875 /* CheckIt.app */;
@@ -583,6 +615,9 @@
 				FD4E25D4297785E800F6F875 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				2869DE342977B00C00D8CAFB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				FD2D07FC297BFE3000CC010E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				FD03F4C8298B3D0E005B355D /* XCRemoteSwiftPackageReference "AlertToast" */,
+				FD03F4CB298B3E90005B355D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				FD03F4CE298B3F7A005B355D /* XCRemoteSwiftPackageReference "FirebaseUI-iOS" */,
 			);
 			productRefGroup = FD4E259A297783CC00F6F875 /* Products */;
 			projectDirPath = "";
@@ -640,6 +675,7 @@
 				A5FF27A22977AD640059C312 /* QuestionView.swift in Sources */,
 				FD2D0800297C0FB100CC010E /* CustomSymbols.swift in Sources */,
 				FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */,
+				1A3CB25E298A614E00EA5E84 /* Card.swift in Sources */,
 				A5FF27A02977AD3F0059C312 /* MyPageView.swift in Sources */,
 				A5FF27A62977BD130059C312 /* Profile.swift in Sources */,
 				2822CE182988B06400316139 /* Group.swift in Sources */,
@@ -674,6 +710,7 @@
 				2869DE402977CC8800D8CAFB /* AttendanceCellView.swift in Sources */,
 				2BDA61FD2982705700FDD307 /* CustomTextField.swift in Sources */,
 				FD4E259D297783CC00F6F875 /* CheckItApp.swift in Sources */,
+				2845444F298A2DAC001B2EED /* Ex+String.swift in Sources */,
 				A5FF27AA2977D1D00059C312 /* QuitGroupAlert.swift in Sources */,
 				A5FF27AC2977D2640059C312 /* alertTestView.swift in Sources */,
 				2869DE3E2977CC5400D8CAFB /* AttendanceView.swift in Sources */,
@@ -690,6 +727,7 @@
 				A5C48C0D297A506D007D49DF /* GroupInformationView.swift in Sources */,
 				1A41F4482977AE3C0051F464 /* CategoryView.swift in Sources */,
 				1A41F4422977A8F70051F464 /* AddScheduleView.swift in Sources */,
+				2845444D298A26F1001B2EED /* Ex+Date.swift in Sources */,
 				864DC48F2977B962005DB201 /* DateValue.swift in Sources */,
 				2822CE202988DDC600316139 /* UserStore.swift in Sources */,
 				864DC4892977B2F9005DB201 /* CustomDatePickerView.swift in Sources */,
@@ -853,7 +891,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = JB8T59WMFR;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckIt/Info.plist;
@@ -889,7 +927,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = JB8T59WMFR;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckIt/Info.plist;
@@ -1043,6 +1081,30 @@
 				minimumVersion = 6.2.4;
 			};
 		};
+		FD03F4C8298B3D0E005B355D /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		FD03F4CB298B3E90005B355D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		FD03F4CE298B3F7A005B355D /* XCRemoteSwiftPackageReference "FirebaseUI-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/FirebaseUI-iOS.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		FD2D07FC297BFE3000CC010E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
@@ -1071,6 +1133,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2869DE342977B00C00D8CAFB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		FD03F4C9298B3D0E005B355D /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD03F4C8298B3D0E005B355D /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
+		FD03F4CC298B3E90005B355D /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD03F4CB298B3E90005B355D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+		FD03F4CF298B3F7A005B355D /* FirebaseDatabaseUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD03F4CE298B3F7A005B355D /* XCRemoteSwiftPackageReference "FirebaseUI-iOS" */;
+			productName = FirebaseDatabaseUI;
+		};
+		FD03F4D1298B3F7A005B355D /* FirebaseFirestoreUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD03F4CE298B3F7A005B355D /* XCRemoteSwiftPackageReference "FirebaseUI-iOS" */;
+			productName = FirebaseFirestoreUI;
+		};
+		FD03F4D3298B3F7A005B355D /* FirebaseStorageUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD03F4CE298B3F7A005B355D /* XCRemoteSwiftPackageReference "FirebaseUI-iOS" */;
+			productName = FirebaseStorageUI;
 		};
 		FD2D07FD297BFE3000CC010E /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

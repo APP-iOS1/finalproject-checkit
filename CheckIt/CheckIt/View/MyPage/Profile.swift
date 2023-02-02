@@ -8,19 +8,38 @@
 import SwiftUI
 
 struct Profile: View {
-    @Binding var userEmailvalue: String
+    var userEmailvalue: String
+    var userImageURL: URL
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 15)
                 .foregroundColor(.myLightGray)
             VStack {
-                Image(systemName: "scribble")
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
-                    .overlay {
-                        Circle().stroke(Color.myGray, lineWidth: 2)
-                    }
-                    .padding(.top, 23)
+//                Image(systemName: "scribble")
+//                    .frame(width: 100, height: 100)
+//                    .clipShape(Circle())
+//                    .overlay {
+//                        Circle().stroke(Color.myGray, lineWidth: 2)
+//                    }
+//                    .padding(.top, 23)
+                
+                AsyncImage(
+                                url: userImageURL,
+                                content: { image in
+                                    image
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                        .overlay {
+                                            Circle().stroke(Color.myGray, lineWidth: 2)
+                                        }
+                                        .padding(.top, 23)
+                                },
+                                placeholder: {
+                                    ProgressView()
+                                }
+                            )
+                
+                
                 Text(userEmailvalue)
                     .font(.system(size: 13, weight: .medium))
                     .padding(.top, 18)
@@ -47,9 +66,9 @@ struct Profile: View {
         .frame(height: 250)
     }
 }
-
-struct Profile_Previews: PreviewProvider {
-    static var previews: some View {
-        Profile(userEmailvalue: .constant("captainHuh@naver.com"))
-    }
-}
+//
+//struct Profile_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Profile(userEmailvalue: "captainHuh@naver.com", userImageURL: URL)
+//    }
+//}

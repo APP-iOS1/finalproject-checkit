@@ -11,7 +11,7 @@ import GoogleSignIn
 import GoogleSignInSwift
 
 struct LoginView: View {
-    
+    @EnvironmentObject var userStore: UserStore
     var kakaoLoginButton: some View {
         Button(action: {
             
@@ -47,6 +47,25 @@ struct LoginView: View {
         })
     }
     
+    // google login button custom
+    var googleLoginButton: some View {
+        RoundedRectangle(cornerRadius: 10)
+            .stroke(Color.myGray)
+            .frame(width: 280, height: 50)
+            .overlay{
+                HStack {
+                    Spacer()
+                    Image("google_logo")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                    
+                    //FIXME: Robot 글꼴 적용해야함
+                    Text("Sign in with Google")
+                    Spacer()
+                }
+            }
+    }
+    
     var body: some View {
         VStack {
             Spacer()
@@ -55,7 +74,7 @@ struct LoginView: View {
                 .resizable()
                 .scaledToFit()
             
-            // FIXME - 수정 예정
+            //FIXME: - 수정 예정
             Text("동아리 관리는 Check - It")
                 .font(.title2)
             
@@ -66,12 +85,23 @@ struct LoginView: View {
             
             kakaoLoginButton
             
-            naverLoginButton
+//            naverLoginButton
             
-            GoogleSignInButton(action: signInWithGoogle)
-                .frame(width: 280, height: 60)
-                .cornerRadius(12)
+//            GoogleSignInButton(action: signInWithGoogle)
+//                .frame(width: 280, height: 60)
+//                .cornerRadius(12)
             
+            // 구글로 로그인
+            Button(action: {
+                userStore.loginCenter = .google
+                Task {
+                    let credential = await GoogleLoginStore().signIn()
+                    await userStore.signIn(credential: credential)
+                }
+            }) { googleLoginButton }
+            
+            
+  
             Spacer()
         }
     }
@@ -82,5 +112,6 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
+            .environmentObject(UserStore())
     }
 }
