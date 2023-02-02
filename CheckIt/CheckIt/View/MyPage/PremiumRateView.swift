@@ -8,110 +8,115 @@
 import SwiftUI
 
 struct premiumRateView: View {
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         
         VStack(alignment: .leading, spacing: 20) {
             Spacer()
             
-            VStack(alignment: .center, spacing: 20) {
+            VStack(alignment: .center, spacing: 15) {
+                // FIXME: - 로고 이미지 수정해야함
+                Image("CheckItLogo")
+                    .resizable()
+                    .scaledToFit()
+                
                 Text("Premium 요금제")
-                    .font(.largeTitle).bold()
+                    .font(.system(size: 24, weight: .bold))
                 
                 HStack {
                     Image(systemName: "wonsign")
-                        .font(.title2)
-                        .fontWeight(.semibold)
+                        .font(.system(size: 16, weight: .bold))
                     
                     Text("3,900 / 월")
-                        .font(.title).bold()
+                        .font(.system(size: 22, weight: .bold))
                 }
                 .foregroundColor(.myRed)
                 
-                Text("동아리 최대 인원 수의 제한 해제,\n광고 제거, Custom QR Code,\nCustom MapPin, 등의 서비스를 제공합니다.")
-                    .font(.title2)
+                Text("동아리 최대 인원 수의 제한 해제, 광고 제거, Custom QR Code, Custom MapPin,\n등의 서비스를 제공합니다.")
+                    .font(.system(size: 17, weight: .regular))
             }
             .padding(5)
             
             VStack(alignment: .leading, spacing: 5) {
                 Text("최대 인원 8명")
-                    .font(.title3)
-                    .foregroundColor(.myGray)
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundColor(.gray)
                 
                 HStack {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(.myOrange)
+                        .foregroundColor(.yellow)
                     
                     Text("최대 인원 무제한")
                         .foregroundColor(.myGreen)
                 }
-                .font(.title).bold()
+                .font(.system(size: 20, weight: .bold))
                 
             }
             
             VStack(alignment: .leading, spacing: 5) {
                 Text("광고 포함")
-                    .font(.title3)
-                .foregroundColor(.myGray)
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundColor(.gray)
                 
                 HStack {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(.myOrange)
-
+                        .foregroundColor(.yellow)
+                    
                     
                     Text("광고 제거")
                         .foregroundColor(.myGreen)
                 }
-                .font(.title).bold()
+                .font(.system(size: 20, weight: .bold))
             }
             
             VStack(alignment: .leading, spacing: 5) {
                 
                 Text("Basic QR Code 제공")
-                    .font(.title3)
-                    .foregroundColor(.myGray)
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundColor(.gray)
                 
                 HStack {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(.myOrange)
+                        .foregroundColor(.yellow)
                     
                     
                     Text("Custom QR Code")
                         .foregroundColor(.myGreen)
                 }
-                .font(.title).bold()
+                .font(.system(size: 20, weight: .bold))
             }
             
             VStack(alignment: .leading, spacing: 5) {
                 
                 Text("Basic MapPin 제공")
-                    .font(.title3)
-                    .foregroundColor(.myGray)
-
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundColor(.gray)
+                
                 HStack {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(.myOrange)
-
+                        .foregroundColor(.yellow)
+                    
                     
                     Text("Custom MapPin")
                         .foregroundColor(.myGreen)
                 }
-                .font(.title).bold()
+                .font(.system(size: 20, weight: .bold))
             }
             
-            Button(action: {}){
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.myGreen)
-                    .frame(width: .infinity, height: 60)
-                    .overlay {
-                        Text("결제하기")
-                            .font(.title3)
-                            .foregroundColor(.white)
-                            .bold()
-                    }
-            }.padding(.vertical, 25)
+            Spacer()
+            
+            // MARK: - 결제하기 버튼
+            Button {
+                dismiss()
+            } label: {
+                Text("결제하기")
+                    .modifier(GruopCustomButtonModifier())
+            }
 
+            Spacer()
         }
-        .padding(.horizontal, 35)
+        .padding(.horizontal, 40)
     }
 }
 
