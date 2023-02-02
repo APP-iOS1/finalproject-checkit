@@ -27,7 +27,7 @@ struct QuestionView: View {
             Divider()
                 .padding(.horizontal, 24)
             NavigationLink(destination: Text("고객센터")) {
-                MyPageButton(buttonTitle: $openSourceLicenseTitle)
+                MyPageButton(buttonTitle: $customServiceTitle)
             }
             Divider()
                 .padding(.horizontal, 24)
