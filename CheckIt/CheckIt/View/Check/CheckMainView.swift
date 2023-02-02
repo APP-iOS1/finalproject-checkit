@@ -88,7 +88,7 @@ struct CheckMainView: View {
                 
                 Spacer()
             }
-            .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.top))
+//            .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.top))
             //            .navigationBarTitle("Carousel List")
             .animation(.spring())
             .onAppear {

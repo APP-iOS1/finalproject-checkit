@@ -10,11 +10,12 @@ import SwiftUI
 struct CheckItCard: View {
     var data: Card
     //    var isActiveButton: Bool = true
+    @State var animationAmount: CGFloat = 1
     
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
             .frame(width: 330, height: 500)
-            .foregroundColor(.gray)
+            .foregroundColor(.white)
             .overlay {
                 VStack(alignment: .center) {
                     Spacer()
@@ -52,8 +53,12 @@ struct CheckItCard: View {
                     Spacer()
                     
                 } // - VStack
-                .frame(width: UIScreen.main.bounds.width - 20, height: data.show ? 600 : 500)
-                .background(Color.white)
+                .frame(
+                    width: data.show ? UIScreen.main.bounds.width - 20 : UIScreen.main.bounds.width - 40,
+                    height: data.show ? 600 : 400
+                )
+                .scaleEffect(data.show ? 1 : 0.7)
+                .background(Color.myLightGray)
                 .cornerRadius(25)
             } // - overlay
 //            .padding(.leading, 20)
