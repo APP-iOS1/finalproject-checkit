@@ -41,29 +41,28 @@ struct Profile: View {
                 
                 
                 Text(userEmailvalue)
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.system(size: 18, weight: .semibold))
                     .padding(.top, 18)
                     .padding(.bottom, 24)
                 
-                Button {
-                    print("dd")
-                } label: {
-                    RoundedRectangle(cornerRadius: 15)
-                        .frame(height: 50)
-                        .foregroundColor(.myGreen)
-                            .overlay {
-                                Text("프로필 편집")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 20, weight: .regular))
-                            }
-                }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 20)
+//                Button {
+//                    print("dd")
+//                } label: {
+//                    RoundedRectangle(cornerRadius: 15)
+//                        .frame(height: 50)
+//                        .foregroundColor(.myGreen)
+//                            .overlay {
+//                                Text("프로필 편집")
+//                                    .foregroundColor(.white)
+//                                    .font(.system(size: 20, weight: .regular))
+//                            }
+//                }
+//                .padding(.horizontal, 16)
+//                .padding(.bottom, 20)
 
-                
             }
         }
-        .frame(height: 250)
+        .frame(height: 200)
     }
 }
 //
