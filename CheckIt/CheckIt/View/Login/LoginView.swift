@@ -9,13 +9,18 @@ import SwiftUI
 import AuthenticationServices
 import GoogleSignIn
 import GoogleSignInSwift
+import KakaoSDKAuth
+import KakaoSDKUser
 
 struct LoginView: View {
     @EnvironmentObject var userStore: UserStore
-    var kakaoLoginButton: some View {
+    
+    // kakao login button custom
+    private var kakaoLoginButton: some View {
         Button(action: {
-            
-        }, label: {
+            userStore.loginCenter = .kakao
+            userStore.kakaoLoginWithFirebase()
+        }) {
             HStack {
                 Image(systemName: "message.fill")
                 
@@ -24,11 +29,40 @@ struct LoginView: View {
             .frame(width: 280, height: 50)
             .background(Color("kakao"))
             .cornerRadius(12)
-        })
-        .foregroundColor(.black)
+            .foregroundColor(.black)
+        }
     }
     
-    var naverLoginButton: some View {
+    // google login button custom
+    private var googleLoginButton: some View {
+        Button(action: {
+            userStore.loginCenter = .google
+            Task {
+                let credential = await GoogleLoginStore().signIn()
+                let user = await userStore.signIn(credential: credential)
+            }
+        }) {
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.myGray)
+                .foregroundColor(.white)
+                .frame(width: 280, height: 50)
+                .overlay{
+                    HStack {
+                        Spacer()
+                        Image("google_logo")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                        
+                        //FIXME: Robot 글꼴 적용해야함
+                        Text("Sign in with Google")
+                        Spacer()
+                    }
+                }
+        }
+    }
+    
+    // naver login button custom
+    private var naverLoginButton: some View {
         Button(action: {
             
         }, label: {
@@ -47,25 +81,6 @@ struct LoginView: View {
         })
     }
     
-    // google login button custom
-    var googleLoginButton: some View {
-        RoundedRectangle(cornerRadius: 10)
-            .stroke(Color.myGray)
-            .frame(width: 280, height: 50)
-            .overlay{
-                HStack {
-                    Spacer()
-                    Image("google_logo")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                    
-                    //FIXME: Robot 글꼴 적용해야함
-                    Text("Sign in with Google")
-                    Spacer()
-                }
-            }
-    }
-    
     var body: some View {
         VStack {
             Spacer()
@@ -80,33 +95,19 @@ struct LoginView: View {
             
             Spacer()
             
+            // 애플 로그인
             SignInWithAppleButton(onRequest: { _ in }, onCompletion: { _ in })
                 .frame(width: 280, height: 50)
             
+            // 카카오 로그인
             kakaoLoginButton
             
-//            naverLoginButton
-            
-//            GoogleSignInButton(action: signInWithGoogle)
-//                .frame(width: 280, height: 60)
-//                .cornerRadius(12)
-            
-            // 구글로 로그인
-            Button(action: {
-                userStore.loginCenter = .google
-                Task {
-                    let credential = await GoogleLoginStore().signIn()
-                    await userStore.signIn(credential: credential)
-                }
-            }) { googleLoginButton }
-            
-            
-  
+            // 구글 로그인
+            googleLoginButton
+   
             Spacer()
         }
     }
-    
-    func signInWithGoogle() { }
 }
 
 struct LoginView_Previews: PreviewProvider {
