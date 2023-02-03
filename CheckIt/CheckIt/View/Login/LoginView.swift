@@ -97,7 +97,12 @@ struct LoginView: View {
                 Task {
                     let credential = await GoogleLoginStore().signIn()
                     await userStore.signIn(credential: credential)
+                    print(userStore.userData?.uid ?? "ZA")
+//                    await userStore.fetchUser(userStore.userData?.uid ?? "NA")
+                    
+                    
                 }
+                
             }) { googleLoginButton }
             
             

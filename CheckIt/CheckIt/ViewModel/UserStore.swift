@@ -116,6 +116,7 @@ class UserStore: ObservableObject {
          //FIXME: async로 변경해야 함 (completion Handler 안에 async 돌리는 경우 잘 없음)
           Auth.auth().signIn(with: credential) { [unowned self] authResult, error in
 //              var isUser: Bool = true
+              print("signIncompletion")
                if let error = error {
                     print("\(error.localizedDescription)")
                     return
@@ -131,19 +132,18 @@ class UserStore: ObservableObject {
                   if !isUserTemp {
                        addUser(userData: authResult?.user)
                   }
+                  await fetchUser(userData?.uid ?? "NA")
               }
                
 //              print(isUserTemp)
 //               print(userData?.email, "Firebase Login")
                
-//               // 회원이 아니면 회원가입 (db에 정보 업로드)
+               // 회원이 아니면 회원가입 (db에 정보 업로드)
 //               if !isUserTemp {
 //                    addUser(userData: authResult?.user)
 //               }
-              
-              fetchUserData(id: userData?.uid ?? "") { user in
-                  self.user = user
-              }
+//
+             
                self.toggleLoginState()
                completion(authResult?.user)
           }
@@ -159,9 +159,44 @@ class UserStore: ObservableObject {
           }
      } // - signIn
      
+    func fetchUserData(id: String) async -> User? {
+        return await withCheckedContinuation { continuation in
+             fetchUserDataCompletionHandler(id: id){ result in
+                  continuation.resume(returning: result)
+             }
+        }
+    }
+    
+    func fetchUser(_ uid: String) async {
+            do {
+                print("uid:",uid)
+                let querySnapshot = try await database.collection("User").document(uid).getDocument()
+    
+                guard let data = querySnapshot.data() else { print("data leak"); return }
+    
+                let id = data["id"] as? String ?? ""
+                let email = data["email"] as? String ?? ""
+                let name = data["name"] as? String ?? ""
+                let groupId = data["group_id"] as? [String] ?? []
+    
+                let user = User(id: id,
+                                email: email,
+                                name: name,
+                                groupID: groupId)
+    
+                print("파베에서 가져온 user: \(user)")
+    
+                DispatchQueue.main.async {
+                    self.user = user
+                }
+            } catch {
+                print("fetchUser error: \(error.localizedDescription)")
+            }
+        }
+    
     //MARK: - Method(fetchUserData)
     /// db에 있는 userData를 불러오는 메서드입니다.
-    func fetchUserData(id: String, completion: @escaping (User) -> ()) {
+    func fetchUserDataCompletionHandler(id: String, completion: @escaping (User?) -> ()) {
         var user: User = .init(id: "", email: "", name: "", groupID: [])
         database.collection("User")
             .document("\(id)")
@@ -175,7 +210,7 @@ class UserStore: ObservableObject {
                 user.id = document["id"] as? String ?? "N/A"
                 user.email = document["email"] as? String ?? "N/A"
                 user.name = document["name"] as? String ?? "N/A"
-                user.groupID = document["groupID"] as? [String] ?? []
+                user.groupID = document["group_id"] as? [String] ?? []
                 completion(user)
             }
         completion(user)
