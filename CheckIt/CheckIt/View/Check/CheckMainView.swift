@@ -13,8 +13,6 @@ struct CheckMainView: View {
     @State var screen = UIScreen.main.bounds.width - 30
     @State var op : CGFloat = 0
     
-    @State private var index = 0
-    
     //FIXME: 더미데이터입니다.
     @State var data = [
         Card(id: 0, dDay: "D-day", groupName: "허니미니의 또구 동아리", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: true, show: false),
@@ -30,7 +28,7 @@ struct CheckMainView: View {
                 
                 Spacer()
                 
-                HStack(spacing: 50) {
+                HStack(spacing: 47) {
                     
                     ForEach(data) { i in
                         VStack {
@@ -41,7 +39,7 @@ struct CheckMainView: View {
                                                          
                                         .onChanged({ (value) in
                                             
-                                            if value.translation.width > 0{
+                                            if value.translation.width > 0 {
                                                 self.x = value.location.x
                                             } else {
                                                 self.x = value.location.x - self.screen
@@ -49,7 +47,7 @@ struct CheckMainView: View {
                                         })
                                             .onEnded({ (value) in
                                                 
-                                                if value.translation.width > 0{
+                                                if value.translation.width > 0 {
                                                     if value.translation.width > ((self.screen - 80) / 2) && Int(self.count) != 0 {
                                                         
                                                         self.count -= 1
@@ -76,7 +74,7 @@ struct CheckMainView: View {
                                 ForEach(0..<data.count) { i in
                                     Circle()
                                         .fill(data[i].show == true ? Color.myGray : Color.myGray.opacity(0.4))
-                                        .frame(width: 15, height: 15)
+                                        .frame(width: 8, height: 8)
                                         .offset(y: 60)
                                 }
                             }
