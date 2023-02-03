@@ -47,6 +47,7 @@ struct GroupMainDetailView: View {
                     Text(group.description)
                         .font(.system(size: 15, weight: .regular))
                 }
+                .foregroundColor(.black)
                 
                 Spacer()
             }
