@@ -20,7 +20,7 @@ struct AttendanceStatusListCell: View {
             }
             VStack(alignment: .leading) {
                 HStack {
-                    Text(Date().hourMinuteDateToString(date: schedule?.startTime ?? Date()))
+                    Text(Date().yearMonthDayDateToString(date: schedule?.startTime ?? Date()))
                         .font(.headline)
                         .bold()
                     

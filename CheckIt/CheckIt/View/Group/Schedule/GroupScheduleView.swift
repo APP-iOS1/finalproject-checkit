@@ -66,7 +66,7 @@ struct GroupScheduleView: View {
                     }
                 }
                 .onAppear {
-                    scheduleStore.fetchSchedule(gruopName: group.name)
+                    
                 }
                 .refreshable {
                     scheduleStore.fetchSchedule(gruopName: group.name)

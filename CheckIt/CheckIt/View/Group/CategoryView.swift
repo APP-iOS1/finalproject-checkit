@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CategoryView: View {
     @State var clickedIndex: Int = 0
+    @EnvironmentObject var scheduleStore: ScheduleStore
     
     let categories: [String] = ["동아리 일정", "출석부", "동아리 정보"]
     var group: Group
@@ -79,7 +80,7 @@ struct CategoryView: View {
         .onAppear {
             print(group.name, "네임")
             print(group.scheduleID, "Sssss")
-            
+            scheduleStore.fetchSchedule(gruopName: group.name)
         }
         .onDisappear {
             print(group.scheduleID, "---------")
