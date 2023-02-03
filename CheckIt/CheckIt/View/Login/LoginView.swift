@@ -10,7 +10,6 @@ import AuthenticationServices
 import GoogleSignIn
 import GoogleSignInSwift
 
-
 struct LoginView: View {
     @EnvironmentObject var userStore: UserStore
     var kakaoLoginButton: some View {
@@ -101,7 +100,15 @@ struct LoginView: View {
 
             Spacer()
 
-            SignInWithAppleButton(onRequest: { _ in }, onCompletion: { _ in })
+            SignInWithAppleButton(onRequest: { request in
+                request.requestedScopes = [.fullName, .email]
+            }) { result in
+                let credential = AppleLoginStore().logIn(result: result)
+                Task {
+                    let isSuccessLogin = await userStore.signInWithCredential(credential: credential)
+                    if isSuccessLogin { userStore.loginCenter = .apple }
+                }
+            }
                 .frame(width: 280, height: 50)
 
             // 카카오 로그인
