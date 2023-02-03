@@ -59,14 +59,15 @@ class UserStore: ObservableObject {
     //MARK: - Async Method
     //MARK: - Method(signIn)
     /// Firebase 로그인 메서드입니다. credential을 제3자(애플, 구글)로부터  파라미터로 제공받아 파이어베이스 로그인에 연결합니다.
-    func signInWithCredential(credential: AuthCredential?) async {
-        guard let credential = credential else { return }
+    /// Return (로그인 성공 여부)
+    func signInWithCredential(credential: AuthCredential?) async -> Bool {
+        guard let credential = credential else { return false }
         let (authResult, error) = await firebaseSignIn(credential: credential)
         if let error {
             print("\(error.localizedDescription)")
-            return
+            return false
         }
-        guard let authResult else { return }
+        guard let authResult else { return false }
         self.userData = authResult.user
         
         let isUser = await isUserInDatabase(email: userData?.email ?? "N/A")
@@ -76,6 +77,7 @@ class UserStore: ObservableObject {
         }
         await fetchUser(self.userData?.uid ?? "N/A")
         self.toggleLoginState()
+        return true
     } // - signIn
     
     
@@ -230,100 +232,4 @@ class UserStore: ObservableObject {
 }
 
 
-////MARK: - Class(KakaoLoginStore)
-//class KakaoLoginStore {
-//
-//     func signInCompletionHandler() {
-//          // 카카오톡 실행 가능 여부 확인
-//          if (UserApi.isKakaoTalkLoginAvailable()) {
-//               UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-//                    if let error = error {
-//                         print("\(error.localizedDescription)")
-//                         return
-//                    }
-//                    print("loginWithKakaoTalk() success.")
-//
-//                    //do something
-//                    _ = oauthToken
-//                    print("\(oauthToken)")
-//
-//
-//
-//               }
-//          } else {
-//               //TODO: 카카오톡 설치 후 시도하라는 알럿 필요
-//               print("카카오톡 실행 불가")
-//          }
-//
-//
-//     }
-//
-//     func signIn() {
-//          // 이미 로그인 된 경우
-//          if (AuthApi.hasToken()) {
-//               UserApi.shared.accessTokenInfo { (accessTokenInfo, error) in
-//                    if let error = error {
-//                         if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
-//                              //로그인 필요
-//                              print("로그인이 필요합니다")
-//                              print("\(error.localizedDescription)")
-//                              if (UserApi.isKakaoTalkLoginAvailable()) {
-//                                   UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-//                                        if let error = error {
-//                                             print("\(error.localizedDescription)")
-//                                             return
-//                                        }
-//                                        print("loginWithKakaoTalk() success.")
-//
-//                                        //do something
-//                                        _ = oauthToken
-//                                        print(oauthToken?.accessToken)
-//
-//                                   }
-//                              } else {
-//                                   //TODO: 카카오톡 설치 후 시도하라는 알럿 필요
-//                                   print("카카오톡 실행 불가")
-//                              }
-//                              return
-//
-//                         }
-//                         else {
-//                              //기타 에러
-//                              print("\(error.localizedDescription)")
-//
-//                         }
-//                    }
-//                    else {
-//                         //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
-//                         print(accessTokenInfo?.expiresIn)
-//                    }
-//               }
-//               return
-//          }
-//          //FIXME: 불가능하면 알럿 띄워줘야 함.
-//          // 카카오톡 실행 가능 여부 확인
-//          else if (UserApi.isKakaoTalkLoginAvailable()) {
-//               UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-//                    if let error = error {
-//                         print("\(error.localizedDescription)")
-//                         return
-//                    }
-//                    print("loginWithKakaoTalk() success.")
-//
-//                    //do something
-//                    _ = oauthToken
-//                    print(oauthToken?.accessToken)
-//
-//               }
-//          } else {
-//               //TODO: 카카오톡 설치 후 시도하라는 알럿 필요
-//               print("카카오톡 실행 불가")
-//          }
-//
-//     }
-//     func signOut() {
-//          UserApi.shared.logout { error in
-//               return
-//          }
-//     }
-//}
+
