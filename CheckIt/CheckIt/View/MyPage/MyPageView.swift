@@ -28,14 +28,11 @@ struct MyPageView: View {
     var body: some View {
         VStack(alignment: .leading) {
             //            AsyncImage(url: userImageURL)
-            Spacer()
-            
             Text("반갑습니다, \n\(userName)님")
                 .lineLimit(2)
                 .font(.system(size: 32, weight: .bold))
-                .padding(.leading, 40)
-                .padding(.top)
-                .padding(.bottom)
+                .padding([.top, .leading], 40)
+                .padding(.bottom, 20)
             
             Profile(userEmailvalue: userEmail, userImageURL: userImageURL)
                 .padding(.horizontal, 40)
