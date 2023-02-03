@@ -135,13 +135,16 @@ struct CustomDatePickerView: View {
                     
                     HStack(spacing: 8) {
                         //FIXME: 3+ 라벨 처리
-                        let taskNum = (task.task.count < 3 ? task.task.count : 3)
+                        let taskNum = task.task.count
+//                        let taskNum = (task.task.count < 3 ? task.task.count : 3)
                         if taskNum > 3 {
                             Text("3+")
-                                .font(.caption2)
-                                .cornerRadius(5)
-                                .border(Color.myRed)
-//                                .frame(width: 9, height: 7)
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color.myRed)
+                                .frame(width: 28, height: 20)
+                                .overlay(RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.myRed, lineWidth: 2))
                         } else {
                             ForEach(0..<taskNum) {_ in
                                 Circle()
