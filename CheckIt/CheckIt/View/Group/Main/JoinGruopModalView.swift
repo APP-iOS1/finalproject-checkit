@@ -35,7 +35,7 @@ struct JoinGruopModalView: View {
             Button {
                 isJoined.toggle()
                 Task {
-                    let statusCode = await groupStores.joinGroup(invitationCode, uid: userStores.userData?.uid ?? "")
+                    let statusCode = await groupStores.joinGroup(invitationCode, user: userStores.user!)
                     showToast.toggle()
                     
                     switch statusCode {

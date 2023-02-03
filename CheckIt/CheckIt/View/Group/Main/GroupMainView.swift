@@ -55,7 +55,7 @@ struct GroupMainView: View {
         }
         .onAppear {
             Task {
-                await groupStores.fetchGroups(userStores.user?.id ?? "N/A")
+                await groupStores.fetchGroups(userStores.user!)
                 print("동아리들: \(groupStores.groups)")
             }
         }
