@@ -19,7 +19,7 @@ struct GroupMainDetailView: View {
                     // MARK: - 동아리 이미지
                     Image("chocobi")
                         .resizable()
-                        .frame(width: 90, height: 90)
+                        .frame(width: 85, height: 85)
                         .clipShape(Circle())
                     
                     ZStack {
@@ -41,12 +41,13 @@ struct GroupMainDetailView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     // MARK: - 동아리 이름
                     Text(group.name)
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.system(size: 18, weight: .semibold))
                     
                     // MARK: - 동아리 상세 내용
                     Text(group.description)
-                        .font(.system(size: 13, weight: .regular))
+                        .font(.system(size: 15, weight: .regular))
                 }
+                .foregroundColor(.black)
                 
                 Spacer()
             }

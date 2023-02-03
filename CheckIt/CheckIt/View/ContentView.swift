@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     var body: some View {
         TabView {
             CheckMainView()
                 .tabItem {
-                    Image(systemName: "checkmark.square.fill")
+                    Image(systemName: "checkmark.seal.fill")
                     Text("출석체크")
                 }
             GroupMainView()
@@ -20,18 +21,20 @@ struct ContentView: View {
                     Image(systemName: "house.fill")
                     Text("동아리")
                 }
+            
             CalendarView()
                 .tabItem {
                     Image(systemName: "calendar")
                     Text("캘린더")
                 }
+            
             MyPageView()
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("마이")
                 }
         }
-
+        .accentColor(Color.myGreen)
     }
 }
 

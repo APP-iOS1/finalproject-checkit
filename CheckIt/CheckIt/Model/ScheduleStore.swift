@@ -9,15 +9,17 @@ import Foundation
 import FirebaseFirestore
 
 class ScheduleStore: ObservableObject {
-    @Published var schedule: [Schedule] = []
+    @Published var scheduleList: [Schedule] = []
+    @Published var userScheduleList: [Schedule] = [] ///유저가 속해있는 스케줄 리스트
     
     let database = Firestore.firestore()
     
     // MARK: - fetchSchedule 함수
+    
     func fetchSchedule(gruopName: String) {
-        database.collection("Schedule").whereField("group_name", isEqualTo: gruopName)
+           database.collection("Schedule").whereField("group_name", isEqualTo: gruopName)
             .getDocuments { (snapshot, error) in
-                self.schedule.removeAll()
+                self.scheduleList.removeAll()
                 
                 if let snapshot {
                     for document in snapshot.documents {
@@ -39,12 +41,62 @@ class ScheduleStore: ObservableObject {
                         
                         let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo)
                         
-                        self.schedule.append(schedule)
-                        print(schedule)
+                        self.scheduleList.append(schedule)
+                                   
                     }
                 }
             }
     }
+    func fetchUserSchedule(scheduleID: String) {
+        database.collection("Schedule").whereField("id", isEqualTo: scheduleID)
+            .getDocuments { (snapshot, error) in
+                self.scheduleList.removeAll()
+                
+                if let snapshot {
+                    for document in snapshot.documents {
+                        let id: String = document.documentID
+                        let docData = document.data()
+                        
+                        let groupName: String = docData["groupName"] as? String ?? ""
+                        let lateFee: Int = docData["lateFee"] as? Int ?? 0
+                        let absenteeFee: Int = docData["absenteeFee"] as? Int ?? 0
+                        let location: String = docData["location"] as? String ?? ""
+                        let agreeTime: Int = docData["agreeTime"] as? Int ?? 0
+                        let memo: String = docData["memo"] as? String ?? ""
+                        
+                        let startTime: Timestamp = docData["startTime"] as? Timestamp ?? Timestamp()
+                        let startTimestamp: Date = startTime.dateValue()
+                        
+                        let endTime: Timestamp = docData["endTime"] as? Timestamp ?? Timestamp()
+                        let endTimestamp: Date = endTime.dateValue()
+                        
+                        let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo)
+                        
+                        self.scheduleList.append(schedule)
+                    }
+                }
+            }
+    }
+    
+    //schedule id 배열을 받아서 참석자 검증
+    func fetchUserScheduleList(scheduleList: [Schedule], userID : String, attendanceStore: AttendanceStore) {
+        Task {
+            for schedule in scheduleList {
+                let validId = await  attendanceStore.checkUserAttendance(scheduleID: schedule.id, id: userID)
+                print(validId, " valid")
+                if validId == true {
+                    DispatchQueue.main.async {
+                        self.userScheduleList.append(schedule)
+                    }
+                    
+                }
+            }
+            
+        }
+    }
+    
+    
+
     
     // MARK: - addSchedule 함수
     func addSchedule(_ schedule: Schedule, group: Group) async {

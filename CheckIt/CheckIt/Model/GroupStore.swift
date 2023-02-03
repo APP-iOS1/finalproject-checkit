@@ -28,7 +28,7 @@ class GroupStore: ObservableObject {
     // MARK: - 동아리를 개설하는 메소드
     /// - Parameter uid: 로그인한사용자의 uid 동아리 방장의 id
     /// - Parameter group: 사용자가 생성한 동아리 인스턴스
-    func createGroup(_ uid: String, group: Group) async {
+    func createGroup(_ user: User, group: Group) async {
         do {
             try await database.collection("Group")
                 .document(group.id)
@@ -42,8 +42,8 @@ class GroupStore: ObservableObject {
                     "schedule_id": group.scheduleID])
             
             // FIXME: - position관련 정보는 enum으로 수정 필요
-    
-            await createMember(database.collection("Group"), documentID: group.id, uid: uid, position: "방장")
+            await createMember(database.collection("Group"), documentID: group.id, uid: user.id, position: "방장")
+            await addGroupsInUser(user, joinedGroupId: group.id)
         } catch {
             print("동아리 생성 에러: \(error.localizedDescription)")
         }
@@ -73,18 +73,23 @@ class GroupStore: ObservableObject {
     // MARK: - 자신이 속한 동아리 데이터를 가져오는 메소드
     /// - Parameter uid: 로그인한 사용자의 uid
     /// 자신이 속한 동아리의 데이터를 groups 프로퍼티 래퍼에 저장한다.
-    func fetchGroups(_ uid: String) async {
+    func fetchGroups(_ user: User) async {
         // FIXME: - 현재 더미데이터로 유저가 속한 그룹의 id를 선언함
-        let groupID: [String] = ["bBpYMyPqY3OD1eIdRbGc", "A08B4C57-C0A7-4677-90D8-15E81F0C2E1B"]
+        let groupID: [String] = user.groupID
+        print("실행 groupId: \(user.groupID)")
         DispatchQueue.main.async {
             self.groups.removeAll()
+        }
+        
+        if user.groupID.isEmpty {
+            return
         }
         
         do {
             let querySnapshot = try await database.collection("Group")
                 .whereField("id", in: groupID)
                 .getDocuments()
-            
+            print("실행22")
             for document in querySnapshot.documents {
                 let data = document.data()
                 
@@ -94,7 +99,7 @@ class GroupStore: ObservableObject {
                 let image = data["image"] as? String ?? ""
                 let hostID = data["hostID"] as? String ?? ""
                 let description = data["description"] as? String ?? ""
-                let scheduleID = data["scheduleID"] as? [String] ?? []
+                let scheduleID = data["schedule_id"] as? [String] ?? []
                 
                 let group = Group(id: id,
                                   name: name,
@@ -112,6 +117,7 @@ class GroupStore: ObservableObject {
             print("동아리 가져오기 에러: \(error.localizedDescription)")
         }
     }
+    // MARK: - 동아리에 참가 후 User 컬렉션에
     
     // MARK: - 유저가 동아리에 참가하는 메소드
     /// - Parameter code: 동아리 참가 코드
@@ -120,20 +126,28 @@ class GroupStore: ObservableObject {
     ///
     ///  유저는 초대받은 코드를 입력하여 동아리에 참가하는 메소드
     ///  이때 Member컬렉션에 직책과 uid정보를 추가해야하며, user 컬렉션에 참가한 동아리id를 추가해야한다.
-    func joinGroup(_ code: String, uid: String) async -> GroupJoinStatus {
+    func joinGroup(_ code: String, user: User) async -> GroupJoinStatus {
         let status = await checkedGroupCode(code)
         switch status {
         case .validated(let groupId):
+            // FIXME: - userGroups을 파라미터로 받은 user group으로 변경해야함
+            let userGroups: [String] = user.groupID
+            if userGroups.contains(groupId) {
+                return .alreadyJoined
+            }
+            //FIXME: - 1. USer Collection의 groupid에 추가하기
             do {
-                // FIXME: - 동아리에 이미 가입되었는지 확인하는 로직이 필요함
                 try await database.collection("Group")
                     .document(groupId)
                     .collection("Member")
-                    .document(uid)
+                    .document(user.id)
                     .setData([
-                        "uid": uid,
+                        "uid": user.id,
                         "position": "구성원"
                     ])
+                //FIXME: - User를 파라미터의 User로 변경 필요
+                await addGroupsInUser(user, joinedGroupId: groupId)
+                await fetchGroups(user)
                 return .newJoined
                 
             } catch {
@@ -144,7 +158,6 @@ class GroupStore: ObservableObject {
             return .notValidated
         }
     }
-    
     
     /// - Parameter invitationCode: 동아리 참가 코드
     ///
@@ -162,8 +175,20 @@ class GroupStore: ObservableObject {
         }
     }
     
-    /// 가입된 동아리인지 확인하는 메소드
-    func isJoinedGroup() {
-        
+    // MARK: - 가입한 동아리의 id를 UserCollection에 넣는 함수
+    func addGroupsInUser(_ user: User, joinedGroupId: String) async {
+        do {
+            var oldGroups = user.groupID
+            print("addGroupsInUser user: \(user.groupID)")
+            oldGroups.append(joinedGroupId)
+            print("oldGroups: \(oldGroups)")
+            try await database.collection("User")
+                .document(user.id)
+                .updateData([
+                    "group_id": oldGroups
+                ])
+        } catch {
+            print("addGroupsInUser error: \(error.localizedDescription)")
+        }
     }
 }

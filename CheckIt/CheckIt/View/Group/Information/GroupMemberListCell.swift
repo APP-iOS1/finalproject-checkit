@@ -16,7 +16,7 @@ struct GroupMemberListCell: View {
                     .padding(.leading, 17)
                     .padding(.trailing, 0)
                 Text(data.memberName)
-                    .font(.system(size: 14, weight: .regular))
+                    .font(.system(size: 15, weight: .regular))
                     .lineLimit(1)
                     .frame(width: 52)
                     .padding(.leading, 25)
@@ -24,6 +24,7 @@ struct GroupMemberListCell: View {
                     print("dd")
                 } label: {
                     Image(systemName: "person.circle.fill")
+                        .foregroundColor(.black)
                 }
                 Spacer()
                 
@@ -32,8 +33,9 @@ struct GroupMemberListCell: View {
                 } label: {
                     Image(systemName: "xmark")
                         .resizable()
-                        .frame(width: 18, height: 18)
-                        .bold()
+                        .frame(width: 14, height: 14)
+                        .foregroundColor(.black)
+                        .fontWeight(.semibold)
                 }
                 .padding(.trailing, 17)
 
