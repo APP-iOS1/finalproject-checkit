@@ -33,43 +33,54 @@ struct CheckMainView: View {
                 HStack(spacing: 50) {
                     
                     ForEach(data) { i in
-                        
-                        CheckItCard(data: i)
-                            .offset(x: self.x)
-                            .highPriorityGesture(DragGesture()
-                                                 
-                                .onChanged({ (value) in
-                                    
-                                    if value.translation.width > 0{
-                                        self.x = value.location.x
-                                    } else {
-                                        self.x = value.location.x - self.screen
-                                    }
-                                })
-                                    .onEnded({ (value) in
-                                        
-                                        if value.translation.width > 0{
-                                            if value.translation.width > ((self.screen - 80) / 2) && Int(self.count) != 0{
-                                                
-                                                self.count -= 1
-                                                self.updateHeight(value: Int(self.count))
-                                                self.x = -((self.screen + 15) * self.count)
+                        VStack {
+                            HStack {
+                                CheckItCard(data: i)
+                                    .offset(x: self.x)
+                                    .highPriorityGesture(DragGesture()
+                                                         
+                                        .onChanged({ (value) in
+                                            
+                                            if value.translation.width > 0{
+                                                self.x = value.location.x
                                             } else {
-                                                self.x = -((self.screen + 15) * self.count)
+                                                self.x = value.location.x - self.screen
                                             }
-                                        } else {
-                                            if -value.translation.width > ((self.screen - 80) / 2) && Int(self.count) !=  (self.data.count - 1){
+                                        })
+                                            .onEnded({ (value) in
                                                 
-                                                self.count += 1
-                                                self.updateHeight(value: Int(self.count))
-                                                self.x = -((self.screen + 15) * self.count)
-                                            } else {
-                                                self.x = -((self.screen + 15) * self.count)
-                                            }
-                                        }
-                                    })
-                            )
-                        
+                                                if value.translation.width > 0{
+                                                    if value.translation.width > ((self.screen - 80) / 2) && Int(self.count) != 0 {
+                                                        
+                                                        self.count -= 1
+                                                        self.updateHeight(value: Int(self.count))
+                                                        self.x = -((self.screen + 15) * self.count)
+                                                    } else {
+                                                        self.x = -((self.screen + 15) * self.count)
+                                                    }
+                                                } else {
+                                                    if -value.translation.width > ((self.screen - 80) / 2) && Int(self.count) !=  (self.data.count - 1) {
+                                                        
+                                                        self.count += 1
+                                                        self.updateHeight(value: Int(self.count))
+                                                        self.x = -((self.screen + 15) * self.count)
+                                                    } else {
+                                                        self.x = -((self.screen + 15) * self.count)
+                                                    }
+                                                }
+                                            })
+                                    )
+                            }
+                            
+                            HStack {
+                                ForEach(0..<data.count) { i in
+                                    Circle()
+                                        .fill(data[i].show == true ? Color.myGray : Color.myGray.opacity(0.4))
+                                        .frame(width: 15, height: 15)
+                                        .offset(y: 60)
+                                }
+                            }
+                        }
                     }
                     
                 }
@@ -78,15 +89,6 @@ struct CheckMainView: View {
                 
                 Spacer()
                 
-                HStack {
-                    ForEach((0..<data.count), id: \.self) { index in
-                        Circle()
-                            .fill(index == self.index ? Color.myGray : Color.myGray.opacity(0.4))
-                            .frame(width: 15, height: 15)
-
-                    }
-                }
-                .offset(y: -30)
             }
 //            .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.top))
             //            .navigationBarTitle("Carousel List")
