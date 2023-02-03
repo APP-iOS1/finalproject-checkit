@@ -28,6 +28,7 @@
 		2822CE262988DE1400316139 /* AttendanceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE252988DE1400316139 /* AttendanceStore.swift */; };
 		2822CE282988DE3300316139 /* MemberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE272988DE3300316139 /* MemberStore.swift */; };
 		283B27B32989F20E00E4D400 /* GroupMainDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B27B22989F20E00E4D400 /* GroupMainDetailView.swift */; };
+		283B70B7298C98EF003782C3 /* GroupEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B70B6298C98EF003782C3 /* GroupEmptyView.swift */; };
 		2845444D298A26F1001B2EED /* Ex+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845444C298A26F1001B2EED /* Ex+Date.swift */; };
 		2845444F298A2DAC001B2EED /* Ex+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845444E298A2DAC001B2EED /* Ex+String.swift */; };
 		2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE322977AC1D00D8CAFB /* LoginView.swift */; };
@@ -142,6 +143,7 @@
 		2822CE252988DE1400316139 /* AttendanceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AttendanceStore.swift; path = CheckIt/Model/AttendanceStore.swift; sourceTree = SOURCE_ROOT; };
 		2822CE272988DE3300316139 /* MemberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MemberStore.swift; path = CheckIt/Model/MemberStore.swift; sourceTree = SOURCE_ROOT; };
 		283B27B22989F20E00E4D400 /* GroupMainDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMainDetailView.swift; sourceTree = "<group>"; };
+		283B70B6298C98EF003782C3 /* GroupEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEmptyView.swift; sourceTree = "<group>"; };
 		2845444C298A26F1001B2EED /* Ex+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Date.swift"; sourceTree = "<group>"; };
 		2845444E298A2DAC001B2EED /* Ex+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+String.swift"; sourceTree = "<group>"; };
 		2869DE322977AC1D00D8CAFB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 				2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */,
 				2BDA61F8297E939500FDD307 /* MainPlusSheetView.swift */,
 				2BDA61FC2982705700FDD307 /* CustomTextField.swift */,
+				283B70B6298C98EF003782C3 /* GroupEmptyView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -696,6 +699,7 @@
 				2807AA99297A514D00B1676C /* AttendanceCategory.swift in Sources */,
 				FD4E25F82977B9E900F6F875 /* CheckMapView.swift in Sources */,
 				FD4E25F02977AC8500F6F875 /* CheckItCard.swift in Sources */,
+				283B70B7298C98EF003782C3 /* GroupEmptyView.swift in Sources */,
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
 				2869DE442977CF0200D8CAFB /* LateCostCellView.swift in Sources */,
 				2822CE162988AFEC00316139 /* User.swift in Sources */,
