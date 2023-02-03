@@ -9,7 +9,6 @@ import AlertToast
 import SwiftUI
 
 struct AddScheduleView: View {
-    @Environment(\.dismiss) var dismiss
     @State private var startTime: Date = Date()
     @State private var endTime: Date = Date()
     @State private var place: String = ""
@@ -18,11 +17,12 @@ struct AddScheduleView: View {
     @State private var lateMin: Int = 0
     @State private var lateFee: Int = 0
     @State private var absentFee: Int = 0
+    
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @Binding var showToast: Bool
     
     var group: Group
-    
-    @Binding var showToast: Bool
     
     var body: some View {
         ScrollView {
@@ -200,6 +200,6 @@ struct AddScheduleView_Previews: PreviewProvider {
     @State static private var showToast = false
     
     static var previews: some View {
-        AddScheduleView(group: Group.sampleGroup, showToast: $showToast)
+        AddScheduleView(showToast: $showToast, group: Group.sampleGroup)
     }
 }
