@@ -53,7 +53,7 @@ struct GroupMainView: View {
                             ForEach(groupStores.groups) { group in
                                 // MARK: - 동아리 리스트
                                 NavigationLink(destination: CategoryView(group: group)) {
-                                    GroupMainDetailView(group: group)
+                                    GroupMainDetailView(group: group, groupImage: groupStores.groupImage[group.id] ?? UIImage())
                                         .frame(height: 120)
                                         .background(Color.myLightGray)
                                         .cornerRadius(18)

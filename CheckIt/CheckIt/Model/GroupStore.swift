@@ -23,6 +23,7 @@ enum GroupCodeValidation {
 
 class GroupStore: ObservableObject {
     @Published var groups: [Group] = []
+    @Published var groupImage: [String:UIImage] = [:]
     
     let database = Firestore.firestore()
     private let storage = Storage.storage()
@@ -86,7 +87,7 @@ class GroupStore: ObservableObject {
         // uploda data
         if let data = data {
             do {
-                let result = try await storageRef.putDataAsync(data, metadata: metadata)
+                _ = try await storageRef.putDataAsync(data, metadata: metadata)
             } catch {
                 let code = error as NSError
                 print("code: \(code)")
@@ -126,6 +127,21 @@ class GroupStore: ObservableObject {
                 let description = data["description"] as? String ?? ""
                 let scheduleID = data["schedule_id"] as? [String] ?? []
                 
+                do {
+                    let image = try await fetchImages("group_images/\(id)")
+                    
+                    // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
+                    DispatchQueue.main.async {
+                        if image == nil {
+                            self.groupImage[id] = UIImage()
+                        } else {
+                            self.groupImage[id] = UIImage(data: image!)!
+                        }
+                    }
+                } catch {
+                    print("fetch group image error: \(error.localizedDescription)")
+                }
+                
                 let group = Group(id: id,
                                   name: name,
                                   invitationCode: invitationCode,
@@ -142,7 +158,19 @@ class GroupStore: ObservableObject {
             print("동아리 가져오기 에러: \(error.localizedDescription)")
         }
     }
-    // MARK: - 동아리에 참가 후 User 컬렉션에
+    
+    /// - Parameter path: 동아리 이미지가 저장된 스토리지 경로
+    ///
+    ///  경로를 기반으로 동아리 이미지를 가져오며 Date 타입으로 이미지를 반환합니다. 따라서 UIImage로 타입 캐스팅을 해야합니다
+    func fetchImages(_ path: String) async throws -> Data? {
+        return await withCheckedContinuation { continuation in
+            let ref = storage.reference().child(path)
+            
+            ref.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
+                continuation.resume(returning: data)
+            }
+        }
+    }
     
     // MARK: - 유저가 동아리에 참가하는 메소드
     /// - Parameter code: 동아리 참가 코드
