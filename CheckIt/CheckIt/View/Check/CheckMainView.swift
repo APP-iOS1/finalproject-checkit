@@ -22,7 +22,7 @@ struct CheckMainView: View {
     ]
     
     var body: some View {
-        NavigationView{
+        TabView {
             
             VStack{
                 
@@ -70,15 +70,16 @@ struct CheckMainView: View {
                                     )
                             }
                             
-                            HStack {
-                                ForEach(0..<data.count) { i in
-                                    Circle()
-                                        .fill(data[i].show == true ? Color.myGray : Color.myGray.opacity(0.4))
-                                        .frame(width: 8, height: 8)
+                            HStack(spacing: 5) {
+                                ForEach(data.indices) { i in
+                                    Capsule()
+                                        .fill(Color.black.opacity(data[i].show == true ? 1 : 0.4))
+                                        .frame(width: data[i].show == true ? 10 : 8, height: data[i].show == true ? 10 : 8)
                                         .offset(y: 60)
                                 }
                             }
                         }
+                        .padding(.top, 60)
                     }
                     
                 }
@@ -92,10 +93,13 @@ struct CheckMainView: View {
             //            .navigationBarTitle("Carousel List")
             .animation(.spring())
             .onAppear {
-                
-                self.op = ((self.screen + 15) * CGFloat(self.data.count / 2)) - (self.data.count % 2 == 0 ? ((self.screen + 15) / 2) : 0)
-                
-                self.data[0].show = true
+                op = ((self.screen + 15) * CGFloat(self.data.count / 2)) - (self.data.count % 2 == 0 ? ((self.screen + 15) / 2) : 0)
+                data[0].show = true
+                for i in 1..<data.count {
+                    if data[i].show == true {
+                        data[0].show = false
+                    }
+                }
             }
         }
     }
