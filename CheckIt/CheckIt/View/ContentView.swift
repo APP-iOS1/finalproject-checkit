@@ -13,21 +13,29 @@ struct ContentView: View {
             CheckMainView()
                 .tabItem {
                     Image(systemName: "checkmark.square.fill")
+                        .foregroundColor(Color.myGreen)
+                    
                     Text("출석체크")
                 }
             GroupMainView()
                 .tabItem {
                     Image(systemName: "house.fill")
+                        .foregroundColor(Color.myGreen)
+                    
                     Text("동아리")
                 }
             CalendarView()
                 .tabItem {
                     Image(systemName: "calendar")
+                        .foregroundColor(Color.myGreen)
+                    
                     Text("캘린더")
                 }
             MyPageView()
                 .tabItem {
                     Image(systemName: "person.fill")
+                        .foregroundColor(Color.myGreen)
+                    
                     Text("마이")
                 }
         }
