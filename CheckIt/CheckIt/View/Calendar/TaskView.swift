@@ -20,7 +20,7 @@ struct TaskView: View {
                     .font(.title2.bold())
                     .padding(.top, 25)
                 
-                ScrollView(showsIndicators: false) {
+                ScrollView(showsIndicators: true) {
                     //MARK: - 일정 디테일
                     if let task = tasks.first(where: { task in
                         return extraData.isSameDay(date1: task.taskDate, date2: currentDate)
@@ -44,7 +44,7 @@ struct TaskView: View {
                     }
                 }
             }
-            .padding(.horizontal,30)
+            .padding(.leading,30)
             Spacer()
         }
     }
