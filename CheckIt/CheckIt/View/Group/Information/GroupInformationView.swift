@@ -26,7 +26,7 @@ struct GroupInformationView: View {
     
     var body: some View {
         VStack {
-            HStack {
+            HStack(spacing: 25) {
                 //동아리 이미지
                 Image("chocobi")
                     .resizable()
@@ -37,7 +37,7 @@ struct GroupInformationView: View {
                     }
                 
                 //동아리 정보
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 10) {
                     Text("허니미니의 또구 동아리")
                         .font(.system(size: 16, weight: .bold))
                     Text("허니부리의 혼과 열쩡이 가득한 야구교실 입니다. 환영합니다.")
@@ -46,7 +46,8 @@ struct GroupInformationView: View {
                 }
             }
             .padding(.horizontal, 32)
-            .padding(.bottom, 28)
+            .padding(.bottom, 20)
+            
             //동아리 멤버 리스트
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
@@ -57,19 +58,21 @@ struct GroupInformationView: View {
                             .font(.system(size: 16, weight: .semibold))
                             .padding(.leading, 28)
                             .padding(.trailing, 0)
+                        Spacer()
+                        Text("\(memberTest.count) /10 명")
+                            .font(.system(size: 16, weight: .semibold))
                         Button {
                             print("dd")
                         } label: {
                             Image(systemName: "pencil.circle")
+                                .foregroundColor(.black)
                         }
-                        .padding(0)
-                        Spacer()
-                        Text("\(memberTest.count) /10 명")
-                            .font(.system(size: 16, weight: .semibold))
-                            .padding(.trailing, 28)
+                        .padding(.trailing, 26)
                     }
-                    .padding(.top, 24)
+                    .padding(.vertical, 20)
+                    
                     Spacer()
+                    
                     ScrollView {
                         VStack {
                             ForEach($memberTest, id: \.self) { list in

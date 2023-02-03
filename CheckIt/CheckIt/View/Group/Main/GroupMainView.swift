@@ -32,6 +32,7 @@ struct GroupMainView: View {
                         Image(systemName: "plus")
                             .resizable()
                             .frame(width: 25, height: 25)
+                            .foregroundColor(.black)
                     }
                     .sheet(isPresented: $showingPlusSheet) {
                         MainPlusSheetView()

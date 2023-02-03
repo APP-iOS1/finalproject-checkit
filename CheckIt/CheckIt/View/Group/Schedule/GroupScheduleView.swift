@@ -20,13 +20,13 @@ struct GroupScheduleView: View {
                     Spacer()
                     
                     NavigationLink {
-                        AddScheduleView(group: group, showToast: $showToast)
+                        AddScheduleView(showToast: $showToast, group: group)
                     } label: {
                         Image(systemName: "plus")
                             .resizable()
                             .frame(width:20, height:20)
                             .foregroundColor(.black)
-                            .padding(5)
+                            .padding([.bottom, .trailing], 5)
                     }
                 }
                 
@@ -80,7 +80,7 @@ struct GroupScheduleView: View {
         .toast(isPresenting: $showToast){
             
             // .alert is the default displayMode
-            AlertToast(type: .complete(Color.green), title: "Message Sent!")
+            AlertToast(displayMode: .banner(.slide), type: .complete(Color.myGreen), title: "성공적으로 일정을 만들었어요!")
             
             //Choose .hud to toast alert from the top of the screen
             //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")
