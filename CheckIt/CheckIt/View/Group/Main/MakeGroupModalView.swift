@@ -19,21 +19,40 @@ struct MakeGroupModalView: View {
     @State private var text: String = ""
     
     @State private var selectedItems: [PhotosPickerItem] = []
+    @State private var selectedPhotoData: [UIImage] = []
     
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             Text("동아리 개설하기")
                 .font(.system(size: 24, weight: .bold))
             
+            
             PhotosPicker(selection: $selectedItems, maxSelectionCount: 1, matching: .images) {
                 ZStack {
-                    Circle().fill(Color.myLightGray)
-                        .scaledToFit()
-                        .frame(width: 120, height: 120)
-                    
-                    Image(systemName: "plus")
-                        .resizable()
-                        .frame(width: 20, height: 20)
+                    if selectedPhotoData.isEmpty {
+                        Circle().fill(Color.myLightGray)
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                    } else {
+                        Image(uiImage: selectedPhotoData.first!)
+                            .resizable()
+                            .clipShape(Circle())
+                            .frame(width: 120, height: 120)
+                    }
+                }
+            }
+            .onChange(of: selectedItems) { newPhotos in
+                selectedPhotoData.removeAll()
+                for photo in newPhotos {
+                    Task {
+                        if let data = try? await photo.loadTransferable(type: Data.self),
+                           let image = UIImage(data: data){
+                            selectedPhotoData.append(image)
+                        }
+                    }
                 }
             }
             
