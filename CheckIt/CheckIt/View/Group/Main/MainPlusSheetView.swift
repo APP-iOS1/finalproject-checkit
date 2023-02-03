@@ -30,7 +30,7 @@ struct MainPlusSheetView: View {
                     .modifier(MainPlusSheetButtonModifier())
             }
             .sheet(isPresented: $isMakingGroup) {
-                MakeGroupModalView()
+                MakeGroupModalView(showToast: $showToast, toastMessage: $toastMessage)
                     .presentationDetents([.height(650)])
             }
             
@@ -53,8 +53,7 @@ struct MainPlusSheetView: View {
         .presentationDragIndicator(.visible)
         
         .toast(isPresenting: $showToast){
-            AlertToast(type: .regular, title: toastMessage)
-            //AlertToast(type: .complete(.green)/.error(.red), title: toastMessage)
+            AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
         }
     }
 }
