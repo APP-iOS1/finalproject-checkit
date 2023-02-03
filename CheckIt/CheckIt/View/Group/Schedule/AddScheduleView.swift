@@ -5,9 +5,11 @@
 //  Created by 조현호 on 2023/01/18.
 //
 
+import AlertToast
 import SwiftUI
 
 struct AddScheduleView: View {
+    @Environment(\.dismiss) var dismiss
     @State private var startTime: Date = Date()
     @State private var endTime: Date = Date()
     @State private var place: String = ""
@@ -16,9 +18,11 @@ struct AddScheduleView: View {
     @State private var lateMin: Int = 0
     @State private var lateFee: Int = 0
     @State private var absentFee: Int = 0
-    
     @EnvironmentObject var scheduleStore: ScheduleStore
+    
     var group: Group
+    
+    @Binding var showToast: Bool
     
     var body: some View {
         ScrollView {
@@ -166,6 +170,8 @@ struct AddScheduleView: View {
                 
                 // MARK: - 일정 만들기 버튼
                 Button {
+                    showToast.toggle()
+                    
                     // 날짜정보와 시간정보를 하나의 문자열로 합침
                     let start = startTime.getDateString() + " " + startTime.getTimeString()
                     let end = startTime.getDateString() + " " + endTime.getTimeString()
@@ -178,6 +184,8 @@ struct AddScheduleView: View {
                         await scheduleStore.addSchedule(schedule, group: group)
                     }
                     
+                    dismiss()
+                    
                 } label: {
                     Text("일정 만들기")
                         .modifier(GruopCustomButtonModifier())
@@ -189,7 +197,9 @@ struct AddScheduleView: View {
 }
 
 struct AddScheduleView_Previews: PreviewProvider {
+    @State static private var showToast = false
+    
     static var previews: some View {
-        AddScheduleView(group: Group.sampleGroup)
+        AddScheduleView(group: Group.sampleGroup, showToast: $showToast)
     }
 }

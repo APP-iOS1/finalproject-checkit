@@ -17,8 +17,13 @@ struct GroupMainView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(alignment: .leading) {
+                Spacer()
+                
                 HStack {
+                    Text("나의 동아리")
+                        .font(.system(size: 30, weight: .bold))
+                    
                     // MARK: - 동아리 메인뷰 플러스 버튼 (동아리 개설하기, 동아리 참가하기)
                     Spacer()
                     Button {
@@ -33,7 +38,7 @@ struct GroupMainView: View {
                             .presentationDetents([.height(420)])
                     }
                 }
-                .padding()
+                .padding(.vertical, 20)
                 
                 if groupStores.groups.isEmpty {
                     Spacer()
@@ -57,7 +62,7 @@ struct GroupMainView: View {
                     }
                 }
             }
-            .padding(.horizontal)
+            .padding(.horizontal, 30)
         }
         .onAppear {
             Task {

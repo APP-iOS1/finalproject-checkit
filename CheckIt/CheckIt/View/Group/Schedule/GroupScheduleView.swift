@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct GroupScheduleView: View {
     var group: Group
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @State private var showToast = false
     
     var body: some View {
         NavigationStack {
@@ -18,7 +20,7 @@ struct GroupScheduleView: View {
                     Spacer()
                     
                     NavigationLink {
-                        AddScheduleView(group: group)
+                        AddScheduleView(group: group, showToast: $showToast)
                     } label: {
                         Image(systemName: "plus")
                             .resizable()
@@ -42,7 +44,7 @@ struct GroupScheduleView: View {
                                         HStack {
                                             customSymbols(name: "calendar")
                                             // MARK: - 동아리 일정 날짜
-                                            Text("\(schedule.startTime, format:.dateTime.day().month())")
+                                            Text("\(schedule.startTime, format:.dateTime.year().day().month())")
                                         }
                                         
                                         HStack {
@@ -71,10 +73,23 @@ struct GroupScheduleView: View {
                 .refreshable {
                     scheduleStore.fetchSchedule(gruopName: group.name)
                 }
+                
             }
-            .padding(.horizontal, 40)
+            .padding(.horizontal, 30)
+        }
+        .toast(isPresenting: $showToast){
+            
+            // .alert is the default displayMode
+            AlertToast(type: .complete(Color.green), title: "Message Sent!")
+            
+            //Choose .hud to toast alert from the top of the screen
+            //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")
+            
+            //Choose .banner to slide/pop alert from the bottom of the screen
+            //AlertToast(displayMode: .banner(.slide), type: .regular, title: "Message Sent!")
         }
     }
+    
 }
 
 
