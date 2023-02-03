@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct GroupScheduleView: View {
     var group: Group
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @State private var showToast = false
     
     var body: some View {
         NavigationStack {
@@ -18,19 +20,19 @@ struct GroupScheduleView: View {
                     Spacer()
                     
                     NavigationLink {
-                        AddScheduleView(group: group)
+                        AddScheduleView(showToast: $showToast, group: group)
                     } label: {
                         Image(systemName: "plus")
                             .resizable()
                             .frame(width:20, height:20)
                             .foregroundColor(.black)
-                            .padding(5)
+                            .padding([.bottom, .trailing], 5)
                     }
                 }
                 
                 VStack {
                     ScrollView {
-                        ForEach(scheduleStore.schedule) { schedule in
+                        ForEach(scheduleStore.scheduleList) { schedule in
                             VStack {
                                 ZStack(alignment: .leading) {
                                     RoundedRectangle(cornerRadius: 10)
@@ -42,7 +44,7 @@ struct GroupScheduleView: View {
                                         HStack {
                                             customSymbols(name: "calendar")
                                             // MARK: - 동아리 일정 날짜
-                                            Text("\(schedule.startTime, format:.dateTime.day().month())")
+                                            Text("\(schedule.startTime, format:.dateTime.year().day().month())")
                                         }
                                         
                                         HStack {
@@ -66,15 +68,28 @@ struct GroupScheduleView: View {
                     }
                 }
                 .onAppear {
-                    scheduleStore.fetchSchedule(gruopName: group.name)
+                    
                 }
                 .refreshable {
                     scheduleStore.fetchSchedule(gruopName: group.name)
                 }
+                
             }
-            .padding(.horizontal, 40)
+            .padding(.horizontal, 30)
+        }
+        .toast(isPresenting: $showToast){
+            
+            // .alert is the default displayMode
+            AlertToast(displayMode: .banner(.slide), type: .complete(Color.myGreen), title: "성공적으로 일정을 만들었어요!")
+            
+            //Choose .hud to toast alert from the top of the screen
+            //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")
+            
+            //Choose .banner to slide/pop alert from the bottom of the screen
+            //AlertToast(displayMode: .banner(.slide), type: .regular, title: "Message Sent!")
         }
     }
+    
 }
 
 

@@ -13,11 +13,17 @@ struct GroupMainView: View {
     @State var isJoiningGroup: Bool = false
     
     @EnvironmentObject var groupStores: GroupStore
+    @EnvironmentObject var userStores: UserStore
     
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(alignment: .leading) {
+                Spacer()
+                
                 HStack {
+                    Text("나의 동아리")
+                        .font(.system(size: 30, weight: .bold))
+                    
                     // MARK: - 동아리 메인뷰 플러스 버튼 (동아리 개설하기, 동아리 참가하기)
                     Spacer()
                     Button {
@@ -26,35 +32,42 @@ struct GroupMainView: View {
                         Image(systemName: "plus")
                             .resizable()
                             .frame(width: 25, height: 25)
+                            .foregroundColor(.black)
                     }
                     .sheet(isPresented: $showingPlusSheet) {
                         MainPlusSheetView()
                             .presentationDetents([.height(420)])
                     }
                 }
-                .padding()
+                .padding(.vertical, 20)
                 
-                ScrollView {
-                    VStack(spacing: 20) {
-                        // FIXME: - 동아리 리스트 데이터 연결하기
-                        
-                        ForEach(groupStores.groups) { group in
-                            // MARK: - 동아리 리스트
-                            NavigationLink(destination: CategoryView(group: group)) {
-                                GroupMainDetailView(group: group)
-                                    .frame(height: 120)
-                                    .background(Color.myLightGray)
-                                    .cornerRadius(18)
+                if groupStores.groups.isEmpty {
+                    Spacer()
+                    GroupEmptyView()
+                    Spacer()
+                } else {
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            // FIXME: - 동아리 리스트 데이터 연결하기
+                            
+                            ForEach(groupStores.groups) { group in
+                                // MARK: - 동아리 리스트
+                                NavigationLink(destination: CategoryView(group: group)) {
+                                    GroupMainDetailView(group: group)
+                                        .frame(height: 120)
+                                        .background(Color.myLightGray)
+                                        .cornerRadius(18)
+                                }
                             }
                         }
                     }
                 }
             }
-            .padding(.horizontal, 40)
+            .padding(.horizontal, 30)
         }
         .onAppear {
             Task {
-                await groupStores.fetchGroups("Dpcvu3OOAUuq3ccDhBcW")
+                await groupStores.fetchGroups(userStores.user!)
                 print("동아리들: \(groupStores.groups)")
             }
         }

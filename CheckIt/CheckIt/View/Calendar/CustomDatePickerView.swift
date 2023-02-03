@@ -98,14 +98,14 @@ struct CustomDatePickerView: View {
             //lazy grid
             let columns = Array(repeating: GridItem(.flexible()), count: 7)
             
-            LazyVGrid(columns: columns, spacing: 5) {
+            LazyVGrid(columns: columns, spacing: 3) {
                 ForEach(extractDate()) { value in
                     CardView(value: value)
                         .background (
                             Rectangle()
-                                .frame(width: 50, height: 50)
+                                .frame(width: 50, height: 54)
                                 .foregroundColor(Color.myGray)
-                                .opacity(extraData.isSameDay(date1: value.date, date2: currentDate) ? 1 : 0)
+                                .opacity((value.day != -1) && extraData.isSameDay(date1: value.date, date2: currentDate) ? 1 : 0)
                         )
                         .onTapGesture {
                             currentDate = value.date
@@ -133,13 +133,29 @@ struct CustomDatePickerView: View {
                         .font(.body.bold())
                     Spacer()
                     
-                    HStack(spacing: 8) {
-                        ForEach(task.task) {_ in
-                            Circle()
-                                .fill(Color.myRed)
-                                .frame(width: 7, height: 7)
+                    HStack(spacing: 6) {
+                        //FIXME: 3+ 라벨 처리
+                        let taskNum = task.task.count
+//                        let taskNum = (task.task.count < 3 ? task.task.count : 3)
+                        if taskNum > 3 {
+                            Text("3+")
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color.myRed)
+                                .frame(width: 28, height: 16)
+                                .overlay(RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.myRed, lineWidth: 1))
+                                
+                        } else {
+                            ForEach(0..<taskNum) {_ in
+                                Circle()
+                                    .fill(Color.myRed)
+                                    .frame(width: 7, height: 7)
+                            }
                         }
                     }
+                    .padding(.bottom, 15)
+//                    Spacer()
                 } else {
                     Text("\(value.day)")
                         .font(.body.bold())
@@ -147,7 +163,7 @@ struct CustomDatePickerView: View {
                 }
             }
         }
-        .padding(.vertical, 5)
+        .padding(.vertical, 3)
         .frame(height: 50, alignment: .top)
     }
     

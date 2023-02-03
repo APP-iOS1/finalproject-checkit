@@ -10,5 +10,6 @@ import SwiftUI
 func customSymbols(name: String) -> some View {
     Image("\(name)")
         .resizable()
-        .frame(width: 15, height: 16.48)
+        .frame(width: name == "mapPin" ? 15 : 17, height: name == "mapPin" ? 20 : 18)
+        .offset(x: name == "mapPin" ? 1.25 : 0)
 }

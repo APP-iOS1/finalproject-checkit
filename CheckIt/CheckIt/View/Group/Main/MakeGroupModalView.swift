@@ -10,6 +10,7 @@ import SwiftUI
 struct MakeGroupModalView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var groupStores: GroupStore
+    @EnvironmentObject var userStores: UserStore
     
     @State private var groupName: String = ""
     @State private var groupDescription: String = ""
@@ -62,11 +63,11 @@ struct MakeGroupModalView: View {
                                   name: groupName,
                                   invitationCode: UUID().uuidString,
                                   image: "example",
-                                  hostID: "Dpcvu3OOAUuq3ccDhBcW",
+                                  hostID: userStores.user?.id ?? "N/A",
                                   description: groupDescription,
                                   scheduleID: [])
                 Task {
-                    await groupStores.createGroup("Dpcvu3OOAUuq3ccDhBcW", group: group)
+                    await groupStores.createGroup(userStores.user!, group: group)
                 }
                 
             } label: {
