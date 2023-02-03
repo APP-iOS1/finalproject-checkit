@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct MakeGroupModalView: View {
     @Environment(\.dismiss) var dismiss
@@ -17,15 +18,14 @@ struct MakeGroupModalView: View {
     @State private var isJoined: Bool = false
     @State private var text: String = ""
     
+    @State private var selectedItems: [PhotosPickerItem] = []
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             Text("동아리 개설하기")
                 .font(.system(size: 24, weight: .bold))
             
-            // MARK: - 동아리 이미지 추가하는 버튼
-            Button {
-                isJoined.toggle()
-            } label: {
+            PhotosPicker(selection: $selectedItems, maxSelectionCount: 1, matching: .images) {
                 ZStack {
                     Circle().fill(Color.myLightGray)
                         .scaledToFit()
