@@ -108,6 +108,7 @@
 		FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F92977BA6600F6F875 /* QRSheetView.swift */; };
 		FD4E25FE2977C44C00F6F875 /* QRButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */; };
 		FDE58061297A53A600B7AC28 /* ToastAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE58060297A53A500B7AC28 /* ToastAlert.swift */; };
+		FDEE4904298D4D92009DF195 /* GoogleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4903298D4D92009DF195 /* GoogleStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -212,6 +213,7 @@
 		FD4E25F92977BA6600F6F875 /* QRSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRSheetView.swift; sourceTree = "<group>"; };
 		FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRButtonLabel.swift; sourceTree = "<group>"; };
 		FDE58060297A53A500B7AC28 /* ToastAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastAlert.swift; sourceTree = "<group>"; };
+		FDEE4903298D4D92009DF195 /* GoogleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -402,6 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				2822CE1F2988DDC600316139 /* UserStore.swift */,
+				FDEE4903298D4D92009DF195 /* GoogleStore.swift */,
 				2822CE212988DDDD00316139 /* GroupStore.swift */,
 				2822CE232988DDF000316139 /* ScheduleStore.swift */,
 				2822CE252988DE1400316139 /* AttendanceStore.swift */,
@@ -702,6 +705,7 @@
 				FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */,
 				1A3CB25E298A614E00EA5E84 /* Card.swift in Sources */,
 				A5FF27A02977AD3F0059C312 /* MyPageView.swift in Sources */,
+				FDEE4904298D4D92009DF195 /* GoogleStore.swift in Sources */,
 				A5FF27A62977BD130059C312 /* Profile.swift in Sources */,
 				2822CE182988B06400316139 /* Group.swift in Sources */,
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
