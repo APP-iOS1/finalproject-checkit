@@ -7,397 +7,232 @@
 
 import Firebase
 import FirebaseFirestore
-import SwiftUI
-import UIKit
 import GoogleSignIn
 import FirebaseAuth
 
 
 class UserStore: ObservableObject {
-     let database = Firestore.firestore()
-     
-     @Published var user: User? = nil
-     @Published var loginState: LoginState = .logout
-     @Published var loginCenter: LoginCenter? = nil
-     @Published var isPresentedLoginView: Bool = true
-     
-     // 사용자 이름 수정 가능하도록
-     @Published var userName: String = ""
-     @Published var userData: FirebaseAuth.User? = nil
-     
-     enum LoginState {
-          case login
-          case logout
-     }
-     
-     enum LoginCenter {
-          case apple
-          case kakao
-          case google
-     }
-     
-//     func kakaoLoginWithFirebase() {
-//          KakaoLoginStore().signIn()
-//          print("!")
-//          UserApi.shared.me() { user, error in
-//               if let error = error {
-//                    print("\(error.localizedDescription)")
-//                    return
-//               }
-//               print("kakao Login \(user?.kakaoAccount)")
-//               Auth.auth().createUser(withEmail: user?.kakaoAccount?.email ?? "N/A", password: "\(String(describing: user?.id))") { authresult, error in
-//                    if let error = error {
-//                         print("\(error.localizedDescription)")
-//                         return
-//                    }
-//
-//                    print(authresult?.user.email)
-//               }
-//
-//          }
-//     }
-     
-     //MARK: - Method(isUserInDatabaseCompletionHandler)
-     /// 유저가 파이어베이스 스토어에 등록됐는지 확인하는 과정을 컴플리션 핸들러로 구현한 메서드입니다.
-     func isUserInDatabaseCompletionHandler(email: String, completion: @escaping (Bool) -> ()) {
-          database.collection("User").whereField("email", isEqualTo: "\(email)")
-               .getDocuments { snapshot, error in
-                    if let error = error {
-                         print("\(error.localizedDescription)")
-                         completion(false)
-                         return
-                    }
-                    
-                    if snapshot == nil || snapshot?.documents == [] {
-                        print(snapshot?.documents ?? [])
-                         completion(false)
-                         return
-                    }
-                    
-                    completion(true)
-                    
-               }
-     } // - isUserInDatabaseCompletionHandler
-     
-     
-     //MARK: - isUserInDatabase
-     /// 유저가 파이어베이스 스토어에 등록됐는지 확인하는 과정을 Async로 구현한 메서드입니다 .
-     func isUserInDatabase(email: String) async -> Bool {
-          return await withCheckedContinuation { continuation in
-               isUserInDatabaseCompletionHandler(email: email) { result in
-                    continuation.resume(returning: result)
-               }
-          }
-     } // - isUserInDatabase
-     
-     //MARK: - toggleLoginState
-     ///Login State를 toggle 하는 메서드입니다.
-     func toggleLoginState() {
-          switch loginState {
-          case .login:
-               self.loginState = .logout
-               DispatchQueue.main.async {
-                    self.isPresentedLoginView = true
-               }
-          case .logout:
-               self.loginState = .login
-               DispatchQueue.main.async {
-                    self.isPresentedLoginView = false
-               }
-          }
-     } // - toggleLoginState
-     
-     //MARK: - Method(signIn)
-     /// Firebase 로그인 메서드입니다. credential을 제3자(애플, 카카오, 구글)로부터  파라미터로 제공받아 파이어베이스 로그인에 연결합니다.
-     func signInCompletionHandler(credential: AuthCredential?, completion: @escaping (FirebaseAuth.User?) -> ()) {
-          
-          guard let credential = credential else { completion(nil); return }
-         
-         //FIXME: async로 변경해야 함 (completion Handler 안에 async 돌리는 경우 잘 없음)
-          Auth.auth().signIn(with: credential) { [unowned self] authResult, error in
-//              var isUser: Bool = true
-              print("signIncompletion")
-               if let error = error {
+    let database = Firestore.firestore()
+    
+    @Published var user: User? = nil
+    @Published var loginState: LoginState = .logout
+    @Published var loginCenter: LoginCenter? = nil
+    @Published var isPresentedLoginView: Bool = true
+    
+    // 사용자 이름 수정 가능하도록
+    @Published var userName: String = ""
+    var userData: FirebaseAuth.User? = nil
+    
+    enum LoginState {
+        case login
+        case logout
+    }
+    
+    enum LoginCenter {
+        case apple
+        case kakao
+        case google
+    }
+    
+    //MARK: - CompletionHandler Method
+    //MARK: - Method(isUserInDatabaseCompletionHandler)
+    /// 유저가 파이어베이스 스토어에 등록됐는지 확인하는 과정을 컴플리션 핸들러로 구현한 메서드입니다.
+    func isUserInDatabaseCompletionHandler(email: String, completion: @escaping (Bool) -> ()) {
+        database.collection("User").whereField("email", isEqualTo: "\(email)")
+            .getDocuments { snapshot, error in
+                if let error = error {
                     print("\(error.localizedDescription)")
+                    completion(false)
                     return
-               }
+                }
                
-               //FIXME: memory leak (guard case let self.userData = authResult?.user else{return}시 발생
-               self.userData = authResult?.user
-               
-               
-                  
-              Task {
-                  var isUserTemp = await self.isUserInDatabase(email: userData?.email ?? "N/A")
-                  if !isUserTemp {
-                       addUser(userData: authResult?.user)
-                  }
-                  await fetchUser(userData?.uid ?? "NA")
-              }
-               
-//              print(isUserTemp)
-//               print(userData?.email, "Firebase Login")
-               
-               // 회원이 아니면 회원가입 (db에 정보 업로드)
-//               if !isUserTemp {
-//                    addUser(userData: authResult?.user)
-//               }
-//
-             
-               self.toggleLoginState()
-               completion(authResult?.user)
-          }
-     } // - signIn
-     
-     //MARK: - Method(signIn)
-     /// Firebase 로그인 메서드입니다. credential을 제3자(애플, 카카오, 구글)로부터  파라미터로 제공받아 파이어베이스 로그인에 연결합니다.
-     func signIn(credential: AuthCredential?) async -> FirebaseAuth.User? {
-          return await withCheckedContinuation { continuation in
-               signInCompletionHandler(credential: credential) { result in
-                    continuation.resume(returning: result)
-               }
-          }
-     } // - signIn
-     
-    func fetchUserData(id: String) async -> User? {
+                if snapshot == nil || snapshot?.documents == [] {
+                    print(snapshot?.documents ?? [])
+                    completion(false)
+                    return
+                }
+                completion(true)
+            }
+    } // - isUserInDatabaseCompletionHandler
+    
+    
+    //MARK: - Async Method
+    //MARK: - Method(signIn)
+    /// Firebase 로그인 메서드입니다. credential을 제3자(애플, 구글)로부터  파라미터로 제공받아 파이어베이스 로그인에 연결합니다.
+    func signInWithCredential(credential: AuthCredential?) async {
+        guard let credential = credential else { return }
+        let (authResult, error) = await firebaseSignIn(credential: credential)
+        if let error {
+            print("\(error.localizedDescription)")
+            return
+        }
+        guard let authResult else { return }
+        self.userData = authResult.user
+        
+        let isUser = await isUserInDatabase(email: userData?.email ?? "N/A")
+        print(isUser, userData?.email)
+        if !isUser {
+            addUser(userData: self.userData)
+        }
+        await fetchUser(self.userData?.uid ?? "N/A")
+        self.toggleLoginState()
+    } // - signIn
+    
+    
+    
+    
+    //MARK: - Method(firebaseSignIn)
+    /// Firebase에서 제공되는  Completion Handler로 구현된 signIn 함수를 Async로 변환한 메서드입니다.
+    func firebaseSignIn(credential: AuthCredential) async -> (AuthDataResult?, Error?) {
         return await withCheckedContinuation { continuation in
-             fetchUserDataCompletionHandler(id: id){ result in
-                  continuation.resume(returning: result)
-             }
+            Auth.auth().signIn(with: credential) { authResult, error in
+                continuation.resume(returning: (authResult, error))
+            }
+        }
+    } // - firebaseSignIn
+    
+    
+    
+    //MARK: - Method(fetchUser)
+    /// user를 db로부터 불러오는 메서드입니다.
+    func fetchUser(_ uid: String) async {
+        do {
+            print("user.id:",uid)
+            let querySnapshot = try await database.collection("User").document(uid).getDocument()
+            
+            guard let data = querySnapshot.data() else { print("data leak"); return }
+            
+            let id = data["id"] as? String ?? ""
+            let email = data["email"] as? String ?? ""
+            let name = data["name"] as? String ?? ""
+            let groupId = data["group_id"] as? [String] ?? []
+            
+            let user = User(id: id,
+                            email: email,
+                            name: name,
+                            groupID: groupId)
+            
+            print("파베에서 가져온 user: \(user)")
+            
+            DispatchQueue.main.async {
+                self.user = user
+            }
+        } catch {
+            print("fetchUser error: \(error.localizedDescription)")
         }
     }
     
-    func fetchUser(_ uid: String) async {
-            do {
-                print("uid:",uid)
-                let querySnapshot = try await database.collection("User").document(uid).getDocument()
     
-                guard let data = querySnapshot.data() else { print("data leak"); return }
     
-                let id = data["id"] as? String ?? ""
-                let email = data["email"] as? String ?? ""
-                let name = data["name"] as? String ?? ""
-                let groupId = data["group_id"] as? [String] ?? []
-    
-                let user = User(id: id,
-                                email: email,
-                                name: name,
-                                groupID: groupId)
-    
-                print("파베에서 가져온 user: \(user)")
-    
-                DispatchQueue.main.async {
-                    self.user = user
-                }
-            } catch {
-                print("fetchUser error: \(error.localizedDescription)")
+    //MARK: - isUserInDatabase
+    /// 유저가 파이어베이스 스토어에 등록됐는지 확인하는 과정을 Async로 구현한 메서드입니다 .
+    func isUserInDatabase(email: String) async -> Bool {
+        return await withCheckedContinuation { continuation in
+            isUserInDatabaseCompletionHandler(email: email) { result in
+                continuation.resume(returning: result)
             }
         }
+    } // - isUserInDatabase
     
-    //MARK: - Method(fetchUserData)
-    /// db에 있는 userData를 불러오는 메서드입니다.
-    func fetchUserDataCompletionHandler(id: String, completion: @escaping (User?) -> ()) {
-        var user: User = .init(id: "", email: "", name: "", groupID: [])
-        database.collection("User")
-            .document("\(id)")
-            .getDocument { document, error in
-                if let error = error {
-                    print("\(error.localizedDescription)")
-                    return
-                }
-                
-                guard let document else { return }
-                user.id = document["id"] as? String ?? "N/A"
-                user.email = document["email"] as? String ?? "N/A"
-                user.name = document["name"] as? String ?? "N/A"
-                user.groupID = document["group_id"] as? [String] ?? []
-                completion(user)
+    
+    
+    
+    //MARK: - toggleLoginState
+    ///Login State를 toggle 하는 메서드입니다.
+    func toggleLoginState() {
+        switch loginState {
+        case .login:
+            DispatchQueue.main.async {
+                self.loginState = .logout
+                self.isPresentedLoginView = true
             }
-        completion(user)
-    } // - fetchUserData
+        case .logout:
+            DispatchQueue.main.async {
+                self.loginState = .login
+                self.isPresentedLoginView = false
+            }
+        }
+    } // - toggleLoginState
+
     
-     //MARK: - Method(returnUserData)
-     /// 유저 데이터를 반환하는 메서드입니다. -> 삭제
-     func returnUserData() -> User? {
-          if loginState == .logout {
-               print("로그인 진행 필요")
-               return nil
-          }
-          
-          return self.user
-     } // - fetchUserData
+    //MARK: - Method(signOut)
+    /// Firebase 로그아웃 메서드입니다.
+    func signOut() {
+        do {
+            // 파이어베이스 로그아웃
+            try Auth.auth().signOut()
+            self.toggleLoginState()
+            self.userData = nil
+            
+            // 제3자 로그아웃
+            switch loginCenter {
+            case .apple:
+                break
+            case .kakao:
+                //                    UserApi.shared.logout { error in
+                //                         if let error = error {
+                //                              print("\(error.localizedDescription)")
+                //                              return
+                //                         }
+                //                         print("kakao 로그아웃 완료")
+                //                    }
+                break
+            case .google:
+                GIDSignIn.sharedInstance.signOut()
+                break
+            case .none:
+                print("Error! 로그인 상태가 아닙니다. / 로그인 센터가 없습니다.")
+                break
+            }
+            print("Firebase Logout")
+        } catch {
+            print("\(error.localizedDescription)")
+        }
+    } // - signOut
     
     
-     
-     
-     //MARK: - Method(signOut)
-     /// Firebase 로그아웃 메서드입니다.
-     func signOut() {
-          let firebaseAuth = Auth.auth()
-          do {
-               // 파이어베이스 로그아웃
-               try firebaseAuth.signOut()
-               self.toggleLoginState()
-               self.userData = nil
-               
-               // 제3자 로그아웃
-               switch loginCenter {
-               case .apple:
-                    break
-               case .kakao:
-//                    UserApi.shared.logout { error in
-//                         if let error = error {
-//                              print("\(error.localizedDescription)")
-//                              return
-//                         }
-//                         print("kakao 로그아웃 완료")
-//                    }
-                    break
-               case .google:
-                    GIDSignIn.sharedInstance.signOut()
-                    break
-               case .none:
-                    print("Error! 로그인 상태가 아닙니다. / 로그인 센터가 없습니다.")
-                    break
-               }
-               
-               print("Firebase Logout")
-          } catch {
-               print("\(error.localizedDescription)")
-          }
-     } // - signOut
-     
-     
-     
-     //MARK: - Method(addUser)
-     /// db에 새로운 User 정보를 추가하는 메서드입니다.
-     func addUser(userData: FirebaseAuth.User?) {
-          guard let user = userData else { return }
-          database.collection("User")
-               .document("\(user.uid)")
-               .setData([
-                    "id" : user.uid ?? "N/A",
-                    "name" : user.displayName,
-                    "email" : user.email ?? "N/A",
-                    "group_id" : [],
-               ])
-     } // - addUser
-     
-     //MARK: - Method(updateUser)
-     /// db에 있는 유저 정보를 갱신하는 메서드입니다.
-     func updateUser(user: User) {
-          database.collection("User")
-               .document("\(user.id)")
-               .setData([
-                    "id" : user.id,
-                    "name" : user.name,
-                    "email" : user.email,
-                    "group_id" : user.groupID,
-               ])
-     } // - updateUser
-     
-     //MARK: - Method(changeUserName)
-     /// user의 이름을 변경하는 메서드입니다.
-     /// - Parameter name : user가 변경할 이름
-     func changeUserName(name: String) {
-          guard let user = self.user else { return }
-          self.user?.name = name
-          
-          updateUser(user: user)
-     }
-     
+    //MARK: - Method(addUser)
+    /// db에 새로운 User 정보를 추가하는 메서드입니다.
+    func addUser(userData: FirebaseAuth.User?) {
+        guard let user = userData else { return }
+        database.collection("User")
+            .document("\(user.uid)")
+            .setData([
+                "id" : user.uid ,
+                "name" : user.displayName ?? "N/A",
+                "email" : user.email ?? "N/A",
+                "group_id" : [],
+            ])
+    } // - addUser
+    
+    //MARK: - Method(updateUser)
+    /// db에 있는 유저 정보를 갱신하는 메서드입니다.
+    func updateUser(user: User) {
+        database.collection("User")
+            .document("\(user.id)")
+            .setData([
+                "id" : user.id,
+                "name" : user.name,
+                "email" : user.email,
+                "group_id" : user.groupID,
+            ])
+    } // - updateUser
+    
+    //MARK: - Method(changeUserName)
+    /// user의 이름을 변경하는 메서드입니다.
+    /// - Parameter name : user가 변경할 이름
+    func changeUserName(name: String) {
+        guard let user = self.user else { return }
+        self.user?.name = name
+        updateUser(user: user)
+    } // - changeUserName
+    
 }
-
-
-//MARK: - GoogleLoginStore
-/// 구글 로그인 관련 로직
-class GoogleLoginStore {
-     
-     //MARK: - Method(signIn Async)
-     /// 구글 로그인 함수입니다.
-     func signIn() async -> AuthCredential? {
-          return await withCheckedContinuation { continuation in
-               signInCompletionHandler { result in
-                    continuation.resume(returning: result)
-               }
-          }
-          
-     }
-     
-     
-     func restorePreviousSignIn() {
-          
-     }
-     
-     //MARK: - Method(signIn)
-     /// 구글 로그인을 Completion Handler로 구현한 메서드입니다.
-     func signInCompletionHandler(completion: @escaping (AuthCredential?) -> (Void)) {
-          
-          //FIXME: 로그인 한 내역이 있는 경우
-          if GIDSignIn.sharedInstance.hasPreviousSignIn() {
-               GIDSignIn.sharedInstance.restorePreviousSignIn { [unowned self] user, error in
-                    if let error = error {
-                         print("\(error.localizedDescription)")
-                         completion(nil)
-                         return
-                    }
-                    guard
-                         let authentication = user?.authentication,
-                         let idToken = authentication.idToken
-                    else {
-                         completion(nil)
-                         return
-                    }
-                    let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                                   accessToken: authentication.accessToken)
-                    completion(credential)
-                    print("로그인 내역이 있습니다")
-                    
-               }
-               return
-          }
-          
-          guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-          let config = GIDConfiguration(clientID: clientID)
-          DispatchQueue.main.async {
-               guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-               guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
-               
-               GIDSignIn.sharedInstance.signIn(with: config, presenting: rootViewController) { [unowned self] user, error in
-                    if let error = error {
-                         print("\(error.localizedDescription)")
-                         completion(nil)
-                         return
-                    }
-                    print("\(user?.profile?.email)")
-                    guard
-                         let authentication = user?.authentication,
-                         let idToken = authentication.idToken
-                    else {
-                         completion(nil)
-                         return
-                    }
-                    let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                                   accessToken: authentication.accessToken)
-                    
-                    completion(credential)
-               }
-          }
-     } // - signInCompletionHandler
-     
-     
-     //MARK: - Method(signOut)
-     /// 구글 로그아웃 함수입니다.
-     func signOut() {
-          GIDSignIn.sharedInstance.signOut()
-     } // - signOut
-}
-
 
 
 ////MARK: - Class(KakaoLoginStore)
 //class KakaoLoginStore {
-//     
+//
 //     func signInCompletionHandler() {
 //          // 카카오톡 실행 가능 여부 확인
 //          if (UserApi.isKakaoTalkLoginAvailable()) {
@@ -407,22 +242,22 @@ class GoogleLoginStore {
 //                         return
 //                    }
 //                    print("loginWithKakaoTalk() success.")
-//                    
+//
 //                    //do something
 //                    _ = oauthToken
 //                    print("\(oauthToken)")
-//                    
-//                    
-//                    
+//
+//
+//
 //               }
 //          } else {
 //               //TODO: 카카오톡 설치 후 시도하라는 알럿 필요
 //               print("카카오톡 실행 불가")
 //          }
-//          
-//          
+//
+//
 //     }
-//     
+//
 //     func signIn() {
 //          // 이미 로그인 된 경우
 //          if (AuthApi.hasToken()) {
@@ -439,23 +274,23 @@ class GoogleLoginStore {
 //                                             return
 //                                        }
 //                                        print("loginWithKakaoTalk() success.")
-//                                        
+//
 //                                        //do something
 //                                        _ = oauthToken
 //                                        print(oauthToken?.accessToken)
-//                                        
+//
 //                                   }
 //                              } else {
 //                                   //TODO: 카카오톡 설치 후 시도하라는 알럿 필요
 //                                   print("카카오톡 실행 불가")
 //                              }
 //                              return
-//                              
+//
 //                         }
 //                         else {
 //                              //기타 에러
 //                              print("\(error.localizedDescription)")
-//                              
+//
 //                         }
 //                    }
 //                    else {
@@ -474,17 +309,17 @@ class GoogleLoginStore {
 //                         return
 //                    }
 //                    print("loginWithKakaoTalk() success.")
-//                    
+//
 //                    //do something
 //                    _ = oauthToken
 //                    print(oauthToken?.accessToken)
-//                    
+//
 //               }
 //          } else {
 //               //TODO: 카카오톡 설치 후 시도하라는 알럿 필요
 //               print("카카오톡 실행 불가")
 //          }
-//          
+//
 //     }
 //     func signOut() {
 //          UserApi.shared.logout { error in
@@ -492,28 +327,3 @@ class GoogleLoginStore {
 //          }
 //     }
 //}
-
-
-
-//MARK: - Test Views
-struct GoogleLogin1: View {
-     @StateObject var user = UserStore()
-     var body: some View {
-          VStack {
-               Button(action:  {
-                    Task {
-                         guard let credential = await GoogleLoginStore().signIn() else { return }
-                         user.loginCenter = .google
-                         await user.signIn(credential: credential)
-                    }
-               }){ Text("로그인") }
-               Button(action: {
-                    user.signOut()
-               }) { Text("로그아웃") }
-               Button(action: {}) { Text("유저 데이터 불러오기") }
-               
-          }
-     }
-}
-
-
