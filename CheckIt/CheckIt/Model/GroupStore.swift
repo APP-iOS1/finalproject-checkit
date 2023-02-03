@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import Firebase
 import FirebaseStorage
 
@@ -22,13 +23,15 @@ enum GroupCodeValidation {
 
 class GroupStore: ObservableObject {
     @Published var groups: [Group] = []
+    @Published var groupImage: [String:UIImage] = [:]
     
     let database = Firestore.firestore()
+    private let storage = Storage.storage()
     
     // MARK: - 동아리를 개설하는 메소드
     /// - Parameter uid: 로그인한사용자의 uid 동아리 방장의 id
     /// - Parameter group: 사용자가 생성한 동아리 인스턴스
-    func createGroup(_ user: User, group: Group) async {
+    func createGroup(_ user: User, group: Group, image: UIImage) async {
         do {
             try await database.collection("Group")
                 .document(group.id)
@@ -44,6 +47,7 @@ class GroupStore: ObservableObject {
             // FIXME: - position관련 정보는 enum으로 수정 필요
             await createMember(database.collection("Group"), documentID: group.id, uid: user.id, position: "방장")
             await addGroupsInUser(user, joinedGroupId: group.id)
+            await createImages(image, path: group.id)
         } catch {
             print("동아리 생성 에러: \(error.localizedDescription)")
         }
@@ -67,6 +71,28 @@ class GroupStore: ObservableObject {
                 ])
         } catch {
             print("동아리 멤버 추가 에러: \(error.localizedDescription)")
+        }
+    }
+    
+    /// - Parameter image: 저장할 동아리 이미지
+    /// - Parameter path: 저장할 이미지 경로
+    ///
+    /// 동아리 생성시 동아리 이미지를 스토리지에 저장하는 메소드입니다.
+    func createImages(_ image: UIImage, path: String) async {
+        let storageRef = storage.reference().child("group_images/\(path)")
+        let data = image.jpegData(compressionQuality: 0.1)
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+        
+        // uploda data
+        if let data = data {
+            do {
+                _ = try await storageRef.putDataAsync(data, metadata: metadata)
+            } catch {
+                let code = error as NSError
+                print("code: \(code)")
+                print("group image upload error: \(error.localizedDescription)")
+            }
         }
     }
     
@@ -101,6 +127,21 @@ class GroupStore: ObservableObject {
                 let description = data["description"] as? String ?? ""
                 let scheduleID = data["schedule_id"] as? [String] ?? []
                 
+                do {
+                    let image = try await fetchImages("group_images/\(id)")
+                    
+                    // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
+                    DispatchQueue.main.async {
+                        if image == nil {
+                            self.groupImage[id] = UIImage()
+                        } else {
+                            self.groupImage[id] = UIImage(data: image!)!
+                        }
+                    }
+                } catch {
+                    print("fetch group image error: \(error.localizedDescription)")
+                }
+                
                 let group = Group(id: id,
                                   name: name,
                                   invitationCode: invitationCode,
@@ -117,7 +158,19 @@ class GroupStore: ObservableObject {
             print("동아리 가져오기 에러: \(error.localizedDescription)")
         }
     }
-    // MARK: - 동아리에 참가 후 User 컬렉션에
+    
+    /// - Parameter path: 동아리 이미지가 저장된 스토리지 경로
+    ///
+    ///  경로를 기반으로 동아리 이미지를 가져오며 Date 타입으로 이미지를 반환합니다. 따라서 UIImage로 타입 캐스팅을 해야합니다
+    func fetchImages(_ path: String) async throws -> Data? {
+        return await withCheckedContinuation { continuation in
+            let ref = storage.reference().child(path)
+            
+            ref.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
+                continuation.resume(returning: data)
+            }
+        }
+    }
     
     // MARK: - 유저가 동아리에 참가하는 메소드
     /// - Parameter code: 동아리 참가 코드

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct MakeGroupModalView: View {
     @Environment(\.dismiss) var dismiss
@@ -17,23 +18,44 @@ struct MakeGroupModalView: View {
     @State private var isJoined: Bool = false
     @State private var text: String = ""
     
+    @State private var selectedItems: [PhotosPickerItem] = []
+    @State private var selectedPhotoData: [UIImage] = []
+    
+    @Binding var showToast: Bool
+    @Binding var toastMessage: String
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             Text("동아리 개설하기")
                 .font(.system(size: 24, weight: .bold))
             
-            // MARK: - 동아리 이미지 추가하는 버튼
-            Button {
-                isJoined.toggle()
-            } label: {
+            
+            PhotosPicker(selection: $selectedItems, maxSelectionCount: 1, matching: .images) {
                 ZStack {
-                    Circle().fill(Color.myLightGray)
-                        .scaledToFit()
-                        .frame(width: 120, height: 120)
-                    
-                    Image(systemName: "plus")
-                        .resizable()
-                        .frame(width: 20, height: 20)
+                    if selectedPhotoData.isEmpty {
+                        Circle().fill(Color.myLightGray)
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                    } else {
+                        Image(uiImage: selectedPhotoData.first!)
+                            .resizable()
+                            .clipShape(Circle())
+                            .frame(width: 120, height: 120)
+                    }
+                }
+            }
+            .onChange(of: selectedItems) { newPhotos in
+                selectedPhotoData.removeAll()
+                for photo in newPhotos {
+                    Task {
+                        if let data = try? await photo.loadTransferable(type: Data.self),
+                           let image = UIImage(data: data){
+                            selectedPhotoData.append(image)
+                        }
+                    }
                 }
             }
             
@@ -56,8 +78,6 @@ struct MakeGroupModalView: View {
             
             // MARK: - 동아리 개설하기 버튼
             Button {
-                isJoined.toggle()
-                dismiss()
                 
                 let group = Group(id: UUID().uuidString,
                                   name: groupName,
@@ -67,8 +87,11 @@ struct MakeGroupModalView: View {
                                   description: groupDescription,
                                   scheduleID: [])
                 Task {
-                    await groupStores.createGroup(userStores.user!, group: group)
+                    await groupStores.createGroup(userStores.user!, group: group, image: selectedPhotoData.first ?? UIImage())
                 }
+                showToast.toggle()
+                toastMessage = "동아리 생성이 완료되었습니다."
+                dismiss()
                 
             } label: {
                 Text("동아리 개설하기")
@@ -82,8 +105,11 @@ struct MakeGroupModalView: View {
 }
 
 struct MakeGroupModalView_Previews: PreviewProvider {
+    @State static var showToast: Bool = false
+    @State static var toastMessage: String = ""
+    
     static var previews: some View {
-        MakeGroupModalView()
+        MakeGroupModalView(showToast: $showToast, toastMessage: $toastMessage)
             .environmentObject(GroupStore())
     }
 }
