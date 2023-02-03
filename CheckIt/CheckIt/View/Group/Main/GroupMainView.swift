@@ -51,7 +51,7 @@ struct GroupMainView: View {
                     }
                 }
             }
-            .padding(.horizontal, 40)
+            .padding(.horizontal)
         }
         .onAppear {
             Task {
