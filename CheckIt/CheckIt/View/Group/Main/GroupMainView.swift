@@ -35,17 +35,23 @@ struct GroupMainView: View {
                 }
                 .padding()
                 
-                ScrollView {
-                    VStack(spacing: 20) {
-                        // FIXME: - 동아리 리스트 데이터 연결하기
-                        
-                        ForEach(groupStores.groups) { group in
-                            // MARK: - 동아리 리스트
-                            NavigationLink(destination: CategoryView(group: group)) {
-                                GroupMainDetailView(group: group)
-                                    .frame(height: 120)
-                                    .background(Color.myLightGray)
-                                    .cornerRadius(18)
+                if groupStores.groups.isEmpty {
+                    Spacer()
+                    GroupEmptyView()
+                    Spacer()
+                } else {
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            // FIXME: - 동아리 리스트 데이터 연결하기
+                            
+                            ForEach(groupStores.groups) { group in
+                                // MARK: - 동아리 리스트
+                                NavigationLink(destination: CategoryView(group: group)) {
+                                    GroupMainDetailView(group: group)
+                                        .frame(height: 120)
+                                        .background(Color.myLightGray)
+                                        .cornerRadius(18)
+                                }
                             }
                         }
                     }
