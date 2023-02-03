@@ -74,7 +74,7 @@ struct CheckMainView: View {
                                 ForEach(0..<data.count) { i in
                                     Circle()
                                         .fill(data[i].show == true ? Color.myGray : Color.myGray.opacity(0.4))
-                                        .frame(width: 15, height: 15)
+                                        .frame(width: 8, height: 8)
                                         .offset(y: 60)
                                 }
                             }
