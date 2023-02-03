@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GroupMainDetailView: View {
     let group: Group
+    let groupImage: UIImage
     
     var body: some View {
         VStack {
@@ -17,10 +18,11 @@ struct GroupMainDetailView: View {
                 
                 ZStack(alignment: .topLeading) {
                     // MARK: - 동아리 이미지
-                    Image("chocobi")
+                    Image(uiImage: groupImage)
                         .resizable()
                         .frame(width: 85, height: 85)
                         .clipShape(Circle())
+                    
                     
                     ZStack {
                         // MARK: - 방장, 운영진 여부
@@ -57,6 +59,6 @@ struct GroupMainDetailView: View {
 
 struct GroupMainDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupMainDetailView(group: Group.sampleGroup)
+        GroupMainDetailView(group: Group.sampleGroup, groupImage: UIImage())
     }
 }
