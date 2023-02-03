@@ -69,6 +69,7 @@ class UserStore: ObservableObject {
                     }
                     
                     if snapshot == nil || snapshot?.documents == [] {
+                        print(snapshot?.documents ?? [])
                          completion(false)
                          return
                     }
@@ -109,9 +110,12 @@ class UserStore: ObservableObject {
      //MARK: - Method(signIn)
      /// Firebase 로그인 메서드입니다. credential을 제3자(애플, 카카오, 구글)로부터  파라미터로 제공받아 파이어베이스 로그인에 연결합니다.
      func signInCompletionHandler(credential: AuthCredential?, completion: @escaping (FirebaseAuth.User?) -> ()) {
-          var isUser: Bool = false
+          
           guard let credential = credential else { completion(nil); return }
-          Auth.auth().signIn(with: credential) { [self] authResult, error in
+         
+         //FIXME: async로 변경해야 함 (completion Handler 안에 async 돌리는 경우 잘 없음)
+          Auth.auth().signIn(with: credential) { [unowned self] authResult, error in
+//              var isUser: Bool = true
                if let error = error {
                     print("\(error.localizedDescription)")
                     return
@@ -120,17 +124,26 @@ class UserStore: ObservableObject {
                //FIXME: memory leak (guard case let self.userData = authResult?.user else{return}시 발생
                self.userData = authResult?.user
                
-               Task {
-                    isUser = await self.isUserInDatabase(email: userData?.email ?? "N/A")
-               }
-               print(userData?.email, "Firebase Login")
                
-               // 회원이 아니면 회원가입 (db에 정보 업로드)
-               if !isUser {
-                    addUser(userData: authResult?.user)
-               }
+                  
+              Task {
+                  var isUserTemp = await self.isUserInDatabase(email: userData?.email ?? "N/A")
+                  if !isUserTemp {
+                       addUser(userData: authResult?.user)
+                  }
+              }
                
-               self.user = .init(id: self.userData?.uid ?? "N/A", email: self.userData?.email ?? "N/A", name: self.userData?.displayName ?? "N/A", groupID: [])
+//              print(isUserTemp)
+//               print(userData?.email, "Firebase Login")
+               
+//               // 회원이 아니면 회원가입 (db에 정보 업로드)
+//               if !isUserTemp {
+//                    addUser(userData: authResult?.user)
+//               }
+              
+              fetchUserData(id: userData?.uid ?? "") { user in
+                  self.user = user
+              }
                self.toggleLoginState()
                completion(authResult?.user)
           }
@@ -146,6 +159,28 @@ class UserStore: ObservableObject {
           }
      } // - signIn
      
+    //MARK: - Method(fetchUserData)
+    /// db에 있는 userData를 불러오는 메서드입니다.
+    func fetchUserData(id: String, completion: @escaping (User) -> ()) {
+        var user: User = .init(id: "", email: "", name: "", groupID: [])
+        database.collection("User")
+            .document("\(id)")
+            .getDocument { document, error in
+                if let error = error {
+                    print("\(error.localizedDescription)")
+                    return
+                }
+                
+                guard let document else { return }
+                user.id = document["id"] as? String ?? "N/A"
+                user.email = document["email"] as? String ?? "N/A"
+                user.name = document["name"] as? String ?? "N/A"
+                user.groupID = document["groupID"] as? [String] ?? []
+                completion(user)
+            }
+        completion(user)
+    } // - fetchUserData
+    
      //MARK: - Method(returnUserData)
      /// 유저 데이터를 반환하는 메서드입니다. -> 삭제
      func returnUserData() -> User? {
@@ -156,6 +191,8 @@ class UserStore: ObservableObject {
           
           return self.user
      } // - fetchUserData
+    
+    
      
      
      //MARK: - Method(signOut)
@@ -204,7 +241,7 @@ class UserStore: ObservableObject {
           database.collection("User")
                .document("\(user.uid)")
                .setData([
-                    "uid" : user.uid ?? "N/A",
+                    "id" : user.uid ?? "N/A",
                     "name" : user.displayName,
                     "email" : user.email ?? "N/A",
                     "group_id" : [],
@@ -217,7 +254,7 @@ class UserStore: ObservableObject {
           database.collection("User")
                .document("\(user.id)")
                .setData([
-                    "uid" : user.id,
+                    "id" : user.id,
                     "name" : user.name,
                     "email" : user.email,
                     "group_id" : user.groupID,
