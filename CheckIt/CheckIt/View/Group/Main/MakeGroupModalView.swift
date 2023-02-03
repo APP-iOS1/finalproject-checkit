@@ -76,7 +76,7 @@ struct MakeGroupModalView: View {
             // MARK: - 동아리 개설하기 버튼
             Button {
                 isJoined.toggle()
-                dismiss()
+                
                 
                 let group = Group(id: UUID().uuidString,
                                   name: groupName,
@@ -86,8 +86,9 @@ struct MakeGroupModalView: View {
                                   description: groupDescription,
                                   scheduleID: [])
                 Task {
-                    await groupStores.createGroup(userStores.user!, group: group)
+                    await groupStores.createGroup(userStores.user!, group: group, image: selectedPhotoData.first ?? UIImage())
                 }
+                dismiss()
                 
             } label: {
                 Text("동아리 개설하기")

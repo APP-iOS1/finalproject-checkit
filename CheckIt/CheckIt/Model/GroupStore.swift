@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import Firebase
 import FirebaseStorage
 
@@ -24,11 +25,12 @@ class GroupStore: ObservableObject {
     @Published var groups: [Group] = []
     
     let database = Firestore.firestore()
+    private let storage = Storage.storage()
     
     // MARK: - 동아리를 개설하는 메소드
     /// - Parameter uid: 로그인한사용자의 uid 동아리 방장의 id
     /// - Parameter group: 사용자가 생성한 동아리 인스턴스
-    func createGroup(_ user: User, group: Group) async {
+    func createGroup(_ user: User, group: Group, image: UIImage) async {
         do {
             try await database.collection("Group")
                 .document(group.id)
@@ -44,6 +46,7 @@ class GroupStore: ObservableObject {
             // FIXME: - position관련 정보는 enum으로 수정 필요
             await createMember(database.collection("Group"), documentID: group.id, uid: user.id, position: "방장")
             await addGroupsInUser(user, joinedGroupId: group.id)
+            await createImages(image, path: group.id)
         } catch {
             print("동아리 생성 에러: \(error.localizedDescription)")
         }
@@ -67,6 +70,28 @@ class GroupStore: ObservableObject {
                 ])
         } catch {
             print("동아리 멤버 추가 에러: \(error.localizedDescription)")
+        }
+    }
+    
+    /// - Parameter image: 저장할 동아리 이미지
+    /// - Parameter path: 저장할 이미지 경로
+    ///
+    /// 동아리 생성시 동아리 이미지를 스토리지에 저장하는 메소드입니다.
+    func createImages(_ image: UIImage, path: String) async {
+        let storageRef = storage.reference().child("group_images/\(path)")
+        let data = image.jpegData(compressionQuality: 0.1)
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+        
+        // uploda data
+        if let data = data {
+            do {
+                let result = try await storageRef.putDataAsync(data, metadata: metadata)
+            } catch {
+                let code = error as NSError
+                print("code: \(code)")
+                print("group image upload error: \(error.localizedDescription)")
+            }
         }
     }
     
