@@ -35,7 +35,10 @@ struct Profile: View {
                                         .padding(.top, 23)
                                 },
                                 placeholder: {
-                                    ProgressView()
+                                    Image(systemName: "person.circle.fill")
+                                        .resizable()
+                                        .frame(width: 100, height: 100)
+                                        .foregroundColor(.myGray)
                                 }
                             )
                 
