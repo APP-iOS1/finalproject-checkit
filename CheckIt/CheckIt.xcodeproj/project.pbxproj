@@ -49,6 +49,12 @@
 		864DC4892977B2F9005DB201 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC4882977B2F9005DB201 /* CustomDatePickerView.swift */; };
 		864DC48F2977B962005DB201 /* DateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC48E2977B962005DB201 /* DateValue.swift */; };
 		864DC4912977DF8C005DB201 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864DC4902977DF8C005DB201 /* PickerView.swift */; };
+		A529BD43298CA7CC00AE232B /* UserConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD42298CA7CC00AE232B /* UserConstants.swift */; };
+		A529BD45298CA8C700AE232B /* SeminarConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD44298CA8C700AE232B /* SeminarConstants.swift */; };
+		A529BD47298CA8FC00AE232B /* ScheduleConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD46298CA8FC00AE232B /* ScheduleConstants.swift */; };
+		A529BD49298CA93900AE232B /* GroupConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD48298CA93900AE232B /* GroupConstants.swift */; };
+		A529BD4B298CABAE00AE232B /* AttendanceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD4A298CABAE00AE232B /* AttendanceConstants.swift */; };
+		A529BD4D298CABF500AE232B /* MemberStoreConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD4C298CABF500AE232B /* MemberStoreConstants.swift */; };
 		A5775BD02988E9E8000DFC3F /* CameraScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */; };
 		A5775BD22988ECC1000DFC3F /* CameraScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD12988ECC1000DFC3F /* CameraScanner.swift */; };
 		A5775BD42989FE21000DFC3F /* CameraScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */; };
@@ -162,6 +168,12 @@
 		864DC4882977B2F9005DB201 /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
 		864DC48E2977B962005DB201 /* DateValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateValue.swift; sourceTree = "<group>"; };
 		864DC4902977DF8C005DB201 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		A529BD42298CA7CC00AE232B /* UserConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConstants.swift; sourceTree = "<group>"; };
+		A529BD44298CA8C700AE232B /* SeminarConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeminarConstants.swift; sourceTree = "<group>"; };
+		A529BD46298CA8FC00AE232B /* ScheduleConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleConstants.swift; sourceTree = "<group>"; };
+		A529BD48298CA93900AE232B /* GroupConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupConstants.swift; sourceTree = "<group>"; };
+		A529BD4A298CABAE00AE232B /* AttendanceConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceConstants.swift; sourceTree = "<group>"; };
+		A529BD4C298CABF500AE232B /* MemberStoreConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStoreConstants.swift; sourceTree = "<group>"; };
 		A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewController.swift; sourceTree = "<group>"; };
 		A5775BD12988ECC1000DFC3F /* CameraScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScanner.swift; sourceTree = "<group>"; };
 		A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewModel.swift; sourceTree = "<group>"; };
@@ -272,6 +284,19 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		A529BD41298CA79A00AE232B /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				A529BD42298CA7CC00AE232B /* UserConstants.swift */,
+				A529BD44298CA8C700AE232B /* SeminarConstants.swift */,
+				A529BD46298CA8FC00AE232B /* ScheduleConstants.swift */,
+				A529BD48298CA93900AE232B /* GroupConstants.swift */,
+				A529BD4A298CABAE00AE232B /* AttendanceConstants.swift */,
+				A529BD4C298CABF500AE232B /* MemberStoreConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		FD2D07F8297BFD2500CC010E /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +329,7 @@
 		FD4E259B297783CC00F6F875 /* CheckIt */ = {
 			isa = PBXGroup;
 			children = (
+				A529BD41298CA79A00AE232B /* Constants */,
 				283B27B4298A266800E4D400 /* Extensions */,
 				FD03F4BC2988F4BD005B355D /* Info.plist */,
 				FD4E25D22977859E00F6F875 /* GoogleService-Info.plist */,
@@ -688,11 +714,13 @@
 				FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */,
 				FD4E25F22977AF8B00F6F875 /* CheckItButtonLabel.swift in Sources */,
 				A5C48C11297A606D007D49DF /* GroupMemberListCell.swift in Sources */,
+				A529BD47298CA8FC00AE232B /* ScheduleConstants.swift in Sources */,
 				864DC4872977B19F005DB201 /* TaskView.swift in Sources */,
 				FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */,
 				FDE58061297A53A600B7AC28 /* ToastAlert.swift in Sources */,
 				1A41F4442977AA600051F464 /* AttendanceStatusView.swift in Sources */,
 				A5775BD02988E9E8000DFC3F /* CameraScannerViewController.swift in Sources */,
+				A529BD45298CA8C700AE232B /* SeminarConstants.swift in Sources */,
 				FD4E25FE2977C44C00F6F875 /* QRButtonLabel.swift in Sources */,
 				FD4E25F42977B20800F6F875 /* DdayLabel.swift in Sources */,
 				FD4E25F62977B84A00F6F875 /* CheckMainView.swift in Sources */,
@@ -701,9 +729,11 @@
 				FD4E25F02977AC8500F6F875 /* CheckItCard.swift in Sources */,
 				283B70B7298C98EF003782C3 /* GroupEmptyView.swift in Sources */,
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
+				A529BD4D298CABF500AE232B /* MemberStoreConstants.swift in Sources */,
 				2869DE442977CF0200D8CAFB /* LateCostCellView.swift in Sources */,
 				2822CE162988AFEC00316139 /* User.swift in Sources */,
 				2807AA9D297A5E0500B1676C /* AttendancePickerView.swift in Sources */,
+				A529BD43298CA7CC00AE232B /* UserConstants.swift in Sources */,
 				2822CE282988DE3300316139 /* MemberStore.swift in Sources */,
 				2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */,
 				A5C48C0F297A5221007D49DF /* GroupPosition.swift in Sources */,
@@ -719,6 +749,8 @@
 				2822CE222988DDDD00316139 /* GroupStore.swift in Sources */,
 				FD2D07F7297BFCB900CC010E /* GeoCodingResponse.swift in Sources */,
 				FD4E259D297783CC00F6F875 /* CheckItApp.swift in Sources */,
+				A529BD4B298CABAE00AE232B /* AttendanceConstants.swift in Sources */,
+				A529BD49298CA93900AE232B /* GroupConstants.swift in Sources */,
 				2807AA9B297A536300B1676C /* AttendanceCategoryView.swift in Sources */,
 				2822CE242988DDF000316139 /* ScheduleStore.swift in Sources */,
 				1A41F4462977AA820051F464 /* LateFeeView.swift in Sources */,
