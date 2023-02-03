@@ -9,8 +9,6 @@ import SwiftUI
 
 struct CheckItCard: View {
     var data: Card
-    //    var isActiveButton: Bool = true
-    @State var animationAmount: CGFloat = 1
     
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
@@ -24,6 +22,7 @@ struct CheckItCard: View {
                             TopSection
                             Spacer()
                         }
+                        .padding(.top, -20)
                         
                         HStack {
                             InformationSection
@@ -54,8 +53,8 @@ struct CheckItCard: View {
                     
                 } // - VStack
                 .frame(
-                    width: data.show ? UIScreen.main.bounds.width - 20 : UIScreen.main.bounds.width - 40,
-                    height: data.show ? 600 : 400
+                    width: data.show ? UIScreen.main.bounds.width - 50 : UIScreen.main.bounds.width - 80,
+                    height: data.show ? 580 : 400
                 )
                 .scaleEffect(data.show ? 1 : 0.7)
                 .background(Color.myLightGray)

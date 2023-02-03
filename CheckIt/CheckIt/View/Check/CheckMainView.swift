@@ -13,6 +13,8 @@ struct CheckMainView: View {
     @State var screen = UIScreen.main.bounds.width - 30
     @State var op : CGFloat = 0
     
+    @State private var index = 0
+    
     //FIXME: 더미데이터입니다.
     @State var data = [
         Card(id: 0, dDay: "D-day", groupName: "허니미니의 또구 동아리", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: true, show: false),
@@ -30,7 +32,7 @@ struct CheckMainView: View {
                 
                 HStack(spacing: 50) {
                     
-                    ForEach(data){i in
+                    ForEach(data) { i in
                         
                         CheckItCard(data: i)
                             .offset(x: self.x)
@@ -39,54 +41,52 @@ struct CheckMainView: View {
                                 .onChanged({ (value) in
                                     
                                     if value.translation.width > 0{
-                                        
                                         self.x = value.location.x
-                                    }
-                                    else{
-                                        
+                                    } else {
                                         self.x = value.location.x - self.screen
                                     }
-                                    
                                 })
                                     .onEnded({ (value) in
                                         
                                         if value.translation.width > 0{
-                                            
-                                            
                                             if value.translation.width > ((self.screen - 80) / 2) && Int(self.count) != 0{
-                                                
                                                 
                                                 self.count -= 1
                                                 self.updateHeight(value: Int(self.count))
                                                 self.x = -((self.screen + 15) * self.count)
-                                            }
-                                            else{
-                                                
+                                            } else {
                                                 self.x = -((self.screen + 15) * self.count)
                                             }
-                                        }
-                                        else{
-                                            
-                                            
+                                        } else {
                                             if -value.translation.width > ((self.screen - 80) / 2) && Int(self.count) !=  (self.data.count - 1){
                                                 
                                                 self.count += 1
                                                 self.updateHeight(value: Int(self.count))
                                                 self.x = -((self.screen + 15) * self.count)
-                                            }
-                                            else{
-                                                
+                                            } else {
                                                 self.x = -((self.screen + 15) * self.count)
                                             }
                                         }
                                     })
                             )
+                        
                     }
+                    
                 }
                 .frame(width: UIScreen.main.bounds.width)
                 .offset(x: self.op)
                 
                 Spacer()
+                
+                HStack {
+                    ForEach((0..<data.count), id: \.self) { index in
+                        Circle()
+                            .fill(index == self.index ? Color.myGray : Color.myGray.opacity(0.4))
+                            .frame(width: 15, height: 15)
+
+                    }
+                }
+                .offset(y: -30)
             }
 //            .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.top))
             //            .navigationBarTitle("Carousel List")
