@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct CheckItCard: View {
+    @EnvironmentObject var scheduleStore: ScheduleStore
+    @ObservedObject var extraData = ExtraData()
     @Binding var cardArr: [Card]
+    
+    @State private var schedules: [Schedule] = []
+    @State private var recentSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officalyAbsentCount: 0)
     
     var group: Group
     var index: Int
@@ -68,6 +73,12 @@ struct CheckItCard: View {
                     .cornerRadius(25)
                 } // - overlay
                 .padding(.leading, 20)
+                .onAppear {
+                    scheduleStore.fetchSchedule(gruopName: group.name)
+                    schedules = scheduleStore.scheduleList
+                    print("schedules: \(schedules)")
+//                    recentSchedule = schedules[0]
+                }
         } // 이후 필요없으면 삭제
     }
 
@@ -85,30 +96,30 @@ struct CheckItCard: View {
 
     } // - TopSection
     //    MARK: - View(InformationSection)
-    //    private var InformationSection: some View {
-    //        VStack(alignment: .leading) {
-    //            // 날짜
-    //            HStack {
-    //                customSymbols(name: "calendar")
-    //                Text("\(data.date)")
-    //            } // - HStack
-    //            .padding(.vertical, 3)
-    //
-    //            // 시간
-    //            HStack {
-    //                customSymbols(name: "clock")
-    //                Text("\(data.time)")
-    //            } // - HStack
-    //            .padding(.vertical, 3)
-    //
-    //            // 장소
-    //            HStack {
-    //                customSymbols(name: "mapPin")
-    //                Text("\(data.place)")
-    //            } // - HStack
-    //            .padding(.vertical, 3)
-    //        } // - VStack
-    //    } // - InformationSection
+//        private var InformationSection: some View {
+//            VStack(alignment: .leading) {
+//                // 날짜
+//                HStack {
+//                    customSymbols(name: "calendar")
+//                    Text(extraData.selectedDate(date: recentSchedule.startTime)[0])
+//                } // - HStack
+//                .padding(.vertical, 3)
+//
+//                // 시간
+//                HStack {
+//                    customSymbols(name: "clock")
+//                    Text("\(data.time)")
+//                } // - HStack
+//                .padding(.vertical, 3)
+//
+//                // 장소
+//                HStack {
+//                    customSymbols(name: "mapPin")
+//                    Text("\(data.place)")
+//                } // - HStack
+//                .padding(.vertical, 3)
+//            } // - VStack
+//        } // - InformationSection
 }
 
 
