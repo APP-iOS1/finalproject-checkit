@@ -50,6 +50,7 @@ class GroupStore: ObservableObject {
                 switch diff.type {
                 case .added:
                     print("동아리 추가")
+                    self.readGroup(diff.document.data())
                 case .modified:
                     print("동아리 수정")
                 case .removed:
@@ -64,6 +65,32 @@ class GroupStore: ObservableObject {
     /// 동아리 데이터의 관찰을 종료합니다.
     func detachListener() {
         listener?.remove()
+    }
+    
+    /// 동아리의 데이터를 읽는 메소드입니다.
+    /// - Parameter group: 읽을 동아리의 데이터
+    ///
+    /// 파라미터로 들어온 동아리를 스토어의 @Published groups 프로퍼티에 저장합니다.
+    func readGroup(_ group: [String:Any]) {
+        let id = group[GroupConstants.id] as? String ?? ""
+        let name = group[GroupConstants.name] as? String ?? ""
+        let invitationCode = group[GroupConstants.invitationCode] as? String ?? ""
+        let image = group[GroupConstants.image] as? String ?? ""
+        let hostID = group[GroupConstants.hostID] as? String ?? ""
+        let description = group[GroupConstants.description] as? String ?? ""
+        let scheduleID = group[GroupConstants.scheduleID] as? [String] ?? []
+        let memberCount = group[GroupConstants.memberCount] as? Int ?? 0
+        
+        let group = Group(id: id,
+                          name: name,
+                          invitationCode: invitationCode,
+                          image: image,
+                          hostID: hostID,
+                          description: description,
+                          scheduleID: scheduleID,
+                          memberCount: memberCount)
+        print("groups: \(self.groups)")
+        self.groups.append(group)
     }
     
     // MARK: - 동아리를 개설하는 메소드
