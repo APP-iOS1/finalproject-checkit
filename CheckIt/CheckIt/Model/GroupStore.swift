@@ -42,7 +42,9 @@ class GroupStore: ObservableObject {
                     "\(GroupConstants.invitationCode)": group.invitationCode,
                     "\(GroupConstants.image)": group.image,
                     "\(GroupConstants.description)": group.description,
-                    "\(GroupConstants.scheduleID)": group.scheduleID])
+                    "\(GroupConstants.scheduleID)": group.scheduleID,
+                    "\(GroupConstants.memberCount)": group.memberCount
+                ])
             
             // FIXME: - position관련 정보는 enum으로 수정 필요
             await createMember(database.collection("Group"), documentID: group.id, uid: user.id, position: "방장")
@@ -126,6 +128,7 @@ class GroupStore: ObservableObject {
                 let hostID = data[GroupConstants.hostID] as? String ?? ""
                 let description = data[GroupConstants.description] as? String ?? ""
                 let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
+                let memberCount = data[GroupConstants.memberCount] as? Int ?? 0
                 
                 do {
                     let image = try await fetchImages("group_images/\(id)")
@@ -148,7 +151,8 @@ class GroupStore: ObservableObject {
                                   image: image,
                                   hostID: hostID,
                                   description: description,
-                                  scheduleID: scheduleID)
+                                  scheduleID: scheduleID,
+                                  memberCount: memberCount)
                 
                 DispatchQueue.main.async {
                     self.groups.append(group)
@@ -183,12 +187,11 @@ class GroupStore: ObservableObject {
         let status = await checkedGroupCode(code)
         switch status {
         case .validated(let groupId):
-            // FIXME: - userGroups을 파라미터로 받은 user group으로 변경해야함
             let userGroups: [String] = user.groupID
             if userGroups.contains(groupId) {
                 return .alreadyJoined
             }
-            //FIXME: - 1. USer Collection의 groupid에 추가하기
+            
             do {
                 try await database.collection("Group")
                     .document(groupId)
@@ -200,6 +203,7 @@ class GroupStore: ObservableObject {
                     ])
                 //FIXME: - User를 파라미터의 User로 변경 필요
                 await addGroupsInUser(user, joinedGroupId: groupId)
+                await addGroupMemberCount(groupId)
                 await fetchGroups(user)
                 return .newJoined
                 
@@ -242,6 +246,37 @@ class GroupStore: ObservableObject {
                 ])
         } catch {
             print("addGroupsInUser error: \(error.localizedDescription)")
+        }
+    }
+    
+    /// 동아리에 참가할 시 동아리의 memberCount를 증가시키는 메소드
+    /// - Parameter groupdId: 참가할 동아리의 id
+    func addGroupMemberCount(_ groupId: String) async {
+        let oldUserCount = await getMemberCount(groupId)
+        do {
+            try await database.collection("Group")
+                .document(groupId)
+                .updateData([
+                    "member_count": oldUserCount + 1,
+                ])
+        } catch {
+            print("addGroupMemberCount error: \(error.localizedDescription)")
+        }
+    }
+    /// 동아리에 참가할 시 참가할 동아리의 멤버 수를 반환하는 메소드
+    /// - Parameter groupdId: 참가할 동아리의 id
+    func getMemberCount(_ groupId: String) async -> Int {
+        do {
+            let querySnapshot = try await database.collection("Group")
+                .document(groupId)
+                .getDocument()
+            if !querySnapshot.exists { return 0 }
+            let data = querySnapshot.data()!
+            let memberCount = data[GroupConstants.memberCount] as? Int ?? 0
+            return memberCount
+        } catch {
+            print("getMemberCount error: \(error.localizedDescription)")
+            return 0
         }
     }
 }
