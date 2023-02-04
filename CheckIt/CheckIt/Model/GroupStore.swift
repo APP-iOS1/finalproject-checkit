@@ -28,6 +28,44 @@ class GroupStore: ObservableObject {
     let database = Firestore.firestore()
     private let storage = Storage.storage()
     
+    private var listener: ListenerRegistration?
+    
+    
+    /// 동아리 데이터에 리스너를 시작하는 메소드
+    /// - Parameter user: 현재 로그인한 user의 정보가 담겨있습니다.
+    ///
+    /// 동아리 데이터의 추가 수정 삭제 변화를 관찰합니다.
+    func startGroupListener(_ user: User) {
+        let groupId = user.groupID
+        self.listener = database.collection("Group").whereField("id", in: groupId)
+            .addSnapshotListener{ querySnapshot, error in
+            print("메시지 리스너 호출")
+            
+            guard let snapshot = querySnapshot else {
+                print("fetching group error: \(error!)")
+                return
+            }
+            
+            snapshot.documentChanges.forEach { diff in
+                switch diff.type {
+                case .added:
+                    print("동아리 추가")
+                case .modified:
+                    print("동아리 수정")
+                case .removed:
+                    print("동아리 제거")
+                }
+            }
+        }
+    }
+    
+    /// 동아리 데이터에 리스너를 종료하는 메소드
+    ///
+    /// 동아리 데이터의 관찰을 종료합니다.
+    func detachListener() {
+        listener?.remove()
+    }
+    
     // MARK: - 동아리를 개설하는 메소드
     /// - Parameter uid: 로그인한사용자의 uid 동아리 방장의 id
     /// - Parameter group: 사용자가 생성한 동아리 인스턴스

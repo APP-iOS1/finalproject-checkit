@@ -63,6 +63,8 @@ struct GroupMainView: View {
                 }
             }
             .onAppear {
+                groupStores.startGroupListener(userStores.user!)
+                
                 Task {
                     await groupStores.fetchGroups(userStores.user!)
                     print("동아리들: \(groupStores.groups)")
