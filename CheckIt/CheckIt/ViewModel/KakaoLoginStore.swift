@@ -9,6 +9,7 @@ import KakaoSDKAuth
 import KakaoSDKCommon
 import KakaoSDKUser
 import Foundation
+import SwiftyJSON
 
 
 
@@ -35,7 +36,6 @@ class KakaoLoginStore {
     
     func returnFirebaseToken(completion: @escaping (String?) -> ()) {
         getTokenWithKakaoTalkCompletionHanlder { accessToken in
-            print("async Bug Fix:", accessToken)
             guard let accessToken else { completion(nil); return }
             self.requestKakaoCompletionHandler(accessToken: accessToken) { result in
                 guard let result else { completion(nil); return }
@@ -92,7 +92,7 @@ class KakaoLoginStore {
     
     //FIXME: 서버가 작동하지 않는 문제
     private func requestKakaoCompletionHandler(accessToken: String, completion: @escaping (String?) -> ()) {
-        let url = URL(string: "http://localhost:8000/verifyToken")
+        let url = URL(string: "https://verify-token.herokuapp.com/verifyToken")
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -109,12 +109,13 @@ class KakaoLoginStore {
         AF.request(request).validate(statusCode: 200..<300).responseData { response in
             switch response.result {
             case .success(let data):
-                guard let object = data as? [String: Any] else {
+                guard let object = JSON(data).dictionary as? [String: Any] else {
                     print("토큰 발행 실패")
                     completion(nil)
                     return
                 }
-                guard let firebaseToken = object["firebase_token"] as? String else { return }
+//                print(String(describing: object["firebase_token"]))
+                let firebaseToken = String(describing: object["firebase_token"] ?? "")
                 completion(firebaseToken)
                 
             case .failure(let error):
