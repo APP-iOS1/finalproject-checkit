@@ -110,13 +110,6 @@ struct LoginView: View {
             // 구글 로그인
             googleLoginButton
             
-            
-            Button(action: {
-                KakaoLoginStore().signOut()
-            }){
-                Text("카카오 로그아웃")
-            }
-            
             Spacer()
         }
     }

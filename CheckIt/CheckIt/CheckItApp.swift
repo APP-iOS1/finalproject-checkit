@@ -67,7 +67,13 @@ struct CheckItApp: App {
                     .environmentObject(attendanceStore)
                     .environmentObject(memberStore)
                     .onAppear{
-                        print(Auth.auth().currentUser)
+                        if let user = Auth.auth().currentUser {
+                            userStore.isPresentedLoginView = false
+                            userStore.userData = user
+                            Task {
+                                await userStore.fetchUser(user.uid)   
+                            }
+                        }
                     }
                     
 
