@@ -12,6 +12,8 @@ import GoogleSignInSwift
 
 struct LoginView: View {
     @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var groupStore: GroupStore
+    
     var kakaoLoginButton: some View {
         Button(action: {
 
@@ -119,6 +121,10 @@ struct LoginView: View {
 
 
             Spacer()
+        }
+        .onDisappear {
+            print("로그인 뷰 disappear 호출")
+            groupStore.startGroupListener(userStore.user!)
         }
     }
 
