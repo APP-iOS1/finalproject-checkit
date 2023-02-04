@@ -15,6 +15,7 @@ struct Group: Identifiable {
     var hostID: String
     var description: String    
     var scheduleID: [String]
+    var memberCount: Int
     
     static let sampleGroup: Group = Group(id: "1",
                                           name: "허미니의 또구동아리",
@@ -22,5 +23,7 @@ struct Group: Identifiable {
                                           image: "",
                                           hostID: "",
                                           description: "야구동아리입니다",
-                                          scheduleID: [])
+                                          scheduleID: [],
+                                          memberCount: 0
+    )
 }
