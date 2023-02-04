@@ -17,6 +17,8 @@ struct Schedule: Identifiable {
     var endTime: Date  // 2023년 4월 10일 18시 00
     var agreeTime: Int
     var memo: String
+    var attendanceCount: Int
+    var lateCount: Int
+    var absentCount: Int
+    var officalyAbsentCount: Int
 }
-
-

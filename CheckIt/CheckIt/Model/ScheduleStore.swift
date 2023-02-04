@@ -26,12 +26,16 @@ class ScheduleStore: ObservableObject {
                         let id: String = document.documentID
                         let docData = document.data()
                         
-                        let groupName: String = docData["group_name"] as? String ?? ""
-                        let lateFee: Int = docData["late_fee"] as? Int ?? 0
-                        let absenteeFee: Int = docData["absentee_fee"] as? Int ?? 0
-                        let location: String = docData["location"] as? String ?? ""
-                        let agreeTime: Int = docData["agree_time"] as? Int ?? 0
-                        let memo: String = docData["memo"] as? String ?? ""
+                        let groupName: String = docData[ScheduleConstants.groupName] as? String ?? ""
+                        let lateFee: Int = docData[ScheduleConstants.lateFee] as? Int ?? 0
+                        let absenteeFee: Int = docData[ScheduleConstants.absenteeFee] as? Int ?? 0
+                        let location: String = docData[ScheduleConstants.location] as? String ?? ""
+                        let agreeTime: Int = docData[ScheduleConstants.agreeTime] as? Int ?? 0
+                        let memo: String = docData[ScheduleConstants.memo] as? String ?? ""
+                        let attendanceCount: Int = docData[ScheduleConstants.attendanceCount] as? Int ?? 0
+                        let lateCount: Int = docData[ScheduleConstants.lateCount] as? Int ?? 0
+                        let absentCount: Int = docData[ScheduleConstants.absentCount] as? Int ?? 0
+                        let officalyAbsentCount: Int = docData[ScheduleConstants.officalyAbsentCount] as? Int ?? 0
                         
                         let startTime: Timestamp = docData["start_time"] as? Timestamp ?? Timestamp()
                         let startTimestamp: Date = startTime.dateValue()
@@ -39,40 +43,10 @@ class ScheduleStore: ObservableObject {
                         let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
                         let endTimestamp: Date = endTime.dateValue()
                         
-                        let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo)
+                        let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officalyAbsentCount: officalyAbsentCount)
                         
                         self.scheduleList.append(schedule)
                                    
-                    }
-                }
-            }
-    }
-    func fetchUserSchedule(scheduleID: String) {
-        database.collection("Schedule").whereField("id", isEqualTo: scheduleID)
-            .getDocuments { (snapshot, error) in
-                self.scheduleList.removeAll()
-                
-                if let snapshot {
-                    for document in snapshot.documents {
-                        let id: String = document.documentID
-                        let docData = document.data()
-                        
-                        let groupName: String = docData["groupName"] as? String ?? ""
-                        let lateFee: Int = docData["lateFee"] as? Int ?? 0
-                        let absenteeFee: Int = docData["absenteeFee"] as? Int ?? 0
-                        let location: String = docData["location"] as? String ?? ""
-                        let agreeTime: Int = docData["agreeTime"] as? Int ?? 0
-                        let memo: String = docData["memo"] as? String ?? ""
-                        
-                        let startTime: Timestamp = docData["startTime"] as? Timestamp ?? Timestamp()
-                        let startTimestamp: Date = startTime.dateValue()
-                        
-                        let endTime: Timestamp = docData["endTime"] as? Timestamp ?? Timestamp()
-                        let endTimestamp: Date = endTime.dateValue()
-                        
-                        let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo)
-                        
-                        self.scheduleList.append(schedule)
                     }
                 }
             }
@@ -117,16 +91,22 @@ class ScheduleStore: ObservableObject {
         do {
             try await database.collection("Schedule")
                 .document(schedule.id)
-                .setData(["group_name": schedule.groupName,
-                          "late_fee": schedule.lateFee,
-                          "absentee_fee": schedule.absenteeFee,
-                          "location": schedule.location,
-                          "agree_time": schedule.agreeTime,
-                          "memo": schedule.memo,
-                          "start_time": schedule.startTime,
-                          "end_time": schedule.endTime,
-                          "id": schedule.id
-                         ])
+                .setData([
+                    "id": schedule.id,
+                    "group_name": schedule.groupName,
+                    "late_fee": schedule.lateFee,
+                    "absentee_fee": schedule.absenteeFee,
+                    "location": schedule.location,
+                    "agree_time": schedule.agreeTime,
+                    "memo": schedule.memo,
+                    "start_time": schedule.startTime,
+                    "end_time": schedule.endTime,
+                    "attendance_count": schedule.attendanceCount,
+                    "late_count": schedule.lateCount,
+                    "absent_count": schedule.attendanceCount,
+                    "officalyAbsent_count": schedule.officalyAbsentCount
+                ])
+            
         } catch {
             print("add schedule error: \(error.localizedDescription)")
         }
