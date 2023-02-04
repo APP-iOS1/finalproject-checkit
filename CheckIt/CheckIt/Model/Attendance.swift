@@ -9,6 +9,7 @@ import Foundation
 
 struct Attendance: Identifiable {
     var id: String
+    var scheduleId: String
     var attendanceStatus: String
     var settlementStatus: Bool
 }

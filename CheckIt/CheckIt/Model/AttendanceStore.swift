@@ -26,10 +26,11 @@ class AttendanceStore: ObservableObject {
                     for document in snapshot.documents {
                         let docData = document.data()
                         let id: String = docData[AttendanceConstants.id] as? String ?? ""
+                        let scheduleId: String = docData[AttendanceConstants.scheduleId] as? String ?? ""
                         let attendanceStatus: String = docData[AttendanceConstants.attendanceStatus] as? String ?? ""
                         let settlementStatus: Bool = docData[AttendanceConstants.settlementStatus] as? Bool ?? true
                         
-                        let attendance = Attendance(id: id, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
+                        let attendance = Attendance(id: id, scheduleId: scheduleId, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
                         
                         self.attendanceList.append(attendance)
                         print(attendance, "들어가는중")
@@ -52,10 +53,11 @@ class AttendanceStore: ObservableObject {
             for document in querySnapshot.documents {
                 let data = document.data()
                 let id: String = data[AttendanceConstants.id] as? String ?? ""
+                let scheduleId: String = data[AttendanceConstants.scheduleId] as? String ?? ""
                 let attendanceStatus: String = data[AttendanceConstants.attendanceStatus] as? String ?? ""
                 let settlementStatus: Bool = data[AttendanceConstants.settlementStatus] as? Bool ?? true
                 
-                let attendance = Attendance(id: id, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
+                let attendance = Attendance(id: id, scheduleId: scheduleId, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
                 DispatchQueue.main.async {
                     self.entireAttendanceList.append(attendance)
 //                    self.entireAttendanceList[scheduleID] = [] // ?
@@ -81,10 +83,11 @@ class AttendanceStore: ObservableObject {
                 for document in querySnapshot.documents {
                     let data = document.data()
                     let id: String = data[AttendanceConstants.id] as? String ?? ""
+                    let scheduleId: String = data[AttendanceConstants.scheduleId] as? String ?? ""
                     let attendanceStatus: String = data[AttendanceConstants.attendanceStatus] as? String ?? ""
                     let settlementStatus: Bool = data[AttendanceConstants.settlementStatus] as? Bool ?? true
                     
-                    let attendance = Attendance(id: id, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
+                    let attendance = Attendance(id: id, scheduleId: scheduleId, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
                     DispatchQueue.main.async {
                         self.attendanceList.append(attendance)
                     }

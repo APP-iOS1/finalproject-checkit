@@ -9,6 +9,7 @@ import Foundation
 
 enum AttendanceConstants {
     static let id = "id"
+    static let scheduleId = "schedule_id"
     static let attendanceStatus = "attendance_status"
     static let settlementStatus = "settlement_status"
 
