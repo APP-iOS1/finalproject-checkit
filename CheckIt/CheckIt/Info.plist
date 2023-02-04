@@ -11,9 +11,22 @@
 			<string>REVERSED_CLIENT_ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.394734183329-bfa9tcd6bsduromaho28eao1jhfm13a2</string>
+				<string>com.googleusercontent.apps.394734183329-fb4us30brgf882cm2s7n4nsr28ko367s</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao7a4ee9f84ebf3bcf24029e1c6febb14d</string>
+			</array>
+		</dict>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaokompassauth</string>
+		<string>kakaolink</string>
 	</array>
 </dict>
 </plist>
