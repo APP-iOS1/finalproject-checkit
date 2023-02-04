@@ -93,13 +93,13 @@ class GroupStore: ObservableObject {
             for document in querySnapshot.documents {
                 let data = document.data()
                 
-                let id = data["id"] as? String ?? ""
-                let name = data["name"] as? String ?? ""
-                let invitationCode = data["invitationCode"] as? String ?? ""
-                let image = data["image"] as? String ?? ""
-                let hostID = data["hostID"] as? String ?? ""
-                let description = data["description"] as? String ?? ""
-                let scheduleID = data["schedule_id"] as? [String] ?? []
+                let id = data[GroupConstants.id] as? String ?? ""
+                let name = data[GroupConstants.name] as? String ?? ""
+                let invitationCode = data[GroupConstants.invitationCode] as? String ?? ""
+                let image = data[GroupConstants.image] as? String ?? ""
+                let hostID = data[GroupConstants.hostID] as? String ?? ""
+                let description = data[GroupConstants.description] as? String ?? ""
+                let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
                 
                 let group = Group(id: id,
                                   name: name,

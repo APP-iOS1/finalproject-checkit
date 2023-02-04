@@ -12,25 +12,45 @@ struct AttendanceStatusView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStore: UserStore
     var scheduleIDList: [String]?
-    @State private var test: String = ""
+    var hostId: String
     var body: some View {
         ScrollView {
-            ForEach(scheduleStore.userScheduleList.indices, id: \.self) { index in
-                AttendanceStatusListCell(schedule: scheduleStore.userScheduleList[index], attendance: attendanceStore.attendanceList[index])
-
+            if userStore.user?.id == hostId {
+//                ForEach(scheduleStore.scheduleList.indices) { index in
+//                    AttendanceCellView(schedule: schedule[index])
+//                }
+//                ForEach(attendanceStore.entireAttendanceList, id: \.self) { value in
+//                    AttendanceCellView(attendance: attendanceStore.entireAttendanceList[index])
+//                }
+                ForEach(scheduleStore.scheduleList.indices, id: \.self) { index in
+                    AttendanceCellView(schedule: scheduleStore.scheduleList[index])
+                }
             }
-
+            else {
+                ForEach(scheduleStore.userScheduleList.indices, id: \.self) { index in
+                    AttendanceStatusListCell(schedule: scheduleStore.userScheduleList[index], attendance: attendanceStore.attendanceList[index])
+                }
+            }
         }
         .onAppear {
-            print(scheduleIDList, "스케줄 아이디 리스트")
+            print(userStore.user?.id ?? "", "유저 id")
+            print(hostId, "호스트 id")
+            if userStore.user?.id ?? "" == hostId {
+//                attendanceStore.fetchHostAttendacneList(scheduleIdList: scheduleIDList ?? [])
+//                Task {
+//                    await attendanceStore.fetchHostAttendance(scheduleID: scheduleIDList?[0] ?? "")
+//                }
+            }
+            else {
                 scheduleStore.fetchUserScheduleList(scheduleList: scheduleStore.scheduleList, userID: userStore.user?.id ?? "", attendanceStore: attendanceStore)
-
+            }
+            print(scheduleIDList, "스케줄 아이디 리스트")
         }
     }
 }
 
 struct AttendanceStatusView_Previews: PreviewProvider {
     static var previews: some View {
-        AttendanceStatusView()
+        AttendanceStatusView( hostId: "")
     }
 }
