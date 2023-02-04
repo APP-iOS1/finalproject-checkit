@@ -90,7 +90,30 @@ class GroupStore: ObservableObject {
                           scheduleID: scheduleID,
                           memberCount: memberCount)
         print("groups: \(self.groups)")
+        
+        readImages("group_images/\(id)", groupId: group.id)
+        
         self.groups.append(group)
+        
+    }
+    
+    ///  동아리 이미지를 가져오는 메소드
+    /// - Parameter path: 동아리 이미지가 저장된 스토리지 경로
+    /// - Parameter groupdId: 동아리 id
+    ///
+    ///  경로를 기반으로 스토리지로 부터 동아리 이미지를 가져옵니다. 가져온 이미지는 스토어의 groupImage 딕셔너리의 value에 저장됩니다.
+    ///  이 딕셔너리의 key는 해당 동아리의 id 입니다.
+    func readImages(_ path: String, groupId: String) {
+        let ref = storage.reference().child(path)
+        
+        ref.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
+            if let error = error {
+                print("readImages error: \(error.localizedDescription)")
+            } else {
+                guard let data else { return }
+                self.groupImage[groupId] = UIImage(data: data)
+            }
+        }
     }
     
     // MARK: - 동아리를 개설하는 메소드
