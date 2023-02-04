@@ -78,9 +78,10 @@ class ScheduleStore: ObservableObject {
             }
     }
     
-    //schedule id 배열을 받아서 참석자 검증
+    /// schedule id 배열을 받아서 참석자 검증 - 개인
     func fetchUserScheduleList(scheduleList: [Schedule], userID : String, attendanceStore: AttendanceStore) {
         Task {
+            attendanceStore.attendanceList.removeAll()
             for schedule in scheduleList {
                 let validId = await  attendanceStore.checkUserAttendance(scheduleID: schedule.id, id: userID)
                 print(validId, " valid")
@@ -94,7 +95,20 @@ class ScheduleStore: ObservableObject {
             
         }
     }
-    
+    /// 출석부 패치 - 방장
+//    func fetchHostScheduleList(scheduleList: [Schedule]) {
+//        for schedule in scheduleList {
+//
+//        }
+//    }
+    func fetchHostSchedule(scheduleID: String) async {
+        do {
+            let querySnapshot = try await database.collection("Schedule")
+        }
+        catch {
+            
+        }
+    }
     
 
     
