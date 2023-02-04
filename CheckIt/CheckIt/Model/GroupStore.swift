@@ -36,13 +36,13 @@ class GroupStore: ObservableObject {
             try await database.collection("Group")
                 .document(group.id)
                 .setData([
-                    "id": group.id,
-                    "host_id": group.hostID,
-                    "name": group.name,
-                    "invitationCode": group.invitationCode,
-                    "image": group.image,
-                    "description": group.description,
-                    "schedule_id": group.scheduleID])
+                    "\(GroupConstants.id)": group.id,
+                    "\(GroupConstants.hostID)": group.hostID,
+                    "\(GroupConstants.name)": group.name,
+                    "\(GroupConstants.invitationCode)": group.invitationCode,
+                    "\(GroupConstants.image)": group.image,
+                    "\(GroupConstants.description)": group.description,
+                    "\(GroupConstants.scheduleID)": group.scheduleID])
             
             // FIXME: - position관련 정보는 enum으로 수정 필요
             await createMember(database.collection("Group"), documentID: group.id, uid: user.id, position: "방장")
@@ -219,7 +219,7 @@ class GroupStore: ObservableObject {
         do {
             let querySnapshot = try await database
                 .collection("Group")
-                .whereField("invitationCode", isEqualTo: invitationCode)
+                .whereField("\(GroupConstants.invitationCode)", isEqualTo: invitationCode)
                 .getDocuments()
             return (querySnapshot.isEmpty) ? .notValidated : .validated(querySnapshot.documents.first!.documentID)
         } catch {
@@ -238,7 +238,7 @@ class GroupStore: ObservableObject {
             try await database.collection("User")
                 .document(user.id)
                 .updateData([
-                    "group_id": oldGroups
+                    "\(UserConstants.groupID)": oldGroups
                 ])
         } catch {
             print("addGroupsInUser error: \(error.localizedDescription)")
