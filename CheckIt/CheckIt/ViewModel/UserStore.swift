@@ -82,18 +82,38 @@ class UserStore: ObservableObject {
 //        guard let firebaseToken = KakaoLoginStore().returnFirebaseToken()
 //        else { return }
         
-        KakaoLoginStore().returnFirebaseToken { result in
-            print(result)
+        KakaoLoginStore().returnFirebaseToken { firebaseToken in
             
+            guard let firebaseToken else { return }
+            print(type(of:firebaseToken))
+            
+            Auth.auth().signIn(withCustomToken: firebaseToken) { user, error in
+                if let error {
+                    
+                    print("\(error.localizedDescription)")
+                    return
+                }
+                
+                self.userData = user?.user
+                self.isUserInDatabaseCompletionHandler(email: "\(123)", completion: { result in
+                    if !result {
+                        self.addUser(userData: self.userData)
+                    }
+                    Task {
+                        await self.fetchUser(user?.user.uid ?? "")
+                    }
+                })
+
+                
+                DispatchQueue.main.async {
+                    self.toggleLoginState()
+                    self.isPresentedLoginView = false
+                }
+                print("로그인 성공")
+            }
         }
         
-//        Auth.auth().signIn(withCustomToken: firebaseToken) { user, error in
-//            if let error {
-//                print("\(error.localizedDescription)")
-//                return
-//            }
-//            print(user)
-//        }
+        
        
         
         
@@ -256,7 +276,7 @@ class UserStore: ObservableObject {
                     break
                 case .kakao:
                     UserApi.shared.logout { error in
-                        if let error = error {
+                        if let error {
                             print("로그아웃 에러: \(error.localizedDescription)")
                             return
                         }
