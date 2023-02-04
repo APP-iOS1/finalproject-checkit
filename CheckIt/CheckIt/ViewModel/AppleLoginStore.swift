@@ -30,7 +30,7 @@ class AppleLoginStore {
     }
     
     
-    func randomNonceString(length: Int = 32) -> String {
+    private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
         let charset: [Character] =
         Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
@@ -66,7 +66,7 @@ class AppleLoginStore {
     
     
     
-    func sha256(_ input: String) -> String {
+    private func sha256(_ input: String) -> String {
         let inputData = Data(input.utf8)
         let hashedData = SHA256.hash(data: inputData)
         let hashString = hashedData.compactMap {
