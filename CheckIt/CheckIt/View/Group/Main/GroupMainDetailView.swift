@@ -29,7 +29,7 @@ struct GroupMainDetailView: View {
                     // MARK: - 동아리 이미지
                     Image(uiImage: groupImage)
                         .resizable()
-                        .frame(width: 85, height: 85)
+                        .frame(width: 90, height: 90)
                         .clipShape(Circle())
                     
                     if isHost {
