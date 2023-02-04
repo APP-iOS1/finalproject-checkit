@@ -36,10 +36,14 @@ class GroupStore: ObservableObject {
     ///
     /// 동아리 데이터의 추가 수정 삭제 변화를 관찰합니다.
     func startGroupListener(_ user: User) {
-        let groupId = user.groupID
-        self.listener = database.collection("Group").whereField("id", in: groupId)
-            .addSnapshotListener{ querySnapshot, error in
-            print("메시지 리스너 호출")
+        // FIXME: - 현재 동아리를 가져오는 기준은 User의 groupId필드로 가져온다.
+        /// 그러나 동아리를 추가하고 나서는 User의 groupdId는 방금 추가된 동아리의 id가 담기지 않는다. 그래서 일단은 동아리 추가시
+        /// 바로 @Published배열에 넣는다
+        print("startGroupListener 호출")
+        if user.groupID.isEmpty { return }
+        
+        self.listener = database.collection("Group").addSnapshotListener { querySnapshot, error in
+            print("동아리 리스너 호출")
             
             guard let snapshot = querySnapshot else {
                 print("fetching group error: \(error!)")
@@ -49,8 +53,7 @@ class GroupStore: ObservableObject {
             snapshot.documentChanges.forEach { diff in
                 switch diff.type {
                 case .added:
-                    print("동아리 추가")
-                    self.readGroup(diff.document.data())
+                    self.readGroup(diff.document.data(), userGroupIdList: user.groupID)
                 case .modified:
                     print("동아리 수정")
                 case .removed:
@@ -71,8 +74,12 @@ class GroupStore: ObservableObject {
     /// - Parameter group: 읽을 동아리의 데이터
     ///
     /// 파라미터로 들어온 동아리를 스토어의 @Published groups 프로퍼티에 저장합니다.
-    func readGroup(_ group: [String:Any]) {
+    func readGroup(_ group: [String:Any], userGroupIdList: [String]) {
         let id = group[GroupConstants.id] as? String ?? ""
+        
+        guard userGroupIdList.contains(id) else { return }
+        print("동아리 추가")
+        
         let name = group[GroupConstants.name] as? String ?? ""
         let invitationCode = group[GroupConstants.invitationCode] as? String ?? ""
         let image = group[GroupConstants.image] as? String ?? ""
@@ -111,6 +118,7 @@ class GroupStore: ObservableObject {
                 print("readImages error: \(error.localizedDescription)")
             } else {
                 guard let data else { return }
+                print("readImage Success")
                 self.groupImage[groupId] = UIImage(data: data)
             }
         }
@@ -133,11 +141,16 @@ class GroupStore: ObservableObject {
                     "\(GroupConstants.scheduleID)": group.scheduleID,
                     "\(GroupConstants.memberCount)": group.memberCount
                 ])
+            DispatchQueue.main.async {
+                self.groups.append(group)
+            }
             
             // FIXME: - position관련 정보는 enum으로 수정 필요
             await createMember(database.collection("Group"), documentID: group.id, uid: user.id, position: "방장")
-            await addGroupsInUser(user, joinedGroupId: group.id)
+            
             await createImages(image, path: group.id)
+            
+            readImages("group_images/\(group.id)", groupId: group.id)
         } catch {
             print("동아리 생성 에러: \(error.localizedDescription)")
         }
@@ -186,83 +199,84 @@ class GroupStore: ObservableObject {
         }
     }
     
+    
     // MARK: - 자신이 속한 동아리 데이터를 가져오는 메소드
     /// - Parameter uid: 로그인한 사용자의 uid
     /// 자신이 속한 동아리의 데이터를 groups 프로퍼티 래퍼에 저장한다.
-    func fetchGroups(_ user: User) async {
-        // FIXME: - 현재 더미데이터로 유저가 속한 그룹의 id를 선언함
-        let groupID: [String] = user.groupID
-        print("실행 groupId: \(user.groupID)")
-        DispatchQueue.main.async {
-            self.groups.removeAll()
-        }
-        
-        if user.groupID.isEmpty {
-            return
-        }
-        
-        do {
-            let querySnapshot = try await database.collection("Group")
-                .whereField("id", in: groupID)
-                .getDocuments()
-            print("실행22")
-            for document in querySnapshot.documents {
-                let data = document.data()
-                
-                let id = data[GroupConstants.id] as? String ?? ""
-                let name = data[GroupConstants.name] as? String ?? ""
-                let invitationCode = data[GroupConstants.invitationCode] as? String ?? ""
-                let image = data[GroupConstants.image] as? String ?? ""
-                let hostID = data[GroupConstants.hostID] as? String ?? ""
-                let description = data[GroupConstants.description] as? String ?? ""
-                let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
-                let memberCount = data[GroupConstants.memberCount] as? Int ?? 0
-                
-                do {
-                    let image = try await fetchImages("group_images/\(id)")
-                    
-                    // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
-                    DispatchQueue.main.async {
-                        if image == nil {
-                            self.groupImage[id] = UIImage()
-                        } else {
-                            self.groupImage[id] = UIImage(data: image!)!
-                        }
-                    }
-                } catch {
-                    print("fetch group image error: \(error.localizedDescription)")
-                }
-                
-                let group = Group(id: id,
-                                  name: name,
-                                  invitationCode: invitationCode,
-                                  image: image,
-                                  hostID: hostID,
-                                  description: description,
-                                  scheduleID: scheduleID,
-                                  memberCount: memberCount)
-                
-                DispatchQueue.main.async {
-                    self.groups.append(group)
-                }
-            }
-        } catch {
-            print("동아리 가져오기 에러: \(error.localizedDescription)")
-        }
-    }
+//    func fetchGroups(_ user: User) async {
+//        // FIXME: - 현재 더미데이터로 유저가 속한 그룹의 id를 선언함
+//        let groupID: [String] = user.groupID
+//        print("실행 groupId: \(user.groupID)")
+//        DispatchQueue.main.async {
+//            self.groups.removeAll()
+//        }
+//
+//        if user.groupID.isEmpty {
+//            return
+//        }
+//
+//        do {
+//            let querySnapshot = try await database.collection("Group")
+//                .whereField("id", in: groupID)
+//                .getDocuments()
+//            print("실행22")
+//            for document in querySnapshot.documents {
+//                let data = document.data()
+//
+//                let id = data[GroupConstants.id] as? String ?? ""
+//                let name = data[GroupConstants.name] as? String ?? ""
+//                let invitationCode = data[GroupConstants.invitationCode] as? String ?? ""
+//                let image = data[GroupConstants.image] as? String ?? ""
+//                let hostID = data[GroupConstants.hostID] as? String ?? ""
+//                let description = data[GroupConstants.description] as? String ?? ""
+//                let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
+//                let memberCount = data[GroupConstants.memberCount] as? Int ?? 0
+//
+//                do {
+//                    let image = try await fetchImages("group_images/\(id)")
+//
+//                    // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
+//                    DispatchQueue.main.async {
+//                        if image == nil {
+//                            self.groupImage[id] = UIImage()
+//                        } else {
+//                            self.groupImage[id] = UIImage(data: image!)!
+//                        }
+//                    }
+//                } catch {
+//                    print("fetch group image error: \(error.localizedDescription)")
+//                }
+//
+//                let group = Group(id: id,
+//                                  name: name,
+//                                  invitationCode: invitationCode,
+//                                  image: image,
+//                                  hostID: hostID,
+//                                  description: description,
+//                                  scheduleID: scheduleID,
+//                                  memberCount: memberCount)
+//
+//                DispatchQueue.main.async {
+//                    self.groups.append(group)
+//                }
+//            }
+//        } catch {
+//            print("동아리 가져오기 에러: \(error.localizedDescription)")
+//        }
+//    }
     
     /// - Parameter path: 동아리 이미지가 저장된 스토리지 경로
     ///
     ///  경로를 기반으로 동아리 이미지를 가져오며 Date 타입으로 이미지를 반환합니다. 따라서 UIImage로 타입 캐스팅을 해야합니다
-    func fetchImages(_ path: String) async throws -> Data? {
-        return await withCheckedContinuation { continuation in
-            let ref = storage.reference().child(path)
-            
-            ref.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
-                continuation.resume(returning: data)
-            }
-        }
-    }
+//    func fetchImages(_ path: String) async throws -> Data? {
+//        return await withCheckedContinuation { continuation in
+//            let ref = storage.reference().child(path)
+//            
+//            ref.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
+//                continuation.resume(returning: data)
+//            }
+//        }
+//    }
     
     // MARK: - 유저가 동아리에 참가하는 메소드
     /// - Parameter code: 동아리 참가 코드
@@ -326,7 +340,7 @@ class GroupStore: ObservableObject {
             var oldGroups = user.groupID
             print("addGroupsInUser user: \(user.groupID)")
             oldGroups.append(joinedGroupId)
-            print("oldGroups: \(oldGroups)")
+            print("newGroups: \(oldGroups)")
             try await database.collection("User")
                 .document(user.id)
                 .updateData([
