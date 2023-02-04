@@ -90,22 +90,22 @@ struct AttendanceCellView: View {
         .frame(height: 120)
         .padding()
         .onAppear {
-            if let id = schedule?.id {
-                for attendance in attendanceStore.entireAttendanceList[id] ?? [] {
-                    switch attendance.attendanceStatus {
-                    case "출석":
-                        attendanceCount += 1
-                    case "지각":
-                        latenessCount += 1
-                    case "결석":
-                        absenteCount += 1
-                    case "공결":
-                        officialAbsenceeCount += 1
-                    default:
-                        print("")
-                    }
-                }
-            }
+//            if let id = schedule?.id {
+//                for attendance in attendanceStore.entireAttendanceList[id] ?? [] {
+//                    switch attendance.attendanceStatus {
+//                    case "출석":
+//                        attendanceCount += 1
+//                    case "지각":
+//                        latenessCount += 1
+//                    case "결석":
+//                        absenteCount += 1
+//                    case "공결":
+//                        officialAbsenceeCount += 1
+//                    default:
+//                        print("")
+//                    }
+//                }
+//            }
             print(attendanceStore.entireAttendanceList, "dd")
         }
     }
