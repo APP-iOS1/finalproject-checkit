@@ -85,7 +85,8 @@ struct MakeGroupModalView: View {
                                   image: "example",
                                   hostID: userStores.user?.id ?? "N/A",
                                   description: groupDescription,
-                                  scheduleID: [])
+                                  scheduleID: [],
+                                  memberCount: 1)
                 Task {
                     await groupStores.createGroup(userStores.user!, group: group, image: selectedPhotoData.first ?? UIImage())
                 }

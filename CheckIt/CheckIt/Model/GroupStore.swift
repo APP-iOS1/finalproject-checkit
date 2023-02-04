@@ -126,6 +126,7 @@ class GroupStore: ObservableObject {
                 let hostID = data[GroupConstants.hostID] as? String ?? ""
                 let description = data[GroupConstants.description] as? String ?? ""
                 let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
+                let memberCount = data[GroupConstants.memberCount] as? Int ?? 0
                 
                 do {
                     let image = try await fetchImages("group_images/\(id)")
@@ -148,7 +149,8 @@ class GroupStore: ObservableObject {
                                   image: image,
                                   hostID: hostID,
                                   description: description,
-                                  scheduleID: scheduleID)
+                                  scheduleID: scheduleID,
+                                  memberCount: memberCount)
                 
                 DispatchQueue.main.async {
                     self.groups.append(group)
