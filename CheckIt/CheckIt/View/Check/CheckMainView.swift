@@ -87,6 +87,7 @@ struct CheckMainView: View {
                             }
                         }
                         .padding(.top, 60)
+                        
                     }
                     
                 }
@@ -109,41 +110,44 @@ struct CheckMainView: View {
                     
                     op = ((self.screen + 15) * CGFloat(groupsArr.count / 2)) - (groupsArr.count % 2 == 0 ? ((self.screen + 15) / 2) : 0)
                     
+                    //                    if !cardArr.isEmpty {
+                    //
+                    //                    }
                     cardArr = []
                     groupsArr.enumerated().forEach { idx, group in
-                        if idx == 0 {
-                            cardArr.append(Card(isActiveButton: true, show: true))
-                        } else {
+                        if (CGFloat(idx) != self.count) && (idx != 0) {
                             cardArr.append(Card(isActiveButton: false, show: false))
+                        } else if idx == 0 {
+                            cardArr.append(Card(isActiveButton: true, show: false))
+                        } else {
+                            cardArr.append(Card(isActiveButton: false, show: true))
                         }
+                        
+//                        if cardArr[idx].show == true {
+//                            cardArr[0].show = false
+//                        }
+                        
                     }
-                    
-                    //                                if cardArr[idx].show == true {
-                    //                                    cardArr[0].show = false
-                    //                                }
-                    
                     //                    data[0].show = true
-                //                    for i in 1..<groupsArr.count {
-                //                        if data[i].show == true {
-                //                            data[0].show = false
-                //                        }
-                //                    }
-            } // task
+                    //                    for i in 1..<groupsArr.count {
+                    //                        if data[i].show == true {
+                    //                            data[0].show = false
+                    //                        }
+                    //                    }
+                } // task
+            }
         }
     }
-}
-
-func updateHeight(value : Int){
     
-    
-    for i in 0..<groupsArr.count{
+    func updateHeight(value : Int){
+        for i in 0..<groupsArr.count{
+            
+            cardArr[i].show = false
+        }
         
-        cardArr[i].show = false
+        cardArr[value].show = true
     }
     
-    cardArr[value].show = true
-}
-
 }
 
 ////MARK: - Previews
