@@ -119,6 +119,7 @@
 		FDEE4918298E3AEA009DF195 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE4917298E3AEA009DF195 /* KakaoSDKUser */; };
 		FDEE491A298EAB04009DF195 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4919298EAB04009DF195 /* SignUpView.swift */; };
 		FDEE491C298ECE93009DF195 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDEE491B298ECE93009DF195 /* GoogleService-Info.plist */; };
+		FDEE491F298EEE67009DF195 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE491E298EEE67009DF195 /* SwiftyJSON */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -260,6 +261,7 @@
 				FDEE4914298E3AEA009DF195 /* KakaoSDKShare in Frameworks */,
 				FD03F4D2298B3F7A005B355D /* FirebaseFirestoreUI in Frameworks */,
 				FDEE4918298E3AEA009DF195 /* KakaoSDKUser in Frameworks */,
+				FDEE491F298EEE67009DF195 /* SwiftyJSON in Frameworks */,
 				FD4E25DC297785E800F6F875 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				FDEE490E298E3AEA009DF195 /* KakaoSDKAuth in Frameworks */,
 				2869DE362977B00C00D8CAFB /* GoogleSignIn in Frameworks */,
@@ -599,6 +601,7 @@
 				FDEE4913298E3AEA009DF195 /* KakaoSDKShare */,
 				FDEE4915298E3AEA009DF195 /* KakaoSDKTemplate */,
 				FDEE4917298E3AEA009DF195 /* KakaoSDKUser */,
+				FDEE491E298EEE67009DF195 /* SwiftyJSON */,
 			);
 			productName = CheckIt;
 			productReference = FD4E2599297783CC00F6F875 /* CheckIt.app */;
@@ -680,6 +683,7 @@
 				FD03F4CB298B3E90005B355D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				FD03F4CE298B3F7A005B355D /* XCRemoteSwiftPackageReference "FirebaseUI-iOS" */,
 				FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				FDEE491D298EEE67009DF195 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = FD4E259A297783CC00F6F875 /* Products */;
 			projectDirPath = "";
@@ -1203,6 +1207,14 @@
 				kind = branch;
 			};
 		};
+		FDEE491D298EEE67009DF195 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1345,6 +1357,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		FDEE491E298EEE67009DF195 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDEE491D298EEE67009DF195 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
