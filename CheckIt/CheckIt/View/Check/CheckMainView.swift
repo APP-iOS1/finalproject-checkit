@@ -22,12 +22,12 @@ struct CheckMainView: View {
     @State var op : CGFloat = 0
     
     //FIXME: 더미데이터입니다.
-//    @State var data = [
-//        Card(id: 0, dDay: "D-day", groupName: "허니미니의 또구 동아리", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: true, show: false),
-//        Card(id: 1, dDay: "D-day", groupName: "또리의 이력서 클럽", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false),
-//        Card(id: 2, dDay: "D-day", groupName: "노이의 SSG 응원방", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false),
-//        Card(id: 3, dDay: "D-day", groupName: "지니의 맛집탐방", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false)
-//    ]
+    //    @State var data = [
+    //        Card(id: 0, dDay: "D-day", groupName: "허니미니의 또구 동아리", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: true, show: false),
+    //        Card(id: 1, dDay: "D-day", groupName: "또리의 이력서 클럽", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false),
+    //        Card(id: 2, dDay: "D-day", groupName: "노이의 SSG 응원방", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false),
+    //        Card(id: 3, dDay: "D-day", groupName: "지니의 맛집탐방", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false)
+    //    ]
     
     var body: some View {
         TabView {
@@ -39,6 +39,9 @@ struct CheckMainView: View {
                             HStack {
                                 CheckItCard(cardArr: $cardArr, group: groupsArr[index], index: index)
                                     .offset(x: self.x)
+                                    .onTapGesture(perform: {
+                                        print("card: \(cardArr)")
+                                    })
                                     .highPriorityGesture(DragGesture()
                                                          
                                         .onChanged({ (value) in
@@ -106,39 +109,41 @@ struct CheckMainView: View {
                     
                     op = ((self.screen + 15) * CGFloat(groupsArr.count / 2)) - (groupsArr.count % 2 == 0 ? ((self.screen + 15) / 2) : 0)
                     
+                    cardArr = []
                     groupsArr.enumerated().forEach { idx, group in
-//                        cardArr.append((idx == 0) ? Card(isActiveButton: false, show: true) : Card(isActiveButton: false, show: false))
                         if idx == 0 {
-                            cardArr.append(Card(isActiveButton: false, show: true))
+                            cardArr.append(Card(isActiveButton: true, show: true))
                         } else {
                             cardArr.append(Card(isActiveButton: false, show: false))
                         }
-//                                if cardArr[idx].show == true {
-//                                    cardArr[0].show = false
-//                                }
                     }
-//                    data[0].show = true
-//                    for i in 1..<groupsArr.count {
-//                        if data[i].show == true {
-//                            data[0].show = false
-//                        }
-//                    }
-                } // task
-            }
+                    
+                    //                                if cardArr[idx].show == true {
+                    //                                    cardArr[0].show = false
+                    //                                }
+                    
+                    //                    data[0].show = true
+                //                    for i in 1..<groupsArr.count {
+                //                        if data[i].show == true {
+                //                            data[0].show = false
+                //                        }
+                //                    }
+            } // task
         }
     }
+}
+
+func updateHeight(value : Int){
     
-    func updateHeight(value : Int){
+    
+    for i in 0..<groupsArr.count{
         
-        
-        for i in 0..<groupsArr.count{
-            
-            cardArr[i].show = false
-        }
-        
-        cardArr[value].show = true
+        cardArr[i].show = false
     }
     
+    cardArr[value].show = true
+}
+
 }
 
 ////MARK: - Previews
