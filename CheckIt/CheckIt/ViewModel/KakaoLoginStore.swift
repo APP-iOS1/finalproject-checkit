@@ -62,7 +62,7 @@ class KakaoLoginStore {
         // 카카오톡 설치되어 있으면
         if UserApi.isKakaoTalkLoginAvailable() {
             UserApi.shared.loginWithKakaoTalk() { oauthToken, error in
-                if let error = error {
+                if let error {
                     completion(nil)
                     return
                 }
@@ -90,7 +90,7 @@ class KakaoLoginStore {
         }
     }
     
-    //FIXME: 서버가 작동하지 않는 문제
+    
     private func requestKakaoCompletionHandler(accessToken: String, completion: @escaping (String?) -> ()) {
         let url = URL(string: "https://verify-token.herokuapp.com/verifyToken")
         var request = URLRequest(url: url!)
