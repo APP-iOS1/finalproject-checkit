@@ -69,6 +69,7 @@ struct CheckItApp: App {
                             
                             Task {
                                 await userStore.fetchUser(user.uid)
+                                groupStore.startGroupListener(userStore.user!)
                             }
                         }
                     }

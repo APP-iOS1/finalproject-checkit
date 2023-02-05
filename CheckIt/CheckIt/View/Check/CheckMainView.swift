@@ -104,9 +104,9 @@ struct CheckMainView: View {
                 Task {
                     guard let user = userStore.user else { return }
                     print("user check: \(user)")
-                    await groupStore.fetchGroups(user)
+//                    await groupStore.fetchGroups(user)
                     groupsArr = groupStore.groups
-                    print("그룹패치 확인: \(groupsArr)")
+//                    print("그룹패치 확인: \(groupsArr)")
                     
                     op = ((self.screen + 15) * CGFloat(groupsArr.count / 2)) - (groupsArr.count % 2 == 0 ? ((self.screen + 15) / 2) : 0)
                     
@@ -136,7 +136,13 @@ struct CheckMainView: View {
                     //                    }
                 } // task
             }
+            
         }
+//        .onAppear {
+//            guard let user = userStore.user else { return }
+//            print("메인에서 그룹 호출")
+//            groupStore.startGroupListener(userStore.user!)
+//        }
     }
     
     func updateHeight(value : Int){
