@@ -13,6 +13,8 @@ import KakaoSDKUser
 
 struct LoginView: View {
     @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var groupStore: GroupStore
+    
     var kakaoLoginButton: some View {
         Button(action: {
             userStore.loginCenter = .kakao
@@ -111,6 +113,10 @@ struct LoginView: View {
             googleLoginButton
             
             Spacer()
+        }
+        .onDisappear {
+            print("로그인 뷰 disappear 호출")
+            groupStore.startGroupListener(userStore.user!)
         }
     }
     
