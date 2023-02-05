@@ -199,7 +199,6 @@ class GroupStore: ObservableObject {
         }
     }
     
-    
     // MARK: - 자신이 속한 동아리 데이터를 가져오는 메소드
     /// - Parameter uid: 로그인한 사용자의 uid
     /// 자신이 속한 동아리의 데이터를 groups 프로퍼티 래퍼에 저장한다.
@@ -306,7 +305,7 @@ class GroupStore: ObservableObject {
                 //FIXME: - User를 파라미터의 User로 변경 필요
                 await addGroupsInUser(user, joinedGroupId: groupId)
                 await addGroupMemberCount(groupId)
-                await fetchGroups(user)
+                //await fetchGroups(user)
                 return .newJoined
                 
             } catch {

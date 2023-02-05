@@ -89,9 +89,15 @@ struct MakeGroupModalView: View {
                                   memberCount: 1)
                 Task {
                     await groupStores.createGroup(userStores.user!, group: group, image: selectedPhotoData.first ?? UIImage())
+                    await groupStores.addGroupsInUser(userStores.user!, joinedGroupId: group.id)
+                    await userStores.fetchUser(userStores.user!.id)
+                    
+                    
+                    print("user의 groupid: \(userStores.user?.groupID)")
                 }
                 showToast.toggle()
                 toastMessage = "동아리 생성이 완료되었습니다."
+                //FIXME: - User Store에서 User를 리스너로 변경 필요
                 dismiss()
                 
             } label: {
