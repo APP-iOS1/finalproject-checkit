@@ -40,7 +40,9 @@ class GroupStore: ObservableObject {
         /// 그러나 동아리를 추가하고 나서는 User의 groupdId는 방금 추가된 동아리의 id가 담기지 않는다. 그래서 일단은 동아리 추가시
         /// 바로 @Published배열에 넣는다
         print("startGroupListener 호출")
-        if user.groupID.isEmpty { return }
+    
+//        if user.groupID.isEmpty { return }
+        
         
         self.listener = database.collection("Group").addSnapshotListener { querySnapshot, error in
             print("동아리 리스너 호출")
@@ -67,6 +69,8 @@ class GroupStore: ObservableObject {
     ///
     /// 동아리 데이터의 관찰을 종료합니다.
     func detachListener() {
+        self.groups.removeAll()
+        self.groupImage = [:]
         listener?.remove()
     }
     
@@ -96,7 +100,6 @@ class GroupStore: ObservableObject {
                           description: description,
                           scheduleID: scheduleID,
                           memberCount: memberCount)
-        print("groups: \(self.groups)")
         
         readImages("group_images/\(id)", groupId: group.id)
         
