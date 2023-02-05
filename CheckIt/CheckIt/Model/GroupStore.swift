@@ -202,80 +202,80 @@ class GroupStore: ObservableObject {
     // MARK: - 자신이 속한 동아리 데이터를 가져오는 메소드
     /// - Parameter uid: 로그인한 사용자의 uid
     /// 자신이 속한 동아리의 데이터를 groups 프로퍼티 래퍼에 저장한다.
-//    func fetchGroups(_ user: User) async {
-//        // FIXME: - 현재 더미데이터로 유저가 속한 그룹의 id를 선언함
-//        let groupID: [String] = user.groupID
-//        print("실행 groupId: \(user.groupID)")
-//        DispatchQueue.main.async {
-//            self.groups.removeAll()
-//        }
-//
-//        if user.groupID.isEmpty {
-//            return
-//        }
-//
-//        do {
-//            let querySnapshot = try await database.collection("Group")
-//                .whereField("id", in: groupID)
-//                .getDocuments()
-//            print("실행22")
-//            for document in querySnapshot.documents {
-//                let data = document.data()
-//
-//                let id = data[GroupConstants.id] as? String ?? ""
-//                let name = data[GroupConstants.name] as? String ?? ""
-//                let invitationCode = data[GroupConstants.invitationCode] as? String ?? ""
-//                let image = data[GroupConstants.image] as? String ?? ""
-//                let hostID = data[GroupConstants.hostID] as? String ?? ""
-//                let description = data[GroupConstants.description] as? String ?? ""
-//                let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
-//                let memberCount = data[GroupConstants.memberCount] as? Int ?? 0
-//
-//                do {
-//                    let image = try await fetchImages("group_images/\(id)")
-//
-//                    // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
-//                    DispatchQueue.main.async {
-//                        if image == nil {
-//                            self.groupImage[id] = UIImage()
-//                        } else {
-//                            self.groupImage[id] = UIImage(data: image!)!
-//                        }
-//                    }
-//                } catch {
-//                    print("fetch group image error: \(error.localizedDescription)")
-//                }
-//
-//                let group = Group(id: id,
-//                                  name: name,
-//                                  invitationCode: invitationCode,
-//                                  image: image,
-//                                  hostID: hostID,
-//                                  description: description,
-//                                  scheduleID: scheduleID,
-//                                  memberCount: memberCount)
-//
-//                DispatchQueue.main.async {
-//                    self.groups.append(group)
-//                }
-//            }
-//        } catch {
-//            print("동아리 가져오기 에러: \(error.localizedDescription)")
-//        }
-//    }
+    func fetchGroups(_ user: User) async {
+        // FIXME: - 현재 더미데이터로 유저가 속한 그룹의 id를 선언함
+        let groupID: [String] = user.groupID
+        print("실행 groupId: \(user.groupID)")
+        DispatchQueue.main.async {
+            self.groups.removeAll()
+        }
+
+        if user.groupID.isEmpty {
+            return
+        }
+
+        do {
+            let querySnapshot = try await database.collection("Group")
+                .whereField("id", in: groupID)
+                .getDocuments()
+            print("실행22")
+            for document in querySnapshot.documents {
+                let data = document.data()
+
+                let id = data[GroupConstants.id] as? String ?? ""
+                let name = data[GroupConstants.name] as? String ?? ""
+                let invitationCode = data[GroupConstants.invitationCode] as? String ?? ""
+                let image = data[GroupConstants.image] as? String ?? ""
+                let hostID = data[GroupConstants.hostID] as? String ?? ""
+                let description = data[GroupConstants.description] as? String ?? ""
+                let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
+                let memberCount = data[GroupConstants.memberCount] as? Int ?? 0
+
+                do {
+                    let image = try await fetchImages("group_images/\(id)")
+
+                    // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
+                    DispatchQueue.main.async {
+                        if image == nil {
+                            self.groupImage[id] = UIImage()
+                        } else {
+                            self.groupImage[id] = UIImage(data: image!)!
+                        }
+                    }
+                } catch {
+                    print("fetch group image error: \(error.localizedDescription)")
+                }
+
+                let group = Group(id: id,
+                                  name: name,
+                                  invitationCode: invitationCode,
+                                  image: image,
+                                  hostID: hostID,
+                                  description: description,
+                                  scheduleID: scheduleID,
+                                  memberCount: memberCount)
+
+                DispatchQueue.main.async {
+                    self.groups.append(group)
+                }
+            }
+        } catch {
+            print("동아리 가져오기 에러: \(error.localizedDescription)")
+        }
+    }
     
     /// - Parameter path: 동아리 이미지가 저장된 스토리지 경로
     ///
     ///  경로를 기반으로 동아리 이미지를 가져오며 Date 타입으로 이미지를 반환합니다. 따라서 UIImage로 타입 캐스팅을 해야합니다
-//    func fetchImages(_ path: String) async throws -> Data? {
-//        return await withCheckedContinuation { continuation in
-//            let ref = storage.reference().child(path)
-//            
-//            ref.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
-//                continuation.resume(returning: data)
-//            }
-//        }
-//    }
+    func fetchImages(_ path: String) async throws -> Data? {
+        return await withCheckedContinuation { continuation in
+            let ref = storage.reference().child(path)
+            
+            ref.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
+                continuation.resume(returning: data)
+            }
+        }
+    }
     
     // MARK: - 유저가 동아리에 참가하는 메소드
     /// - Parameter code: 동아리 참가 코드
