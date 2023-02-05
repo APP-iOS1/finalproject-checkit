@@ -114,10 +114,6 @@ struct LoginView: View {
             
             Spacer()
         }
-        .onDisappear {
-            print("로그인 뷰 disappear 호출")
-            groupStore.startGroupListener(userStore.user!)
-        }
     }
     
     func signInWithGoogle() { }
