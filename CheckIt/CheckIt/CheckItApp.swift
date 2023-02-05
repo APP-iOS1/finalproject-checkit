@@ -42,7 +42,6 @@ struct CheckItApp: App {
     @StateObject private var scheduleStore = ScheduleStore()
     @StateObject private var attendanceStore = AttendanceStore()
     @StateObject private var memberStore = MemberStore()
-    @State var isLogin: Bool = true
     
     init() {
             // Kakao SDK 초기화
@@ -51,11 +50,8 @@ struct CheckItApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                ContentView()
-                    .fullScreenCover(isPresented: self.$userStore.isPresentedLoginView) {
-                        LoginView()
-                    }
+            NavigationView {             
+                LoginRouteView()
                     .onOpenURL(perform: { url in
                         if (AuthApi.isKakaoTalkLoginUrl(url)) {
                             AuthController.handleOpenUrl(url: url)
@@ -70,8 +66,9 @@ struct CheckItApp: App {
                         if let user = Auth.auth().currentUser {
                             userStore.isPresentedLoginView = false
                             userStore.userData = user
+                            
                             Task {
-                                await userStore.fetchUser(user.uid)   
+                                await userStore.fetchUser(user.uid)
                             }
                         }
                     }

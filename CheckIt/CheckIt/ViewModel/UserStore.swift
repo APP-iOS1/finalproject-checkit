@@ -20,9 +20,8 @@ class UserStore: ObservableObject {
     @Published var loginState: LoginState = .logout
     @Published var loginCenter: LoginCenter? = nil
     @Published var isPresentedLoginView: Bool = true
+    @Published var isFirstLogin: Bool = false
     
-    // 사용자 이름 수정 가능하도록
-    @Published var userName: String = ""
     var userData: FirebaseAuth.User? = nil
     
     enum LoginState {
@@ -30,10 +29,10 @@ class UserStore: ObservableObject {
         case logout
     }
     
-    enum LoginCenter {
-        case apple
-        case kakao
-        case google
+    enum LoginCenter: String {
+        case apple = "apple"
+        case kakao = "kakao"
+        case google = "google"
     }
     
     /// 회원탈퇴
@@ -89,26 +88,26 @@ class UserStore: ObservableObject {
             
             Auth.auth().signIn(withCustomToken: firebaseToken) { user, error in
                 if let error {
-                    
                     print("\(error.localizedDescription)")
                     return
                 }
                 
                 self.userData = user?.user
-                self.isUserInDatabaseCompletionHandler(email: "\(123)", completion: { result in
-                    if !result {
-                        self.addUser(userData: self.userData)
-                    }
+                self.isUserInDatabaseWithKakao(uid: "\(String(describing: user?.user.uid ?? ""))", completion: { result in
+                    print("isFirstLoginWithKakao:",result)
                     Task {
                         await self.fetchUser(user?.user.uid ?? "")
                     }
-                })
-
-                
-                DispatchQueue.main.async {
+                    if !result {
+                        self.addUser(userData: self.userData)
+                        DispatchQueue.main.async {
+                            self.isFirstLogin = true
+                        }
+                        return
+                    }
                     self.toggleLoginState()
-                    self.isPresentedLoginView = false
-                }
+                    
+                })
                 print("로그인 성공")
             }
         }
@@ -157,6 +156,24 @@ class UserStore: ObservableObject {
                     completion(true)
                 }
         } // - isUserInDatabaseCompletionHandler
+    
+    func isUserInDatabaseWithKakao(uid: String, completion: @escaping (Bool) -> ()) {
+        database.collection("User").whereField("id", isEqualTo: "\(uid)")
+            .getDocuments { snapshot, error in
+                if let error {
+                    print("\(error.localizedDescription)")
+                    completion(false)
+                    return
+                }
+                
+                if snapshot == nil || snapshot?.documents == [] {
+                    print(snapshot?.documents ?? [])
+                    completion(false)
+                    return
+                }
+                completion(true)
+            }
+    }
         
         
         //MARK: - Async Method
@@ -178,6 +195,9 @@ class UserStore: ObservableObject {
             //FIXME: 회원가입 -> 간편 회원가입 뷰로 넘겨줘야 함
             if !isUser {
                 addUser(userData: self.userData)
+                DispatchQueue.main.async {
+                    self.isFirstLogin = true
+                }
             }
             await fetchUser(self.userData?.uid ?? "N/A")
             self.toggleLoginState()
@@ -212,6 +232,7 @@ class UserStore: ObservableObject {
                 let email = data["email"] as? String ?? ""
                 let name = data["name"] as? String ?? ""
                 let groupId = data["group_id"] as? [String] ?? []
+                let loginCenter = data["login_center"] as? String ?? ""
                 
                 let user = User(id: id,
                                 email: email,
@@ -222,6 +243,7 @@ class UserStore: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.user = user
+                    self.loginCenter = LoginCenter(rawValue: loginCenter)
                 }
             } catch {
                 print("fetchUser error: \(error.localizedDescription)")
@@ -251,11 +273,14 @@ class UserStore: ObservableObject {
                 DispatchQueue.main.async {
                     self.loginState = .logout
                     self.isPresentedLoginView = true
+                    
                 }
             case .logout:
                 DispatchQueue.main.async {
                     self.loginState = .login
-                    self.isPresentedLoginView = false
+                    if !self.isFirstLogin {
+                        self.isPresentedLoginView = false
+                    }
                 }
             }
         } // - toggleLoginState
@@ -307,6 +332,7 @@ class UserStore: ObservableObject {
                     "name" : user.displayName ?? "N/A",
                     "email" : user.email ?? "N/A",
                     "group_id" : [],
+                    "login_center": self.loginCenter?.rawValue
                 ])
         } // - addUser
         
@@ -320,6 +346,7 @@ class UserStore: ObservableObject {
                     "name" : user.name,
                     "email" : user.email,
                     "group_id" : user.groupID,
+                    "login_center": self.loginCenter?.rawValue
                 ])
         } // - updateUser
         
@@ -329,7 +356,7 @@ class UserStore: ObservableObject {
         func changeUserName(name: String) {
             guard let user = self.user else { return }
             self.user?.name = name
-            updateUser(user: user)
+            updateUser(user: self.user!)
         } // - changeUserName
         
     }
