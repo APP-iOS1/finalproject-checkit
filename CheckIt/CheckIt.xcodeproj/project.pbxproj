@@ -106,6 +106,7 @@
 		FD4E25F82977B9E900F6F875 /* CheckMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F72977B9E900F6F875 /* CheckMapView.swift */; };
 		FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F92977BA6600F6F875 /* QRSheetView.swift */; };
 		FD4E25FE2977C44C00F6F875 /* QRButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */; };
+		FD74973F298F1ABB001C424D /* LoginRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD74973E298F1ABB001C424D /* LoginRouteView.swift */; };
 		FDE58061297A53A600B7AC28 /* ToastAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE58060297A53A500B7AC28 /* ToastAlert.swift */; };
 		FDEE4904298D4D92009DF195 /* GoogleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4903298D4D92009DF195 /* GoogleStore.swift */; };
 		FDEE4906298D5883009DF195 /* AppleLoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4905298D5883009DF195 /* AppleLoginStore.swift */; };
@@ -222,6 +223,7 @@
 		FD4E25F72977B9E900F6F875 /* CheckMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckMapView.swift; sourceTree = "<group>"; };
 		FD4E25F92977BA6600F6F875 /* QRSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRSheetView.swift; sourceTree = "<group>"; };
 		FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRButtonLabel.swift; sourceTree = "<group>"; };
+		FD74973E298F1ABB001C424D /* LoginRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouteView.swift; sourceTree = "<group>"; };
 		FDE58060297A53A500B7AC28 /* ToastAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastAlert.swift; sourceTree = "<group>"; };
 		FDEE4903298D4D92009DF195 /* GoogleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleStore.swift; sourceTree = "<group>"; };
 		FDEE4905298D5883009DF195 /* AppleLoginStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginStore.swift; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 			children = (
 				2869DE322977AC1D00D8CAFB /* LoginView.swift */,
 				FDEE4919298EAB04009DF195 /* SignUpView.swift */,
+				FD74973E298F1ABB001C424D /* LoginRouteView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -736,6 +739,7 @@
 				2807AAA1297A5FEE00B1676C /* AttendanceDetailStatusView.swift in Sources */,
 				2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */,
 				2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */,
+				FD74973F298F1ABB001C424D /* LoginRouteView.swift in Sources */,
 				2BDA61F52977D2C400FDD307 /* Modifiers.swift in Sources */,
 				A5FF27A22977AD640059C312 /* QuestionView.swift in Sources */,
 				FD2D0800297C0FB100CC010E /* CustomSymbols.swift in Sources */,
