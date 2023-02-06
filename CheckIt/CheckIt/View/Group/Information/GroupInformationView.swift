@@ -115,7 +115,7 @@ struct GroupInformationView: View {
             memberStore.members.removeAll()
             Task {
                 do {
-                    try await memberStore.fetchMembers(group.id)
+                    try await memberStore.fetchMember(group.id)
                     
                     for member in memberStore.members {
                         let name = await userStore.getUserName(member.uid)
