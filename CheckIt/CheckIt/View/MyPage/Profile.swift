@@ -79,15 +79,30 @@ struct ChangeProfileView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userStore: UserStore
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
+            Text("프로필 편집")
+                .font(.title2)
+                .bold()
+                .padding(.bottom, 30)
+            
             TextField("변경할 이름을 작성해주세요", text: $changedName)
-            Button(action: {
+            
+            Capsule()
+                .foregroundColor(Color.myGray)
+                .frame(height: 1)
+                .frame(maxWidth: .infinity)
+                .padding(.bottom, 20)
+            
+            Button {
                 userStore.changeUserName(name: changedName)
                 dismiss()
-            }) {
-                Text("Submit")
+            } label: {
+                Text("이름 변경하기")
+                    .modifier(GruopCustomButtonModifier())
             }
+
         }
+        .padding(.horizontal, 30)
         
     }
 }
