@@ -52,6 +52,10 @@ class ScheduleStore: ObservableObject {
             }
     }
     
+    // MARK: - updateSchedule 함수
+//    func updateSchedule(schduleID: String) {
+//        .whereField("group_name", isEqualTo: gruopName)
+//    }
     
     /// schedule id 배열을 받아서 참석자 검증 - 개인
     func fetchUserScheduleList(scheduleList: [Schedule], userID : String, attendanceStore: AttendanceStore) {
@@ -71,6 +75,7 @@ class ScheduleStore: ObservableObject {
             
         }
     }
+
 
     
     // MARK: - addSchedule 함수

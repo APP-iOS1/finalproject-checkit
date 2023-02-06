@@ -84,7 +84,7 @@ struct AttendanceDetailStatusView: View {
                 for index in 0..<lateStatusAttendanceList.count {
                     if lateStatusAttendanceList[index] != changedLateStatusAttendanceList[index] {
                         print(changedLateStatusAttendanceList[index], "바뀐것만 뽀ㅃ자")
-                        attendanceStore.updateAttendace(attendanceData: changedLateStatusAttendanceList[index]) //todo
+//                        attendanceStore.updateAttendace(attendanceData: changedLateStatusAttendanceList[index]) //todo
                     }
                 }
             }
