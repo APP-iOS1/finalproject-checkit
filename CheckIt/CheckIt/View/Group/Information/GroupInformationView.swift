@@ -13,6 +13,8 @@ struct MemberTest: Hashable {
 }
 
 struct GroupInformationView: View {
+    @EnvironmentObject var userStore: UserStore
+    
     @State var memberTest: [MemberTest] =
     [
         MemberTest(position: "구성원", memberName: "류창휘"),
@@ -25,68 +27,22 @@ struct GroupInformationView: View {
     
     var group: Group
     
+    //FIXME: - 현재 보고있는 방이 방장인지 아닌지 나타내는 연산프로퍼티
+    /// 현재 Bool 타입인데 열거형으로 바꿔야 한다.
+    var isHost: Bool {
+        guard let user = userStore.user else { return false }
+        return (group.id == user.id)
+    }
+    
     var body: some View {
         VStack {
-            HStack(spacing: 25) {
-                //동아리 이미지
-                Image("chocobi")
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
-                    .overlay {
-                        Circle().stroke(Color.myGray, lineWidth: 2)
-                    }
-                
-                //동아리 정보
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("허니미니의 또구 동아리")
-                        .font(.system(size: 16, weight: .bold))
-                    Text("허니부리의 혼과 열쩡이 가득한 야구교실 입니다. 환영합니다.")
-                        .font(.system(size: 13, weight: .regular))
-                        .lineLimit(3)
-                }
+            if isHost {
+                GroupInfoMainView()
+            } else {
+                // 일반 구성원이 보는 뷰
+                // FIXME: - 뷰 생성 필요
+                Text("일반 동아리원이 보는 동아리 정보 뷰")
             }
-            .padding(.horizontal, 32)
-            .padding(.bottom, 20)
-            
-            //동아리 멤버 리스트
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(.myLightGray)
-                VStack {
-                    HStack {
-                        Text("동아리 멤버 리스트")
-                            .font(.system(size: 16, weight: .semibold))
-                            .padding(.leading, 28)
-                            .padding(.trailing, 0)
-                        Spacer()
-                        Text("\(memberTest.count) /10 명")
-                            .font(.system(size: 16, weight: .semibold))
-                        Button {
-                            print("dd")
-                        } label: {
-                            Image(systemName: "pencil.circle")
-                                .foregroundColor(.black)
-                        }
-                        .padding(.trailing, 26)
-                    }
-                    .padding(.vertical, 20)
-                    
-                    Spacer()
-                    
-                    ScrollView {
-                        VStack {
-                            ForEach($memberTest, id: \.self) { list in
-                                GroupMemberListCell(data: list)
-                                    .padding(.horizontal, 24)
-                                    .padding(.bottom, 5)
-                            }
-                        }
-                    }
-                }
-            }
-            .padding(.horizontal, 32)
-            .padding(.bottom, 8) //아직 기준을 잘 모르겠음
         }
     }
 }
@@ -94,5 +50,6 @@ struct GroupInformationView: View {
 struct GroupInformationView_Previews: PreviewProvider {
     static var previews: some View {
         GroupInformationView(group: Group.sampleGroup)
+            .environmentObject(UserStore())
     }
 }
