@@ -56,6 +56,7 @@ class ScheduleStore: ObservableObject {
     /// schedule id 배열을 받아서 참석자 검증 - 개인
     func fetchUserScheduleList(scheduleList: [Schedule], userID : String, attendanceStore: AttendanceStore) {
         Task {
+            userScheduleList.removeAll()
             attendanceStore.attendanceList.removeAll()
             for schedule in scheduleList {
                 let validId = await  attendanceStore.checkUserAttendance(scheduleID: schedule.id, id: userID)
