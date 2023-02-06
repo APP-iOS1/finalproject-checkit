@@ -9,27 +9,30 @@ import SwiftUI
 
 struct GroupMemberListCell: View {
     @EnvironmentObject var userStore: UserStore
+
+    @State private var userName = ""
+    @Binding var isEditing: Bool
     
     var member: Member
-    @State private var userName = ""
     
     var body: some View {
         VStack {
             HStack {
                 GroupPosition(position: member.position)
                     .padding(.leading, 17)
-                    .padding(.trailing, 0)
+                
                 Text(userName)
                     .font(.system(size: 15, weight: .regular))
                     .lineLimit(1)
                     .frame(width: 52)
-                    .padding(.leading, 25)
+                
                 Button {
                     print("dd")
                 } label: {
                     Image(systemName: "person.circle.fill")
                         .foregroundColor(.black)
                 }
+                
                 Spacer()
                 
                 Button {
@@ -40,8 +43,10 @@ struct GroupMemberListCell: View {
                         .frame(width: 14, height: 14)
                         .foregroundColor(.black)
                         .fontWeight(.semibold)
+                        .padding(.leading, -20)
                 }
-                .padding(.trailing, 17)
+                .opacity(isEditing ? 1 : 0)
+                .padding(.trailing)
             }
             .frame(height: 45)
             .frame(maxWidth: .infinity)
