@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1A3CB25E298A614E00EA5E84 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB25D298A614E00EA5E84 /* Card.swift */; };
+		1A3CB2612990B8D200EA5E84 /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB2602990B8D200EA5E84 /* WebViewModel.swift */; };
+		1A3CB2632990B8DD00EA5E84 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB2622990B8DD00EA5E84 /* WebView.swift */; };
 		1A41F4402977A8D40051F464 /* GroupScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */; };
 		1A41F4422977A8F70051F464 /* AddScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4412977A8F70051F464 /* AddScheduleView.swift */; };
 		1A41F4442977AA600051F464 /* AttendanceStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4432977AA600051F464 /* AttendanceStatusView.swift */; };
@@ -142,6 +144,8 @@
 
 /* Begin PBXFileReference section */
 		1A3CB25D298A614E00EA5E84 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		1A3CB2602990B8D200EA5E84 /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
+		1A3CB2622990B8DD00EA5E84 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScheduleView.swift; sourceTree = "<group>"; };
 		1A41F4412977A8F70051F464 /* AddScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleView.swift; sourceTree = "<group>"; };
 		1A41F4432977AA600051F464 /* AttendanceStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceStatusView.swift; sourceTree = "<group>"; };
@@ -287,6 +291,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A3CB25F2990B8B300EA5E84 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				1A3CB2622990B8DD00EA5E84 /* WebView.swift */,
+				1A3CB2602990B8D200EA5E84 /* WebViewModel.swift */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
 		2807AA97297A4AFC00B1676C /* Master */ = {
 			isa = PBXGroup;
 			children = (
@@ -356,6 +369,7 @@
 		FD4E259B297783CC00F6F875 /* CheckIt */ = {
 			isa = PBXGroup;
 			children = (
+				1A3CB25F2990B8B300EA5E84 /* WebView */,
 				FDEE4907298D606B009DF195 /* CheckIt.entitlements */,
 				A529BD41298CA79A00AE232B /* Constants */,
 				283B27B4298A266800E4D400 /* Extensions */,
@@ -737,6 +751,7 @@
 				283B27B32989F20E00E4D400 /* GroupMainDetailView.swift in Sources */,
 				A5775BD6298A275A000DFC3F /* AttendanceStatusListCell.swift in Sources */,
 				2807AAA1297A5FEE00B1676C /* AttendanceDetailStatusView.swift in Sources */,
+				1A3CB2612990B8D200EA5E84 /* WebViewModel.swift in Sources */,
 				2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */,
 				2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */,
 				FD74973F298F1ABB001C424D /* LoginRouteView.swift in Sources */,
@@ -799,6 +814,7 @@
 				A529BD4B298CABAE00AE232B /* AttendanceConstants.swift in Sources */,
 				A529BD49298CA93900AE232B /* GroupConstants.swift in Sources */,
 				2807AA9B297A536300B1676C /* AttendanceCategoryView.swift in Sources */,
+				1A3CB2632990B8DD00EA5E84 /* WebView.swift in Sources */,
 				FDEE4906298D5883009DF195 /* AppleLoginStore.swift in Sources */,
 				2822CE242988DDF000316139 /* ScheduleStore.swift in Sources */,
 				1A41F4462977AA820051F464 /* LateFeeView.swift in Sources */,
