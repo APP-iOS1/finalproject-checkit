@@ -20,7 +20,7 @@ class AttendanceStore: ObservableObject {
     // 출석부 Fetch 함수
     func fetchAttendance(scheduleID: String) {
         attendanceList.removeAll()
-        database.collectionGroup("Attendance")
+        database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: scheduleID)
             .getDocuments { (snapshot, error) in
                 if let snapshot {
                     for document in snapshot.documents {
@@ -38,6 +38,10 @@ class AttendanceStore: ObservableObject {
                     print("끝")
                 }
             }
+    }
+    //출석부 update 함수
+    func updateAttendace(attendanceData: Attendance) {
+        
     }
     func fetchHostAttendacneList(scheduleIdList: [String]) {
         Task {

@@ -20,5 +20,5 @@ struct Schedule: Identifiable {
     var attendanceCount: Int
     var lateCount: Int
     var absentCount: Int
-    var officalyAbsentCount: Int
+    var officiallyAbsentCount: Int
 }
