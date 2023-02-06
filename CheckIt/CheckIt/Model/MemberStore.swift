@@ -48,7 +48,7 @@ class MemberStore: ObservableObject {
     /// 동아리에서 멤버를 삭제(강퇴)시 해야하는 작업은 다음과 같다.
     /// 1. 동아리 멤버 컬렉션에서 멤버 삭제
     /// 2. 동아리 컬렉션에 동아리원 숫자 감소
-    /// 3. 삭제된 동아리원 groupId에서 강퇴된 또는 나간 동아리 id 삭제
+    /// 3. 삭제된 동아리원 groupId에서 강퇴 또는 나간 동아리 id 삭제
     func removeMember(_ groupId: String, uid: String) async {
         do {
             try await database.collection("Group").document(groupId)
@@ -59,6 +59,8 @@ class MemberStore: ObservableObject {
             print("remove member error: \(error.localizedDescription)")
         }
     }
+    
+    
 }
 
 // MARK: - 데이터 crud외 작업

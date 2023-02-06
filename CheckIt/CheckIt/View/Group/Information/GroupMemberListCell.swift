@@ -10,6 +10,8 @@ import SwiftUI
 struct GroupMemberListCell: View {
     @EnvironmentObject var memberStore: MemberStore
     @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var groupStore: GroupStore
+    
     @Environment(\.dismiss) private var dismiss
     
     @Binding var nameDict: [String:String]
@@ -42,6 +44,7 @@ struct GroupMemberListCell: View {
                     Task {
                         guard let user = userStore.user else { fatalError("User id is nill")}
                         await memberStore.removeMember(group.id, uid: user.id)
+                        await groupStore.reduceMemberCount(group.id)
                     }
 
                 } label: {
