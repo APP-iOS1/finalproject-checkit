@@ -32,7 +32,7 @@ struct GroupInformationView: View {
     /// 현재 Bool 타입인데 열거형으로 바꿔야 한다.
     var isHost: Bool {
         guard let user = userStore.user else { return false }
-        return (group.id == user.id)
+        return (group.hostID == user.id)
     }
     
     var body: some View {
