@@ -27,7 +27,7 @@ class ExtraData: ObservableObject {
     }
     
     //MARK: - 날짜 비교
-    ///날짜를 비교하는 함수. date1, date2를 인수로 받는다.
+    ///날짜가 같은지 비교하는 함수. date1, date2를 인수로 받는다.
     ///반환 타입은 Bool
     func isSameDay(date1: Date, date2: Date) -> Bool {
         let calendar = Calendar.current
