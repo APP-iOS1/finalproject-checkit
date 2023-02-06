@@ -68,6 +68,7 @@ struct GroupMainView: View {
                     print("동아리들: \(groupStores.groups)")
                 }
             }
+
         }
         .padding()
     }
