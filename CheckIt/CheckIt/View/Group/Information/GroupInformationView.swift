@@ -21,8 +21,9 @@ struct GroupInformationView: View {
         MemberTest(position: "운영진", memberName: "예린스"),
         MemberTest(position: "운영진", memberName: "호이"),
         MemberTest(position: "구성원", memberName: "또리")
-        
     ]
+    
+    var group: Group
     
     var body: some View {
         VStack {
@@ -92,6 +93,6 @@ struct GroupInformationView: View {
 
 struct GroupInformationView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupInformationView()
+        GroupInformationView(group: Group.sampleGroup)
     }
 }
