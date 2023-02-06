@@ -30,9 +30,7 @@ struct GroupInformationView: View {
             if isHost {
                 GroupInfoMainView(group: group)
             } else {
-                // 일반 구성원이 보는 뷰
-                // FIXME: - 뷰 생성 필요
-                Text("일반 동아리원이 보는 동아리 정보 뷰")
+                GeneralGroupInfoMainView()
             }
         }
         .onAppear {

@@ -39,6 +39,7 @@
 		2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */; };
 		2869DE442977CF0200D8CAFB /* LateCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* LateCostCellView.swift */; };
 		2880E46229909EF40012F3BE /* GroupInfoMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880E46129909EF40012F3BE /* GroupInfoMainView.swift */; };
+		2880E4642990D8230012F3BE /* GeneralGroupInfoMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880E4632990D8230012F3BE /* GeneralGroupInfoMainView.swift */; };
 		2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */; };
 		2BDA61F12977C6CE00FDD307 /* MakeGroupModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */; };
 		2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */; };
@@ -172,6 +173,7 @@
 		2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceDetailView.swift; sourceTree = "<group>"; };
 		2869DE432977CF0200D8CAFB /* LateCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LateCostCellView.swift; sourceTree = "<group>"; };
 		2880E46129909EF40012F3BE /* GroupInfoMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInfoMainView.swift; sourceTree = "<group>"; };
+		2880E4632990D8230012F3BE /* GeneralGroupInfoMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralGroupInfoMainView.swift; sourceTree = "<group>"; };
 		2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMainView.swift; sourceTree = "<group>"; };
 		2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeGroupModalView.swift; sourceTree = "<group>"; };
 		2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGruopModalView.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 		2880E46029909EC00012F3BE /* General */ = {
 			isa = PBXGroup;
 			children = (
+				2880E4632990D8230012F3BE /* GeneralGroupInfoMainView.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -786,6 +789,7 @@
 				FDE58061297A53A600B7AC28 /* ToastAlert.swift in Sources */,
 				1A41F4442977AA600051F464 /* AttendanceStatusView.swift in Sources */,
 				A5775BD02988E9E8000DFC3F /* CameraScannerViewController.swift in Sources */,
+				2880E4642990D8230012F3BE /* GeneralGroupInfoMainView.swift in Sources */,
 				A529BD45298CA8C700AE232B /* SeminarConstants.swift in Sources */,
 				2880E46229909EF40012F3BE /* GroupInfoMainView.swift in Sources */,
 				FD4E25FE2977C44C00F6F875 /* QRButtonLabel.swift in Sources */,
