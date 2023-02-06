@@ -18,6 +18,10 @@ struct AddScheduleView: View {
     @State private var lateFee: Int = 0
     @State private var absentFee: Int = 0
     
+    @State var isShowingWebView: Bool = false
+    @State var bar = true
+    @ObservedObject var viewModel = WebViewModel()
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var scheduleStore: ScheduleStore
     @Binding var showToast: Bool
@@ -70,9 +74,22 @@ struct AddScheduleView: View {
                     HStack(spacing: 12) {
                         customSymbols(name: "mapPin")
                         
-                        // MARK: - 동아리 장소 TextField
-                        TextField("동아리 장소를 입력해주세요!", text: $place)
-                            .frame(width: 200)
+                        ZStack {
+                            Button {
+                                isShowingWebView.toggle()
+                            } label: {
+                                ZStack(alignment: .leading) {
+                                    Rectangle()
+                                        .frame(width: 250)
+                                        .foregroundColor(Color.white)
+                                    // MARK: - 동아리 장소 TextField
+                                    //                                TextField("동아리 장소를 입력해주세요!", text: $place)
+                                    //                                    .frame(width: 200)
+                                    Text("장소: \(viewModel.result ?? "")")
+                                        .foregroundColor(Color.black)
+                                }
+                            }
+                        }
                     }
                     
                     Spacer(minLength: 1)
@@ -193,6 +210,12 @@ struct AddScheduleView: View {
                 }
             }
             .padding(.horizontal, 30)
+        }
+        .sheet(isPresented: $isShowingWebView) {
+            WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
+        }
+        .onReceive(self.viewModel.bar.receive(on: RunLoop.main)) { value in
+            self.bar = value
         }
     }
 }
