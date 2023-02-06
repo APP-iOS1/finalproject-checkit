@@ -10,8 +10,9 @@ import SwiftUI
 struct EditScheduleAttendanceView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var attendanceStore: AttendanceStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
     @State private var changedAttendancList: [Attendance] = []
-    var schedule: Schedule
+    @State var schedule: Schedule
     var body: some View {
         VStack {
             ScrollView {
@@ -26,19 +27,26 @@ struct EditScheduleAttendanceView: View {
                     var attendanceStatus: [Int] = [0, 0, 0, 0]
                     for index in 0..<attendanceStore.attendanceList.count {
                         //schedule update함수
-                        switch attendanceStore.attendanceList[index].attendanceStatus {
-                        case "출석":
-                            attendanceStatus[0] += 1
-                        case "지각":
-                            attendanceStatus[1] += 1
-                        case "결석":
-                            attendanceStatus[2] += 1
-                        case "공결":
-                            attendanceStatus[3] += 1
-                        default:
-                            print("error")
-                            break
-                        }
+//                        switch attendanceStore.attendanceList[index].attendanceStatus {
+//                        case "출석":
+//                            attendanceStatus[0] += 1
+//                        case "지각":
+//                            attendanceStatus[1] += 1
+//                        case "결석":
+//                            attendanceStatus[2] += 1
+//                        case "공결":
+//                            attendanceStatus[3] += 1
+//                        default:
+//                            print("error")
+//                            break
+//                        }
+//                        schedule.attendanceCount = attendanceStatus[0]
+//                        schedule.lateCount = attendanceStatus[1]
+//                        schedule.absentCount = attendanceStatus[2]
+//                        schedule.officiallyAbsentCount = attendanceStatus[3]
+//                        
+//                        scheduleStore.updateScheduleAttendanceCount(schedule: schedule)
+//                        
                         
                         //attendance update함수
                         if changedAttendancList[index] != attendanceStore.attendanceList[index] {
