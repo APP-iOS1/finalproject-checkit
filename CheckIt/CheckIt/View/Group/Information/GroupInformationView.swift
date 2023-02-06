@@ -98,7 +98,7 @@ struct GroupInformationView: View {
                             ScrollView {
                                 VStack {
                                     ForEach(memberStore.members.indices, id: \.self) { idx in
-                                        GroupMemberListCell(nameDict: $nameDict, isEditing: $isEditing, member: memberStore.members[idx])
+                                        GroupMemberListCell(nameDict: $nameDict, isEditing: $isEditing, group: group, member: memberStore.members[idx])
                                             .padding(.horizontal, 24)
                                             .padding(.bottom, 5)
                                     }

@@ -11,6 +11,7 @@ struct GroupMemberListCell: View {
     @Binding var nameDict: [String:String]
     @Binding var isEditing: Bool
     
+    var group: Group
     var member: Member
     
     var body: some View {
@@ -43,7 +44,7 @@ struct GroupMemberListCell: View {
                         .fontWeight(.semibold)
                         .padding(.leading, -20)
                 }
-                .opacity(isEditing ? 1 : 0)
+                .opacity(isEditing && member.uid != group.hostID ? 1 : 0)
                 .padding(.trailing)
             }
             .frame(height: 45)
