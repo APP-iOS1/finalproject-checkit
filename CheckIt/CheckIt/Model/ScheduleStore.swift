@@ -35,7 +35,7 @@ class ScheduleStore: ObservableObject {
                         let attendanceCount: Int = docData[ScheduleConstants.attendanceCount] as? Int ?? 0
                         let lateCount: Int = docData[ScheduleConstants.lateCount] as? Int ?? 0
                         let absentCount: Int = docData[ScheduleConstants.absentCount] as? Int ?? 0
-                        let officalyAbsentCount: Int = docData[ScheduleConstants.officalyAbsentCount] as? Int ?? 0
+                        let officiallyAbsentCount: Int = docData[ScheduleConstants.officiallyAbsentCount] as? Int ?? 0
                         
                         let startTime: Timestamp = docData["start_time"] as? Timestamp ?? Timestamp()
                         let startTimestamp: Date = startTime.dateValue()
@@ -43,7 +43,7 @@ class ScheduleStore: ObservableObject {
                         let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
                         let endTimestamp: Date = endTime.dateValue()
                         
-                        let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officalyAbsentCount: officalyAbsentCount)
+                        let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
                         
                         self.scheduleList.append(schedule)
                                    
@@ -51,6 +51,7 @@ class ScheduleStore: ObservableObject {
                 }
             }
     }
+    
     
     /// schedule id 배열을 받아서 참석자 검증 - 개인
     func fetchUserScheduleList(scheduleList: [Schedule], userID : String, attendanceStore: AttendanceStore) {
@@ -69,21 +70,6 @@ class ScheduleStore: ObservableObject {
             
         }
     }
-    /// 출석부 패치 - 방장
-//    func fetchHostScheduleList(scheduleList: [Schedule]) {
-//        for schedule in scheduleList {
-//
-//        }
-//    }
-    func fetchHostSchedule(scheduleID: String) async {
-        do {
-            let querySnapshot = try await database.collection("Schedule")
-        }
-        catch {
-            
-        }
-    }
-    
 
     
     // MARK: - addSchedule 함수
@@ -93,18 +79,18 @@ class ScheduleStore: ObservableObject {
                 .document(schedule.id)
                 .setData([
                     "id": schedule.id,
-                    "group_name": schedule.groupName,
-                    "late_fee": schedule.lateFee,
-                    "absentee_fee": schedule.absenteeFee,
-                    "location": schedule.location,
-                    "agree_time": schedule.agreeTime,
-                    "memo": schedule.memo,
-                    "start_time": schedule.startTime,
-                    "end_time": schedule.endTime,
-                    "attendance_count": schedule.attendanceCount,
-                    "late_count": schedule.lateCount,
-                    "absent_count": schedule.attendanceCount,
-                    "officalyAbsent_count": schedule.officalyAbsentCount
+                    ScheduleConstants.groupName : schedule.groupName,
+                    ScheduleConstants.lateFee : schedule.lateFee,
+                    ScheduleConstants.absenteeFee: schedule.absenteeFee,
+                    ScheduleConstants.location: schedule.location,
+                    ScheduleConstants.agreeTime: schedule.agreeTime,
+                    ScheduleConstants.memo : schedule.memo,
+                    ScheduleConstants.startTime: schedule.startTime,
+                    ScheduleConstants.endTime: schedule.endTime,
+                    ScheduleConstants.attendanceCount: schedule.attendanceCount,
+                    ScheduleConstants.lateCount: schedule.lateCount,
+                    ScheduleConstants.absentCount: schedule.absentCount,
+                    ScheduleConstants.officiallyAbsentCount: schedule.officiallyAbsentCount
                 ])
             
         } catch {
