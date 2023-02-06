@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct GroupMemberListCell: View {
-    @EnvironmentObject var userStore: UserStore
-
-    @State private var userName = ""
+    @Binding var nameDict: [String:String]
     @Binding var isEditing: Bool
     
     var member: Member
@@ -21,7 +19,7 @@ struct GroupMemberListCell: View {
                 GroupPosition(position: member.position)
                     .padding(.leading, 17)
                 
-                Text(userName)
+                Text(nameDict[member.uid] ?? "N/A")
                     .font(.system(size: 15, weight: .regular))
                     .lineLimit(1)
                     .frame(width: 52)
@@ -52,11 +50,6 @@ struct GroupMemberListCell: View {
             .frame(maxWidth: .infinity)
             .background(.white)
             .cornerRadius(10)
-        }
-        .onAppear {
-            Task {
-                self.userName = await userStore.getUserName(member.uid)
-            }
         }
     }
 }
