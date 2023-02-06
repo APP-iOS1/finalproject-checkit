@@ -32,7 +32,7 @@ struct MyPageView: View {
                 .lineLimit(2)
                 .font(.system(size: 32, weight: .bold))
                 .padding([.top, .leading], 40)
-                .padding(.bottom, 20)
+                .padding(.bottom, 40)
             
             Profile(userEmailvalue: userEmail, userImageURL: userImageURL)
                 .padding(.horizontal, 40)

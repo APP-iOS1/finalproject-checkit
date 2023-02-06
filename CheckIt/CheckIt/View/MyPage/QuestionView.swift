@@ -9,21 +9,21 @@ import SwiftUI
 
 struct QuestionView: View {
     @State private var termsButtonTitle: String = "이용약관"
-    @State private var openSourceLicenseTitle: String = "오픈소스 라이센스"
+    @State private var openSourceLicenseTitle: String = "오픈소스 라이선스"
     @State private var customServiceTitle: String = "고객센터"
-    @State private var frequentlyQeustionsTitle: String = "자주 하는 질문"
+    @State private var frequentlyQeustionsTitle: String = "자주하는 질문"
     @State private var unregisterTitle: String = "회원탈퇴"
     
     var body: some View {
         VStack {
             
-            NavigationLink(destination: Text("이용약관")) {
+            NavigationLink(destination: TermsConditionsView()) {
                 MyPageButton(buttonTitle: $termsButtonTitle)
             }
             .padding(.top)
             Divider()
                 .padding(.horizontal, 24)
-            NavigationLink(destination: Text("오픈소스 라이센스")) {
+            NavigationLink(destination: LicenseView()) {
                 MyPageButton(buttonTitle: $openSourceLicenseTitle)
             }
 //            Divider()
@@ -33,7 +33,7 @@ struct QuestionView: View {
 //            }
             Divider()
                 .padding(.horizontal, 24)
-            NavigationLink(destination: Text("자주 하는 질문")) {
+            NavigationLink(destination: FrequentlyAskedQuestionsView()) {
                 MyPageButton(buttonTitle: $frequentlyQeustionsTitle)
             }
             Divider()
