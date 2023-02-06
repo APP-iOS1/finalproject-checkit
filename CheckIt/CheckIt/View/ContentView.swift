@@ -38,7 +38,8 @@ struct ContentView: View {
         .accentColor(Color.myGreen)
         .onAppear {
             guard let user = userStore.user else { return }
-            groupStore.startGroupListener(userStore.user!)
+            groupStore.startGroupListener(userStore)
+            userStore.startUserListener(user.id)
         }
         .onDisappear {
             groupStore.detachListener()

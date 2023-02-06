@@ -35,16 +35,13 @@ class GroupStore: ObservableObject {
     /// - Parameter user: 현재 로그인한 user의 정보가 담겨있습니다.
     ///
     /// 동아리 데이터의 추가 수정 삭제 변화를 관찰합니다.
-    func startGroupListener(_ user: User) {
+    func startGroupListener(_ userStore: UserStore) {
         // FIXME: - 현재 동아리를 가져오는 기준은 User의 groupId필드로 가져온다.
         /// 그러나 동아리를 추가하고 나서는 User의 groupdId는 방금 추가된 동아리의 id가 담기지 않는다. 그래서 일단은 동아리 추가시
         /// 바로 @Published배열에 넣는다
         print("startGroupListener 호출")
-    
-//        if user.groupID.isEmpty { return }
         
-        
-        self.listener = database.collection("Group").addSnapshotListener { querySnapshot, error in
+        self.listener = database.collection("Group").addSnapshotListener(includeMetadataChanges: true) { querySnapshot, error in
             print("동아리 리스너 호출")
             
             guard let snapshot = querySnapshot else {
@@ -55,9 +52,11 @@ class GroupStore: ObservableObject {
             snapshot.documentChanges.forEach { diff in
                 switch diff.type {
                 case .added:
-                    self.readGroup(diff.document.data(), userGroupIdList: user.groupID)
+                    self.readGroup(diff.document.data(), userGroupIdList: userStore.user!.groupID)
                 case .modified:
                     print("동아리 수정")
+                    // FIXME: 오류 발생 위험
+                    self.readGroup(diff.document.data(), userGroupIdList: userStore.user!.groupID)
                 case .removed:
                     print("동아리 제거")
                 }
@@ -80,8 +79,12 @@ class GroupStore: ObservableObject {
     /// 파라미터로 들어온 동아리를 스토어의 @Published groups 프로퍼티에 저장합니다.
     func readGroup(_ group: [String:Any], userGroupIdList: [String]) {
         let id = group[GroupConstants.id] as? String ?? ""
-        
+        print("groupid: \(id)")
         guard userGroupIdList.contains(id) else { return }
+        if self.groups.contains(where: {$0.id == id}) {
+            return
+        }
+        
         print("동아리 추가")
         
         let name = group[GroupConstants.name] as? String ?? ""
@@ -309,6 +312,9 @@ class GroupStore: ObservableObject {
                 await addGroupsInUser(user, joinedGroupId: groupId)
                 await addGroupMemberCount(groupId)
                 //await fetchGroups(user)
+                
+                
+                
                 return .newJoined
                 
             } catch {
