@@ -40,8 +40,15 @@ class AttendanceStore: ObservableObject {
             }
     }
     //출석부 update 함수
-    func updateAttendace(attendanceData: Attendance) {
-        
+    func updateAttendace(attendanceData: Attendance, scheduleID: String, uid : String) {
+        database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: scheduleID).whereField("id", isEqualTo: uid).getDocuments { snapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let doc = snapshot?.documents else { return }
+            doc.first!.reference.updateData([AttendanceConstants.attendanceStatus : attendanceData.attendanceStatus])
+            
+        }
     }
     func fetchHostAttendacneList(scheduleIdList: [String]) {
         Task {
@@ -64,8 +71,6 @@ class AttendanceStore: ObservableObject {
                 let attendance = Attendance(id: id, scheduleId: scheduleId, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
                 DispatchQueue.main.async {
                     self.entireAttendanceList.append(attendance)
-//                    self.entireAttendanceList[scheduleID] = [] // ?
-//                    self.entireAttendanceList[scheduleID]?.append(attendance)
                     print(self.entireAttendanceList, "sss")
                 }
             }

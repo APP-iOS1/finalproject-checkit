@@ -29,6 +29,16 @@ struct AttendanceDetailView: View {
             
             Spacer()
         }
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                NavigationLink {
+                    EditScheduleAttendanceView(schedule: schedule)
+                } label: {
+                    Text("수정하기")
+                }
+
+            }
+        }
         .navigationTitle("\(Date().yearMonthDayDateToString(date: schedule.startTime)) 출석부")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
