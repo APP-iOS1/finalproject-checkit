@@ -24,6 +24,8 @@ class UserStore: ObservableObject {
     
     var userData: FirebaseAuth.User? = nil
     
+    private var listener: ListenerRegistration?
+    
     enum LoginState {
         case login
         case logout
@@ -59,6 +61,40 @@ class UserStore: ObservableObject {
         // 파이어베이스 DB에서 회원 정보 삭제
         return false
         
+    }
+    
+    func startUserListener(_ uid: String) {
+        self.listener = database.collection("User").whereField("id", isEqualTo: uid)
+            .addSnapshotListener(includeMetadataChanges: true) { querySnapshot, error in
+            print("유저 리스너 호출")
+            
+            guard let snapshot = querySnapshot else {
+                print("fetching user error: \(error!)")
+                return
+            }
+            
+            snapshot.documentChanges.forEach { diff in
+                switch diff.type {
+                case .added:
+                    print("유저 추가")
+                case .modified:
+                    print("유저 수정")
+                    self.userUpdate(diff.document.data())
+                case .removed:
+                    print("유저 제거")
+                }
+            }
+        }
+    }
+    
+    func userUpdate(_ user: [String:Any]) {
+        let id = user["id"] as? String ?? ""
+        let email = user["email"] as? String ?? ""
+        let name = user["name"] as? String ?? ""
+        let groupId = user["group_id"] as? [String] ?? []
+        let loginCenter = user["login_center"] as? String ?? ""
+        
+        self.user = User(id: id, email: email, name: name, groupID: groupId)
     }
     
     /// 카카오로 로그인
