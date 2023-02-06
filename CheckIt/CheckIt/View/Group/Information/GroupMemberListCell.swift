@@ -14,6 +14,8 @@ struct GroupMemberListCell: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    @State private var isRemoveMember: Bool = false
+    
     @Binding var nameDict: [String:String]
     @Binding var isEditing: Bool
     
@@ -44,12 +46,8 @@ struct GroupMemberListCell: View {
                 /// 2. 동아리 컬렉션에 동아리원 숫자 감소
                 /// 3. 삭제된 동아리원 groupId에서 강퇴 또는 나간 동아리 id 삭제
                 Button {
-                    Task {
-                        await memberStore.removeMember(group.id, uid: member.uid)
-                        await groupStore.reduceMemberCount(group.id)
-                        await memberStore.removeGroupId(group.id, uid: member.uid)
-                        self.memberStore.members.removeAll {$0.uid == member.uid }
-                    }
+                    isRemoveMember.toggle()
+                    
                 } label: {
                     Image(systemName: "xmark")
                         .resizable()
@@ -64,6 +62,28 @@ struct GroupMemberListCell: View {
             .frame(maxWidth: .infinity)
             .background(.white)
             .cornerRadius(10)
+        }
+        
+        .alert("해당 동아리원을 강퇴하시겠습니까?", isPresented: $isRemoveMember) {
+            Button(role: .destructive, action: {
+                print("강퇴된 동아리원 :\(nameDict[member.uid])")
+                
+                Task {
+                    await memberStore.removeMember(group.id, uid: member.uid)
+                    await groupStore.reduceMemberCount(group.id)
+                    await memberStore.removeGroupId(group.id, uid: member.uid)
+                    
+                    self.memberStore.members.removeAll {$0.uid == member.uid }
+                }
+            }, label: {
+                Text("강퇴하기")
+            })
+            
+            Button(role: .cancel, action: {
+                print("취소하기")
+            }, label: {
+                Text("취소하기")
+            })
         }
     }
 }
