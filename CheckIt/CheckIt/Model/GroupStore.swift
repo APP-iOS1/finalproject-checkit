@@ -389,4 +389,23 @@ class GroupStore: ObservableObject {
             return 0
         }
     }
+    
+    /// 동아리 구성원의 수를 1 감소하는 메소드
+    /// - Parameter groupId: 동아리원이 나가거나 강퇴된 동아리 id
+    func reduceMemberCount(_ groupdId: String) async {
+        do {
+            let document = try await database.collection("Group").document(groupdId).getDocument()
+            if document.exists {
+                let data = document.data()!
+                let memberCount = data["member_count"] as? Int ?? 0
+                
+                try await database.collection("Group").document(groupdId)
+                    .updateData([
+                        "member_count": memberCount - 1
+                    ])
+            }
+        } catch {
+            print("reduceCount error: \(error.localizedDescription)")
+        }
+    }
 }
