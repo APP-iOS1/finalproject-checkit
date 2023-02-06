@@ -66,11 +66,12 @@ struct CheckItApp: App {
                         if let user = Auth.auth().currentUser {
                             userStore.isPresentedLoginView = false
                             userStore.userData = user
+                            print(user.uid)
                             
                             Task {
                                 await userStore.fetchUser(user.uid)
                                 groupStore.startGroupListener(userStore)
-                                userStore.startUserListener(userStore.user!.id)
+                                userStore.startUserListener(user.uid)
                             }
                         }
                     }
