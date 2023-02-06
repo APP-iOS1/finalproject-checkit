@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct LateCostCellView: View {
-    var data: LateCost
-    
+    @Binding var data: Attendance
+    var category: AttendanceCategory
     var attendanceColor: Color {
-        switch data.attendance {
+        switch data.attendanceStatus {
         case "출석":
             return Color.myGreen
         case "지각":
@@ -24,31 +24,47 @@ struct LateCostCellView: View {
             return Color.myBlack
         }
     }
-    
     var body: some View {
         VStack {
             HStack {
-                Text(data.name)
+                //지각일 경우 정산 여부
+                if category == .lated {
+                    Button {
+                        data.settlementStatus.toggle()
+                        print(data, "ddddddddd")
+                    } label: {
+                        ZStack {
+                            Image(systemName: "square")
+                            if data.settlementStatus == true {
+                                Image(systemName: "checkmark")
+                            }
+                        }
+                    }
+
+                }
+                Text(data.id)
                 
                 Spacer()
-                
-                Text(data.attendance)
-                    .foregroundColor(attendanceColor)
-                    .padding(.horizontal, 5)
-                    .padding(.vertical, 3)
-                
-                    .background {
+            
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 45, height: 25)
+                    .foregroundColor(.white)
+                    .overlay{
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(attendanceColor, lineWidth: 1)
+                        Text(data.attendanceStatus)
+                            .foregroundColor(attendanceColor)
+                            .font(.caption)
+                            .bold()
                     }
             }
         }
     }
 }
 
-struct LateCostCellView_Previews: PreviewProvider {
-    static var previews: some View {
-        AttendanceDetailView()
-        //        LateCostCellView(data: LateCost(name: "이학진", attendance: "출석", cost: 0, isChecked: false))
-    }
-}
+//struct LateCostCellView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AttendanceDetailView()
+//        //        LateCostCellView(data: LateCost(name: "이학진", attendance: "출석", cost: 0, isChecked: false))
+//    }
+//}

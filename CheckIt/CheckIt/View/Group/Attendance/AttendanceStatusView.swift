@@ -16,14 +16,11 @@ struct AttendanceStatusView: View {
     var body: some View {
         ScrollView {
             if userStore.user?.id == hostId {
-//                ForEach(scheduleStore.scheduleList.indices) { index in
-//                    AttendanceCellView(schedule: schedule[index])
-//                }
-//                ForEach(attendanceStore.entireAttendanceList, id: \.self) { value in
-//                    AttendanceCellView(attendance: attendanceStore.entireAttendanceList[index])
-//                }
                 ForEach(scheduleStore.scheduleList.indices, id: \.self) { index in
-                    AttendanceCellView(schedule: scheduleStore.scheduleList[index])
+                    
+                    NavigationLink(destination: AttendanceDetailView(schedule: scheduleStore.scheduleList[index])) {
+                        AttendanceCellView(schedule: scheduleStore.scheduleList[index])
+                    }
                 }
             }
             else {
@@ -36,10 +33,7 @@ struct AttendanceStatusView: View {
             print(userStore.user?.id ?? "", "유저 id")
             print(hostId, "호스트 id")
             if userStore.user?.id ?? "" == hostId {
-//                attendanceStore.fetchHostAttendacneList(scheduleIdList: scheduleIDList ?? [])
-//                Task {
-//                    await attendanceStore.fetchHostAttendance(scheduleID: scheduleIDList?[0] ?? "")
-//                }
+                
             }
             else {
                 scheduleStore.fetchUserScheduleList(scheduleList: scheduleStore.scheduleList, userID: userStore.user?.id ?? "", attendanceStore: attendanceStore)
