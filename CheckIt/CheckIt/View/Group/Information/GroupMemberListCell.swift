@@ -8,24 +8,31 @@
 import SwiftUI
 
 struct GroupMemberListCell: View {
-    @Binding var data: MemberTest
+    @EnvironmentObject var userStore: UserStore
+
+    @State private var userName = ""
+    @Binding var isEditing: Bool
+    
+    var member: Member
+    
     var body: some View {
         VStack {
             HStack {
-                GroupPosition(position: $data.position)
+                GroupPosition(position: member.position)
                     .padding(.leading, 17)
-                    .padding(.trailing, 0)
-                Text(data.memberName)
+                
+                Text(userName)
                     .font(.system(size: 15, weight: .regular))
                     .lineLimit(1)
                     .frame(width: 52)
-                    .padding(.leading, 25)
+                
                 Button {
                     print("dd")
                 } label: {
                     Image(systemName: "person.circle.fill")
                         .foregroundColor(.black)
                 }
+                
                 Spacer()
                 
                 Button {
@@ -36,23 +43,27 @@ struct GroupMemberListCell: View {
                         .frame(width: 14, height: 14)
                         .foregroundColor(.black)
                         .fontWeight(.semibold)
+                        .padding(.leading, -20)
                 }
-                .padding(.trailing, 17)
-
-
+                .opacity(isEditing ? 1 : 0)
+                .padding(.trailing)
             }
             .frame(height: 45)
             .frame(maxWidth: .infinity)
             .background(.white)
             .cornerRadius(10)
         }
-
+        .onAppear {
+            Task {
+                self.userName = await userStore.getUserName(member.uid)
+            }
+        }
     }
 }
 
-struct GroupMemberListCell_Previews: PreviewProvider {
-    static var previews: some View {
-        GroupMemberListCell(data: .constant(MemberTest(position: "운영진", memberName: "류창휘")))
-//            .previewLayout(.sizeThatFits)
-    }
-}
+//struct GroupMemberListCell_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GroupMemberListCell(data: .constant(MemberTest(position: "운영진", memberName: "류창휘")))
+////            .previewLayout(.sizeThatFits)
+//    }
+//}
