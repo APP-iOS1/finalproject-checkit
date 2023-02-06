@@ -14,6 +14,7 @@ struct MemberTest: Hashable {
 
 struct GroupInformationView: View {
     @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var memberStore: MemberStore
     
     @State var memberTest: [MemberTest] =
     [
@@ -44,6 +45,20 @@ struct GroupInformationView: View {
                 Text("일반 동아리원이 보는 동아리 정보 뷰")
             }
         }
+        .onAppear {
+            memberStore.members.removeAll()
+            Task {
+                do {
+                    try await memberStore.fetchMembers(group.id)
+                } catch MemberError.notFoundMember {
+                    print("member를 못찾음")
+                } catch {
+                    print("not found error")
+                }
+                
+                print("가져온 구성원들: \(memberStore.members)")
+            }
+        }
     }
 }
 
@@ -51,5 +66,6 @@ struct GroupInformationView_Previews: PreviewProvider {
     static var previews: some View {
         GroupInformationView(group: Group.sampleGroup)
             .environmentObject(UserStore())
+            .environmentObject(MemberStore())
     }
 }
