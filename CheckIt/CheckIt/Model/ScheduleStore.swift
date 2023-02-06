@@ -53,9 +53,20 @@ class ScheduleStore: ObservableObject {
     }
     
     // MARK: - updateSchedule 함수
-//    func updateSchedule(schduleID: String) {
-//        .whereField("group_name", isEqualTo: gruopName)
-//    }
+    func updateScheduleAttendanceCount(schedule: Schedule) {
+        database.collection("Schedule").whereField(ScheduleConstants.groupName, isEqualTo: schedule.groupName).getDocuments { snapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let doc = snapshot?.documents else { return }
+            doc.first!.reference.updateData([
+                ScheduleConstants.attendanceCount: schedule.attendanceCount,
+                ScheduleConstants.lateCount : schedule.lateCount,
+                ScheduleConstants.absentCount : schedule.absentCount,
+                ScheduleConstants.officiallyAbsentCount : schedule.officiallyAbsentCount
+            ])
+        }
+    }
     
     /// schedule id 배열을 받아서 참석자 검증 - 개인
     func fetchUserScheduleList(scheduleList: [Schedule], userID : String, attendanceStore: AttendanceStore) {
