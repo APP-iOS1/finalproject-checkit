@@ -42,7 +42,21 @@ class MemberStore: ObservableObject {
     }
 }
 
-
-
-// 동아리가 있으면 안에 일정도 있다
-// 일정이 있으면 출석부도 있다
+// MARK: - 데이터 crud외 작업
+extension MemberStore {
+    
+    /// 동아리원을 정렬하는 메소드입니다.
+    /// 정렬 순서는 (방장 - 운영진 - 구성원) 순서입니다.
+    func sortedMember(_ nameDict: [String:String]) async -> [Member] {
+        let host = self.members.filter({$0.position == "방장"})
+        let mangement = self.members.filter{$0.position == "운영진"}
+        var general = self.members.filter{$0.position == "구성원"}
+        
+        general.sort(by: { member1, member2 in
+            return nameDict[member1.uid] ?? "A" < nameDict[member2.uid] ?? "B"
+        })
+        
+        let members = host + mangement + general
+        return members
+    }
+}
