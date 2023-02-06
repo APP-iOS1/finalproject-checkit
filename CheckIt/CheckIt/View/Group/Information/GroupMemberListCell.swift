@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct GroupMemberListCell: View {
+    @EnvironmentObject var memberStore: MemberStore
+    @EnvironmentObject var userStore: UserStore
+    @Environment(\.dismiss) private var dismiss
+    
     @Binding var nameDict: [String:String]
     @Binding var isEditing: Bool
     
@@ -35,14 +39,17 @@ struct GroupMemberListCell: View {
                 Spacer()
                 
                 Button {
-                    print("ss")
+                    Task {
+                        guard let user = userStore.user else { fatalError("User id is nill")}
+                        await memberStore.removeMember(group.id, uid: user.id)
+                    }
+
                 } label: {
                     Image(systemName: "xmark")
                         .resizable()
                         .frame(width: 14, height: 14)
                         .foregroundColor(.black)
                         .fontWeight(.semibold)
-                        .padding(.leading, -20)
                 }
                 .opacity(isEditing && member.uid != group.hostID ? 1 : 0)
                 .padding(.trailing)

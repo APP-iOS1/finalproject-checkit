@@ -19,7 +19,7 @@ class MemberStore: ObservableObject {
     
     /// 동아리에 해당하는 구성원 정보를 불러오는 메소드입니다.
     /// - Parameter groudId: 불러올 동아리 id
-    func fetchMembers(_ groupId: String) async throws {
+    func fetchMember(_ groupId: String) async throws {
         let querySnapshot = try await database.collection("Group")
             .document(groupId)
             .collection("Member")
@@ -38,6 +38,25 @@ class MemberStore: ObservableObject {
             DispatchQueue.main.async {
                 self.members.append(member)
             }
+        }
+    }
+    
+    /// 동아리 멤버를 제거하는 메소드
+    /// - Parameter groupdId 삭제할 멤버가 속해 있는 동아리
+    /// - Parameter uid 삭제할 멤버의 uid
+    ///
+    /// 동아리에서 멤버를 삭제(강퇴)시 해야하는 작업은 다음과 같다.
+    /// 1. 동아리 멤버 컬렉션에서 멤버 삭제
+    /// 2. 동아리 컬렉션에 동아리원 숫자 감소
+    /// 3. 삭제된 동아리원 groupId에서 강퇴된 또는 나간 동아리 id 삭제
+    func removeMember(_ groupId: String, uid: String) async {
+        do {
+            try await database.collection("Group").document(groupId)
+                .collection("Member")
+                .document(uid)
+                .delete()
+        } catch {
+            print("remove member error: \(error.localizedDescription)")
         }
     }
 }
