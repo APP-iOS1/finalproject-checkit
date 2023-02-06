@@ -55,6 +55,8 @@
 		A529BD49298CA93900AE232B /* GroupConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD48298CA93900AE232B /* GroupConstants.swift */; };
 		A529BD4B298CABAE00AE232B /* AttendanceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD4A298CABAE00AE232B /* AttendanceConstants.swift */; };
 		A529BD4D298CABF500AE232B /* MemberStoreConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD4C298CABF500AE232B /* MemberStoreConstants.swift */; };
+		A529BD4F2990C02200AE232B /* EditScheduleAttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD4E2990C02200AE232B /* EditScheduleAttendanceView.swift */; };
+		A529BD512990C1EC00AE232B /* EditScheduleAttendanceListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD502990C1EC00AE232B /* EditScheduleAttendanceListCell.swift */; };
 		A5775BD02988E9E8000DFC3F /* CameraScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */; };
 		A5775BD22988ECC1000DFC3F /* CameraScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD12988ECC1000DFC3F /* CameraScanner.swift */; };
 		A5775BD42989FE21000DFC3F /* CameraScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */; };
@@ -187,6 +189,8 @@
 		A529BD48298CA93900AE232B /* GroupConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupConstants.swift; sourceTree = "<group>"; };
 		A529BD4A298CABAE00AE232B /* AttendanceConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceConstants.swift; sourceTree = "<group>"; };
 		A529BD4C298CABF500AE232B /* MemberStoreConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStoreConstants.swift; sourceTree = "<group>"; };
+		A529BD4E2990C02200AE232B /* EditScheduleAttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScheduleAttendanceView.swift; sourceTree = "<group>"; };
+		A529BD502990C1EC00AE232B /* EditScheduleAttendanceListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScheduleAttendanceListCell.swift; sourceTree = "<group>"; };
 		A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewController.swift; sourceTree = "<group>"; };
 		A5775BD12988ECC1000DFC3F /* CameraScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScanner.swift; sourceTree = "<group>"; };
 		A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewModel.swift; sourceTree = "<group>"; };
@@ -298,6 +302,8 @@
 				2807AA9C297A5E0500B1676C /* AttendancePickerView.swift */,
 				2807AAA0297A5FEE00B1676C /* AttendanceDetailStatusView.swift */,
 				A5775BD5298A275A000DFC3F /* AttendanceStatusListCell.swift */,
+				A529BD4E2990C02200AE232B /* EditScheduleAttendanceView.swift */,
+				A529BD502990C1EC00AE232B /* EditScheduleAttendanceListCell.swift */,
 			);
 			path = Master;
 			sourceTree = "<group>";
@@ -776,6 +782,7 @@
 				FD4E25F02977AC8500F6F875 /* CheckItCard.swift in Sources */,
 				283B70B7298C98EF003782C3 /* GroupEmptyView.swift in Sources */,
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
+				A529BD512990C1EC00AE232B /* EditScheduleAttendanceListCell.swift in Sources */,
 				A529BD4D298CABF500AE232B /* MemberStoreConstants.swift in Sources */,
 				2869DE442977CF0200D8CAFB /* LateCostCellView.swift in Sources */,
 				2822CE162988AFEC00316139 /* User.swift in Sources */,
@@ -785,6 +792,7 @@
 				2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */,
 				A5C48C0F297A5221007D49DF /* GroupPosition.swift in Sources */,
 				2869DE402977CC8800D8CAFB /* AttendanceCellView.swift in Sources */,
+				A529BD4F2990C02200AE232B /* EditScheduleAttendanceView.swift in Sources */,
 				2BDA61FD2982705700FDD307 /* CustomTextField.swift in Sources */,
 				FD4E259D297783CC00F6F875 /* CheckItApp.swift in Sources */,
 				2845444F298A2DAC001B2EED /* Ex+String.swift in Sources */,
