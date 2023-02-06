@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import AlertToast
 
 struct MakeGroupModalView: View {
     @Environment(\.dismiss) var dismiss
@@ -23,6 +24,12 @@ struct MakeGroupModalView: View {
     
     @Binding var showToast: Bool
     @Binding var toastMessage: String
+    
+    var maxGroupNameCount: Int = 12
+    var maxGroupDescriptionCount: Int = 30
+    
+    @State var showAlert: Bool = false
+    @State var alertMessage = "글자수 조건을 확인하세요!"
     
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
@@ -66,14 +73,14 @@ struct MakeGroupModalView: View {
             CustomTextField(
                 text: $groupName,
                 placeholder: "동아리 이름을 입력해주세요! (필수)",
-                maximumCount: 12)
+                maximumCount: maxGroupNameCount)
             .font(.system(size: 13, weight: .regular))
             
             // MARK: - 동아리 상세 내용 텍스트필드
             CustomTextField(
                 text: $groupDescription,
                 placeholder: "동아리의 상세 내용을 적어주세요. (필수)",
-                maximumCount: 30)
+                maximumCount: maxGroupDescriptionCount)
             .font(.system(size: 14, weight: .regular))
             
             // MARK: - 동아리 개설하기 버튼
@@ -89,20 +96,53 @@ struct MakeGroupModalView: View {
                                   memberCount: 1)
                 Task {
                     await groupStores.createGroup(userStores.user!, group: group, image: selectedPhotoData.first ?? UIImage())
+                    await groupStores.addGroupsInUser(userStores.user!, joinedGroupId: group.id)
+                    await userStores.fetchUser(userStores.user!.id)
+                    
+                    
+                    print("user의 groupid: \(userStores.user?.groupID)")
                 }
                 showToast.toggle()
                 toastMessage = "동아리 생성이 완료되었습니다."
+                //FIXME: - User Store에서 User를 리스너로 변경 필요
                 dismiss()
                 
             } label: {
                 Text("동아리 개설하기")
                     .modifier(GruopCustomButtonModifier())
             }
-            .disabled(groupName.isEmpty || groupDescription.isEmpty)
+            .disabled(!isCountValid())
+            .onTapGesture{
+                showAlert.toggle()
+            }
+            
         }
         .padding(40)
         .presentationDragIndicator(.visible)
+        .toast(isPresenting: $showAlert){
+            AlertToast(displayMode: .alert, type: .error(.red), title: alertMessage)
+        }
     }
+    
+    //MARK: - isCountValid
+    /// 글자수 조건이 맞는지 확인하는 메서드입니다.
+    private func isCountValid() -> Bool {
+        if groupName.isEmpty || groupDescription.isEmpty {
+            DispatchQueue.main.async{
+                self.alertMessage = "한 글자 이상 입력해야 합니다!"
+            }
+            return false
+        }
+        
+        if groupName.count > maxGroupNameCount || groupDescription.count > maxGroupDescriptionCount {
+            DispatchQueue.main.async{
+                self.alertMessage = "입력 가능한 글자 수를 넘었습니다!"
+            }
+            return false
+        }
+        
+        return true
+    } // - isCountValid
 }
 
 struct MakeGroupModalView_Previews: PreviewProvider {

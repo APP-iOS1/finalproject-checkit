@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct Profile: View {
+    @State var changedName: String = ""
     var userEmailvalue: String
     var userImageURL: URL
+    @State var isPresentedChangeProfileView: Bool = false
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 15)
@@ -48,24 +50,45 @@ struct Profile: View {
                     .padding(.top, 18)
                     .padding(.bottom, 24)
                 
-//                Button {
-//                    print("dd")
-//                } label: {
-//                    RoundedRectangle(cornerRadius: 15)
-//                        .frame(height: 50)
-//                        .foregroundColor(.myGreen)
-//                            .overlay {
-//                                Text("프로필 편집")
-//                                    .foregroundColor(.white)
-//                                    .font(.system(size: 20, weight: .regular))
-//                            }
-//                }
-//                .padding(.horizontal, 16)
-//                .padding(.bottom, 20)
+                Button {
+                    isPresentedChangeProfileView = true
+                } label: {
+                    RoundedRectangle(cornerRadius: 15)
+                        .frame(height: 50)
+                        .foregroundColor(.myGreen)
+                            .overlay {
+                                Text("프로필 편집")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 20, weight: .regular))
+                            }
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 20)
 
             }
         }
         .frame(height: 200)
+        .sheet(isPresented: $isPresentedChangeProfileView) {
+            ChangeProfileView(changedName: $changedName)
+        }
+    }
+}
+
+struct ChangeProfileView: View {
+    @Binding var changedName: String
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var userStore: UserStore
+    var body: some View {
+        VStack {
+            TextField("변경할 이름을 작성해주세요", text: $changedName)
+            Button(action: {
+                userStore.changeUserName(name: changedName)
+                dismiss()
+            }) {
+                Text("Submit")
+            }
+        }
+        
     }
 }
 //

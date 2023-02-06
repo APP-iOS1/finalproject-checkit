@@ -13,6 +13,8 @@ import KakaoSDKUser
 
 struct LoginView: View {
     @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var groupStore: GroupStore
+    
     var kakaoLoginButton: some View {
         Button(action: {
             userStore.loginCenter = .kakao
