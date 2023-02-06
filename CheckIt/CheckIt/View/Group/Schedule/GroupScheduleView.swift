@@ -71,8 +71,8 @@ struct GroupScheduleView: View {
                     
                 }
                 .onDisappear{
-                    // 다른 동아리의 일정이 나타나는 현상 때문에 초기화
-                    scheduleStore.scheduleList = []
+//                    // 다른 동아리의 일정이 나타나는 현상 때문에 초기화
+//                    scheduleStore.scheduleList = []
                 }
                 .refreshable {
                     scheduleStore.fetchSchedule(gruopName: group.name)
