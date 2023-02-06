@@ -6,14 +6,18 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct GroupMainView: View {
     @State var showingPlusSheet: Bool = false
     @State var isMakingGroup: Bool = false
     @State var isJoiningGroup: Bool = false
+    @State var showToast: Bool = false
+    @State var toastMessage: String = ""
     
     @EnvironmentObject var groupStores: GroupStore
     @EnvironmentObject var userStores: UserStore
+    @Environment(\.presentations) private var presentations
     
     var body: some View {
         NavigationStack {
@@ -57,18 +61,36 @@ struct GroupMainView: View {
                             .foregroundColor(.black)
                     }
                     .sheet(isPresented: $showingPlusSheet) {
-                        MainPlusSheetView()
+                        MainPlusSheetView(showToast: $showToast, toastMessage: $toastMessage)
+                            .environment(\.presentations, presentations + [$showingPlusSheet])
                             .presentationDetents([.height(420)])
                     }
                 }
+            }
+            .toast(isPresenting: $showToast){
+                AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
             }
 
         }
         .padding()
     }
 }
+
+struct PresentationKey: EnvironmentKey {
+    static let defaultValue: [Binding<Bool>] = []
+}
+
+extension EnvironmentValues {
+    var presentations: [Binding<Bool>] {
+        get { return self[PresentationKey] }
+        set { self[PresentationKey] = newValue }
+    }
+}
     
     struct GroupMainView_Previews: PreviewProvider {
+        @State var showToast: Bool
+        @State var toastMessage: String
+        
         static var previews: some View {
             GroupMainView()
                 .environmentObject(GroupStore())
