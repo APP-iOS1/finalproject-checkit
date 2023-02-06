@@ -13,6 +13,7 @@ struct MainPlusSheetView: View {
     @State var isJoiningGroup: Bool = false
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
+    @Environment(\.presentations) private var presentations
     
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
@@ -31,6 +32,7 @@ struct MainPlusSheetView: View {
             }
             .sheet(isPresented: $isMakingGroup) {
                 MakeGroupModalView(showToast: $showToast, toastMessage: $toastMessage)
+                    .environment(\.presentations, presentations + [$isMakingGroup])
                     .presentationDetents([.height(650)])
             }
             
@@ -46,6 +48,7 @@ struct MainPlusSheetView: View {
             }
             .sheet(isPresented: $isJoiningGroup) {
                 JoinGruopModalView(showToast: $showToast, toastMessage: $toastMessage)
+                    .environment(\.presentations, presentations + [$isJoiningGroup])
                     .presentationDetents([.height(300)])
             }
         }

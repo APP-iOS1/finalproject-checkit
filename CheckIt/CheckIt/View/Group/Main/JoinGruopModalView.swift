@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct JoinGruopModalView: View {
-    @Environment(\.dismiss) var dismiss
-    
     @EnvironmentObject var groupStores: GroupStore
     @EnvironmentObject var userStores: UserStore
+    
+    @Environment(\.presentations) private var presentations
     
     @State private var invitationCode: String = ""
     @State private var isJoined: Bool = false
@@ -47,7 +47,10 @@ struct JoinGruopModalView: View {
                         toastMessage = "올바르지 않은 초대코드 입니다."
                     }
                 }
-                dismiss()
+                
+                presentations.forEach {
+                                $0.wrappedValue = false
+                            }
                 
             } label: {
                 Text("동아리 참가하기")
