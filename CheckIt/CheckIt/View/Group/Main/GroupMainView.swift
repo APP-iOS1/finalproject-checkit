@@ -63,7 +63,7 @@ struct GroupMainView: View {
                     .sheet(isPresented: $showingPlusSheet) {
                         MainPlusSheetView(showToast: $showToast, toastMessage: $toastMessage)
                             .environment(\.presentations, presentations + [$showingPlusSheet])
-                            .presentationDetents([.height(420)])
+                            .presentationDetents([.height(415)])
                     }
                 }
             }
