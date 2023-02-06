@@ -10,13 +10,13 @@ import SwiftUI
 struct CheckItCard: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @ObservedObject var extraData = ExtraData()
-    @Binding var cardArr: [Card]
     
     @State private var schedules: [Schedule] = []
     @State private var recentSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
     
     var group: Group
     var index: Int
+    var card: [Card]
 
     var body: some View {
         VStack {
@@ -28,6 +28,7 @@ struct CheckItCard: View {
                         Spacer()
                         VStack(alignment: .leading) {
                             HStack {
+//                                Text("top section")
                                 TopSection
                                 Spacer()
                             }
@@ -53,22 +54,23 @@ struct CheckItCard: View {
                             .padding(10)
 
 
-                        // Check It 버튼
+//                        // Check It 버튼
                         NavigationLink(destination: CheckMapView()) {
-                            CheckItButtonLabel(isActive: cardArr[index].isActiveButton, text: "Check It!")
+                            CheckItButtonLabel(isActive: card[index].isActiveButton, text: "Check It!")
+//                            CheckItButtonLabel(isActive: true, text: "Check It!")
                         }
                         .frame(width: 200)
                         .padding(10)
-                        .disabled(!cardArr[index].isActiveButton)
+                        .disabled(!card[index].isActiveButton)
 
                         Spacer()
 
                     } // - VStack
                     .frame(
-                        width: cardArr[index].show ? UIScreen.main.bounds.width - 50 : UIScreen.main.bounds.width - 80,
-                        height: cardArr[index].show ? 580 : 400
+                        width: card[index].show ? UIScreen.main.bounds.width - 50 : UIScreen.main.bounds.width - 80,
+                        height: card[index].show ? 580 : 400
                     )
-                    .scaleEffect(cardArr[index].show ? 1 : 0.7)
+                    .scaleEffect(card[index].show ? 1 : 0.7)
                     .background(Color.myLightGray)
                     .cornerRadius(25)
                 } // - overlay
@@ -82,7 +84,7 @@ struct CheckItCard: View {
         } // 이후 필요없으면 삭제
     }
 
-    //MARK: - View(TopSection)
+//    MARK: - View(TopSection)
     private var TopSection: some View {
         VStack(alignment: .leading) {
             // 모임 날짜 나타내는 라벨

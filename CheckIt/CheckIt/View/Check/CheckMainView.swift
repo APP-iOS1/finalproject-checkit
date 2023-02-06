@@ -10,16 +10,13 @@ import SwiftUI
 struct CheckMainView: View {
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var userStore: UserStore
-    
-    //groupStore에서 패치한 그룹들을 담아줄 배열변수
-    @State private var groupsArr: [Group] = []
-    //애니메이션에 넣기 위한 변수 어레이
-    @State private var cardArr: [Card] = []
-    
+
     @State var x : CGFloat = 0
     @State var count : CGFloat = 0
     @State var screen = UIScreen.main.bounds.width - 30
-    @State var op : CGFloat = 0
+    var op : CGFloat {
+        ((self.screen + 15) * CGFloat(groupStore.groups.count / 2)) - (groupStore.groups.count % 2 == 0 ? -((self.screen + 15) * self.count) : 0)
+    }
     
     //FIXME: 더미데이터입니다.
     //    @State var data = [
@@ -29,18 +26,22 @@ struct CheckMainView: View {
     //        Card(id: 3, dDay: "D-day", groupName: "지니의 맛집탐방", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false)
     //    ]
     
+    var card: [Card] {cardGenerate()}
+    
     var body: some View {
         TabView {
-            VStack{
+            VStack {
                 Spacer()
                 HStack(spacing: 47) {
-                    ForEach(0..<groupsArr.count, id: \.self) { index in
+                    ForEach(0..<groupStore.groups.count, id: \.self) { index in
                         VStack {
                             HStack {
-                                CheckItCard(cardArr: $cardArr, group: groupsArr[index], index: index)
+                                CheckItCard(group: groupStore.groups[index], index: index, card: card)
                                     .offset(x: self.x)
                                     .onTapGesture(perform: {
-                                        print("card: \(cardArr)")
+                                        print("op: \(self.op)")
+                                        print("card: \(card)")
+                                        print("groups: \(groupStore.groups)")
                                     })
                                     .highPriorityGesture(DragGesture()
                                                          
@@ -53,7 +54,6 @@ struct CheckMainView: View {
                                             }
                                         })
                                             .onEnded({ (value) in
-                                                
                                                 if value.translation.width > 0 {
                                                     if value.translation.width > ((self.screen - 80) / 2) && Int(self.count) != 0 {
                                                         
@@ -64,7 +64,7 @@ struct CheckMainView: View {
                                                         self.x = -((self.screen + 15) * self.count)
                                                     }
                                                 } else {
-                                                    if -value.translation.width > ((self.screen - 80) / 2) && Int(self.count) !=  (groupsArr.count - 1) {
+                                                    if -value.translation.width > ((self.screen - 80) / 2) && Int(self.count) !=  (groupStore.groups.count - 1) {
                                                         
                                                         self.count += 1
                                                         self.updateHeight(value: Int(self.count))
@@ -78,10 +78,10 @@ struct CheckMainView: View {
                             }
                             
                             HStack(spacing: 5) {
-                                ForEach(cardArr.indices) { i in
+                                ForEach(groupStore.groups.indices) { i in
                                     Capsule()
-                                        .fill(Color.black.opacity(cardArr[i].show == true ? 1 : 0.4))
-                                        .frame(width: cardArr[i].show == true ? 10 : 8, height: cardArr[i].show == true ? 10 : 8)
+                                        .fill(Color.black.opacity(card[i].show == true ? 1 : 0.4))
+                                        .frame(width: card[i].show == true ? 10 : 8, height: card[i].show == true ? 10 : 8)
                                         .offset(y: 60)
                                 }
                             }
@@ -100,60 +100,39 @@ struct CheckMainView: View {
             //            .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.top))
             //            .navigationBarTitle("Carousel List")
             .animation(.spring())
-            .onAppear {
-                Task {
-                    guard let user = userStore.user else { return }
-                    print("user check: \(user)")
-//                    await groupStore.fetchGroups(user)
-                    groupsArr = groupStore.groups
-//                    print("그룹패치 확인: \(groupsArr)")
-                    
-                    op = ((self.screen + 15) * CGFloat(groupsArr.count / 2)) - (groupsArr.count % 2 == 0 ? ((self.screen + 15) / 2) : 0)
-                    
-                    //                    if !cardArr.isEmpty {
-                    //
-                    //                    }
-                    cardArr = []
-                    groupsArr.enumerated().forEach { idx, group in
-                        if (CGFloat(idx) != self.count) && (idx != 0) {
-                            cardArr.append(Card(isActiveButton: false, show: false))
-                        } else if idx == 0 {
-                            cardArr.append(Card(isActiveButton: true, show: false))
-                        } else {
-                            cardArr.append(Card(isActiveButton: false, show: true))
-                        }
-                        
-//                        if cardArr[idx].show == true {
-//                            cardArr[0].show = false
-//                        }
-                        
-                    }
-                    //                    data[0].show = true
-                    //                    for i in 1..<groupsArr.count {
-                    //                        if data[i].show == true {
-                    //                            data[0].show = false
-                    //                        }
-                    //                    }
-                } // task
-            }
-            
-        }
-//        .onAppear {
-//            guard let user = userStore.user else { return }
-//            print("메인에서 그룹 호출")
-//            groupStore.startGroupListener(userStore.user!)
-//        }
     }
     
+}
     func updateHeight(value : Int){
-        for i in 0..<groupsArr.count{
+        var tempCard = cardGenerate()
+        for i in 0..<GroupStore().groups.count{
             
-            cardArr[i].show = false
+            tempCard[i].show = false
         }
         
-        cardArr[value].show = true
+        tempCard[value].show = true
     }
     
+    func cardGenerate() -> [Card] {
+        var tempCard: [Card] = []
+        for i in 0..<groupStore.groups.count {
+            switch count {
+            case CGFloat(i):
+                if CGFloat(i) != 0 {
+                    tempCard.append(Card(isActiveButton: false, show: true))
+                } else {
+                    tempCard.append(Card(isActiveButton: true, show: true))
+                }
+            default:
+                if CGFloat(i) != 0 {
+                    tempCard.append(Card(isActiveButton: false, show: false))
+                } else {
+                    tempCard.append(Card(isActiveButton: true, show: false))
+                }
+            }
+        }
+        return tempCard
+    }
 }
 
 ////MARK: - Previews
