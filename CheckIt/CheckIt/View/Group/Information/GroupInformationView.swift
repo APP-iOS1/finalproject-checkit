@@ -16,16 +16,6 @@ struct GroupInformationView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var memberStore: MemberStore
     
-    @State var memberTest: [MemberTest] =
-    [
-        MemberTest(position: "구성원", memberName: "류창휘"),
-        MemberTest(position: "방장", memberName: "허님니"),
-        MemberTest(position: "운영진", memberName: "지니"),
-        MemberTest(position: "운영진", memberName: "예린스"),
-        MemberTest(position: "운영진", memberName: "호이"),
-        MemberTest(position: "구성원", memberName: "또리")
-    ]
-    
     var group: Group
     
     //FIXME: - 현재 보고있는 방이 방장인지 아닌지 나타내는 연산프로퍼티
@@ -38,7 +28,7 @@ struct GroupInformationView: View {
     var body: some View {
         VStack {
             if isHost {
-                GroupInfoMainView()
+                GroupInfoMainView(group: group)
             } else {
                 // 일반 구성원이 보는 뷰
                 // FIXME: - 뷰 생성 필요
