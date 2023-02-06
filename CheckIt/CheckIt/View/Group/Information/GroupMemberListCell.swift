@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct GroupMemberListCell: View {
-    @Binding var data: MemberTest
+    var member: Member
+    
     var body: some View {
         VStack {
             HStack {
-                GroupPosition(position: $data.position)
+                
+                GroupPosition(position: member.position)
                     .padding(.leading, 17)
                     .padding(.trailing, 0)
-                Text(data.memberName)
+                Text(member.uid)
                     .font(.system(size: 15, weight: .regular))
                     .lineLimit(1)
                     .frame(width: 52)
@@ -50,9 +52,9 @@ struct GroupMemberListCell: View {
     }
 }
 
-struct GroupMemberListCell_Previews: PreviewProvider {
-    static var previews: some View {
-        GroupMemberListCell(data: .constant(MemberTest(position: "운영진", memberName: "류창휘")))
-//            .previewLayout(.sizeThatFits)
-    }
-}
+//struct GroupMemberListCell_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GroupMemberListCell(data: .constant(MemberTest(position: "운영진", memberName: "류창휘")))
+////            .previewLayout(.sizeThatFits)
+//    }
+//}

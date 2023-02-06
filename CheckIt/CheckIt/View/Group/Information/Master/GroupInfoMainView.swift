@@ -8,6 +8,18 @@
 import SwiftUI
 
 struct GroupInfoMainView: View {
+    @EnvironmentObject var memberStore: MemberStore
+    @EnvironmentObject var groupStore: GroupStore
+    
+    var group: Group
+    
+    // 현재 보고있는 동아리 이미지를 얻는 연산프로퍼티
+    // FIXME: - 현재 그룹이미지가 없는 경우 빈 image를 반환하는데 이를 디폴트 이미지로 수정해야합니다.
+    var groupImage: UIImage {
+        guard let image = groupStore.groupImage[group.id] else { return UIImage() }
+        return image
+    }
+    
     @State var memberTest: [MemberTest] =
     [
         MemberTest(position: "구성원", memberName: "류창휘"),
@@ -22,7 +34,7 @@ struct GroupInfoMainView: View {
         
         HStack(spacing: 25) {
             //동아리 이미지
-            Image("chocobi")
+            Image(uiImage: groupImage)
                 .resizable()
                 .frame(width: 100, height: 100)
                 .clipShape(Circle())
@@ -32,12 +44,14 @@ struct GroupInfoMainView: View {
             
             //동아리 정보
             VStack(alignment: .leading, spacing: 10) {
-                Text("허니미니의 또구 동아리")
+                Text(group.name)
                     .font(.system(size: 16, weight: .bold))
-                Text("허니부리의 혼과 열쩡이 가득한 야구교실 입니다. 환영합니다.")
+                Text(group.description)
                     .font(.system(size: 13, weight: .regular))
                     .lineLimit(3)
             }
+            .multilineTextAlignment(.leading)
+            Spacer()
         }
         .padding(.horizontal, 32)
         .padding(.bottom, 20)
@@ -53,7 +67,7 @@ struct GroupInfoMainView: View {
                         .padding(.leading, 28)
                         .padding(.trailing, 0)
                     Spacer()
-                    Text("\(memberTest.count) /10 명")
+                    Text("\(memberStore.members.count) /20 명")
                         .font(.system(size: 16, weight: .semibold))
                     Button {
                         print("dd")
@@ -69,8 +83,8 @@ struct GroupInfoMainView: View {
                 
                 ScrollView {
                     VStack {
-                        ForEach($memberTest, id: \.self) { list in
-                            GroupMemberListCell(data: list)
+                        ForEach(memberStore.members.indices, id: \.self) { idx in
+                            GroupMemberListCell(member: memberStore.members[idx])
                                 .padding(.horizontal, 24)
                                 .padding(.bottom, 5)
                         }
@@ -85,6 +99,8 @@ struct GroupInfoMainView: View {
 
 struct GroupInfoMainView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupInfoMainView()
+        GroupInfoMainView(group: Group.sampleGroup)
+            .environmentObject(MemberStore())
+            .environmentObject(GroupStore())
     }
 }

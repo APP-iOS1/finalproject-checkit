@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GroupPosition: View {
-    @Binding var position: String
+    var position: String
     var color: Color  {
         switch position {
         case "방장":
@@ -33,6 +33,6 @@ struct GroupPosition: View {
 
 struct GroupPosition_Previews: PreviewProvider {
     static var previews: some View {
-        GroupPosition(position: .constant("방장"))
+        GroupPosition(position: "방장")
     }
 }
