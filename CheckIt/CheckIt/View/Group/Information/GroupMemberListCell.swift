@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct GroupMemberListCell: View {
+    @EnvironmentObject var userStore: UserStore
+    
     var member: Member
+    @State private var userName = ""
     
     var body: some View {
         VStack {
             HStack {
-                
                 GroupPosition(position: member.position)
                     .padding(.leading, 17)
                     .padding(.trailing, 0)
-                Text(member.uid)
+                Text(userName)
                     .font(.system(size: 15, weight: .regular))
                     .lineLimit(1)
                     .frame(width: 52)
@@ -40,15 +42,17 @@ struct GroupMemberListCell: View {
                         .fontWeight(.semibold)
                 }
                 .padding(.trailing, 17)
-
-
             }
             .frame(height: 45)
             .frame(maxWidth: .infinity)
             .background(.white)
             .cornerRadius(10)
         }
-
+        .onAppear {
+            Task {
+                self.userName = await userStore.getUserName(member.uid)
+            }
+        }
     }
 }
 
