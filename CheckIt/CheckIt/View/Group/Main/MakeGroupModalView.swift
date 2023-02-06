@@ -10,9 +10,10 @@ import PhotosUI
 import AlertToast
 
 struct MakeGroupModalView: View {
-    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var groupStores: GroupStore
     @EnvironmentObject var userStores: UserStore
+    
+    @Environment(\.presentations) private var presentations
     
     @State private var groupName: String = ""
     @State private var groupDescription: String = ""
@@ -105,7 +106,10 @@ struct MakeGroupModalView: View {
                 showToast.toggle()
                 toastMessage = "동아리 생성이 완료되었습니다."
                 //FIXME: - User Store에서 User를 리스너로 변경 필요
-                dismiss()
+                
+                presentations.forEach {
+                                $0.wrappedValue = false
+                            }
                 
             } label: {
                 Text("동아리 개설하기")

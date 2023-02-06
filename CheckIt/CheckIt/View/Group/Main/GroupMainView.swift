@@ -14,6 +14,7 @@ struct GroupMainView: View {
     
     @EnvironmentObject var groupStores: GroupStore
     @EnvironmentObject var userStores: UserStore
+    @Environment(\.presentations) private var presentations
     
     var body: some View {
         NavigationStack {
@@ -58,6 +59,7 @@ struct GroupMainView: View {
                     }
                     .sheet(isPresented: $showingPlusSheet) {
                         MainPlusSheetView()
+                            .environment(\.presentations, presentations + [$showingPlusSheet])
                             .presentationDetents([.height(420)])
                     }
                 }
@@ -65,6 +67,17 @@ struct GroupMainView: View {
 
         }
         .padding()
+    }
+}
+
+struct PresentationKey: EnvironmentKey {
+    static let defaultValue: [Binding<Bool>] = []
+}
+
+extension EnvironmentValues {
+    var presentations: [Binding<Bool>] {
+        get { return self[PresentationKey] }
+        set { self[PresentationKey] = newValue }
     }
 }
     
