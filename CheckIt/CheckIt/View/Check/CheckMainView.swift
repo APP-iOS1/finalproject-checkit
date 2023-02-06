@@ -18,14 +18,6 @@ struct CheckMainView: View {
         ((self.screen + 15) * CGFloat(groupStore.groups.count / 2)) - (groupStore.groups.count % 2 == 0 ? -((self.screen + 15) * self.count) : 0)
     }
     
-    //FIXME: 더미데이터입니다.
-    //    @State var data = [
-    //        Card(id: 0, dDay: "D-day", groupName: "허니미니의 또구 동아리", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: true, show: false),
-    //        Card(id: 1, dDay: "D-day", groupName: "또리의 이력서 클럽", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false),
-    //        Card(id: 2, dDay: "D-day", groupName: "노이의 SSG 응원방", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false),
-    //        Card(id: 3, dDay: "D-day", groupName: "지니의 맛집탐방", place: "신촌 베이스볼클럽", date: "3월 24일", time: "오후 3:00 - 오후 7:00", groupImage: Image("chocobi"), isActiveButton: false, show: false)
-    //    ]
-    
     var card: [Card] {cardGenerate()}
     
     var body: some View {
@@ -38,11 +30,6 @@ struct CheckMainView: View {
                             HStack {
                                 CheckItCard(group: groupStore.groups[index], index: index, card: card)
                                     .offset(x: self.x)
-                                    .onTapGesture(perform: {
-                                        print("op: \(self.op)")
-                                        print("card: \(card)")
-                                        print("groups: \(groupStore.groups)")
-                                    })
                                     .highPriorityGesture(DragGesture()
                                                          
                                         .onChanged({ (value) in
