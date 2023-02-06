@@ -14,7 +14,9 @@ struct CheckMainView: View {
     @State var x : CGFloat = 0
     @State var count : CGFloat = 0
     @State var screen = UIScreen.main.bounds.width - 30
-    @State var op : CGFloat = 0
+    var op : CGFloat {
+        ((self.screen + 15) * CGFloat(groupStore.groups.count / 2)) - (groupStore.groups.count % 2 == 0 ? -((self.screen + 15) * self.count) : 0)
+    }
     
     //FIXME: 더미데이터입니다.
     //    @State var data = [
@@ -98,11 +100,6 @@ struct CheckMainView: View {
             //            .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.top))
             //            .navigationBarTitle("Carousel List")
             .animation(.spring())
-            .onAppear {
-                print(groupStore.groups)
-
-                op = ((self.screen + 15) * CGFloat(groupStore.groups.count / 2)) - (groupStore.groups.count % 2 == 0 ? ((self.screen + 15) / 2) : 0)
-            }
     }
     
 }
