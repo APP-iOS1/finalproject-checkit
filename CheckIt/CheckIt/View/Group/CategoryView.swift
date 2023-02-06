@@ -72,7 +72,7 @@ struct CategoryView: View {
                 AttendanceStatusView(scheduleIDList: group.scheduleID, hostId: group.hostID)
             }
             if clickedIndex == 2 {
-                GroupInformationView()
+                GroupInformationView(group: group)
             }
             
             Spacer()

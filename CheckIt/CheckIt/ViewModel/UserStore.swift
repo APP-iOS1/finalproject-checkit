@@ -394,8 +394,26 @@ class UserStore: ObservableObject {
             self.user?.name = name
             updateUser(user: self.user!)
         } // - changeUserName
-        
+    
+    
+    /// 입력받은 uid를 기반으로 유저의 이름을 가져오는 메소드입니다.
+    /// - Parameter uid: 이름을 가져올 유저의 uid
+    /// - Returns 유저의 이름
+    func getUserName(_ uid: String) async -> String {
+        let defaultName: String = "N/A"
+        do {
+            let document = try await database.collection("User").document(uid).getDocument()
+            
+            guard let data = document.data() else { return defaultName}
+            let name = data["name"] as? String ?? defaultName
+            return name
+            
+        } catch {
+            print("getUserName error \(error.localizedDescription)")
+            return defaultName
+        }
     }
+}
     
     
 
