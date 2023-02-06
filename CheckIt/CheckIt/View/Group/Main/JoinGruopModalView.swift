@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct JoinGruopModalView: View {
     @EnvironmentObject var groupStores: GroupStore
@@ -41,16 +42,18 @@ struct JoinGruopModalView: View {
                     switch statusCode {
                     case .alreadyJoined:
                         toastMessage = "이미 가입된 동아리입니다."
+                        presentations.forEach {
+                                        $0.wrappedValue = false
+                                    }
                     case .newJoined:
                         toastMessage = "동아리 가입이 완료되었습니다."
+                        presentations.forEach {
+                                        $0.wrappedValue = false
+                                    }
                     case .notValidated:
                         toastMessage = "올바르지 않은 초대코드 입니다."
                     }
                 }
-                
-                presentations.forEach {
-                                $0.wrappedValue = false
-                            }
                 
             } label: {
                 Text("동아리 참가하기")
@@ -59,6 +62,9 @@ struct JoinGruopModalView: View {
         }
         .padding(40)
         .presentationDragIndicator(.visible)
+        .toast(isPresenting: $showToast){
+            AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
+        }
     }
 }
 

@@ -11,8 +11,8 @@ import AlertToast
 struct MainPlusSheetView: View {
     @State var isMakingGroup: Bool = false
     @State var isJoiningGroup: Bool = false
-    @State private var showToast: Bool = false
-    @State private var toastMessage: String = ""
+    @Binding var showToast: Bool
+    @Binding var toastMessage: String
     @Environment(\.presentations) private var presentations
     
     var body: some View {
@@ -63,6 +63,6 @@ struct MainPlusSheetView: View {
 
 struct MainPlusSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        MainPlusSheetView()
+        MainPlusSheetView(showToast: .constant(false), toastMessage: .constant(""))
     }
 }
