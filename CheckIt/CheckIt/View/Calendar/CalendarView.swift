@@ -54,22 +54,46 @@ var tasks: [TaskMetaData] = [
 
 //MARK: - 메인 뷰
 struct CalendarView: View {
+    @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
     
     @State var currentDate: Date = Date()
     @State var currentMonth: Int = 0
+    @State private var selectedGroup = "전체"
+    @State private var totalSchedule: [Schedule] = []
     
     var body: some View {
         VStack {
             //달력섹션
-            CustomDatePickerView(currentDate: $currentDate, currentMonth: $currentMonth)
+            CustomDatePickerView(currentDate: $currentDate, selectedGroup: $selectedGroup, totalSchedule: $totalSchedule, currentMonth: $currentMonth)
             
             Divider()
             
             //일정섹션
-            TaskView(currentDate: $currentDate)
+            TaskView(currentDate: $currentDate, totalSchedule: $totalSchedule)
             Spacer()
         }
         .padding(.vertical)
+        .onAppear {
+            if selectedGroup != "전체" {
+                Task{
+                    await scheduleStore.fetchCalendarSchedule(groupName: selectedGroup)
+                    print("selectedGroup name: \(selectedGroup)")
+                    print("selectedGroup schedule: \(scheduleStore.scheduleList)")
+                }
+            } else {
+                groupStore.groups.forEach { group in
+                    Task {
+                        await scheduleStore.fetchCalendarSchedule(groupName: group.name)
+                        print("foreach group name: \(group.name)")
+//                        totalSchedule.append(contentsOf: scheduleStore.scheduleList)
+                        print("totalGroup schedule: \(scheduleStore.scheduleList)")
+                        totalSchedule = scheduleStore.scheduleList
+                    }
+                }
+            }
+            
+        }
     }
 }
 
