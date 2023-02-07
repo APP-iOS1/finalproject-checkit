@@ -42,6 +42,7 @@ struct CustomDatePickerView: View {
     //피커에서 선택된 그룹
     @Binding var selectedGroup: String
     @Binding var totalSchedule: [Schedule]
+    //    var totalSchedule: [Schedule]
     
     //화살표 누르면 달(month) 업데이트
     @Binding var currentMonth: Int
@@ -127,56 +128,47 @@ struct CustomDatePickerView: View {
     @ViewBuilder
     func CardView(value: DateValue) -> some View {
         VStack {
-            if value.day != -1 {
-//                filterArray = arrayTest.filter { (element) -> Bool in
-//                    return element >= 10
-                if let filterSchedule = totalSchedule.filter({ schedule in
+            if value.day != -1 {                if let filterSchedule = totalSchedule.filter({ schedule in
+                if selectedGroup != "전체" {
+                    return extraData.isSameDay(date1: schedule.startTime, date2: value.date) && (schedule.groupName == selectedGroup)
+                } else {
                     return extraData.isSameDay(date1: schedule.startTime, date2: value.date)
-                }) {
-//                if let filterSchedule = totalSchedule.filter { schedule in
-//                    return extraData.isSameDay(date1: schedule.startTime, date2: value.date)
-//                }) {
-                    
-                    Text("\(value.day)")
-                        .font(.body.bold())
-                    Spacer()
-                    
-                    HStack(spacing: 6) {
-                        //FIXME: 3+ 라벨 처리
-                        if !filterSchedule.isEmpty {
-                            let scheduleNum = filterSchedule.count
+                }
+            }) {
+                Text("\(value.day)")
+                    .font(.body.bold())
+                Spacer()
+                
+                HStack(spacing: 6) {
+                    //FIXME: 3+ 라벨 처리
+                    if !filterSchedule.isEmpty {
+                        let scheduleNum = filterSchedule.count
+                       
+                        if scheduleNum > 3 {
+                            Text("3+")
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color.myRed)
+                                .frame(width: 28, height: 16)
+                                .overlay(RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.myRed, lineWidth: 1))
                             
-//                            Button {
-//                                print(filterSchedule)
-//                            } label: {
-//                                Text("today")
-//                            }
-                            
-                            if scheduleNum > 3 {
-                                Text("3+")
-                                    .font(.caption)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color.myRed)
-                                    .frame(width: 28, height: 16)
-                                    .overlay(RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.myRed, lineWidth: 1))
-                                
-                            } else {
-                                ForEach(0..<scheduleNum) {_ in
-                                    Circle()
-                                        .fill(Color.myRed)
-                                        .frame(width: 7, height: 7)
-                                }
+                        } else {
+                            ForEach(0..<scheduleNum) {_ in
+                                Circle()
+                                    .fill(Color.myRed)
+                                    .frame(width: 7, height: 7)
                             }
                         }
                     }
-                    .padding(.bottom, 15)
-//                    Spacer()
-                } else {
-                    Text("\(value.day)")
-                        .font(.body.bold())
-                    Spacer()
                 }
+                .padding(.bottom, 15)
+                //                    Spacer()
+            } else {
+                Text("\(value.day)")
+                    .font(.body.bold())
+                Spacer()
+            }
             }
         }
         .padding(.vertical, 3)

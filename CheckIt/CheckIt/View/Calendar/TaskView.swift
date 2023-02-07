@@ -11,8 +11,8 @@ struct TaskView: View {
     @ObservedObject var extraData = ExtraData()
     
     @Binding var currentDate: Date
-
     @Binding var totalSchedule: [Schedule]
+    @Binding var selectedGroup: String
     
     var body: some View {
         HStack {
@@ -25,7 +25,11 @@ struct TaskView: View {
                 ScrollView(showsIndicators: true) {
                     //MARK: - 일정 디테일
                     if let filterSchedule = totalSchedule.filter({ schedule in
-                        return extraData.isSameDay(date1: schedule.startTime, date2: currentDate)
+                        if selectedGroup != "전체" {
+                            return extraData.isSameDay(date1: schedule.startTime, date2: currentDate) && (schedule.groupName == selectedGroup)
+                        } else {
+                            return extraData.isSameDay(date1: schedule.startTime, date2: currentDate)
+                        }
                     }) {
                         if !filterSchedule.isEmpty {
                             ForEach(filterSchedule) { schedule in
