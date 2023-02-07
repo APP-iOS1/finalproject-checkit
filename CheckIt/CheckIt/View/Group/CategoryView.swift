@@ -11,11 +11,19 @@ struct CategoryView: View {
     @State var clickedIndex: Int = 0
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var memberStore: MemberStore
+    @EnvironmentObject var userStore: UserStore
     
     @State private var isDialog: Bool = false
     
     let categories: [String] = ["동아리 일정", "출석부", "동아리 정보"]
     var group: Group
+    
+    // FIXME: - 현재는 방장인지 아닌지만 여부를 나타내는데 운영진도 고려해야함
+    /// 현재 동아리가 자신이 방장인지 확인하는 연산 프로퍼티
+    /// true값이면 자신이 방장이며 fasle이면 방장이 아님
+    var isHost: Bool {
+        group.hostID == userStore.user?.id ?? ""
+    }
     
     var body: some View {
         VStack {
@@ -90,10 +98,25 @@ struct CategoryView: View {
                 }
             }
         }
+        
         .confirmationDialog("ddd", isPresented: $isDialog) {
-            Button("ddd") {
-                print("ss")
+            if isHost {
+                Button("동아리 편집하기") {
+                    
+                }
+                Button("초대 링크 공유하기") {
+                    
+                }
+                Button("동아리 삭제하기", role: .destructive) {
+                    
+                }
+                
+            } else {
+                Button("동아리 나가기", role: .destructive) {
+                    
+                }
             }
+            Button("취소", role: .cancel) { }
         }
         
         .onAppear {
@@ -111,7 +134,6 @@ struct CategoryView: View {
                     print("not found error")
                 }
             }
-            
         }
         .onDisappear {
             print(group.scheduleID, "---------")
