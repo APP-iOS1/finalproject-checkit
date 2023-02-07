@@ -8,26 +8,46 @@
 import SwiftUI
 
 struct CheckMainView: View {
-    
-    let cards: [CheckItCard] = [
-        CheckItCard(),
-        CheckItCard(dDay: "D-1", groupName: "또리의 이력서 클럽", place: "홍대 이력서가 젤조아", date: "3월 25일", time: "오후 6:00 - 오후 8:00", isActiveButton: false),
-        CheckItCard(dDay: "D-21", groupName: "노이의 SSG 응원방", place: "이기자 빌딩", date: "4월 14일", time: "오후 7:00 - 오후 9:00", isActiveButton: false),
-        CheckItCard(dDay: "-", groupName: "지니의 맛집탐방", place: "-", date: "-", time: "-", isActiveButton: false)
-    ]
-    
+    @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
+    @State private var page = 0
+    var card: [Card] {cardGenerate()}
     
     var body: some View {
         NavigationStack {
-            TabView {
-                ForEach(cards.indices) { index in
-                    cards[index]
+            TabView(selection: $page) {
+                ForEach(0..<groupStore.groups.count, id: \.self) { index in
+                    CheckItCard(group: groupStore.groups[index], index: index, card: card)
+                        .tag(index)
                 }
             }
             .tabViewStyle(.page)
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+            .onChange(of: page) { value in print("selected tab = \(value)")
+            }
         }
     }
+    
+    func cardGenerate() -> [Card] {
+            var tempCard: [Card] = []
+            for i in 0..<groupStore.groups.count {
+                switch page {
+                case i:
+                    if i != 0 {
+                        tempCard.append(Card(isActiveButton: false, show: true))
+                    } else {
+                        tempCard.append(Card(isActiveButton: true, show: true))
+                    }
+                default:
+                    if i != 0 {
+                        tempCard.append(Card(isActiveButton: false, show: false))
+                    } else {
+                        tempCard.append(Card(isActiveButton: true, show: false))
+                    }
+                }
+            }
+            return tempCard
+        }
 }
 
 ////MARK: - Previews

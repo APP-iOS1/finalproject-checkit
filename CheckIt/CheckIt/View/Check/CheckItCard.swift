@@ -8,49 +8,73 @@
 import SwiftUI
 
 struct CheckItCard: View {
-    @State var dDay: String = "D-day"
-    @State var groupName: String = "허니미니의 또구 동아리"
-    @State var place: String = "신촌 베이스볼클럽"
-    @State var date: String = "3월 24일"
-    @State var time: String = "오후 3:00 - 오후 7:00"
-    @State var groupImage: Image = Image("chocobi")
-    var isActiveButton: Bool = true
+    @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
     
+    @State var dDay: String = "D-day"
+//    @State var groupName: String = "허니미니의 또구 동아리"
+//    @State var place: String = "신촌 베이스볼클럽"
+//    @State var date: String = "3월 24일"
+//    @State var time: String = "오후 3:00 - 오후 7:00"
+    @State var groupImage: Image = Image("chocobi")
+//    var isActiveButton: Bool = true
+    
+    @State private var schedules: [Schedule] = []
+    
+    @State private var recentSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
+    
+    var group: Group
+    var index: Int
+    var card: [Card]
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 10)
-            .frame(width: 330, height: 580)
-            .foregroundColor(.myLightGray)
-            .overlay {
-                VStack(alignment: .center) {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            TopSection
-                            Spacer()
-                        }
-                        HStack {
-                            InformationSection
-                            Spacer()
-                        }
-                    } // - VStack
-                    .frame(width: 280)
-                    .padding(10)
-                    
-                    //동아리 사진
-                    groupImage
-                        .resizable()
-                        .frame(width: 246, height: 186.81)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+        VStack {
+            RoundedRectangle(cornerRadius: 10)
+                .frame(width: 330, height: 580)
+                .foregroundColor(.myLightGray)
+                .overlay {
+                    VStack(alignment: .center) {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                TopSection
+                                Spacer()
+                            }
+                            HStack {
+                                InformationSection
+                                Spacer()
+                            }
+                        } // - VStack
+                        .frame(width: 280)
                         .padding(10)
-                    
-                    // Check It 버튼
-                    NavigationLink(destination: CheckMapView()) {
-                        CheckItButtonLabel(isActive: isActiveButton, text: "Check It!")
-                    }
-                    .frame(width: 200)
-                    .disabled(!isActiveButton)
-                } // - VStack
-            } // - overlay
+                        
+                        //동아리 사진
+                        groupImage
+                            .resizable()
+                            .frame(width: 246, height: 186.81)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .padding(10)
+                        
+                        // Check It 버튼
+                        NavigationLink(destination: CheckMapView()) {
+                            CheckItButtonLabel(isActive: card[index].isActiveButton, text: "Check It!")
+                        }
+                        .frame(width: 200)
+                        .disabled(!card[index].isActiveButton)
+                    } // - VStack
+                } // - overlay
+        }
+        .onAppear {
+            Task {
+                print("그룹명: \(group.name)")
+                await scheduleStore.fetchRecentSchedule(groupName: group.name)
+                print("schedule2: \(scheduleStore.recentSchedule)")
+                self.recentSchedule = scheduleStore.recentSchedule
+            }
+        }
+//        .onTapGesture {
+//            print("schedule: \(scheduleStore.recentSchedule)")
+//            print("\(group.name)'s recent schedule: \(scheduleStore.recentSchedule.groupName)")
+//        }
     }
     
     //    MARK: - View(TopSection)
@@ -60,7 +84,7 @@ struct CheckItCard: View {
             DdayLabel(dDay: dDay)
                 .padding(.top, 10)
             // 동아리 이름
-            Text("\(groupName)")
+            Text("\(group.name)")
                 .font(.title.bold())
         } // - VStack
     } // - TopSection
@@ -71,21 +95,21 @@ struct CheckItCard: View {
             // 날짜
             HStack {
                 customSymbols(name: "calendar")
-                Text("\(date)")
+                Text("\(scheduleStore.recentSchedule.startTime, format: .dateTime.year().day().month())")
             } // - HStack
             .padding(.vertical, 3)
             
             // 시간
             HStack {
                 customSymbols(name: "clock")
-                Text("\(time)")
+                Text("\(scheduleStore.recentSchedule.startTime, format: .dateTime.hour().minute())")
             } // - HStack
             .padding(.vertical, 3)
             
             // 장소
             HStack {
                 customSymbols(name: "mapPin")
-                Text("\(place)")
+                Text("\(scheduleStore.recentSchedule.location)")
             } // - HStack
             .padding(.vertical, 3)
         } // - VStack
