@@ -14,6 +14,14 @@ struct PickerView: View {
 //    @State private var selectedGroup = "전체"
     @Binding var selectedGroup: String
     
+    var pickerList: [String] {
+        var groupNameList: [String] = []
+        groupStore.groups.forEach { group in
+            groupNameList.append(group.name)
+        }
+        
+        return ["전체"] + groupNameList
+    }
     //동아리 샘플 배열
     
     var body: some View {
@@ -23,9 +31,9 @@ struct PickerView: View {
 
             Menu {
                 Picker(selection: $selectedGroup) {
-                    ForEach(groupStore.groups, id: \.self) { group in
-                        Text(group.name)
-                            .tag(group.name)
+                    ForEach(pickerList, id: \.self) { menu in
+                        Text(menu)
+                            .tag(menu)
                     }
                 } label: {}
             } label: {

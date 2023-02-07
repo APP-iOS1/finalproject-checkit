@@ -59,7 +59,7 @@ struct CustomDatePickerView: View {
                     Text("\(extraData.selectedDate(date: currentDate)[1]).\(extraData.selectedDate(date: currentDate)[2]) \(extraData.selectedDate(date: currentDate)[3])")
                         .font(.system(size: 45))
                         .fontWeight(.bold)
-//                        .padding(.top, -5)
+                        .padding(.bottom, -10)
                 }
                 .padding(.leading, 20)
                 Spacer()
@@ -72,9 +72,7 @@ struct CustomDatePickerView: View {
             //MARK: - 라벨(연도, 달, 화살표)
             HStack() {
                 Button {
-                    withAnimation {
                         currentMonth -= 1
-                    }
                 } label: {
                     Image(systemName: "chevron.left")
                         .font(.title3)
@@ -86,9 +84,7 @@ struct CustomDatePickerView: View {
                 Spacer()
                 
                 Button {
-                    withAnimation {
                         currentMonth += 1
-                    }
                 } label: {
                     Image(systemName: "chevron.right")
                         .font(.title3)
