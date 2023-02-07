@@ -9,17 +9,64 @@ import SwiftUI
 import AuthenticationServices
 import GoogleSignIn
 import GoogleSignInSwift
-
+import KakaoSDKUser
+import AlertToast
 
 struct LoginView: View {
     @EnvironmentObject var userStore: UserStore
-    var kakaoLoginButton: some View {
+    @EnvironmentObject var groupStore: GroupStore
+    @State var isProcessing: Bool = false
+    var body: some View {
+        VStack {
+            Spacer()
+            
+            Image("CheckItLogo")
+                .resizable()
+                .scaledToFit()
+            
+            //FIXME: - 수정 예정
+            Text("동아리 관리는 Check - It")
+                .font(.title2)
+            
+            Spacer()
+            
+            SignInWithAppleButton(onRequest: { request in
+                request.requestedScopes = [.fullName, .email]
+            }) { result in
+                isProcessing = true
+                userStore.loginCenter = .apple
+                Task {
+                    await userStore.loginWithCredential(result)
+                    isProcessing = false
+                }
+            }
+            .frame(width: 280, height: 50)
+            
+            // 카카오 로그인
+            kakaoLoginButton
+            
+            // 구글 로그인
+            googleLoginButton
+            
+            Spacer()
+        } // - VStack
+        .toast(isPresenting: $isProcessing) {
+            AlertToast(displayMode: .alert, type: .loading)
+        }
+    }
+    
+    
+    
+    //MARK: - (Button)kakaoLoginButton
+    private var kakaoLoginButton: some View {
         Button(action: {
-
+            userStore.loginCenter = .kakao
+            isProcessing = true
+            userStore.loginWithKakao()
         }, label: {
             HStack {
                 Image(systemName: "message.fill")
-
+                
                 Text(" 카카오로 로그인")
             }
             .frame(width: 280, height: 50)
@@ -27,34 +74,17 @@ struct LoginView: View {
             .cornerRadius(12)
         })
         .foregroundColor(.black)
-    }
-
-    var naverLoginButton: some View {
-        Button(action: {
-
-        }, label: {
-            HStack {
-                Image("naver")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40 ,height: 50)
-
-                Text("네이버로 로그인")
-            }
-            .foregroundColor(.white)
-            .frame(width: 280, height: 50)
-            .background(Color("naver"))
-            .cornerRadius(12)
-        })
-    }
-
+    } // - kakaoLoginButton
+    
+    //MARK: - (Button)googleLoginButton
     // google login button custom
-    var googleLoginButton: some View {
+    private var googleLoginButton: some View {
         Button(action: {
             userStore.loginCenter = .google
+            isProcessing = true
             Task {
-                let credential = await GoogleLoginStore().signIn()
-                await userStore.signInWithCredential(credential: credential)
+                await userStore.loginWithCredential()
+                isProcessing = false
             }
         })
         {
@@ -67,55 +97,15 @@ struct LoginView: View {
                         Image("google_logo")
                             .resizable()
                             .frame(width: 25, height: 25)
-
+                        
                         //FIXME: Robot 글꼴 적용해야함
                         Text("Sign in with Google")
                         Spacer()
                     }
                 }
-
+            
         }
-    }
-
-//    init() {
-//        if GIDSignIn.sharedInstance.hasPreviousSignIn() {
-//            self.userStore.isPresentedLoginView = false
-//            Task {
-//                let credential = await GoogleLoginStore().restorePreviousLogin()
-////                await userStore.signInWithCredential(credential: credential)
-//                }
-//        }
-//    }
-
-    var body: some View {
-        VStack {
-            Spacer()
-
-            Image("CheckItLogo")
-                .resizable()
-                .scaledToFit()
-
-            //FIXME: - 수정 예정
-            Text("동아리 관리는 Check - It")
-                .font(.title2)
-
-            Spacer()
-
-            SignInWithAppleButton(onRequest: { _ in }, onCompletion: { _ in })
-                .frame(width: 280, height: 50)
-
-            // 카카오 로그인
-            kakaoLoginButton
-
-            // 구글 로그인
-            googleLoginButton
-
-
-            Spacer()
-        }
-    }
-
-    func signInWithGoogle() { }
+    } // - googleLoginButton
 }
 
 //struct LoginView_Previews: PreviewProvider {

@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct AttendanceCellView: View {
+    @EnvironmentObject var attendanceStore: AttendanceStore
+    var schedule: Schedule
+    
     var body: some View {
         HStack {
             VStack(alignment:.leading) {
-                Text("2023년 1월 20일") // 출석 날짜
+                Text(Date().yearMonthDayDateToString(date: schedule.startTime)) // 출석 날짜
                     .font(.headline)
                     .foregroundColor(.black)
                     .padding(.bottom, 15)
@@ -20,28 +23,28 @@ struct AttendanceCellView: View {
                 
                 HStack {
                     Text("출석")
-                    Text("11")   //출석 횟수
+                    Text("\(schedule.attendanceCount)")   //출석 횟수
                         .foregroundColor(.myGreen)
                         .bold()
                     
                     Divider().frame(height:20)
                     
                     Text("지각")
-                    Text("1")   //지각 횟수
+                    Text("\(schedule.lateCount)")   //지각 횟수
                         .foregroundColor(.myOrange)
                         .bold()
                     
                     Divider().frame(height:20)
                     
                     Text("결석")
-                    Text("3")   //결석 횟수
+                    Text("\(schedule.absentCount)")   //결석 횟수
                         .foregroundColor(.myRed)
                         .bold()
                     
                     Text("공결")
                         
-                    Text("1")   //공결 횟수
-                        .foregroundColor(.myRed)
+                    Text("\(schedule.officiallyAbsentCount)")   //공결 횟수
+                        .foregroundColor(.myBlack)
                         .bold()
                 }
                 .foregroundColor(.black)
@@ -59,11 +62,14 @@ struct AttendanceCellView: View {
         }
         .frame(height: 120)
         .padding()
+        .onAppear {
+            print(attendanceStore.entireAttendanceList, "dd")
+        }
     }
 }
 
-struct AttendanceCellView_Previews: PreviewProvider {
-    static var previews: some View {
-        AttendanceCellView()
-    }
-}
+//struct AttendanceCellView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AttendanceCellView(, schedule: <#Schedule#>)
+//    }
+//}

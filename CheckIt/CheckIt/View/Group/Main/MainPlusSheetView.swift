@@ -11,8 +11,9 @@ import AlertToast
 struct MainPlusSheetView: View {
     @State var isMakingGroup: Bool = false
     @State var isJoiningGroup: Bool = false
-    @State private var showToast: Bool = false
-    @State private var toastMessage: String = ""
+    @Binding var showToast: Bool
+    @Binding var toastMessage: String
+    @Environment(\.presentations) private var presentations
     
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
@@ -30,7 +31,8 @@ struct MainPlusSheetView: View {
                     .modifier(MainPlusSheetButtonModifier())
             }
             .sheet(isPresented: $isMakingGroup) {
-                MakeGroupModalView()
+                MakeGroupModalView(showToast: $showToast, toastMessage: $toastMessage)
+                    .environment(\.presentations, presentations + [$isMakingGroup])
                     .presentationDetents([.height(650)])
             }
             
@@ -46,21 +48,21 @@ struct MainPlusSheetView: View {
             }
             .sheet(isPresented: $isJoiningGroup) {
                 JoinGruopModalView(showToast: $showToast, toastMessage: $toastMessage)
-                    .presentationDetents([.height(300)])
+                    .environment(\.presentations, presentations + [$isJoiningGroup])
+                    .presentationDetents([.height(415)])
             }
         }
         .padding(.horizontal, 40)
         .presentationDragIndicator(.visible)
         
         .toast(isPresenting: $showToast){
-            AlertToast(type: .regular, title: toastMessage)
-            //AlertToast(type: .complete(.green)/.error(.red), title: toastMessage)
+            AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
         }
     }
 }
 
 struct MainPlusSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        MainPlusSheetView()
+        MainPlusSheetView(showToast: .constant(false), toastMessage: .constant(""))
     }
 }

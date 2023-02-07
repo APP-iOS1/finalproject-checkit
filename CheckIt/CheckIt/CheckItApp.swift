@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 import FirebaseCore
 import GoogleSignIn
 import FirebaseCore
-
+import KakaoSDKCommon
+import KakaoSDKAuth
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -22,8 +24,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     @available(iOS 9.0, *)
     func application(_ application: UIApplication, open url: URL,
                      options: [UIApplication.OpenURLOptionsKey: Any])
-      -> Bool {
-      return GIDSignIn.sharedInstance.handle(url)
+    -> Bool {
+        if (AuthApi.isKakaoTalkLoginUrl(url)) {
+            return AuthController.handleOpenUrl(url: url)
+        }
+        
+        return GIDSignIn.sharedInstance.handle(url)
     }
 }
 
@@ -36,24 +42,37 @@ struct CheckItApp: App {
     @StateObject private var scheduleStore = ScheduleStore()
     @StateObject private var attendanceStore = AttendanceStore()
     @StateObject private var memberStore = MemberStore()
-    @State var isLogin: Bool = true
+    
+    init() {
+        // Kakao SDK 초기화
+        KakaoSDK.initSDK(appKey: "7a4ee9f84ebf3bcf24029e1c6febb14d")
+    }
     
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                ContentView()
-                    .fullScreenCover(isPresented: self.$userStore.isPresentedLoginView) {
-                        LoginView()
-                    }
-//                ContentView()
+                LoginRouteView()
+                    .onOpenURL(perform: { url in
+                        if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                            AuthController.handleOpenUrl(url: url)
+                        }
+                    })
                     .environmentObject(userStore)
                     .environmentObject(groupStore)
                     .environmentObject(scheduleStore)
                     .environmentObject(attendanceStore)
                     .environmentObject(memberStore)
-                    
-
+                    .task {
+                        guard let user = Auth.auth().currentUser else { return }
+                        userStore.isPresentedLoginView = false
+                        userStore.userData = user
+                        await userStore.fetchUser(user.uid)
+                        groupStore.startGroupListener(userStore)
+                        userStore.startUserListener(user.uid)
+                    }
+                
             }
         }
     }
 }
+

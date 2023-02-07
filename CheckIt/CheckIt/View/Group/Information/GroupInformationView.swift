@@ -13,85 +13,144 @@ struct MemberTest: Hashable {
 }
 
 struct GroupInformationView: View {
-    @State var memberTest: [MemberTest] =
-    [
-        MemberTest(position: "구성원", memberName: "류창휘"),
-        MemberTest(position: "방장", memberName: "허님니"),
-        MemberTest(position: "운영진", memberName: "지니"),
-        MemberTest(position: "운영진", memberName: "예린스"),
-        MemberTest(position: "운영진", memberName: "호이"),
-        MemberTest(position: "구성원", memberName: "또리")
-        
-    ]
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var memberStore: MemberStore
+    @EnvironmentObject var groupStore: GroupStore
+    
+    /// 동아리 방장이 동아리 정보를 편집할지를 나타내는 State 프로퍼티입니다.
+    /// 초기값은 false입니다.
+    @State private var isEditing: Bool = false
+    @State private var nameDict: [String:String] = [:]
+    @State private var isLoading: Bool = false
+    
+    var group: Group
+    
+    //FIXME: - 현재 보고있는 방이 방장인지 아닌지 나타내는 연산프로퍼티
+    /// 현재 Bool 타입인데 열거형으로 바꿔야 한다.
+    var isHost: Bool {
+        guard let user = userStore.user else { return false }
+        return (group.hostID == user.id)
+    }
+    
+    var groupImage: UIImage {
+        guard let image = groupStore.groupImage[group.id] else { return UIImage() }
+        return image
+    }
     
     var body: some View {
         VStack {
-            HStack(spacing: 25) {
-                //동아리 이미지
-                Image("chocobi")
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
-                    .overlay {
-                        Circle().stroke(Color.myGray, lineWidth: 2)
-                    }
-                
-                //동아리 정보
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("허니미니의 또구 동아리")
-                        .font(.system(size: 16, weight: .bold))
-                    Text("허니부리의 혼과 열쩡이 가득한 야구교실 입니다. 환영합니다.")
-                        .font(.system(size: 13, weight: .regular))
-                        .lineLimit(3)
-                }
-            }
-            .padding(.horizontal, 32)
-            .padding(.bottom, 20)
-            
-            //동아리 멤버 리스트
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(.myLightGray)
+            if isLoading {
+                LoadingView()
+            } else {
                 VStack {
-                    HStack {
-                        Text("동아리 멤버 리스트")
-                            .font(.system(size: 16, weight: .semibold))
-                            .padding(.leading, 28)
-                            .padding(.trailing, 0)
-                        Spacer()
-                        Text("\(memberTest.count) /10 명")
-                            .font(.system(size: 16, weight: .semibold))
-                        Button {
-                            print("dd")
-                        } label: {
-                            Image(systemName: "pencil.circle")
-                                .foregroundColor(.black)
+                HStack(spacing: 25) {
+                    //동아리 이미지
+                    Image(uiImage: groupImage)
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+                        .overlay {
+                            Circle().stroke(Color.myGray, lineWidth: 2)
                         }
-                        .padding(.trailing, 26)
+                    
+                    //동아리 정보
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(group.name)
+                            .font(.system(size: 16, weight: .bold))
+                        Text(group.description)
+                            .font(.system(size: 13, weight: .regular))
+                            .lineLimit(3)
                     }
-                    .padding(.vertical, 20)
-                    
+                    .multilineTextAlignment(.leading)
                     Spacer()
-                    
-                    ScrollView {
+                }
+                
+                //동아리 멤버 리스트
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundColor(.myLightGray)
                         VStack {
-                            ForEach($memberTest, id: \.self) { list in
-                                GroupMemberListCell(data: list)
-                                    .padding(.horizontal, 24)
-                                    .padding(.bottom, 5)
+                            HStack {
+                                Text("동아리 멤버 리스트")
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .padding(.leading, 28)
+                                    .padding(.trailing, 0)
+                                
+                                Text("\(memberStore.members.count)/\(Constants.notPremiumGroupSize) 명")
+                                    .font(.system(size: 16, weight: .semibold))
+                                
+                                Spacer()
+                                
+                                if isHost {
+                                    Button {
+                                        isEditing.toggle()
+                                    } label: {
+                                        Image(systemName: "pencil.circle")
+                                            .foregroundColor(.black)
+                                    }
+                                    .padding(.trailing, 26)
+                                }
+                            }
+                            .padding(.vertical, 20)
+                            
+                            Spacer()
+                            
+                            ScrollView {
+                                VStack {
+                                    ForEach(memberStore.members.indices, id: \.self) { idx in
+                                        GroupMemberListCell(nameDict: $nameDict, isEditing: $isEditing, group: group, member: memberStore.members[idx])
+                                            .padding(.horizontal, 24)
+                                            .padding(.bottom, 5)
+                                    }
+                                }
                             }
                         }
                     }
                 }
+                .padding(.horizontal, 32)
+                .padding(.bottom, 8) //아직 기준을 잘 모르겠음
             }
-            .padding(.horizontal, 32)
-            .padding(.bottom, 8) //아직 기준을 잘 모르겠음
+        }
+        
+        .onAppear {
+            Task {
+                for member in memberStore.members {
+                    let name = userStore.userDictionaryList[member.uid] ?? Constants.exsitMemberName
+                    nameDict[member.uid] = name
+                }
+                
+                self.memberStore.members = await memberStore.sortedMember(nameDict)
+                //isLoading.toggle()
+            }
+        }
+    }
+}
+
+
+private enum Constants {
+    static let exsitMemberName: String = "탈퇴한 회원"
+    static let notPremiumGroupSize: Int = 8
+    static let premiumGroupSize: Int = 50
+}
+
+
+struct LoadingView: View {
+    var body: some View {
+        ZStack {
+            Color(.systemBackground)
+                .ignoresSafeArea()
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: Color(.black)))
+                .scaleEffect(3)
         }
     }
 }
 
 struct GroupInformationView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupInformationView()
+        GroupInformationView(group: Group.sampleGroup)
+            .environmentObject(UserStore())
+            .environmentObject(MemberStore())
+            .environmentObject(GroupStore())
     }
 }

@@ -11,40 +11,47 @@ struct TaskView: View {
     @ObservedObject var extraData = ExtraData()
     
     @Binding var currentDate: Date
+    @Binding var totalSchedule: [Schedule]
+    @Binding var selectedGroup: String
     
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 10) {
                 //MARK: - 일정 날짜
-                Text("\(extraData.selectedDate(date: currentDate)[1]).\(extraData.selectedDate(date: currentDate)[2]) \(extraData.selectedDate(date: currentDate)[3])")
-                    .font(.title2.bold())
+                Text("To Do List")
+                    .font(.title3)
                     .padding(.top, 25)
                 
                 ScrollView(showsIndicators: true) {
                     //MARK: - 일정 디테일
-                    if let task = tasks.first(where: { task in
-                        return extraData.isSameDay(date1: task.taskDate, date2: currentDate)
-                    }){
-                        ForEach(tasks){ task in
-                            HStack(spacing: 30) {
-                                ExDivider(color: .myRed)
-                                VStack(alignment: .leading, spacing: 5) {
-                                    Text("\(extraData.selectedDate(date: task.taskDate)[5]):\(extraData.selectedDate(date: task.taskDate)[6]) \(extraData.selectedDate(date: task.taskDate)[4])")
-                                        .font(.body)
-                                    Text(task.task[0].title)
-                                        .font(.body.bold())
-                                }
-                                Spacer()
-                            }
-                            .padding(.bottom, 10)
-                            .padding(.top, 20)
+                    if let filterSchedule = totalSchedule.filter({ schedule in
+                        if selectedGroup != "전체" {
+                            return extraData.isSameDay(date1: schedule.startTime, date2: currentDate) && (schedule.groupName == selectedGroup)
+                        } else {
+                            return extraData.isSameDay(date1: schedule.startTime, date2: currentDate)
                         }
-                        .frame(maxWidth: .infinity)
-                        
+                    }) {
+                        if !filterSchedule.isEmpty {
+                            ForEach(filterSchedule) { schedule in
+                                HStack(spacing: 30) {
+                                    ExDivider(color: .myRed)
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        Text("\(extraData.selectedDate(date: schedule.startTime)[5]):\(extraData.selectedDate(date: schedule.startTime)[6]) \(extraData.selectedDate(date: schedule.startTime)[4])")
+                                            .font(.body)
+                                        Text(schedule.groupName)
+                                            .font(.body.bold())
+                                    }
+                                    Spacer()
+                                }
+                                .padding(.bottom, 10)
+                                .padding(.top, 17)
+                            }
+                        }
                     }
                 }
             }
             .padding(.leading,30)
+            .padding(.top, -8)
             Spacer()
         }
     }

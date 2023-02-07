@@ -15,4 +15,5 @@ enum GroupConstants {
     static let hostID = "host_id"
     static let description = "description"
     static let scheduleID = "schedule_id"
+    static let memberLimit = "member_limit"
 }

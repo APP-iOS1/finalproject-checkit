@@ -17,7 +17,7 @@ class ExtraData: ObservableObject {
     ///"MM DD"형식으로 반환. (예시: 01)
     func selectedDate(date: Date) -> [String] {
         formatter.locale = Locale(identifier: "ko")
-        formatter.dateFormat = "yyyy MM dd EEEE a HH mm"
+        formatter.dateFormat = "yyyy MM dd EEE a HH mm"
         
         formatter.amSymbol = "AM"
         formatter.pmSymbol = "PM"
@@ -27,7 +27,7 @@ class ExtraData: ObservableObject {
     }
     
     //MARK: - 날짜 비교
-    ///날짜를 비교하는 함수. date1, date2를 인수로 받는다.
+    ///날짜가 같은지 비교하는 함수. date1, date2를 인수로 받는다.
     ///반환 타입은 Bool
     func isSameDay(date1: Date, date2: Date) -> Bool {
         let calendar = Calendar.current
@@ -39,6 +39,9 @@ class ExtraData: ObservableObject {
 struct CustomDatePickerView: View {
     @ObservedObject var extraData = ExtraData()
     @Binding var currentDate: Date
+    //피커에서 선택된 그룹
+    @Binding var selectedGroup: String
+    @Binding var totalSchedule: [Schedule]
     
     //화살표 누르면 달(month) 업데이트
     @Binding var currentMonth: Int
@@ -49,40 +52,47 @@ struct CustomDatePickerView: View {
             let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
             
             HStack {
-                PickerView()
+                
+                VStack(alignment: .leading) {
+                    PickerView(selectedGroup: $selectedGroup)
+                        .padding(.bottom, -20)
+                    Text("\(extraData.selectedDate(date: currentDate)[1]).\(extraData.selectedDate(date: currentDate)[2]) \(extraData.selectedDate(date: currentDate)[3])")
+                        .font(.system(size: 45))
+                        .fontWeight(.bold)
+                        .padding(.bottom, -10)
+                }
+                .padding(.leading, 20)
                 Spacer()
             }
-            .padding(.horizontal)
-            .padding(.top,8)
+            .foregroundColor(.white)
+            .frame(width: UIScreen.main.bounds.width, height: 130, alignment: .leading)
+            .background(Color.myGreen)
+            .padding(.top, -25)
             
             //MARK: - 라벨(연도, 달, 화살표)
-            HStack(spacing: 20) {
-                Text("\(extraData.selectedDate(date: currentDate)[0]).\(extraData.selectedDate(date: currentDate)[1])")
-                    .font(.title.bold())
-                
+            HStack() {
                 Button {
-                    withAnimation {
                         currentMonth -= 1
-                    }
                 } label: {
                     Image(systemName: "chevron.left")
-                        .font(.title2)
+                        .font(.title3)
                 }
+                Spacer()
+                
+                Text("\(extraData.selectedDate(date: currentDate)[0]).\(extraData.selectedDate(date: currentDate)[1])")
+                    .font(.title3)
+                Spacer()
+                
                 Button {
-                    withAnimation {
                         currentMonth += 1
-                    }
                 } label: {
                     Image(systemName: "chevron.right")
-                        .font(.title2)
+                        .font(.title3)
                 }
-                Spacer(minLength: 0)
-                
-                
             }
             .padding(.horizontal)
             
-            Divider()
+//            Divider()
             
             //MARK: - 요일뷰
             HStack(spacing: 0) {
@@ -93,6 +103,7 @@ struct CustomDatePickerView: View {
                         .frame(maxWidth: .infinity)
                 }
             }
+            .padding(.vertical, 0)
             
             //MARK: - 날짜뷰
             //lazy grid
@@ -103,7 +114,7 @@ struct CustomDatePickerView: View {
                     CardView(value: value)
                         .background (
                             Rectangle()
-                                .frame(width: 50, height: 54)
+                                .frame(width: 50, height: 50)
                                 .foregroundColor(Color.myGray)
                                 .opacity((value.day != -1) && extraData.isSameDay(date1: value.date, date2: currentDate) ? 1 : 0)
                         )
@@ -125,46 +136,51 @@ struct CustomDatePickerView: View {
     func CardView(value: DateValue) -> some View {
         VStack {
             if value.day != -1 {
+                if let filterSchedule = totalSchedule.filter({ schedule in
+                if selectedGroup != "전체" {
+                    return extraData.isSameDay(date1: schedule.startTime, date2: value.date) && (schedule.groupName == selectedGroup)
+                } else {
+                    return extraData.isSameDay(date1: schedule.startTime, date2: value.date)
+                }
+            }) {
+                Text("\(value.day)")
+                    .font(.body)
+                Spacer()
                 
-                if let task = tasks.first(where: { task in
-                    return extraData.isSameDay(date1: task.taskDate, date2: value.date)
-                }){
-                    Text("\(value.day)")
-                        .font(.body.bold())
-                    Spacer()
-                    
-                    HStack(spacing: 6) {
-                        //FIXME: 3+ 라벨 처리
-                        let taskNum = task.task.count
-//                        let taskNum = (task.task.count < 3 ? task.task.count : 3)
-                        if taskNum > 3 {
+                HStack(spacing: 6) {
+                    //FIXME: 3+ 라벨 처리
+                    if !filterSchedule.isEmpty {
+                        let scheduleNum = filterSchedule.count
+                       
+                        if scheduleNum > 3 {
                             Text("3+")
                                 .font(.caption)
                                 .fontWeight(.bold)
                                 .foregroundColor(Color.myRed)
                                 .frame(width: 28, height: 16)
                                 .overlay(RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.myRed, lineWidth: 1))
-                                
+                                    .stroke(Color.myRed, lineWidth: 1))
+                                .padding(.top, -5)
+                            
                         } else {
-                            ForEach(0..<taskNum) {_ in
+                            ForEach(0..<scheduleNum) {_ in
                                 Circle()
                                     .fill(Color.myRed)
                                     .frame(width: 7, height: 7)
                             }
                         }
                     }
-                    .padding(.bottom, 15)
-//                    Spacer()
-                } else {
-                    Text("\(value.day)")
-                        .font(.body.bold())
-                    Spacer()
                 }
+                .padding(.bottom, 15)
+            } else {
+                Text("\(value.day)")
+                    .font(.body.bold())
+                Spacer()
+            }
             }
         }
         .padding(.vertical, 3)
-        .frame(height: 50, alignment: .top)
+        .frame(height: 45, alignment: .top) // 50
     }
     
     //MARK: - Month GET
