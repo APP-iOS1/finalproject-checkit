@@ -76,7 +76,7 @@ struct GroupInformationView: View {
                                     .padding(.leading, 28)
                                     .padding(.trailing, 0)
                                 
-                                Text("\(memberStore.members.count) /20 명")
+                                Text("\(memberStore.members.count)/\(Constants.notPremiumGroupSize) 명")
                                     .font(.system(size: 16, weight: .semibold))
                                 
                                 Spacer()
@@ -115,7 +115,7 @@ struct GroupInformationView: View {
         .onAppear {
             Task {
                 for member in memberStore.members {
-                    let name = userStore.userDictionaryList[member.uid] ?? "탈퇴한 회원"
+                    let name = userStore.userDictionaryList[member.uid] ?? Constants.exsitMemberName
                     nameDict[member.uid] = name
                 }
                 
@@ -124,6 +124,13 @@ struct GroupInformationView: View {
             }
         }
     }
+}
+
+
+private enum Constants {
+    static let exsitMemberName: String = "탈퇴한 회원"
+    static let notPremiumGroupSize: Int = 8
+    static let premiumGroupSize: Int = 50
 }
 
 
