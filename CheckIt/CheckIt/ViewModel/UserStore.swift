@@ -22,6 +22,8 @@ class UserStore: ObservableObject {
     @Published var isPresentedLoginView: Bool = true
     @Published var isFirstLogin: Bool = false
     
+    @Published var userDictionaryList: [String : String] = [:] //key uid, value nickname
+
     var userData: FirebaseAuth.User? = nil
     
     private var listener: ListenerRegistration?
@@ -102,6 +104,21 @@ class UserStore: ObservableObject {
                 }
             }
     } // - startUserListener
+    
+    //MARK: - Method(userListFetch)
+    func fetchUserDictionaryList() {
+        database.collection("User").getDocuments { snapshot, error in
+            self.userDictionaryList.removeAll()
+            if let snapshot {
+                for document in snapshot.documents {
+                    let docData = document.data()
+                    let id: String = docData[UserConstants.id] as? String ?? ""
+                    let name: String = docData[UserConstants.name] as? String ?? ""
+                    self.userDictionaryList[id] = name
+                }
+            }
+        }
+    }
     
     //MARK: - Method(userUpdate)
     func userUpdate(_ user: [String:Any]) {

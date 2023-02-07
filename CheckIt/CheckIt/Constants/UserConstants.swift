@@ -12,4 +12,5 @@ enum UserConstants {
     static let email = "email"
     static let name = "name"
     static let groupID = "group_id"
+    static let loginCenter = "login_center"
 }
