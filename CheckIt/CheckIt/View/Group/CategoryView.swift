@@ -148,7 +148,7 @@ struct CategoryView: View {
                 Task {
                     let uidList = memberStore.members.map { $0.uid }
                     await groupStore.removeGroup(groupId: group.id ,uidList: uidList)
-                    print("동아리 삭제 완료")
+                    self.groupStore.groups.removeAll { $0.id == group.id}
                     
                     toastMessage = "동아리 삭제가 완료되었습니다."
                     
