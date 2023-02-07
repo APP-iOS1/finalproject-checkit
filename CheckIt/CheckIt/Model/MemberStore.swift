@@ -41,6 +41,24 @@ class MemberStore: ObservableObject {
         }
     }
     
+    /// 동아리 멤버의 직책을 변경하는 메소드
+    /// - Parameter groupdId: 변경할 멤버가 속한 동아리
+    /// - Parameter uid: 역할을 변경할 유저
+    /// - Parameter position: 변경할 역할(직책)
+    func updatePosition(_ groupId: String, uid: String, newPosition: String) async {
+        do {
+            try await database.collection("Group")
+                .document(groupId)
+                .collection("Member")
+                .document(uid)
+                .updateData([
+                    "position" : newPosition
+                ])
+        } catch {
+            print("updatePosition error: \(error.localizedDescription)")
+        }
+    }
+    
     /// 동아리 멤버를 제거하는 메소드
     /// - Parameter groupdId 삭제할 멤버가 속해 있는 동아리
     /// - Parameter uid 삭제할 멤버의 uid

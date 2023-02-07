@@ -92,8 +92,10 @@ struct GroupMemberListCell: View {
         }
     }
     
-    func changePosition(_ uid: String, position: String) -> Void {
-        print("호출")
+    func changePosition(_ uid: String, position: String) {
+        Task {
+            await memberStore.updatePosition(group.id, uid: uid, newPosition: position)
+        }
     }
 }
 
