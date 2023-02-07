@@ -45,9 +45,8 @@ struct AddScheduleView: View {
                     HStack(spacing: 12) {
                         customSymbols(name: "calendar")
                         
-                        // MARK: - 시작 시간 DatePicker
-                        // FIXME: - 미래 시간 선택되게 수정하기
-                        DatePicker(selection: $startTime, in: ...Date(), displayedComponents: .date) {
+                        // MARK: - 날짜 DatePicker
+                        DatePicker(selection: $startTime, in: Date()..., displayedComponents: .date) {
                             Text("날짜를 선택해주세요.")
                         }
                         .onChange(of: startTime) {newValue in
@@ -58,7 +57,6 @@ struct AddScheduleView: View {
                     HStack(spacing: 12) {
                         customSymbols(name: "clock")
                         // MARK: - 시작 시간 DatePicker
-                        // FIXME: - 시작 시간이 종료 시간보다 뒤면 안되는 조건 추가하기
                         DatePicker("시작 시간", selection: $startTime,
                                    displayedComponents: .hourAndMinute)
                     }
@@ -67,7 +65,7 @@ struct AddScheduleView: View {
                         customSymbols(name: "clock")
                         
                         // MARK: - 종료 시간 DatePicker
-                        DatePicker("종료 시간", selection: $endTime,
+                        DatePicker("종료 시간", selection: $endTime, in: startTime...,
                                    displayedComponents: .hourAndMinute)
                     }
                     
