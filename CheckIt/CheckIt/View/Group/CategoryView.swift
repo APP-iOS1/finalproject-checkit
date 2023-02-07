@@ -12,6 +12,7 @@ struct CategoryView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var memberStore: MemberStore
     @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var groupStore: GroupStore
     
     @State private var isDialog: Bool = false
     
@@ -114,6 +115,7 @@ struct CategoryView: View {
             } else {
                 Button("동아리 나가기", role: .destructive) {
                     
+                    groupStore.removeMember(userStore.user?.id ?? "ExitGroupError", groupdId: group.id)
                 }
             }
             Button("취소", role: .cancel) { }
