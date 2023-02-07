@@ -36,6 +36,7 @@ struct CheckMainView: View {
                                                 
                                                 if value.translation.width > 0 {
                                                     self.x = value.location.x
+
                                                 } else {
                                                     self.x = value.location.x - self.screen
                                                 }
@@ -88,8 +89,10 @@ struct CheckMainView: View {
                 //            .navigationBarTitle("Carousel List")
                 .animation(.spring())
             }
+
             
         }
+
 }
     func updateHeight(value : Int){
         var tempCard = cardGenerate()
