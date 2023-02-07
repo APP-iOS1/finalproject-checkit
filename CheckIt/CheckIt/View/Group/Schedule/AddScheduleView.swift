@@ -40,7 +40,7 @@ struct AddScheduleView: View {
                     .font(.system(size: 20, weight: .regular))
                 
                 // MARK: - 일정 정보 Section
-                VStack(alignment:.leading, spacing: 20) {
+                VStack(alignment:.leading, spacing: 22) {
                     
                     HStack(spacing: 12) {
                         customSymbols(name: "calendar")
@@ -82,10 +82,8 @@ struct AddScheduleView: View {
                                     Rectangle()
                                         .frame(width: 250)
                                         .foregroundColor(Color.white)
-                                    // MARK: - 동아리 장소 TextField
-                                    //                                TextField("동아리 장소를 입력해주세요!", text: $place)
-                                    //                                    .frame(width: 200)
-                                    Text("장소: \(viewModel.result ?? "")")
+                                    
+                                    Text("\(viewModel.result ?? "장소를 입력해주세요.")")
                                         .foregroundColor(Color.black)
                                 }
                             }
@@ -196,7 +194,7 @@ struct AddScheduleView: View {
                     let start1 = start.getAllTimeInfo()
                     let end1 = end.getAllTimeInfo()
                     
-                    let schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: placeholderText, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
+                    let schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: memo, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
                     
                     Task {
                         await scheduleStore.addSchedule(schedule, group: group)
