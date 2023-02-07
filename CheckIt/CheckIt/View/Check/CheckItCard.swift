@@ -20,65 +20,67 @@ struct CheckItCard: View {
     var card: [Card]
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 10)
-            .frame(width: 330, height: 500)
-            .foregroundColor(.white)
-            .overlay {
-                VStack(alignment: .center) {
-                    Spacer()
-                    VStack(alignment: .leading) {
-                        HStack {
-                            TopSection
-                            Spacer()
-                        }
-                        .padding(.top, -20)
-                        
-                        HStack {
-                            //FIXME: 일정 데이터 연동 후 수정(디테일정보)
-                            InformationSection
-                            Spacer()
-                        }
-                    } // - VStack
-                    .frame(width: 280)
-                    .padding(10)
-                    
-                    
-                    //동아리 사진
-                    //                                group.image
-                    Image("chocobi")
-                        .resizable()
-                        .frame(width: 246, height: 186.81)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+        NavigationView {
+            RoundedRectangle(cornerRadius: 10)
+                .frame(width: 330, height: 500)
+                .foregroundColor(.white)
+                .overlay {
+                    VStack(alignment: .center) {
+                        Spacer()
+                        VStack(alignment: .leading) {
+                            HStack {
+                                TopSection
+                                Spacer()
+                            }
+                            .padding(.top, -20)
+                            
+                            HStack {
+                                //FIXME: 일정 데이터 연동 후 수정(디테일정보)
+                                InformationSection
+                                Spacer()
+                            }
+                        } // - VStack
+                        .frame(width: 280)
                         .padding(10)
-                    
-                    //                        // Check It 버튼
-                    NavigationLink(destination: CheckMapView()) {
-                        CheckItButtonLabel(isActive: card[index].isActiveButton, text: "Check It!")
-                        //                            CheckItButtonLabel(isActive: true, text: "Check It!")
+                        
+                        
+                        //동아리 사진
+                        //                                group.image
+                        Image("chocobi")
+                            .resizable()
+                            .frame(width: 246, height: 186.81)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .padding(10)
+                        
+                        //                        // Check It 버튼
+                        NavigationLink(destination: {
+                            CheckMapView()
+                        }, label: {
+                            CheckItButtonLabel(isActive: card[index].isActiveButton, text: "Check It!")
+                        })
+                        .frame(width: 200)
+                        .padding(10)
+                        .disabled(!card[index].isActiveButton)
+                        
+                        Spacer()
+                        
+                    } // - VStack
+                    .frame(
+                        width: card[index].show ? UIScreen.main.bounds.width - 50 : UIScreen.main.bounds.width - 80,
+                        height: card[index].show ? 580 : 400
+                    )
+                    .scaleEffect(card[index].show ? 1 : 0.7)
+                    .background(Color.myLightGray)
+                    .cornerRadius(25)
+                } // - overlay
+                .padding(.leading, 20)
+                .onAppear {
+                    Task {
+                        await scheduleStore.fetchRecentSchedule(groupName: group.name)
+                        print("schedule: \(scheduleStore.recentSchedule)")
                     }
-                    .frame(width: 200)
-                    .padding(10)
-                    .disabled(!card[index].isActiveButton)
-                    
-                    Spacer()
-                    
-                } // - VStack
-                .frame(
-                    width: card[index].show ? UIScreen.main.bounds.width - 50 : UIScreen.main.bounds.width - 80,
-                    height: card[index].show ? 580 : 400
-                )
-                .scaleEffect(card[index].show ? 1 : 0.7)
-                .background(Color.myLightGray)
-                .cornerRadius(25)
-            } // - overlay
-            .padding(.leading, 20)
-            .onAppear {
-                Task {
-                    await scheduleStore.fetchRecentSchedule(groupName: group.name)
-                    print("schedule: \(scheduleStore.recentSchedule)")
-                    
                 }
-            }
+        }
     }
     
     //    MARK: - View(TopSection)
