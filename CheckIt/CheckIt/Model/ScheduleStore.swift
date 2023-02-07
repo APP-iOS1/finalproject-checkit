@@ -108,7 +108,7 @@ class ScheduleStore: ObservableObject {
     func updateScheduleAttendanceCount(schedule: Schedule) {
         
         print("updateScheduleAttendanceCount실행")
-        database.collection("Schedule").whereField(ScheduleConstants.groupName, isEqualTo: schedule.groupName).getDocuments { snapshot, error in
+        database.collection("Schedule").whereField(ScheduleConstants.groupName, isEqualTo: schedule.groupName).whereField(ScheduleConstants.id, isEqualTo: schedule.id).getDocuments { snapshot, error in
             if let error = error {
                 print(error.localizedDescription)
             }

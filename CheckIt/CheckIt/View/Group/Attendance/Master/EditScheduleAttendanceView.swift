@@ -12,6 +12,7 @@ struct EditScheduleAttendanceView: View {
     @EnvironmentObject var attendanceStore: AttendanceStore
     @EnvironmentObject var scheduleStore: ScheduleStore
     @State private var changedAttendancList: [Attendance] = []
+    @State private var attendanceStatus: [Int] = [0, 0, 0, 0]
     @State var schedule: Schedule
     var body: some View {
         VStack {
@@ -24,7 +25,6 @@ struct EditScheduleAttendanceView: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button {
-                    var attendanceStatus: [Int] = [0, 0, 0, 0]
                     for index in 0..<attendanceStore.attendanceList.count {
                         //schedule update함수
                             switch changedAttendancList[index].attendanceStatus {
