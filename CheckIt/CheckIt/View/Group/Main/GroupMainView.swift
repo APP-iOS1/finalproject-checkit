@@ -17,6 +17,7 @@ struct GroupMainView: View {
     @State var toastMessage: String = ""
     
     @EnvironmentObject var groupStores: GroupStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStores: UserStore
     @Environment(\.presentations) private var presentations
     
@@ -47,6 +48,9 @@ struct GroupMainView: View {
                         .padding()
                     }
                 }
+            }
+            .onAppear {
+                scheduleStore.scheduleList = []
             }
             .navigationTitle("나의 동아리")
             .toolbar {
