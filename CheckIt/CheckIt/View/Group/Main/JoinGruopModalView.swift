@@ -59,9 +59,13 @@ struct JoinGruopModalView: View {
                         }
                     case .newJoined:
                         toastMessage = "동아리 가입이 완료되었습니다."
+                        
                         presentations.forEach {
                             $0.wrappedValue = false
                         }
+                        
+                        await groupStores.fetchGroups(userStores.user!)
+                        
                     case .notValidated:
                         toastMessage = "올바르지 않은 초대코드 입니다."
                     case .fulled:
