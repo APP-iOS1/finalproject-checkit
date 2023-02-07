@@ -21,7 +21,7 @@ struct GroupInformationView: View {
     /// 초기값은 false입니다.
     @State private var isEditing: Bool = false
     @State private var nameDict: [String:String] = [:]
-    @State private var isLoading: Bool = true
+    @State private var isLoading: Bool = false
     
     var group: Group
     
@@ -111,6 +111,7 @@ struct GroupInformationView: View {
                 .padding(.bottom, 8) //아직 기준을 잘 모르겠음
             }
         }
+        
         .onAppear {
             Task {
                 for member in memberStore.members {
@@ -124,6 +125,7 @@ struct GroupInformationView: View {
         }
     }
 }
+
 
 struct LoadingView: View {
     var body: some View {
