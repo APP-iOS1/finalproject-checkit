@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct GroupMemberListCell: View {
+    @EnvironmentObject var memberStore: MemberStore
     @EnvironmentObject var userStore: UserStore
-
-    @State private var userName = ""
+    @EnvironmentObject var groupStore: GroupStore
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    @State private var isRemoveMember: Bool = false
+    
+    @Binding var nameDict: [String:String]
     @Binding var isEditing: Bool
     
+    var group: Group
     var member: Member
     
     var body: some View {
@@ -21,7 +28,7 @@ struct GroupMemberListCell: View {
                 GroupPosition(position: member.position)
                     .padding(.leading, 17)
                 
-                Text(userName)
+                Text(nameDict[member.uid] ?? "N/A")
                     .font(.system(size: 15, weight: .regular))
                     .lineLimit(1)
                     .frame(width: 52)
@@ -35,17 +42,20 @@ struct GroupMemberListCell: View {
                 
                 Spacer()
                 
+                ///  1. 동아리 멤버 컬렉션에서 멤버 삭제
+                /// 2. 동아리 컬렉션에 동아리원 숫자 감소
+                /// 3. 삭제된 동아리원 groupId에서 강퇴 또는 나간 동아리 id 삭제
                 Button {
-                    print("ss")
+                    isRemoveMember.toggle()
+                    
                 } label: {
                     Image(systemName: "xmark")
                         .resizable()
                         .frame(width: 14, height: 14)
                         .foregroundColor(.black)
                         .fontWeight(.semibold)
-                        .padding(.leading, -20)
                 }
-                .opacity(isEditing ? 1 : 0)
+                .opacity(isEditing && member.uid != group.hostID ? 1 : 0)
                 .padding(.trailing)
             }
             .frame(height: 45)
@@ -53,10 +63,27 @@ struct GroupMemberListCell: View {
             .background(.white)
             .cornerRadius(10)
         }
-        .onAppear {
-            Task {
-                self.userName = await userStore.getUserName(member.uid)
-            }
+        
+        .alert("해당 동아리원을 강퇴하시겠습니까?", isPresented: $isRemoveMember) {
+            Button(role: .destructive, action: {
+                print("강퇴된 동아리원 :\(nameDict[member.uid])")
+                
+                Task {
+                    await memberStore.removeMember(group.id, uid: member.uid)
+                    await groupStore.reduceMemberCount(group.id)
+                    await memberStore.removeGroupId(group.id, uid: member.uid)
+                    
+                    self.memberStore.members.removeAll {$0.uid == member.uid }
+                }
+            }, label: {
+                Text("강퇴하기")
+            })
+            
+            Button(role: .cancel, action: {
+                print("취소하기")
+            }, label: {
+                Text("취소하기")
+            })
         }
     }
 }

@@ -19,7 +19,7 @@ class MemberStore: ObservableObject {
     
     /// 동아리에 해당하는 구성원 정보를 불러오는 메소드입니다.
     /// - Parameter groudId: 불러올 동아리 id
-    func fetchMembers(_ groupId: String) async throws {
+    func fetchMember(_ groupId: String) async throws {
         let querySnapshot = try await database.collection("Group")
             .document(groupId)
             .collection("Member")
@@ -40,9 +40,70 @@ class MemberStore: ObservableObject {
             }
         }
     }
+    
+    /// 동아리 멤버를 제거하는 메소드
+    /// - Parameter groupdId 삭제할 멤버가 속해 있는 동아리
+    /// - Parameter uid 삭제할 멤버의 uid
+    ///
+    /// 동아리에서 멤버를 삭제(강퇴)시 해야하는 작업은 다음과 같다.
+    /// 1. 동아리 멤버 컬렉션에서 멤버 삭제
+    /// 2. 동아리 컬렉션에 동아리원 숫자 감소
+    /// 3. 삭제된 동아리원 groupId에서 강퇴 또는 나간 동아리 id 삭제
+    func removeMember(_ groupId: String, uid: String) async {
+        do {
+            try await database.collection("Group").document(groupId)
+                .collection("Member")
+                .document(uid)
+                .delete()
+        } catch {
+            print("remove member error: \(error.localizedDescription)")
+        }
+    }
+    
+    /// 동아리를 강퇴당하거나 나갈시 호출되는 메소드
+    /// - Parameter groupdId 삭제할 멤버가 속해 있는 동아리
+    /// - Parameter uid 삭제할 멤버의 uid
+    ///
+    /// 동아리원이 동아리를 나가거나 강퇴당할 시 user 컬렉션의 groupId 배열에 동아리 id를 제거하는 역할을 합니다.
+    func removeGroupId(_ groupId: String, uid: String) async {
+        do {
+            let document = try await database.collection("User").document(uid).getDocument()
+            guard document.exists == true else { return }
+            
+            let data = document.data()!
+            var groupIdList = data["group_id"] as? [String] ?? []
+            
+            let newList = groupIdList.filter{$0 != groupId}
+            
+            try await database.collection("User").document(uid)
+                .updateData([
+                    "group_id": newList
+                ])
+            
+        } catch {
+            print("removeGroupId error: \(error.localizedDescription)")
+        }
+    }
+    
+    
 }
 
+// MARK: - 데이터 crud외 작업
+extension MemberStore {
+    
+    /// 동아리원을 정렬하는 메소드입니다.
+    /// 정렬 순서는 (방장 - 운영진 - 구성원) 순서입니다.
+    func sortedMember(_ nameDict: [String:String]) async -> [Member] {
+        let host = self.members.filter({$0.position == "방장"})
+        let mangement = self.members.filter{$0.position == "운영진"}
+        var general = self.members.filter{$0.position == "구성원"}
+        
+        general.sort(by: { member1, member2 in
+            return nameDict[member1.uid] ?? "A" < nameDict[member2.uid] ?? "B"
+        })
+        
+        let members = host + mangement + general
+        return members
+    }
+}
 
-
-// 동아리가 있으면 안에 일정도 있다
-// 일정이 있으면 출석부도 있다
