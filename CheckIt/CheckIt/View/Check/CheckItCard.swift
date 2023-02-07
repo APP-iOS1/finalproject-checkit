@@ -20,7 +20,6 @@ struct CheckItCard: View {
     var card: [Card]
     
     var body: some View {
-        NavigationView {
             RoundedRectangle(cornerRadius: 10)
                 .frame(width: 330, height: 500)
                 .foregroundColor(.white)
@@ -80,7 +79,7 @@ struct CheckItCard: View {
                         print("schedule: \(scheduleStore.recentSchedule)")
                     }
                 }
-        }
+        
     }
     
     //    MARK: - View(TopSection)
