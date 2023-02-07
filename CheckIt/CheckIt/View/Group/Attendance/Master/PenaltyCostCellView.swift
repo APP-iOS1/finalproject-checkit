@@ -31,21 +31,6 @@ struct PenaltyCostCellView: View {
     var body: some View {
         VStack {
             HStack {
-                //지각일 경우 정산 여부
-//                if category == .lated {
-//                    Button {
-//                        data.settlementStatus.toggle()
-//                        print(data, "ddddddddd")
-//                    } label: {
-//                        ZStack {
-//                            Image(systemName: "square")
-//                            if data.settlementStatus == true {
-//                                Image(systemName: "checkmark")
-//                            }
-//                        }
-//                    }
-//
-//                }
                 Button {
                     data.settlementStatus.toggle()
                     print(data, "ddddddddd")
