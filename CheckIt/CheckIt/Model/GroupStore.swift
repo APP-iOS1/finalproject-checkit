@@ -380,6 +380,7 @@ class GroupStore: ObservableObject {
     /// 동아리를 나갈때 필요한 처리
     /// 1. group의 member collection에서 나간 동아리원 다큐먼트 삭제
     /// 2. 나간 동아리원의 groupId에서 필드 제거
+    /// 3. 동아리를 나갔다는 애니메이션 + 뒤로가기
     func removeMember(_ uid: String, groupdId: String) async {
         do {
             // 1.
@@ -388,8 +389,34 @@ class GroupStore: ObservableObject {
                 .document(uid)
                 .delete()
             // 2.
+            await removeGroupId(groupdId, uid: uid)
         } catch {
             print("GroupStore removeMember error: \(error.localizedDescription)")
+        }
+    }
+    
+    /// 동아리를 강퇴당하거나 나갈시 호출되는 메소드
+    /// - Parameter groupdId 삭제할 멤버가 속해 있는 동아리
+    /// - Parameter uid 삭제할 멤버의 uid
+    ///
+    /// 동아리원이 동아리를 나가거나 강퇴당할 시 user 컬렉션의 groupId 배열에 동아리 id를 제거하는 역할을 합니다.
+    func removeGroupId(_ groupId: String, uid: String) async {
+        do {
+            let document = try await database.collection("User").document(uid).getDocument()
+            guard document.exists == true else { return }
+            
+            let data = document.data()!
+            let groupIdList = data["group_id"] as? [String] ?? []
+            
+            let newList = groupIdList.filter{$0 != groupId}
+            
+            try await database.collection("User").document(uid)
+                .updateData([
+                    "group_id": newList
+                ])
+            
+        } catch {
+            print("removeGroupId error: \(error.localizedDescription)")
         }
     }
 }

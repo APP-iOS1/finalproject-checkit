@@ -83,33 +83,6 @@ class MemberStore: ObservableObject {
             print("remove member error: \(error.localizedDescription)")
         }
     }
-    
-    /// 동아리를 강퇴당하거나 나갈시 호출되는 메소드
-    /// - Parameter groupdId 삭제할 멤버가 속해 있는 동아리
-    /// - Parameter uid 삭제할 멤버의 uid
-    ///
-    /// 동아리원이 동아리를 나가거나 강퇴당할 시 user 컬렉션의 groupId 배열에 동아리 id를 제거하는 역할을 합니다.
-    func removeGroupId(_ groupId: String, uid: String) async {
-        do {
-            let document = try await database.collection("User").document(uid).getDocument()
-            guard document.exists == true else { return }
-            
-            let data = document.data()!
-            let groupIdList = data["group_id"] as? [String] ?? []
-            
-            let newList = groupIdList.filter{$0 != groupId}
-            
-            try await database.collection("User").document(uid)
-                .updateData([
-                    "group_id": newList
-                ])
-            
-        } catch {
-            print("removeGroupId error: \(error.localizedDescription)")
-        }
-    }
-    
-    
 }
 
 // MARK: - 데이터 crud외 작업
