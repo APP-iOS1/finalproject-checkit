@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EditScheduleAttendanceListCell: View {
     @Binding var data: Attendance
+    @EnvironmentObject var userStore: UserStore
+    @State private var userName: String = ""
     var attendanceColor: Color {
         switch data.attendanceStatus {
         case "출석":
@@ -26,7 +28,7 @@ struct EditScheduleAttendanceListCell: View {
     var body: some View {
         VStack {
             HStack {
-                Text(data.id)
+                Text(userName)
                 Spacer()
                 Menu {
                     Button {
@@ -64,6 +66,9 @@ struct EditScheduleAttendanceListCell: View {
                 }
 
             }
+        }
+        .onAppear {
+            userName = userStore.userDictionaryList[data.id] ?? ""
         }
     }
 }
