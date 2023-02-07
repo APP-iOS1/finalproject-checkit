@@ -40,14 +40,13 @@ struct AddScheduleView: View {
                     .font(.system(size: 20, weight: .regular))
                 
                 // MARK: - 일정 정보 Section
-                VStack(alignment:.leading, spacing: 20) {
+                VStack(alignment:.leading, spacing: 22) {
                     
                     HStack(spacing: 12) {
                         customSymbols(name: "calendar")
                         
-                        // MARK: - 시작 시간 DatePicker
-                        // FIXME: - 미래 시간 선택되게 수정하기
-                        DatePicker(selection: $startTime, in: ...Date(), displayedComponents: .date) {
+                        // MARK: - 날짜 DatePicker
+                        DatePicker(selection: $startTime, in: Date()..., displayedComponents: .date) {
                             Text("날짜를 선택해주세요.")
                         }
                         .onChange(of: startTime) {newValue in
@@ -58,7 +57,6 @@ struct AddScheduleView: View {
                     HStack(spacing: 12) {
                         customSymbols(name: "clock")
                         // MARK: - 시작 시간 DatePicker
-                        // FIXME: - 시작 시간이 종료 시간보다 뒤면 안되는 조건 추가하기
                         DatePicker("시작 시간", selection: $startTime,
                                    displayedComponents: .hourAndMinute)
                     }
@@ -67,7 +65,7 @@ struct AddScheduleView: View {
                         customSymbols(name: "clock")
                         
                         // MARK: - 종료 시간 DatePicker
-                        DatePicker("종료 시간", selection: $endTime,
+                        DatePicker("종료 시간", selection: $endTime, in: startTime...,
                                    displayedComponents: .hourAndMinute)
                     }
                     
@@ -82,10 +80,8 @@ struct AddScheduleView: View {
                                     Rectangle()
                                         .frame(width: 250)
                                         .foregroundColor(Color.white)
-                                    // MARK: - 동아리 장소 TextField
-                                    //                                TextField("동아리 장소를 입력해주세요!", text: $place)
-                                    //                                    .frame(width: 200)
-                                    Text("장소: \(viewModel.result ?? "")")
+                                    
+                                    Text("\(viewModel.result ?? "장소를 입력해주세요.")")
                                         .foregroundColor(Color.black)
                                 }
                             }
@@ -196,7 +192,7 @@ struct AddScheduleView: View {
                     let start1 = start.getAllTimeInfo()
                     let end1 = end.getAllTimeInfo()
                     
-                    let schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: placeholderText, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
+                    let schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: memo, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
                     
                     Task {
                         await scheduleStore.addSchedule(schedule, group: group)
