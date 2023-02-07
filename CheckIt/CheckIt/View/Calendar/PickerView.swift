@@ -8,34 +8,40 @@
 import SwiftUI
 
 struct PickerView: View {
+    @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
     
-    @State var selectedGroup = "전체"
+//    @State private var selectedGroup = "전체"
+    @Binding var selectedGroup: String
+    
+    var pickerList: [String] {
+        var groupNameList: [String] = []
+        groupStore.groups.forEach { group in
+            groupNameList.append(group.name)
+        }
+        
+        return ["전체"] + groupNameList
+    }
     //동아리 샘플 배열
-    var groups = ["전체", "지니의맛집", "지니의맛집탐", "지니의맛집탐방", "호이의 SSG 응원방", "허니부리 또구 교실", "또리의 이력서 클럽ㅇㅇ"]
     
     var body: some View {
-            ZStack {
-                RoundedRectangle(cornerRadius: 5)
-                    .foregroundColor(Color.myLightGray)
-                Menu {
-                    Picker(selection: $selectedGroup) {
-                        ForEach(groups, id: \.self) { group in
-                            Text(group)
-                                .tag(group)
-                        }
-                    } label: {}
-                } label: {
-                    Text(selectedGroup)
-                        .font(.body)
-                        .frame(width: 170)
-                }.id(selectedGroup)
-            }
-            .frame(width: 180, height: 35)
+        HStack {
+            Menu {
+                Picker(selection: $selectedGroup) {
+                    ForEach(pickerList, id: \.self) { menu in
+                        Text(menu)
+                            .tag(menu)
+                    }
+                } label: {}
+            } label: {
+                Text(selectedGroup)
+                    .font(.body)
+                Image(systemName: "chevron.down")
+            }.id(selectedGroup)
+            Spacer()
         }
+        .frame(width: 180, height: 35)
+        }
+    
 }
 
-struct PickerView_Previews: PreviewProvider {
-    static var previews: some View {
-        PickerView()
-    }
-}

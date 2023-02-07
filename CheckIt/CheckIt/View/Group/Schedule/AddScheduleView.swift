@@ -18,8 +18,14 @@ struct AddScheduleView: View {
     @State private var lateFee: Int = 0
     @State private var absentFee: Int = 0
     
+    @State var isShowingWebView: Bool = false
+    @State var bar = true
+    @ObservedObject var viewModel = WebViewModel()
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var attendanceStroe: AttendanceStore
+    @EnvironmentObject var memberStore: MemberStore
     @Binding var showToast: Bool
     
     var group: Group
@@ -36,14 +42,13 @@ struct AddScheduleView: View {
                     .font(.system(size: 20, weight: .regular))
                 
                 // MARK: - 일정 정보 Section
-                VStack(alignment:.leading, spacing: 20) {
+                VStack(alignment:.leading, spacing: 22) {
                     
                     HStack(spacing: 12) {
                         customSymbols(name: "calendar")
                         
-                        // MARK: - 시작 시간 DatePicker
-                        // FIXME: - 미래 시간 선택되게 수정하기
-                        DatePicker(selection: $startTime, in: ...Date(), displayedComponents: .date) {
+                        // MARK: - 날짜 DatePicker
+                        DatePicker(selection: $startTime, in: Date()..., displayedComponents: .date) {
                             Text("날짜를 선택해주세요.")
                         }
                         .onChange(of: startTime) {newValue in
@@ -54,7 +59,6 @@ struct AddScheduleView: View {
                     HStack(spacing: 12) {
                         customSymbols(name: "clock")
                         // MARK: - 시작 시간 DatePicker
-                        // FIXME: - 시작 시간이 종료 시간보다 뒤면 안되는 조건 추가하기
                         DatePicker("시작 시간", selection: $startTime,
                                    displayedComponents: .hourAndMinute)
                     }
@@ -63,16 +67,27 @@ struct AddScheduleView: View {
                         customSymbols(name: "clock")
                         
                         // MARK: - 종료 시간 DatePicker
-                        DatePicker("종료 시간", selection: $endTime,
+                        DatePicker("종료 시간", selection: $endTime, in: startTime...,
                                    displayedComponents: .hourAndMinute)
                     }
                     
                     HStack(spacing: 12) {
                         customSymbols(name: "mapPin")
                         
-                        // MARK: - 동아리 장소 TextField
-                        TextField("동아리 장소를 입력해주세요!", text: $place)
-                            .frame(width: 200)
+                        ZStack {
+                            Button {
+                                isShowingWebView.toggle()
+                            } label: {
+                                ZStack(alignment: .leading) {
+                                    Rectangle()
+                                        .frame(width: 250)
+                                        .foregroundColor(Color.white)
+                                    
+                                    Text("\(viewModel.result ?? "장소를 입력해주세요.")")
+                                        .foregroundColor(Color.black)
+                                }
+                            }
+                        }
                     }
                     
                     Spacer(minLength: 1)
@@ -179,9 +194,18 @@ struct AddScheduleView: View {
                     let start1 = start.getAllTimeInfo()
                     let end1 = end.getAllTimeInfo()
                     
-                    let schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: placeholderText)
+                    var schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: memo, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
+                    
+                    
                     Task {
+                        try await memberStore.fetchMember(group.id)
+                        schedule.officiallyAbsentCount = memberStore.members.count
                         await scheduleStore.addSchedule(schedule, group: group)
+                        for member in memberStore.members {
+                            var attendance = Attendance(id: "", scheduleId: schedule.id, attendanceStatus: "공결", settlementStatus: false)
+                            attendance.id = member.uid
+                            await attendanceStroe.addAttendance(attendance: attendance)
+                        }
                     }
                     
                     dismiss()
@@ -192,6 +216,12 @@ struct AddScheduleView: View {
                 }
             }
             .padding(.horizontal, 30)
+        }
+        .sheet(isPresented: $isShowingWebView) {
+            WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
+        }
+        .onReceive(self.viewModel.bar.receive(on: RunLoop.main)) { value in
+            self.bar = value
         }
     }
 }

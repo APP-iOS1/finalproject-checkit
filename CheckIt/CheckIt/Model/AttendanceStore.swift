@@ -10,24 +10,49 @@ import FirebaseFirestore
 import Firebase
 
 class AttendanceStore: ObservableObject {
-    // 출석 명단 배열
+    // 출석 명단 배열 -> 현재 유저가 참가한 출석 명단만 받아옴
     @Published var attendanceList: [Attendance] = []
+    // 전체 출석 명단
+    @Published var entireAttendanceList: [Attendance] = []
+    
+    //status별 출석 명단
+    @Published var attendanceStatusList: [Attendance] = []
+    @Published var latedStatusList: [Attendance] = []
+    @Published var absentedStatusList: [Attendance] = []
+    @Published var officiallyAbsentedStatusList: [Attendance] = []
     
     let database = Firestore.firestore()
+    
+    //출석부 추가(Add) 함수
+    func addAttendance(attendance: Attendance) async {
+        do {
+            try await database.collection("Schedule").document(attendance.scheduleId).collection("Attendance").document(attendance.id)
+                .setData([
+                    AttendanceConstants.id : attendance.id,
+                    AttendanceConstants.attendanceStatus : attendance.attendanceStatus,
+                    AttendanceConstants.scheduleId : attendance.scheduleId,
+                    AttendanceConstants.settlementStatus : attendance.settlementStatus
+                ])
+        }
+        catch {
+            print("addAttendance error: \(error.localizedDescription)")
+        }
+    }
     
     // 출석부 Fetch 함수
     func fetchAttendance(scheduleID: String) {
         attendanceList.removeAll()
-        database.collection("Schedule").document("\(scheduleID)").collection("Attendance")
+        database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: scheduleID)
             .getDocuments { (snapshot, error) in
                 if let snapshot {
                     for document in snapshot.documents {
                         let docData = document.data()
                         let id: String = docData[AttendanceConstants.id] as? String ?? ""
+                        let scheduleId: String = docData[AttendanceConstants.scheduleId] as? String ?? ""
                         let attendanceStatus: String = docData[AttendanceConstants.attendanceStatus] as? String ?? ""
                         let settlementStatus: Bool = docData[AttendanceConstants.settlementStatus] as? Bool ?? true
                         
-                        let attendance = Attendance(id: id, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
+                        let attendance = Attendance(id: id, scheduleId: scheduleId, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
                         
                         self.attendanceList.append(attendance)
                         print(attendance, "들어가는중")
@@ -35,6 +60,98 @@ class AttendanceStore: ObservableObject {
                     print("끝")
                 }
             }
+    }
+    //출석 상태 fetch 함수
+    func fetchStatusAttendance(scheduleID: String) async {
+        do {
+            DispatchQueue.main.async {
+                self.attendanceStatusList.removeAll()
+                self.latedStatusList.removeAll()
+                self.absentedStatusList.removeAll()
+                self.officiallyAbsentedStatusList.removeAll()
+
+            }
+            let querySnapshot = try await database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: scheduleID)
+                .getDocuments()
+            
+            for document in querySnapshot.documents {
+                let docData = document.data()
+                let id: String = docData[AttendanceConstants.id] as? String ?? ""
+                let scheduleId: String = docData[AttendanceConstants.scheduleId] as? String ?? ""
+                let attendanceStatus: String = docData[AttendanceConstants.attendanceStatus] as? String ?? ""
+                let settlementStatus: Bool = docData[AttendanceConstants.settlementStatus] as? Bool ?? true
+                
+                let attendance = Attendance(id: id, scheduleId: scheduleId, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
+                DispatchQueue.main.async {
+                    switch attendance.attendanceStatus {
+                    case "출석":
+                        self.attendanceStatusList.append(attendance)
+                    case "지각":
+                        self.latedStatusList.append(attendance)
+                    case "결석":
+                        self.absentedStatusList.append(attendance)
+                    case "공결":
+                        self.officiallyAbsentedStatusList.append(attendance)
+                        
+                    default:
+                        print("에러")
+                    }
+                }
+            }
+        }
+        catch {
+            print("동아리 가져오기 에러: \(error.localizedDescription)")
+        }
+    }
+    //출석부 상태 update 함수
+    func updateAttendace(attendanceData: Attendance, scheduleID: String, uid : String) {
+        database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: attendanceData.scheduleId).whereField("id", isEqualTo: attendanceData.id).getDocuments { snapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let doc = snapshot?.documents else { return }
+            doc.first!.reference.updateData([AttendanceConstants.attendanceStatus : attendanceData.attendanceStatus])
+            
+        }
+    }
+    //출석부 지각, 결석비 지불 상태 update
+    func updateSettlementStatus(attendanceData: Attendance) {
+        database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: attendanceData.scheduleId).whereField("id", isEqualTo: attendanceData.id).getDocuments { snapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let doc = snapshot?.documents else { return }
+            doc.first!.reference.updateData([AttendanceConstants.settlementStatus : attendanceData.settlementStatus])
+        }
+    }
+    func fetchHostAttendacneList(scheduleIdList: [String]) {
+        Task {
+            entireAttendanceList.removeAll()
+            for scheduleId in scheduleIdList {
+                await fetchHostAttendance(scheduleID: scheduleId)
+            }
+        }
+    }
+    func fetchHostAttendance(scheduleID: String) async {
+        do {
+            let querySnapshot = try await database.collection("Schedule").document(scheduleID).collection("Attendance").getDocuments()
+            for document in querySnapshot.documents {
+                let data = document.data()
+                let id: String = data[AttendanceConstants.id] as? String ?? ""
+                let scheduleId: String = data[AttendanceConstants.scheduleId] as? String ?? ""
+                let attendanceStatus: String = data[AttendanceConstants.attendanceStatus] as? String ?? ""
+                let settlementStatus: Bool = data[AttendanceConstants.settlementStatus] as? Bool ?? true
+                
+                let attendance = Attendance(id: id, scheduleId: scheduleId, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
+                DispatchQueue.main.async {
+                    self.entireAttendanceList.append(attendance)
+                    print(self.entireAttendanceList, "sss")
+                }
+            }
+        }
+        catch {
+            print(error.localizedDescription)
+        }
     }
     func checkUserAttendance(scheduleID: String, id: String) async -> Bool {
         do {
@@ -49,10 +166,11 @@ class AttendanceStore: ObservableObject {
                 for document in querySnapshot.documents {
                     let data = document.data()
                     let id: String = data[AttendanceConstants.id] as? String ?? ""
+                    let scheduleId: String = data[AttendanceConstants.scheduleId] as? String ?? ""
                     let attendanceStatus: String = data[AttendanceConstants.attendanceStatus] as? String ?? ""
                     let settlementStatus: Bool = data[AttendanceConstants.settlementStatus] as? Bool ?? true
                     
-                    let attendance = Attendance(id: id, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
+                    let attendance = Attendance(id: id, scheduleId: scheduleId, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
                     DispatchQueue.main.async {
                         self.attendanceList.append(attendance)
                     }
@@ -65,33 +183,6 @@ class AttendanceStore: ObservableObject {
         }
         return false
     }
-//    func fetchUserAttendance(scheduleID: String, completion: @escaping (String) -> Void) {
-//        attendanceList.removeAll()
-//        database.collection("Schedule").document(scheduleID).collection("Attendance").whereField("uid", isEqualTo: "7h0Fg6Z6rgoEkRt5udPH") //임시 uid
-//            .getDocuments { (snapshot, error) in
-//                if let snapshot {
-//                    for document in snapshot.documents {
-//                        let docData = document.data()
-//                        let id: String = docData["id"] as? String ?? ""
-//                        let uid: String = docData["uid"] as? String ?? ""
-//                        let attendanceStatus: String = docData["attendance_status"] as? String ?? ""
-//                        let settlementStatus: Bool = docData["settlement_status"] as? Bool ?? true
-//
-//                        let attendance = Attendance(id: id, uid: uid, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
-//                        self.attendanceList.append(attendance)
-//                        completion(scheduleID)
-//                        print(scheduleID, "나와라")
-//
-//                    }
-//                }
-//            }
-//    }
-//    func fetchUserAttendanceAsync(scheduleID: String) async -> String {
-//        return await withCheckedContinuation { continuation in
-//            fetchUserAttendance(scheduleID: scheduleID) { value in
-//                continuation.resume(returning: value)
-//            }
-//        }
-//    }
+
     
 }

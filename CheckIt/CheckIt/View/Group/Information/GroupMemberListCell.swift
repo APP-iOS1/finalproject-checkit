@@ -8,51 +8,99 @@
 import SwiftUI
 
 struct GroupMemberListCell: View {
-    @Binding var data: MemberTest
+    @EnvironmentObject var memberStore: MemberStore
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var groupStore: GroupStore
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    @State private var isRemoveMember: Bool = false
+    
+    @Binding var nameDict: [String:String]
+    @Binding var isEditing: Bool
+    
+    var group: Group
+    var member: Member
+    
     var body: some View {
         VStack {
             HStack {
-                GroupPosition(position: $data.position)
+                GroupPosition(position: member.position)
                     .padding(.leading, 17)
-                    .padding(.trailing, 0)
-                Text(data.memberName)
+                
+                Text(nameDict[member.uid] ?? "N/A")
                     .font(.system(size: 15, weight: .regular))
                     .lineLimit(1)
                     .frame(width: 52)
-                    .padding(.leading, 25)
-                Button {
-                    print("dd")
-                } label: {
-                    Image(systemName: "person.circle.fill")
-                        .foregroundColor(.black)
-                }
-                Spacer()
                 
-                Button {
-                    print("ss")
-                } label: {
-                    Image(systemName: "xmark")
-                        .resizable()
-                        .frame(width: 14, height: 14)
-                        .foregroundColor(.black)
-                        .fontWeight(.semibold)
+                HStack {
+                    Menu {
+                        if member.position == "운영진" {
+                            Button("구성원") { changePosition(member.uid, position: "구성원") }
+                        } else {
+                            Button("운영진") { changePosition(member.uid, position: "운영진") }
+                        }
+                    } label: {
+                        Image(systemName: "person.circle.fill")
+                            .foregroundColor(.black)
+                    }
+                    
+                    Spacer()
+                    
+                    /// 1. 동아리 멤버 컬렉션에서 멤버 삭제
+                    /// 2. 삭제된 동아리원 groupId에서 강퇴 또는 나간 동아리 id 삭제
+                    Button {
+                        isRemoveMember.toggle()
+                        
+                    } label: {
+                        Image(systemName: "xmark")
+                            .resizable()
+                            .frame(width: 14, height: 14)
+                            .foregroundColor(.black)
+                            .fontWeight(.semibold)
+                    }
+                    .padding(.trailing)
                 }
-                .padding(.trailing, 17)
-
-
+                .opacity(isEditing && member.uid != group.hostID ? 1 : 0)
             }
             .frame(height: 45)
             .frame(maxWidth: .infinity)
             .background(.white)
             .cornerRadius(10)
         }
-
+        
+        .alert("해당 동아리원을 강퇴하시겠습니까?", isPresented: $isRemoveMember) {
+            Button(role: .destructive, action: {
+                print("강퇴된 동아리원 :\(nameDict[member.uid])")
+                
+                Task {
+                    await memberStore.removeMember(group.id, uid: member.uid)
+                    await groupStore.removeGroupId(group.id, uid: member.uid)
+                    
+                    self.memberStore.members.removeAll {$0.uid == member.uid }
+                }
+            }, label: {
+                Text("강퇴하기")
+            })
+            
+            Button(role: .cancel, action: {
+                print("취소하기")
+            }, label: {
+                Text("취소하기")
+            })
+        }
+    }
+    
+    func changePosition(_ uid: String, position: String) {
+        Task {
+            await memberStore.updatePosition(group.id, uid: uid, newPosition: position)
+        }
     }
 }
 
-struct GroupMemberListCell_Previews: PreviewProvider {
-    static var previews: some View {
-        GroupMemberListCell(data: .constant(MemberTest(position: "운영진", memberName: "류창휘")))
-//            .previewLayout(.sizeThatFits)
-    }
-}
+//struct GroupMemberListCell_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GroupMemberListCell(data: .constant(MemberTest(position: "운영진", memberName: "류창휘")))
+////            .previewLayout(.sizeThatFits)
+//    }
+//}

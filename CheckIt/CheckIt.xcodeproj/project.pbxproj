@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		1A3CB25E298A614E00EA5E84 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB25D298A614E00EA5E84 /* Card.swift */; };
+		1A3CB2612990B8D200EA5E84 /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB2602990B8D200EA5E84 /* WebViewModel.swift */; };
+		1A3CB2632990B8DD00EA5E84 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB2622990B8DD00EA5E84 /* WebView.swift */; };
+		1A3CB2652990D04C00EA5E84 /* TermsConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB2642990D04C00EA5E84 /* TermsConditionsView.swift */; };
+		1A3CB2672990D6F600EA5E84 /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB2662990D6F600EA5E84 /* LicenseView.swift */; };
+		1A3CB2692990D97900EA5E84 /* FrequentlyAskedQuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB2682990D97900EA5E84 /* FrequentlyAskedQuestionsView.swift */; };
 		1A41F4402977A8D40051F464 /* GroupScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */; };
 		1A41F4422977A8F70051F464 /* AddScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4412977A8F70051F464 /* AddScheduleView.swift */; };
 		1A41F4442977AA600051F464 /* AttendanceStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4432977AA600051F464 /* AttendanceStatusView.swift */; };
@@ -37,7 +42,7 @@
 		2869DE3E2977CC5400D8CAFB /* AttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */; };
 		2869DE402977CC8800D8CAFB /* AttendanceCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */; };
 		2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */; };
-		2869DE442977CF0200D8CAFB /* LateCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* LateCostCellView.swift */; };
+		2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */; };
 		2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */; };
 		2BDA61F12977C6CE00FDD307 /* MakeGroupModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */; };
 		2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */; };
@@ -55,6 +60,9 @@
 		A529BD49298CA93900AE232B /* GroupConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD48298CA93900AE232B /* GroupConstants.swift */; };
 		A529BD4B298CABAE00AE232B /* AttendanceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD4A298CABAE00AE232B /* AttendanceConstants.swift */; };
 		A529BD4D298CABF500AE232B /* MemberStoreConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD4C298CABF500AE232B /* MemberStoreConstants.swift */; };
+		A529BD4F2990C02200AE232B /* EditScheduleAttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD4E2990C02200AE232B /* EditScheduleAttendanceView.swift */; };
+		A529BD512990C1EC00AE232B /* EditScheduleAttendanceListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD502990C1EC00AE232B /* EditScheduleAttendanceListCell.swift */; };
+		A54737B2299164E6002F64F7 /* NotPenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54737B1299164E6002F64F7 /* NotPenaltyCostCellView.swift */; };
 		A5775BD02988E9E8000DFC3F /* CameraScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */; };
 		A5775BD22988ECC1000DFC3F /* CameraScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD12988ECC1000DFC3F /* CameraScanner.swift */; };
 		A5775BD42989FE21000DFC3F /* CameraScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */; };
@@ -86,7 +94,6 @@
 		FD4E25B8297783CD00F6F875 /* CheckItUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25B7297783CD00F6F875 /* CheckItUITests.swift */; };
 		FD4E25BA297783CD00F6F875 /* CheckItUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25B9297783CD00F6F875 /* CheckItUITestsLaunchTests.swift */; };
 		FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25D02977849900F6F875 /* ColorExtension.swift */; };
-		FD4E25D32977859E00F6F875 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD4E25D22977859E00F6F875 /* GoogleService-Info.plist */; };
 		FD4E25D6297785E800F6F875 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FD4E25D5297785E800F6F875 /* FirebaseAnalytics */; };
 		FD4E25D8297785E800F6F875 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = FD4E25D7297785E800F6F875 /* FirebaseAnalyticsOnDeviceConversion */; };
 		FD4E25DA297785E800F6F875 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FD4E25D9297785E800F6F875 /* FirebaseAnalyticsSwift */; };
@@ -107,8 +114,21 @@
 		FD4E25F82977B9E900F6F875 /* CheckMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F72977B9E900F6F875 /* CheckMapView.swift */; };
 		FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F92977BA6600F6F875 /* QRSheetView.swift */; };
 		FD4E25FE2977C44C00F6F875 /* QRButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */; };
+		FD74973F298F1ABB001C424D /* LoginRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD74973E298F1ABB001C424D /* LoginRouteView.swift */; };
 		FDE58061297A53A600B7AC28 /* ToastAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE58060297A53A500B7AC28 /* ToastAlert.swift */; };
 		FDEE4904298D4D92009DF195 /* GoogleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4903298D4D92009DF195 /* GoogleStore.swift */; };
+		FDEE4906298D5883009DF195 /* AppleLoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4905298D5883009DF195 /* AppleLoginStore.swift */; };
+		FDEE4909298D7DAD009DF195 /* KakaoLoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4908298D7DAD009DF195 /* KakaoLoginStore.swift */; };
+		FDEE490C298E3AEA009DF195 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE490B298E3AEA009DF195 /* KakaoSDK */; };
+		FDEE490E298E3AEA009DF195 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE490D298E3AEA009DF195 /* KakaoSDKAuth */; };
+		FDEE4910298E3AEA009DF195 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE490F298E3AEA009DF195 /* KakaoSDKCommon */; };
+		FDEE4912298E3AEA009DF195 /* KakaoSDKCommonCore in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE4911298E3AEA009DF195 /* KakaoSDKCommonCore */; };
+		FDEE4914298E3AEA009DF195 /* KakaoSDKShare in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE4913298E3AEA009DF195 /* KakaoSDKShare */; };
+		FDEE4916298E3AEA009DF195 /* KakaoSDKTemplate in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE4915298E3AEA009DF195 /* KakaoSDKTemplate */; };
+		FDEE4918298E3AEA009DF195 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE4917298E3AEA009DF195 /* KakaoSDKUser */; };
+		FDEE491A298EAB04009DF195 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4919298EAB04009DF195 /* SignUpView.swift */; };
+		FDEE491C298ECE93009DF195 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDEE491B298ECE93009DF195 /* GoogleService-Info.plist */; };
+		FDEE491F298EEE67009DF195 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE491E298EEE67009DF195 /* SwiftyJSON */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +150,11 @@
 
 /* Begin PBXFileReference section */
 		1A3CB25D298A614E00EA5E84 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		1A3CB2602990B8D200EA5E84 /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
+		1A3CB2622990B8DD00EA5E84 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		1A3CB2642990D04C00EA5E84 /* TermsConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsConditionsView.swift; sourceTree = "<group>"; };
+		1A3CB2662990D6F600EA5E84 /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
+		1A3CB2682990D97900EA5E84 /* FrequentlyAskedQuestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentlyAskedQuestionsView.swift; sourceTree = "<group>"; };
 		1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScheduleView.swift; sourceTree = "<group>"; };
 		1A41F4412977A8F70051F464 /* AddScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleView.swift; sourceTree = "<group>"; };
 		1A41F4432977AA600051F464 /* AttendanceStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceStatusView.swift; sourceTree = "<group>"; };
@@ -157,7 +182,7 @@
 		2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
 		2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceDetailView.swift; sourceTree = "<group>"; };
-		2869DE432977CF0200D8CAFB /* LateCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LateCostCellView.swift; sourceTree = "<group>"; };
+		2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltyCostCellView.swift; sourceTree = "<group>"; };
 		2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMainView.swift; sourceTree = "<group>"; };
 		2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeGroupModalView.swift; sourceTree = "<group>"; };
 		2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGruopModalView.swift; sourceTree = "<group>"; };
@@ -175,6 +200,9 @@
 		A529BD48298CA93900AE232B /* GroupConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupConstants.swift; sourceTree = "<group>"; };
 		A529BD4A298CABAE00AE232B /* AttendanceConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceConstants.swift; sourceTree = "<group>"; };
 		A529BD4C298CABF500AE232B /* MemberStoreConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStoreConstants.swift; sourceTree = "<group>"; };
+		A529BD4E2990C02200AE232B /* EditScheduleAttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScheduleAttendanceView.swift; sourceTree = "<group>"; };
+		A529BD502990C1EC00AE232B /* EditScheduleAttendanceListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScheduleAttendanceListCell.swift; sourceTree = "<group>"; };
+		A54737B1299164E6002F64F7 /* NotPenaltyCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotPenaltyCostCellView.swift; sourceTree = "<group>"; };
 		A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewController.swift; sourceTree = "<group>"; };
 		A5775BD12988ECC1000DFC3F /* CameraScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScanner.swift; sourceTree = "<group>"; };
 		A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewModel.swift; sourceTree = "<group>"; };
@@ -204,7 +232,6 @@
 		FD4E25B7297783CD00F6F875 /* CheckItUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItUITests.swift; sourceTree = "<group>"; };
 		FD4E25B9297783CD00F6F875 /* CheckItUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FD4E25D02977849900F6F875 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
-		FD4E25D22977859E00F6F875 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FD4E25EF2977AC8500F6F875 /* CheckItCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItCard.swift; sourceTree = "<group>"; };
 		FD4E25F12977AF8B00F6F875 /* CheckItButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItButtonLabel.swift; sourceTree = "<group>"; };
 		FD4E25F32977B20800F6F875 /* DdayLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdayLabel.swift; sourceTree = "<group>"; };
@@ -212,8 +239,14 @@
 		FD4E25F72977B9E900F6F875 /* CheckMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckMapView.swift; sourceTree = "<group>"; };
 		FD4E25F92977BA6600F6F875 /* QRSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRSheetView.swift; sourceTree = "<group>"; };
 		FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRButtonLabel.swift; sourceTree = "<group>"; };
+		FD74973E298F1ABB001C424D /* LoginRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouteView.swift; sourceTree = "<group>"; };
 		FDE58060297A53A500B7AC28 /* ToastAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastAlert.swift; sourceTree = "<group>"; };
 		FDEE4903298D4D92009DF195 /* GoogleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleStore.swift; sourceTree = "<group>"; };
+		FDEE4905298D5883009DF195 /* AppleLoginStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginStore.swift; sourceTree = "<group>"; };
+		FDEE4907298D606B009DF195 /* CheckIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CheckIt.entitlements; sourceTree = "<group>"; };
+		FDEE4908298D7DAD009DF195 /* KakaoLoginStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginStore.swift; sourceTree = "<group>"; };
+		FDEE4919298EAB04009DF195 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		FDEE491B298ECE93009DF195 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2869DE382977B00C00D8CAFB /* GoogleSignInSwift in Frameworks */,
+				FDEE490C298E3AEA009DF195 /* KakaoSDK in Frameworks */,
 				FD4E25E4297785E800F6F875 /* FirebaseDatabaseSwift in Frameworks */,
 				FD4E25DA297785E800F6F875 /* FirebaseAnalyticsSwift in Frameworks */,
 				FD4E25E0297785E800F6F875 /* FirebaseAuthCombine-Community in Frameworks */,
@@ -234,13 +268,20 @@
 				FD4E25EC297785E800F6F875 /* FirebaseStorage in Frameworks */,
 				FD4E25EA297785E800F6F875 /* FirebaseFirestoreSwift in Frameworks */,
 				FD2D07FE297BFE3000CC010E /* Alamofire in Frameworks */,
+				FDEE4916298E3AEA009DF195 /* KakaoSDKTemplate in Frameworks */,
 				FD4E25D6297785E800F6F875 /* FirebaseAnalytics in Frameworks */,
 				FD03F4CD298B3E90005B355D /* SDWebImageSwiftUI in Frameworks */,
+				FDEE4910298E3AEA009DF195 /* KakaoSDKCommon in Frameworks */,
 				FD4E25E6297785E800F6F875 /* FirebaseFirestore in Frameworks */,
+				FDEE4912298E3AEA009DF195 /* KakaoSDKCommonCore in Frameworks */,
 				FD4E25D8297785E800F6F875 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				FD4E25E2297785E800F6F875 /* FirebaseDatabase in Frameworks */,
+				FDEE4914298E3AEA009DF195 /* KakaoSDKShare in Frameworks */,
 				FD03F4D2298B3F7A005B355D /* FirebaseFirestoreUI in Frameworks */,
+				FDEE4918298E3AEA009DF195 /* KakaoSDKUser in Frameworks */,
+				FDEE491F298EEE67009DF195 /* SwiftyJSON in Frameworks */,
 				FD4E25DC297785E800F6F875 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				FDEE490E298E3AEA009DF195 /* KakaoSDKAuth in Frameworks */,
 				2869DE362977B00C00D8CAFB /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,17 +303,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A3CB25F2990B8B300EA5E84 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				1A3CB2622990B8DD00EA5E84 /* WebView.swift */,
+				1A3CB2602990B8D200EA5E84 /* WebViewModel.swift */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
 		2807AA97297A4AFC00B1676C /* Master */ = {
 			isa = PBXGroup;
 			children = (
 				2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */,
 				2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */,
 				2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */,
-				2869DE432977CF0200D8CAFB /* LateCostCellView.swift */,
+				2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */,
+				A54737B1299164E6002F64F7 /* NotPenaltyCostCellView.swift */,
 				2807AA9A297A536300B1676C /* AttendanceCategoryView.swift */,
 				2807AA9C297A5E0500B1676C /* AttendancePickerView.swift */,
 				2807AAA0297A5FEE00B1676C /* AttendanceDetailStatusView.swift */,
 				A5775BD5298A275A000DFC3F /* AttendanceStatusListCell.swift */,
+				A529BD4E2990C02200AE232B /* EditScheduleAttendanceView.swift */,
+				A529BD502990C1EC00AE232B /* EditScheduleAttendanceListCell.swift */,
 			);
 			path = Master;
 			sourceTree = "<group>";
@@ -331,10 +384,12 @@
 		FD4E259B297783CC00F6F875 /* CheckIt */ = {
 			isa = PBXGroup;
 			children = (
+				1A3CB25F2990B8B300EA5E84 /* WebView */,
+				FDEE4907298D606B009DF195 /* CheckIt.entitlements */,
 				A529BD41298CA79A00AE232B /* Constants */,
 				283B27B4298A266800E4D400 /* Extensions */,
 				FD03F4BC2988F4BD005B355D /* Info.plist */,
-				FD4E25D22977859E00F6F875 /* GoogleService-Info.plist */,
+				FDEE491B298ECE93009DF195 /* GoogleService-Info.plist */,
 				FD4E259C297783CC00F6F875 /* CheckItApp.swift */,
 				FD2D07F8297BFD2500CC010E /* API */,
 				FD4E25C9297783F000F6F875 /* UIConfig */,
@@ -404,7 +459,9 @@
 			isa = PBXGroup;
 			children = (
 				2822CE1F2988DDC600316139 /* UserStore.swift */,
+				FDEE4908298D7DAD009DF195 /* KakaoLoginStore.swift */,
 				FDEE4903298D4D92009DF195 /* GoogleStore.swift */,
+				FDEE4905298D5883009DF195 /* AppleLoginStore.swift */,
 				2822CE212988DDDD00316139 /* GroupStore.swift */,
 				2822CE232988DDF000316139 /* ScheduleStore.swift */,
 				2822CE252988DE1400316139 /* AttendanceStore.swift */,
@@ -427,6 +484,8 @@
 			isa = PBXGroup;
 			children = (
 				2869DE322977AC1D00D8CAFB /* LoginView.swift */,
+				FDEE4919298EAB04009DF195 /* SignUpView.swift */,
+				FD74973E298F1ABB001C424D /* LoginRouteView.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -464,6 +523,9 @@
 				A5FF27A32977AEF80059C312 /* MyPageButton.swift */,
 				A5FF27A52977BD130059C312 /* Profile.swift */,
 				A5FF27A72977C3F30059C312 /* PremiumRateView.swift */,
+				1A3CB2642990D04C00EA5E84 /* TermsConditionsView.swift */,
+				1A3CB2662990D6F600EA5E84 /* LicenseView.swift */,
+				1A3CB2682990D97900EA5E84 /* FrequentlyAskedQuestionsView.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -567,6 +629,14 @@
 				FD03F4CF298B3F7A005B355D /* FirebaseDatabaseUI */,
 				FD03F4D1298B3F7A005B355D /* FirebaseFirestoreUI */,
 				FD03F4D3298B3F7A005B355D /* FirebaseStorageUI */,
+				FDEE490B298E3AEA009DF195 /* KakaoSDK */,
+				FDEE490D298E3AEA009DF195 /* KakaoSDKAuth */,
+				FDEE490F298E3AEA009DF195 /* KakaoSDKCommon */,
+				FDEE4911298E3AEA009DF195 /* KakaoSDKCommonCore */,
+				FDEE4913298E3AEA009DF195 /* KakaoSDKShare */,
+				FDEE4915298E3AEA009DF195 /* KakaoSDKTemplate */,
+				FDEE4917298E3AEA009DF195 /* KakaoSDKUser */,
+				FDEE491E298EEE67009DF195 /* SwiftyJSON */,
 			);
 			productName = CheckIt;
 			productReference = FD4E2599297783CC00F6F875 /* CheckIt.app */;
@@ -647,6 +717,8 @@
 				FD03F4C8298B3D0E005B355D /* XCRemoteSwiftPackageReference "AlertToast" */,
 				FD03F4CB298B3E90005B355D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				FD03F4CE298B3F7A005B355D /* XCRemoteSwiftPackageReference "FirebaseUI-iOS" */,
+				FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				FDEE491D298EEE67009DF195 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = FD4E259A297783CC00F6F875 /* Products */;
 			projectDirPath = "";
@@ -666,7 +738,7 @@
 			files = (
 				FD4E25A4297783CC00F6F875 /* Preview Assets.xcassets in Resources */,
 				FD4E25A1297783CC00F6F875 /* Assets.xcassets in Resources */,
-				FD4E25D32977859E00F6F875 /* GoogleService-Info.plist in Resources */,
+				FDEE491C298ECE93009DF195 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,19 +769,24 @@
 				283B27B32989F20E00E4D400 /* GroupMainDetailView.swift in Sources */,
 				A5775BD6298A275A000DFC3F /* AttendanceStatusListCell.swift in Sources */,
 				2807AAA1297A5FEE00B1676C /* AttendanceDetailStatusView.swift in Sources */,
+				1A3CB2612990B8D200EA5E84 /* WebViewModel.swift in Sources */,
 				2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */,
 				2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */,
+				FD74973F298F1ABB001C424D /* LoginRouteView.swift in Sources */,
 				2BDA61F52977D2C400FDD307 /* Modifiers.swift in Sources */,
 				A5FF27A22977AD640059C312 /* QuestionView.swift in Sources */,
 				FD2D0800297C0FB100CC010E /* CustomSymbols.swift in Sources */,
 				FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */,
+				1A3CB2692990D97900EA5E84 /* FrequentlyAskedQuestionsView.swift in Sources */,
 				1A3CB25E298A614E00EA5E84 /* Card.swift in Sources */,
 				A5FF27A02977AD3F0059C312 /* MyPageView.swift in Sources */,
 				FDEE4904298D4D92009DF195 /* GoogleStore.swift in Sources */,
 				A5FF27A62977BD130059C312 /* Profile.swift in Sources */,
+				FDEE491A298EAB04009DF195 /* SignUpView.swift in Sources */,
 				2822CE182988B06400316139 /* Group.swift in Sources */,
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
 				2BDA61F12977C6CE00FDD307 /* MakeGroupModalView.swift in Sources */,
+				1A3CB2652990D04C00EA5E84 /* TermsConditionsView.swift in Sources */,
 				2BDA61F9297E939500FDD307 /* MainPlusSheetView.swift in Sources */,
 				2822CE262988DE1400316139 /* AttendanceStore.swift in Sources */,
 				A5FF27A42977AEF80059C312 /* MyPageButton.swift in Sources */,
@@ -720,6 +797,8 @@
 				A5C48C11297A606D007D49DF /* GroupMemberListCell.swift in Sources */,
 				A529BD47298CA8FC00AE232B /* ScheduleConstants.swift in Sources */,
 				864DC4872977B19F005DB201 /* TaskView.swift in Sources */,
+				FDEE4909298D7DAD009DF195 /* KakaoLoginStore.swift in Sources */,
+				1A3CB2672990D6F600EA5E84 /* LicenseView.swift in Sources */,
 				FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */,
 				FDE58061297A53A600B7AC28 /* ToastAlert.swift in Sources */,
 				1A41F4442977AA600051F464 /* AttendanceStatusView.swift in Sources */,
@@ -733,8 +812,9 @@
 				FD4E25F02977AC8500F6F875 /* CheckItCard.swift in Sources */,
 				283B70B7298C98EF003782C3 /* GroupEmptyView.swift in Sources */,
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
+				A529BD512990C1EC00AE232B /* EditScheduleAttendanceListCell.swift in Sources */,
 				A529BD4D298CABF500AE232B /* MemberStoreConstants.swift in Sources */,
-				2869DE442977CF0200D8CAFB /* LateCostCellView.swift in Sources */,
+				2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */,
 				2822CE162988AFEC00316139 /* User.swift in Sources */,
 				2807AA9D297A5E0500B1676C /* AttendancePickerView.swift in Sources */,
 				A529BD43298CA7CC00AE232B /* UserConstants.swift in Sources */,
@@ -742,6 +822,7 @@
 				2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */,
 				A5C48C0F297A5221007D49DF /* GroupPosition.swift in Sources */,
 				2869DE402977CC8800D8CAFB /* AttendanceCellView.swift in Sources */,
+				A529BD4F2990C02200AE232B /* EditScheduleAttendanceView.swift in Sources */,
 				2BDA61FD2982705700FDD307 /* CustomTextField.swift in Sources */,
 				FD4E259D297783CC00F6F875 /* CheckItApp.swift in Sources */,
 				2845444F298A2DAC001B2EED /* Ex+String.swift in Sources */,
@@ -756,7 +837,10 @@
 				A529BD4B298CABAE00AE232B /* AttendanceConstants.swift in Sources */,
 				A529BD49298CA93900AE232B /* GroupConstants.swift in Sources */,
 				2807AA9B297A536300B1676C /* AttendanceCategoryView.swift in Sources */,
+				1A3CB2632990B8DD00EA5E84 /* WebView.swift in Sources */,
+				FDEE4906298D5883009DF195 /* AppleLoginStore.swift in Sources */,
 				2822CE242988DDF000316139 /* ScheduleStore.swift in Sources */,
+				A54737B2299164E6002F64F7 /* NotPenaltyCostCellView.swift in Sources */,
 				1A41F4462977AA820051F464 /* LateFeeView.swift in Sources */,
 				1A41F4402977A8D40051F464 /* GroupScheduleView.swift in Sources */,
 				FD2D07FB297BFDEC00CC010E /* GeoCodingService.swift in Sources */,
@@ -924,10 +1008,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CheckIt/CheckIt.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = P3B6XK5BAQ;
+				DEVELOPMENT_TEAM = 4N97P5J52N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckIt/Info.plist;
@@ -947,7 +1032,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = finalProject.CheckIt;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.CheckIt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -960,10 +1045,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CheckIt/CheckIt.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = P3B6XK5BAQ;
+				DEVELOPMENT_TEAM = 4N97P5J52N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckIt/Info.plist;
@@ -983,7 +1069,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = finalProject.CheckIt;
+				PRODUCT_BUNDLE_IDENTIFIER = com.codelion.CheckIt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1157,6 +1243,22 @@
 				kind = branch;
 			};
 		};
+		FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		FDEE491D298EEE67009DF195 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1264,6 +1366,46 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FD4E25D4297785E800F6F875 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
+		};
+		FDEE490B298E3AEA009DF195 /* KakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDK;
+		};
+		FDEE490D298E3AEA009DF195 /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		FDEE490F298E3AEA009DF195 /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		FDEE4911298E3AEA009DF195 /* KakaoSDKCommonCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommonCore;
+		};
+		FDEE4913298E3AEA009DF195 /* KakaoSDKShare */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKShare;
+		};
+		FDEE4915298E3AEA009DF195 /* KakaoSDKTemplate */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKTemplate;
+		};
+		FDEE4917298E3AEA009DF195 /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
+		FDEE491E298EEE67009DF195 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDEE491D298EEE67009DF195 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -8,14 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Card: Identifiable {
-    var id: Int
-    var dDay: String
-    var groupName: String
-    var place: String
-    var date: String
-    var time: String
-    var groupImage: Image
+struct Card {
     var isActiveButton: Bool
     var show: Bool
 }

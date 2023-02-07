@@ -11,5 +11,5 @@ enum AttendanceCategory: String, CaseIterable {
     case attendanced = "출석"
     case lated = "지각"
     case absented = "결석"
-    case officalyAbsented = "공결"
+    case officiallyAbsented = "공결"
 }

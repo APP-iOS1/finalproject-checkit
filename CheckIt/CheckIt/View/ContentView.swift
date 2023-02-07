@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var groupStore: GroupStore
     var body: some View {
         TabView {
             CheckMainView()
@@ -35,6 +36,14 @@ struct ContentView: View {
                 }
         }
         .accentColor(Color.myGreen)
+        .onAppear {
+            guard let user = userStore.user else { return }
+            groupStore.startGroupListener(userStore)
+            userStore.startUserListener(user.id)
+        }
+        .onDisappear {
+            groupStore.detachListener()
+        }
     }
 }
 

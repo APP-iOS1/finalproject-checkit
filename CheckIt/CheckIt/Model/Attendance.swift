@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct Attendance: Identifiable {
+struct Attendance: Identifiable, Equatable {
     var id: String
+    var scheduleId: String
     var attendanceStatus: String
     var settlementStatus: Bool
 }

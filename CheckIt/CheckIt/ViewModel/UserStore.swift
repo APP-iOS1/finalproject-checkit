@@ -9,7 +9,9 @@ import Firebase
 import FirebaseFirestore
 import GoogleSignIn
 import FirebaseAuth
-
+import KakaoSDKUser
+import KakaoSDKAuth
+import AuthenticationServices
 
 class UserStore: ObservableObject {
     let database = Firestore.firestore()
@@ -18,21 +20,169 @@ class UserStore: ObservableObject {
     @Published var loginState: LoginState = .logout
     @Published var loginCenter: LoginCenter? = nil
     @Published var isPresentedLoginView: Bool = true
+    @Published var isFirstLogin: Bool = false
     
-    // 사용자 이름 수정 가능하도록
-    @Published var userName: String = ""
+    @Published var userDictionaryList: [String : String] = [:] //key uid, value nickname
+
     var userData: FirebaseAuth.User? = nil
+    
+    private var listener: ListenerRegistration?
     
     enum LoginState {
         case login
         case logout
     }
     
-    enum LoginCenter {
-        case apple
-        case kakao
-        case google
+    enum LoginCenter: String {
+        case apple = "apple"
+        case kakao = "kakao"
+        case google = "google"
     }
+    
+    //MARK: - Method(deleteUser)
+    /// 회원탈퇴
+    func deleteUser() async -> Bool {
+        // 파이어베이스 유저 삭제
+        guard let user = Auth.auth().currentUser else { return false }
+        
+        do {
+            try await user.delete()
+        }
+        catch {
+            print("\(error.localizedDescription)")
+            return false
+        }
+        
+        
+        // 로그인 센터별 연결 끊기
+        switch loginCenter {
+        case .apple:
+            return false
+        case .kakao:
+            // 카카오 연결끊기
+            UserApi.shared.unlink { error in
+                if let error = error {
+                    print("\(error.localizedDescription)")
+                    return
+                }
+            }
+            break
+        case .google:
+            return false
+            
+        default:
+            return false
+        }
+        
+        // 파이어베이스 DB에서 회원 정보 삭제
+        return true
+        
+    } // - deleteUser
+    
+    
+    //MARK: - Method(startUserListener)
+    func startUserListener(_ uid: String) {
+        self.listener = database.collection("User").whereField("id", isEqualTo: uid)
+            .addSnapshotListener(includeMetadataChanges: true) { querySnapshot, error in
+                print("유저 리스너 호출")
+                
+                guard let snapshot = querySnapshot else {
+                    print("fetching user error: \(error!)")
+                    return
+                }
+                
+                snapshot.documentChanges.forEach { diff in
+                    switch diff.type {
+                    case .added:
+                        print("유저 추가")
+                    case .modified:
+                        print("유저 수정")
+                        self.userUpdate(diff.document.data())
+                    case .removed:
+                        print("유저 제거")
+                    }
+                }
+            }
+    } // - startUserListener
+    
+    //MARK: - Method(userListFetch)
+    func fetchUserDictionaryList() {
+        database.collection("User").getDocuments { snapshot, error in
+            self.userDictionaryList.removeAll()
+            if let snapshot {
+                for document in snapshot.documents {
+                    let docData = document.data()
+                    let id: String = docData[UserConstants.id] as? String ?? ""
+                    let name: String = docData[UserConstants.name] as? String ?? ""
+                    self.userDictionaryList[id] = name
+                }
+            }
+        }
+    }
+    
+    //MARK: - Method(userUpdate)
+    func userUpdate(_ user: [String:Any]) {
+        let id = user["id"] as? String ?? ""
+        let email = user["email"] as? String ?? ""
+        let name = user["name"] as? String ?? ""
+        let groupId = user["group_id"] as? [String] ?? []
+        let loginCenter = user["login_center"] as? String ?? ""
+        
+        self.user = User(id: id, email: email, name: name, groupID: groupId)
+    } // - userUpdate
+    
+    //MARK: - Method(loginWithKakao)
+    /// 카카오로 로그인
+    func loginWithKakao() {
+        KakaoLoginStore().returnFirebaseToken { firebaseToken in
+            
+            guard let firebaseToken else { return }
+            print(type(of:firebaseToken))
+            
+            Auth.auth().signIn(withCustomToken: firebaseToken) { user, error in
+                if let error {
+                    print("\(error.localizedDescription)")
+                    return
+                }
+                
+                self.userData = user?.user
+                self.isUserInDatabaseWithKakao(uid: "\(String(describing: user?.user.uid ?? ""))", completion: { result in
+                    print("isFirstLoginWithKakao:",result)
+                    Task {
+                        await self.fetchUser(user?.user.uid ?? "")
+                    }
+                    if !result {
+                        self.addUser(userData: self.userData)
+                        DispatchQueue.main.async {
+                            self.isFirstLogin = true
+                        }
+                        return
+                    }
+                    self.toggleLoginState()
+                    
+                })
+                print("로그인 성공")
+            }
+        }
+    } // - loginWithKakao
+    
+    //MARK: - Method(loginWithCredential)
+    /// 구글, 애플 로그인
+    func loginWithCredential(_ result: Result<ASAuthorization, Error>? = nil) async {
+        var credential: AuthCredential?
+        switch loginCenter {
+        case .apple:
+            guard let result else { return }
+            credential = await AppleLoginStore().logIn(result: result)
+        case .google:
+            credential = await GoogleLoginStore().signIn()
+        default:
+            return
+        }
+        guard let credential else { return }
+        await signInWithCredential(credential: credential)
+        
+    } // - loginWithCredential
     
     //MARK: - CompletionHandler Method
     //MARK: - Method(isUserInDatabaseCompletionHandler)
@@ -45,7 +195,7 @@ class UserStore: ObservableObject {
                     completion(false)
                     return
                 }
-               
+                
                 if snapshot == nil || snapshot?.documents == [] {
                     print(snapshot?.documents ?? [])
                     completion(false)
@@ -55,27 +205,52 @@ class UserStore: ObservableObject {
             }
     } // - isUserInDatabaseCompletionHandler
     
+    //MARK: - Method(isUserInDatabaseWithKakao)
+    func isUserInDatabaseWithKakao(uid: String, completion: @escaping (Bool) -> ()) {
+        database.collection("User").whereField("id", isEqualTo: "\(uid)")
+            .getDocuments { snapshot, error in
+                if let error {
+                    print("\(error.localizedDescription)")
+                    completion(false)
+                    return
+                }
+                
+                if snapshot == nil || snapshot?.documents == [] {
+                    print(snapshot?.documents ?? [])
+                    completion(false)
+                    return
+                }
+                completion(true)
+            }
+    } // - isUserInDatabaseWithKakao
+    
     
     //MARK: - Async Method
     //MARK: - Method(signIn)
     /// Firebase 로그인 메서드입니다. credential을 제3자(애플, 구글)로부터  파라미터로 제공받아 파이어베이스 로그인에 연결합니다.
-    func signInWithCredential(credential: AuthCredential?) async {
-        guard let credential = credential else { return }
+    /// Return (로그인 성공 여부)
+    func signInWithCredential(credential: AuthCredential?) async -> Bool {
+        guard let credential = credential else { return false }
         let (authResult, error) = await firebaseSignIn(credential: credential)
         if let error {
             print("\(error.localizedDescription)")
-            return
+            return false
         }
-        guard let authResult else { return }
+        guard let authResult else { return false }
         self.userData = authResult.user
         
         let isUser = await isUserInDatabase(email: userData?.email ?? "N/A")
         print(isUser, userData?.email)
+        //FIXME: 회원가입 -> 간편 회원가입 뷰로 넘겨줘야 함
         if !isUser {
             addUser(userData: self.userData)
+            DispatchQueue.main.async {
+                self.isFirstLogin = true
+            }
         }
         await fetchUser(self.userData?.uid ?? "N/A")
         self.toggleLoginState()
+        return true
     } // - signIn
     
     
@@ -106,6 +281,7 @@ class UserStore: ObservableObject {
             let email = data["email"] as? String ?? ""
             let name = data["name"] as? String ?? ""
             let groupId = data["group_id"] as? [String] ?? []
+            let loginCenter = data["login_center"] as? String ?? ""
             
             let user = User(id: id,
                             email: email,
@@ -116,11 +292,12 @@ class UserStore: ObservableObject {
             
             DispatchQueue.main.async {
                 self.user = user
+                self.loginCenter = LoginCenter(rawValue: loginCenter)
             }
         } catch {
             print("fetchUser error: \(error.localizedDescription)")
         }
-    }
+    } // - fetchUser
     
     
     
@@ -145,15 +322,18 @@ class UserStore: ObservableObject {
             DispatchQueue.main.async {
                 self.loginState = .logout
                 self.isPresentedLoginView = true
+                
             }
         case .logout:
             DispatchQueue.main.async {
                 self.loginState = .login
-                self.isPresentedLoginView = false
+                if !self.isFirstLogin {
+                    self.isPresentedLoginView = false
+                }
             }
         }
     } // - toggleLoginState
-
+    
     
     //MARK: - Method(signOut)
     /// Firebase 로그아웃 메서드입니다.
@@ -169,13 +349,12 @@ class UserStore: ObservableObject {
             case .apple:
                 break
             case .kakao:
-                //                    UserApi.shared.logout { error in
-                //                         if let error = error {
-                //                              print("\(error.localizedDescription)")
-                //                              return
-                //                         }
-                //                         print("kakao 로그아웃 완료")
-                //                    }
+                UserApi.shared.logout { error in
+                    if let error {
+                        print("로그아웃 에러: \(error.localizedDescription)")
+                        return
+                    }
+                }
                 break
             case .google:
                 GIDSignIn.sharedInstance.signOut()
@@ -202,6 +381,7 @@ class UserStore: ObservableObject {
                 "name" : user.displayName ?? "N/A",
                 "email" : user.email ?? "N/A",
                 "group_id" : [],
+                "login_center": self.loginCenter?.rawValue
             ])
     } // - addUser
     
@@ -215,8 +395,50 @@ class UserStore: ObservableObject {
                 "name" : user.name,
                 "email" : user.email,
                 "group_id" : user.groupID,
+                "login_center": self.loginCenter?.rawValue
             ])
     } // - updateUser
+    
+    
+    //MARK: - Method(deleteAllUserData)
+    /// 회원탈퇴 시 유저의 모든 데이터를 db에서 삭제합니다.
+    /// Parameter id - 삭제할 user의 id입니다.
+    func deleteAllUserData(id: String) async {
+        do {
+            // 유저의 출석부를 모두 삭제합니다.
+            let snapshot = try await database.collectionGroup("Attendance")
+                .order(by: "schedule_id")
+                .whereField("id", isEqualTo: "\(id)")
+                .getDocuments()
+            
+            
+            for document in snapshot.documents {
+                try await database.document("\(document.documentID)")
+                    .delete()
+            }
+            
+            // 유저의 사용자 정보를 삭제합니다.
+            let userSnapshot = try await database.collection("User").whereField("id", isEqualTo: "\(id)").getDocuments()
+            for document in userSnapshot.documents {
+                try await database.document("\(document.documentID)").delete()
+            }
+            
+            // 유저가 방장인 그룹을 모두 삭제합니다.
+            let groupSnapshot = try await database.collection("Group").whereField("host_id", isEqualTo: "\(id)").getDocuments()
+            for document in groupSnapshot.documents {
+                try await database.document("\(document.documentID)")
+                    .delete()
+            }
+            
+            // 유저가 속한 모든 그룹을 삭제합니다. (멤버리스트 삭제)
+            
+            
+        }
+        catch { print("catch Error: \(error.localizedDescription)"); return }
+    } // - deleteAllUserData
+    
+    
+    
     
     //MARK: - Method(changeUserName)
     /// user의 이름을 변경하는 메서드입니다.
@@ -224,106 +446,9 @@ class UserStore: ObservableObject {
     func changeUserName(name: String) {
         guard let user = self.user else { return }
         self.user?.name = name
-        updateUser(user: user)
+        updateUser(user: self.user!)
     } // - changeUserName
-    
 }
 
 
-////MARK: - Class(KakaoLoginStore)
-//class KakaoLoginStore {
-//
-//     func signInCompletionHandler() {
-//          // 카카오톡 실행 가능 여부 확인
-//          if (UserApi.isKakaoTalkLoginAvailable()) {
-//               UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-//                    if let error = error {
-//                         print("\(error.localizedDescription)")
-//                         return
-//                    }
-//                    print("loginWithKakaoTalk() success.")
-//
-//                    //do something
-//                    _ = oauthToken
-//                    print("\(oauthToken)")
-//
-//
-//
-//               }
-//          } else {
-//               //TODO: 카카오톡 설치 후 시도하라는 알럿 필요
-//               print("카카오톡 실행 불가")
-//          }
-//
-//
-//     }
-//
-//     func signIn() {
-//          // 이미 로그인 된 경우
-//          if (AuthApi.hasToken()) {
-//               UserApi.shared.accessTokenInfo { (accessTokenInfo, error) in
-//                    if let error = error {
-//                         if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
-//                              //로그인 필요
-//                              print("로그인이 필요합니다")
-//                              print("\(error.localizedDescription)")
-//                              if (UserApi.isKakaoTalkLoginAvailable()) {
-//                                   UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-//                                        if let error = error {
-//                                             print("\(error.localizedDescription)")
-//                                             return
-//                                        }
-//                                        print("loginWithKakaoTalk() success.")
-//
-//                                        //do something
-//                                        _ = oauthToken
-//                                        print(oauthToken?.accessToken)
-//
-//                                   }
-//                              } else {
-//                                   //TODO: 카카오톡 설치 후 시도하라는 알럿 필요
-//                                   print("카카오톡 실행 불가")
-//                              }
-//                              return
-//
-//                         }
-//                         else {
-//                              //기타 에러
-//                              print("\(error.localizedDescription)")
-//
-//                         }
-//                    }
-//                    else {
-//                         //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
-//                         print(accessTokenInfo?.expiresIn)
-//                    }
-//               }
-//               return
-//          }
-//          //FIXME: 불가능하면 알럿 띄워줘야 함.
-//          // 카카오톡 실행 가능 여부 확인
-//          else if (UserApi.isKakaoTalkLoginAvailable()) {
-//               UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-//                    if let error = error {
-//                         print("\(error.localizedDescription)")
-//                         return
-//                    }
-//                    print("loginWithKakaoTalk() success.")
-//
-//                    //do something
-//                    _ = oauthToken
-//                    print(oauthToken?.accessToken)
-//
-//               }
-//          } else {
-//               //TODO: 카카오톡 설치 후 시도하라는 알럿 필요
-//               print("카카오톡 실행 불가")
-//          }
-//
-//     }
-//     func signOut() {
-//          UserApi.shared.logout { error in
-//               return
-//          }
-//     }
-//}
+
