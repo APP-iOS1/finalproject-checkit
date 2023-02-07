@@ -17,6 +17,7 @@ struct CategoryView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var isDialog: Bool = false
+    @State private var isCheckExsit: Bool = false
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     
@@ -113,23 +114,41 @@ struct CategoryView: View {
                     
                 }
                 Button("동아리 삭제하기", role: .destructive) {
-                    
-                }
-                
-            } else {
-                Button("동아리 나가기", role: .destructive) {
                     Task {
-                        await groupStore.removeMember(userStore.user?.id ?? "ExitGroupError", groupdId: group.id)
-                        self.groupStore.groups.removeAll { $0.id == group.id}
-                        toastMessage = "동아리 탈퇴가 완료되었습니다."
+                        let uidList = memberStore.members.map { $0.uid }
+                        await groupStore.removeGroup(groupId: group.id ,uidList: uidList)
+                        print("동아리 삭제 완료")
+                        
+                        toastMessage = "동아리 삭제가 완료되었습니다."
                         
                         showToast.toggle()
                         dismiss()
                     }
                 }
+                
+            } else {
+                Button("동아리 나가기", role: .destructive) {
+                    isCheckExsit.toggle()
+                }
             }
             Button("취소", role: .cancel) { }
         }
+        .alert("해당 동아리를 나가시겠습니까?", isPresented: $isCheckExsit, actions: {
+            Button("취소하기", role: .cancel) { }
+            Button("나가기", role: .destructive) {
+                Task {
+                    await groupStore.removeMember(userStore.user?.id ?? "ExitGroupError", groupdId: group.id)
+                    self.groupStore.groups.removeAll { $0.id == group.id}
+                    toastMessage = "동아리 탈퇴가 완료되었습니다."
+                    
+                    showToast.toggle()
+                    dismiss()
+                }
+            }
+        }, message: {
+            Text("해당 동아리를 나가면\n동아리에 대한 모든 정보가 사라집니다.")
+                .multilineTextAlignment(.center)
+        })
         
         .onAppear {
             print(group.name, "네임")
