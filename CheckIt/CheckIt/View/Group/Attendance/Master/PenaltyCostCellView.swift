@@ -1,5 +1,5 @@
 //
-//  LateCostCellView.swift
+//  PenaltyCostCellView.swift
 //  CheckIt
 //
 //  Created by 이학진 on 2023/01/18.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LateCostCellView: View {
+struct PenaltyCostCellView: View {
     @Binding var data: Attendance
     var category: AttendanceCategory
     var attendanceColor: Color {
@@ -24,6 +24,9 @@ struct LateCostCellView: View {
             return Color.myBlack
         }
     }
+    @State var userName: String = {
+        return ""
+    }()
     var body: some View {
         VStack {
             HStack {
@@ -42,7 +45,7 @@ struct LateCostCellView: View {
                     }
 
                 }
-                Text(data.id)
+                Text(userName)
                 
                 Spacer()
             
@@ -62,9 +65,9 @@ struct LateCostCellView: View {
     }
 }
 
-//struct LateCostCellView_Previews: PreviewProvider {
+//struct PenaltyCostCellView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        AttendanceDetailView()
-//        //        LateCostCellView(data: LateCost(name: "이학진", attendance: "출석", cost: 0, isChecked: false))
+//        //        PenaltyCostCellView(data: LateCost(name: "이학진", attendance: "출석", cost: 0, isChecked: false))
 //    }
 //}

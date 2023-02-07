@@ -30,8 +30,9 @@ struct AttendanceStatusView: View {
             }
         }
         .onAppear {
-            print(userStore.user?.id ?? "", "유저 id")
-            print(hostId, "호스트 id")
+            print("호출 테스트--------------------------")
+//            print(userStore.user?.id ?? "", "유저 id")
+//            print(hostId, "호스트 id")
             if userStore.user?.id ?? "" == hostId {
                 
             }

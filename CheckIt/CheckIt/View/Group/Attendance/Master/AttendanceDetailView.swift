@@ -25,7 +25,7 @@ struct AttendanceDetailView: View {
                 .padding()
                 .padding(.top, UIScreen.main.bounds.height / 30)
             
-            AttendanceCategoryView(selection: selectedTap, schedule: schedule)
+            AttendanceCategoryView(selection: $selectedTap, schedule: schedule)
             
             Spacer()
         }
@@ -43,7 +43,6 @@ struct AttendanceDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             print(schedule.id, "스케줄 아이디")
-            attendanceStore.fetchAttendance(scheduleID: schedule.id)
         }
         
     }
