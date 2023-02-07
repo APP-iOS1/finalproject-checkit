@@ -11,7 +11,9 @@ struct PickerView: View {
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
     
-    @State var selectedGroup = "전체"
+//    @State private var selectedGroup = "전체"
+    @Binding var selectedGroup: String
+    
     //동아리 샘플 배열
     
     var body: some View {
@@ -35,8 +37,3 @@ struct PickerView: View {
         }
 }
 
-struct PickerView_Previews: PreviewProvider {
-    static var previews: some View {
-        PickerView()
-    }
-}
