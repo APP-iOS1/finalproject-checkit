@@ -14,6 +14,7 @@ enum GroupJoinStatus {
     case alreadyJoined
     case newJoined
     case notValidated
+    case fulled
 }
 
 enum GroupCodeValidation {
@@ -291,6 +292,7 @@ class GroupStore: ObservableObject {
     ///  유저는 초대받은 코드를 입력하여 동아리에 참가하는 메소드
     ///  이때 Member컬렉션에 직책과 uid정보를 추가해야하며, user 컬렉션에 참가한 동아리id를 추가해야한다.
     func joinGroup(_ code: String, user: User) async -> GroupJoinStatus {
+        
         let status = await checkedGroupCode(code)
         switch status {
         case .validated(let groupId):
@@ -298,6 +300,9 @@ class GroupStore: ObservableObject {
             if userGroups.contains(groupId) {
                 return .alreadyJoined
             }
+            
+            let currentMemberCount = await getMemberCount(groupId)
+            guard currentMemberCount < 8 else { return .fulled }
             
             do {
                 try await database.collection("Group")
@@ -308,12 +313,7 @@ class GroupStore: ObservableObject {
                         "uid": user.id,
                         "position": "구성원"
                     ])
-                //FIXME: - User를 파라미터의 User로 변경 필요
                 await addGroupsInUser(user, joinedGroupId: groupId)
-                //await fetchGroups(user)
-                
-                
-                
                 return .newJoined
                 
             } catch {
@@ -357,17 +357,16 @@ class GroupStore: ObservableObject {
             print("addGroupsInUser error: \(error.localizedDescription)")
         }
     }
-    /// 동아리에 참가할 시 참가할 동아리의 멤버 수를 반환하는 메소드
+    /// 동아리에 참가할 시 참가한 동아리의 총 멤버 수를 반환하는 메소드
     /// - Parameter groupdId: 참가할 동아리의 id
+    /// - Returns Int: 현재 동아리의 인원 수
     func getMemberCount(_ groupId: String) async -> Int {
         do {
             let querySnapshot = try await database.collection("Group")
                 .document(groupId)
-                .getDocument()
-            if !querySnapshot.exists { return 0 }
-            let data = querySnapshot.data()!
-            let memberCount = data[GroupConstants.memberLimit] as? Int ?? 0
-            return memberCount
+                .collection("Member")
+                .getDocuments()
+            return querySnapshot.documents.count
         } catch {
             print("getMemberCount error: \(error.localizedDescription)")
             return 0
