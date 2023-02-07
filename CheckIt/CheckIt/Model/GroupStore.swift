@@ -216,11 +216,11 @@ class GroupStore: ObservableObject {
         DispatchQueue.main.async {
             self.groups.removeAll()
         }
-
+        
         if user.groupID.isEmpty {
             return
         }
-
+        
         do {
             let querySnapshot = try await database.collection("Group")
                 .whereField("id", in: groupID)
@@ -228,7 +228,7 @@ class GroupStore: ObservableObject {
             print("실행22")
             for document in querySnapshot.documents {
                 let data = document.data()
-
+                
                 let id = data[GroupConstants.id] as? String ?? ""
                 let name = data[GroupConstants.name] as? String ?? ""
                 let invitationCode = data[GroupConstants.invitationCode] as? String ?? ""
@@ -237,10 +237,10 @@ class GroupStore: ObservableObject {
                 let description = data[GroupConstants.description] as? String ?? ""
                 let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
                 let memberLimit = data[GroupConstants.memberLimit] as? Int ?? 0
-
+                
                 do {
                     let image = try await fetchImages("group_images/\(id)")
-
+                    
                     // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
                     DispatchQueue.main.async {
                         if image == nil {
@@ -252,7 +252,7 @@ class GroupStore: ObservableObject {
                 } catch {
                     print("fetch group image error: \(error.localizedDescription)")
                 }
-
+                
                 let group = Group(id: id,
                                   name: name,
                                   invitationCode: invitationCode,
@@ -261,7 +261,7 @@ class GroupStore: ObservableObject {
                                   description: description,
                                   scheduleID: scheduleID,
                                   memberLimit: memberLimit)
-
+                
                 DispatchQueue.main.async {
                     self.groups.append(group)
                 }
@@ -370,6 +370,49 @@ class GroupStore: ObservableObject {
         } catch {
             print("getMemberCount error: \(error.localizedDescription)")
             return 0
+        }
+    }
+    /// 동아리를 삭제하는 메소드
+    /// - Parameter groupdId: 삭제할 동아리의 id
+    /// - Parameter uidList: 삭제할 동아리 멤버들의 id 리스트
+    ///
+    /// 동아리를 삭제하는 절차는 다음과 같다.
+    /// 1. 동아리 컬렉션 내 member 컬렉션 삭제 -> 컬렉션내 모든 document를 삭제해야 함
+    /// 2. 동아리 컬렉션 document 삭제
+    /// 3. 방장 및 가입한 모든 유저의 필드에서 groupId제거
+    func removeGroup(groupId: String, uidList: [String]) async {
+        let docRef = database.collection("Group").document(groupId)
+        
+        await removeMemberCollection(ref: docRef, uidList: uidList) // 1.
+        
+        do {
+            try await docRef.delete() // 2.
+        } catch {
+            print("Groupstore removeGroup error: \(error.localizedDescription)")
+        }
+        await removeGroupIdAllMember(groupId: groupId, uidList: uidList) // 3.
+    }
+    /// 동아리의 MemberCollection을 삭제하는 메소드
+    /// - Parameter ref: 삭제할 동아리의 reference
+    /// - Parameter uidList: 동아리에 속한 유저들의 id들
+    func removeMemberCollection(ref: DocumentReference, uidList: [String]) async {
+        do {
+            for uid in uidList {
+                try await ref
+                    .collection("Member")
+                    .document(uid)
+                    .delete()
+            }
+        } catch {
+            print("Groupstore removeAllMembers error: \(error.localizedDescription)")
+        }
+    }
+    /// 동아리에 가입된 모든 유저의 groupId리스트에서 삭제된 동아리를 제거하는 메소드
+    /// - Parameter groupdId: 삭제할 동아리의 id
+    /// - Parameter uidList: 삭제할 동아리 멤버들의 id 리스트
+    func removeGroupIdAllMember(groupId: String, uidList: [String]) async {
+        for uid in uidList {
+            await removeGroupId(groupId, uid: uid)
         }
     }
     
