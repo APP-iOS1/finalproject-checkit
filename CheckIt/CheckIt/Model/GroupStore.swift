@@ -372,4 +372,24 @@ class GroupStore: ObservableObject {
             return 0
         }
     }
+    
+    /// 동아리원이 동아리를 나갈때 호출되는 메소드
+    /// - Parameter uid: 나갈 동아리원의 uid
+    /// - Parameter groudId: 동아리원이 나가는 uid
+    ///
+    /// 동아리를 나갈때 필요한 처리
+    /// 1. group의 member collection에서 나간 동아리원 다큐먼트 삭제
+    /// 2. 나간 동아리원의 groupId에서 필드 제거
+    func removeMember(_ uid: String, groupdId: String) async {
+        do {
+            // 1.
+           try await database.collection("Group").document(groupdId)
+                .collection("Member")
+                .document(uid)
+                .delete()
+            // 2.
+        } catch {
+            print("GroupStore removeMember error: \(error.localizedDescription)")
+        }
+    }
 }
