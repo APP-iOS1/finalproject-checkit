@@ -75,7 +75,7 @@ struct GroupMemberListCell: View {
                 
                 Task {
                     await memberStore.removeMember(group.id, uid: member.uid)
-                    await memberStore.removeGroupId(group.id, uid: member.uid)
+                    await groupStore.removeGroupId(group.id, uid: member.uid)
                     
                     self.memberStore.members.removeAll {$0.uid == member.uid }
                 }

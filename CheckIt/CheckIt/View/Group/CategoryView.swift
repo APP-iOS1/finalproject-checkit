@@ -114,8 +114,9 @@ struct CategoryView: View {
                 
             } else {
                 Button("동아리 나가기", role: .destructive) {
-                    
-                    groupStore.removeMember(userStore.user?.id ?? "ExitGroupError", groupdId: group.id)
+                    Task {
+                        await groupStore.removeMember(userStore.user?.id ?? "ExitGroupError", groupdId: group.id)
+                    }
                 }
             }
             Button("취소", role: .cancel) { }
