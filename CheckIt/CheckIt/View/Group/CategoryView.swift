@@ -10,6 +10,7 @@ import SwiftUI
 struct CategoryView: View {
     @State var clickedIndex: Int = 0
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var memberStore: MemberStore
     
     let categories: [String] = ["동아리 일정", "출석부", "동아리 정보"]
     var group: Group
@@ -81,6 +82,18 @@ struct CategoryView: View {
             print(group.name, "네임")
             print(group.scheduleID, "Sssss")
             scheduleStore.fetchSchedule(gruopName: group.name)
+            
+            memberStore.members.removeAll()
+            Task {
+                do {
+                    try await memberStore.fetchMember(group.id)
+                } catch MemberError.notFoundMember {
+                    print("member를 못찾음")
+                } catch {
+                    print("not found error")
+                }
+            }
+            
         }
         .onDisappear {
             print(group.scheduleID, "---------")
@@ -91,5 +104,7 @@ struct CategoryView: View {
 struct CategoryView_Previews: PreviewProvider {
     static var previews: some View {
         CategoryView(group: Group.sampleGroup)
+            .environmentObject(ScheduleStore())
+            .environmentObject(MemberStore())
     }
 }
