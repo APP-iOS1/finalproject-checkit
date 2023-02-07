@@ -22,7 +22,19 @@ struct JoinGruopModalView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             Text("동아리 참가하기")
-                .font(.system(size: 22, weight: .bold))
+                .font(.system(size: 25, weight: .bold))
+            
+            HStack() {
+                Image(systemName: "arrow.down.doc")
+                
+                Text("복사한 코드 붙여넣기")
+                    .font(.system(size: 18, weight: .regular))
+                    .onTapGesture {
+                        if let str = UIPasteboard.general.string {
+                            invitationCode = str
+                        }
+                    }
+            }
             
             // MARK: - 동아리 초대 코드 텍스트필드
             TextField("공유 받은 초대 코드를 입력해주세요!", text: $invitationCode)
@@ -43,13 +55,13 @@ struct JoinGruopModalView: View {
                     case .alreadyJoined:
                         toastMessage = "이미 가입된 동아리입니다."
                         presentations.forEach {
-                                        $0.wrappedValue = false
-                                    }
+                            $0.wrappedValue = false
+                        }
                     case .newJoined:
                         toastMessage = "동아리 가입이 완료되었습니다."
                         presentations.forEach {
-                                        $0.wrappedValue = false
-                                    }
+                            $0.wrappedValue = false
+                        }
                     case .notValidated:
                         toastMessage = "올바르지 않은 초대코드 입니다."
                     }

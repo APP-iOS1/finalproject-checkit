@@ -49,7 +49,7 @@ struct MainPlusSheetView: View {
             .sheet(isPresented: $isJoiningGroup) {
                 JoinGruopModalView(showToast: $showToast, toastMessage: $toastMessage)
                     .environment(\.presentations, presentations + [$isJoiningGroup])
-                    .presentationDetents([.height(300)])
+                    .presentationDetents([.height(415)])
             }
         }
         .padding(.horizontal, 40)
