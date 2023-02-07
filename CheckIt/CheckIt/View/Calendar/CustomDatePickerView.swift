@@ -17,7 +17,7 @@ class ExtraData: ObservableObject {
     ///"MM DD"형식으로 반환. (예시: 01)
     func selectedDate(date: Date) -> [String] {
         formatter.locale = Locale(identifier: "ko")
-        formatter.dateFormat = "yyyy MM dd EEEE a HH mm"
+        formatter.dateFormat = "yyyy MM dd EEE a HH mm"
         
         formatter.amSymbol = "AM"
         formatter.pmSymbol = "PM"
@@ -42,7 +42,6 @@ struct CustomDatePickerView: View {
     //피커에서 선택된 그룹
     @Binding var selectedGroup: String
     @Binding var totalSchedule: [Schedule]
-    //    var totalSchedule: [Schedule]
     
     //화살표 누르면 달(month) 업데이트
     @Binding var currentMonth: Int
@@ -53,40 +52,51 @@ struct CustomDatePickerView: View {
             let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
             
             HStack {
-                PickerView(selectedGroup: $selectedGroup)
+                
+                VStack(alignment: .leading) {
+                    PickerView(selectedGroup: $selectedGroup)
+                        .padding(.bottom, -20)
+                    Text("\(extraData.selectedDate(date: currentDate)[1]).\(extraData.selectedDate(date: currentDate)[2]) \(extraData.selectedDate(date: currentDate)[3])")
+                        .font(.system(size: 45))
+                        .fontWeight(.bold)
+//                        .padding(.top, -5)
+                }
+                .padding(.leading, 20)
                 Spacer()
             }
-            .padding(.horizontal)
-            .padding(.top,8)
+            .foregroundColor(.white)
+            .frame(width: UIScreen.main.bounds.width, height: 130, alignment: .leading)
+            .background(Color.myGreen)
+            .padding(.top, -25)
             
             //MARK: - 라벨(연도, 달, 화살표)
-            HStack(spacing: 20) {
-                Text("\(extraData.selectedDate(date: currentDate)[0]).\(extraData.selectedDate(date: currentDate)[1])")
-                    .font(.title.bold())
-                
+            HStack() {
                 Button {
                     withAnimation {
                         currentMonth -= 1
                     }
                 } label: {
                     Image(systemName: "chevron.left")
-                        .font(.title2)
+                        .font(.title3)
                 }
+                Spacer()
+                
+                Text("\(extraData.selectedDate(date: currentDate)[0]).\(extraData.selectedDate(date: currentDate)[1])")
+                    .font(.title3)
+                Spacer()
+                
                 Button {
                     withAnimation {
                         currentMonth += 1
                     }
                 } label: {
                     Image(systemName: "chevron.right")
-                        .font(.title2)
+                        .font(.title3)
                 }
-                Spacer(minLength: 0)
-                
-                
             }
             .padding(.horizontal)
             
-            Divider()
+//            Divider()
             
             //MARK: - 요일뷰
             HStack(spacing: 0) {
@@ -97,6 +107,7 @@ struct CustomDatePickerView: View {
                         .frame(maxWidth: .infinity)
                 }
             }
+            .padding(.vertical, 0)
             
             //MARK: - 날짜뷰
             //lazy grid
@@ -107,7 +118,7 @@ struct CustomDatePickerView: View {
                     CardView(value: value)
                         .background (
                             Rectangle()
-                                .frame(width: 50, height: 54)
+                                .frame(width: 50, height: 50)
                                 .foregroundColor(Color.myGray)
                                 .opacity((value.day != -1) && extraData.isSameDay(date1: value.date, date2: currentDate) ? 1 : 0)
                         )
@@ -128,7 +139,8 @@ struct CustomDatePickerView: View {
     @ViewBuilder
     func CardView(value: DateValue) -> some View {
         VStack {
-            if value.day != -1 {                if let filterSchedule = totalSchedule.filter({ schedule in
+            if value.day != -1 {
+                if let filterSchedule = totalSchedule.filter({ schedule in
                 if selectedGroup != "전체" {
                     return extraData.isSameDay(date1: schedule.startTime, date2: value.date) && (schedule.groupName == selectedGroup)
                 } else {
@@ -136,7 +148,7 @@ struct CustomDatePickerView: View {
                 }
             }) {
                 Text("\(value.day)")
-                    .font(.body.bold())
+                    .font(.body)
                 Spacer()
                 
                 HStack(spacing: 6) {
@@ -152,6 +164,7 @@ struct CustomDatePickerView: View {
                                 .frame(width: 28, height: 16)
                                 .overlay(RoundedRectangle(cornerRadius: 10)
                                     .stroke(Color.myRed, lineWidth: 1))
+                                .padding(.top, -5)
                             
                         } else {
                             ForEach(0..<scheduleNum) {_ in
@@ -163,7 +176,6 @@ struct CustomDatePickerView: View {
                     }
                 }
                 .padding(.bottom, 15)
-                //                    Spacer()
             } else {
                 Text("\(value.day)")
                     .font(.body.bold())
@@ -172,7 +184,7 @@ struct CustomDatePickerView: View {
             }
         }
         .padding(.vertical, 3)
-        .frame(height: 50, alignment: .top)
+        .frame(height: 45, alignment: .top) // 50
     }
     
     //MARK: - Month GET
