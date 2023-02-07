@@ -17,32 +17,29 @@ struct Profile: View {
             RoundedRectangle(cornerRadius: 15)
                 .foregroundColor(.myLightGray)
             VStack {
-//                Image(systemName: "scribble")
-//                    .frame(width: 100, height: 100)
-//                    .clipShape(Circle())
-//                    .overlay {
-//                        Circle().stroke(Color.myGray, lineWidth: 2)
-//                    }
-//                    .padding(.top, 23)
-                
                 AsyncImage(
-                                url: userImageURL,
-                                content: { image in
-                                    image
-                                        .frame(width: 100, height: 100)
-                                        .clipShape(Circle())
-                                        .overlay {
-                                            Circle().stroke(Color.myGray, lineWidth: 2)
-                                        }
-                                        .padding(.top, 23)
-                                },
-                                placeholder: {
-                                    Image(systemName: "person.circle.fill")
-                                        .resizable()
-                                        .frame(width: 100, height: 100)
-                                        .foregroundColor(.myGray)
-                                }
-                            )
+                    url: userImageURL,
+                    content: { image in
+                        image
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                            .overlay {
+                                Circle().stroke(Color.myGray, lineWidth: 2)
+                            }
+                            .padding(.top, 23)
+                    },
+                    placeholder: {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                            .overlay {
+                                Circle().stroke(Color.myGray, lineWidth: 2)
+                            }
+                            .padding(.top, 23)
+                            .foregroundColor(.myGray)
+                    }
+                )
                 
                 
                 Text(userEmailvalue)
@@ -56,24 +53,27 @@ struct Profile: View {
                     RoundedRectangle(cornerRadius: 15)
                         .frame(height: 50)
                         .foregroundColor(.myGreen)
-                            .overlay {
-                                Text("프로필 편집")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 20, weight: .regular))
-                            }
+                        .overlay {
+                            Text("프로필 편집")
+                                .foregroundColor(.white)
+                                .font(.system(size: 20, weight: .regular))
+                        }
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 20)
-
+                
             }
         }
         .frame(height: 200)
         .sheet(isPresented: $isPresentedChangeProfileView) {
             ChangeProfileView(changedName: $changedName)
+                .presentationDetents([.height(300)])
+            
         }
     }
 }
 
+//MARK: - View(ChangeProfileView)
 struct ChangeProfileView: View {
     @Binding var changedName: String
     @Environment(\.dismiss) var dismiss
@@ -95,17 +95,18 @@ struct ChangeProfileView: View {
             
             Button {
                 userStore.changeUserName(name: changedName)
+                changedName = ""
                 dismiss()
             } label: {
                 Text("이름 변경하기")
                     .modifier(GruopCustomButtonModifier())
             }
-
+            
         }
         .padding(.horizontal, 30)
         
     }
-}
+} // - ChangeProfileView
 //
 //struct Profile_Previews: PreviewProvider {
 //    static var previews: some View {
