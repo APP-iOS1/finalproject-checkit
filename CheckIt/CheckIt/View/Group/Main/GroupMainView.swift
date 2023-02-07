@@ -73,6 +73,9 @@ struct GroupMainView: View {
 
         }
         .padding()
+        .onAppear {
+            userStores.fetchUserDictionaryList()
+        }
     }
 }
 

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PenaltyCostCellView: View {
+    @EnvironmentObject var userStore: UserStore
     @Binding var data: Attendance
     var category: AttendanceCategory
     var attendanceColor: Color {
@@ -31,19 +32,30 @@ struct PenaltyCostCellView: View {
         VStack {
             HStack {
                 //지각일 경우 정산 여부
-                if category == .lated {
-                    Button {
-                        data.settlementStatus.toggle()
-                        print(data, "ddddddddd")
-                    } label: {
-                        ZStack {
-                            Image(systemName: "square")
-                            if data.settlementStatus == true {
-                                Image(systemName: "checkmark")
-                            }
+//                if category == .lated {
+//                    Button {
+//                        data.settlementStatus.toggle()
+//                        print(data, "ddddddddd")
+//                    } label: {
+//                        ZStack {
+//                            Image(systemName: "square")
+//                            if data.settlementStatus == true {
+//                                Image(systemName: "checkmark")
+//                            }
+//                        }
+//                    }
+//
+//                }
+                Button {
+                    data.settlementStatus.toggle()
+                    print(data, "ddddddddd")
+                } label: {
+                    ZStack {
+                        Image(systemName: "square")
+                        if data.settlementStatus == true {
+                            Image(systemName: "checkmark")
                         }
                     }
-
                 }
                 Text(userName)
                 
@@ -61,6 +73,9 @@ struct PenaltyCostCellView: View {
                             .bold()
                     }
             }
+        }
+        .onAppear {
+            userName = userStore.userDictionaryList[data.id] ?? ""
         }
     }
 }
