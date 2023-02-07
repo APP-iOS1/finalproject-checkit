@@ -64,6 +64,8 @@ struct JoinGruopModalView: View {
                         }
                     case .notValidated:
                         toastMessage = "올바르지 않은 초대코드 입니다."
+                    case .fulled:
+                        toastMessage = "동아리 정원이 초과 했습니다."
                     }
                 }
                 
