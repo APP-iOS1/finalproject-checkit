@@ -21,7 +21,7 @@ struct GroupInformationView: View {
     /// 초기값은 false입니다.
     @State private var isEditing: Bool = false
     @State private var nameDict: [String:String] = [:]
-    @State private var isLoading: Bool = true
+    @State private var isLoading: Bool = false
     
     var group: Group
     
@@ -76,7 +76,7 @@ struct GroupInformationView: View {
                                     .padding(.leading, 28)
                                     .padding(.trailing, 0)
                                 
-                                Text("\(memberStore.members.count) /20 명")
+                                Text("\(memberStore.members.count)/\(Constants.notPremiumGroupSize) 명")
                                     .font(.system(size: 16, weight: .semibold))
                                 
                                 Spacer()
@@ -111,29 +111,28 @@ struct GroupInformationView: View {
                 .padding(.bottom, 8) //아직 기준을 잘 모르겠음
             }
         }
+        
         .onAppear {
-            memberStore.members.removeAll()
             Task {
-                do {
-                    try await memberStore.fetchMember(group.id)
-                    
-                    for member in memberStore.members {
-                        let name = await userStore.getUserName(member.uid)
-                        nameDict[member.uid] = name
-                    }
-                    
-                    self.memberStore.members = await memberStore.sortedMember(nameDict)
-                    isLoading.toggle()
-                    
-                } catch MemberError.notFoundMember {
-                    print("member를 못찾음")
-                } catch {
-                    print("not found error")
+                for member in memberStore.members {
+                    let name = userStore.userDictionaryList[member.uid] ?? Constants.exsitMemberName
+                    nameDict[member.uid] = name
                 }
+                
+                self.memberStore.members = await memberStore.sortedMember(nameDict)
+                //isLoading.toggle()
             }
         }
     }
 }
+
+
+private enum Constants {
+    static let exsitMemberName: String = "탈퇴한 회원"
+    static let notPremiumGroupSize: Int = 8
+    static let premiumGroupSize: Int = 50
+}
+
 
 struct LoadingView: View {
     var body: some View {
