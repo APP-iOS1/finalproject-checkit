@@ -112,24 +112,14 @@ struct GroupInformationView: View {
             }
         }
         .onAppear {
-            memberStore.members.removeAll()
             Task {
-                do {
-                    try await memberStore.fetchMember(group.id)
-                    
-                    for member in memberStore.members {
-                        let name = await userStore.getUserName(member.uid)
-                        nameDict[member.uid] = name
-                    }
-                    
-                    self.memberStore.members = await memberStore.sortedMember(nameDict)
-                    isLoading.toggle()
-                    
-                } catch MemberError.notFoundMember {
-                    print("member를 못찾음")
-                } catch {
-                    print("not found error")
+                for member in memberStore.members {
+                    let name = userStore.userDictionaryList[member.uid] ?? "탈퇴한 회원"
+                    nameDict[member.uid] = name
                 }
+                
+                self.memberStore.members = await memberStore.sortedMember(nameDict)
+                //isLoading.toggle()
             }
         }
     }
