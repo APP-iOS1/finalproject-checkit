@@ -15,6 +15,12 @@ class AttendanceStore: ObservableObject {
     // 전체 출석 명단
     @Published var entireAttendanceList: [Attendance] = []
     
+    //status별 출석 명단
+    @Published var attendanceStatusList: [Attendance] = []
+    @Published var latedStatusList: [Attendance] = []
+    @Published var absentedStatusList: [Attendance] = []
+    @Published var officiallyAbsentedStatusList: [Attendance] = []
+    
     let database = Firestore.firestore()
     
     // 출석부 Fetch 함수
@@ -34,6 +40,43 @@ class AttendanceStore: ObservableObject {
                         
                         self.attendanceList.append(attendance)
                         print(attendance, "들어가는중")
+                    }
+                    print("끝")
+                }
+            }
+    }
+    //출석 상태 fetch 함수
+    func fetchStatusAttendance(scheduleID: String) {
+        attendanceStatusList.removeAll()
+        latedStatusList.removeAll()
+        absentedStatusList.removeAll()
+        officiallyAbsentedStatusList.removeAll()
+        
+        database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: scheduleID)
+            .getDocuments { (snapshot, error) in
+                if let snapshot {
+                    for document in snapshot.documents {
+                        let docData = document.data()
+                        let id: String = docData[AttendanceConstants.id] as? String ?? ""
+                        let scheduleId: String = docData[AttendanceConstants.scheduleId] as? String ?? ""
+                        let attendanceStatus: String = docData[AttendanceConstants.attendanceStatus] as? String ?? ""
+                        let settlementStatus: Bool = docData[AttendanceConstants.settlementStatus] as? Bool ?? true
+                        
+                        let attendance = Attendance(id: id, scheduleId: scheduleId, attendanceStatus: attendanceStatus, settlementStatus: settlementStatus)
+                        
+                        switch attendance.attendanceStatus {
+                        case "출석":
+                            self.attendanceStatusList.append(attendance)
+                        case "지각":
+                            self.latedStatusList.append(attendance)
+                        case "결석":
+                            self.absentedStatusList.append(attendance)
+                        case "공결":
+                            self.officiallyAbsentedStatusList.append(attendance)
+                            
+                        default:
+                            print("에러")
+                        }
                     }
                     print("끝")
                 }

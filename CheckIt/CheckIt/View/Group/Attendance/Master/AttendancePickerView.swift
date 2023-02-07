@@ -10,6 +10,7 @@ import SwiftUI
 struct AttendancePickerView: View {
     @Binding var selectedTap: AttendanceCategory
     var schedule: Schedule
+    @EnvironmentObject var scheduleStore: ScheduleStore
 
     var body: some View {
         HStack {
@@ -21,7 +22,7 @@ struct AttendancePickerView: View {
                     HStack {
                         Text(AttendanceCategory.attendanced.rawValue)
                             .foregroundColor(.myBlack)
-                        Text("\(schedule.attendanceCount)")
+                        Text("\(scheduleStore.publishedAttendanceCount)")
                             .foregroundColor(.myGreen)
                     }
                     if selectedTap == .attendanced {
@@ -46,7 +47,7 @@ struct AttendancePickerView: View {
                     HStack {
                         Text(AttendanceCategory.lated.rawValue)
                             .foregroundColor(.myBlack)
-                        Text("\(schedule.lateCount)")
+                        Text("\(scheduleStore.publishedLateCount)")
                             .foregroundColor(.myOrange)
                     }
                     if selectedTap == .lated {
@@ -71,7 +72,7 @@ struct AttendancePickerView: View {
                     HStack {
                         Text(AttendanceCategory.absented.rawValue)
                             .foregroundColor(.myBlack)
-                        Text("\(schedule.absentCount)")
+                        Text("\(scheduleStore.publishedAbsentCount)")
                             .foregroundColor(.myRed)
                     }
                     if selectedTap == .absented {
@@ -96,7 +97,7 @@ struct AttendancePickerView: View {
                     HStack {
                         Text(AttendanceCategory.officiallyAbsented.rawValue)
                             .foregroundColor(.myBlack)
-                        Text("\(schedule.officiallyAbsentCount)")
+                        Text("\(scheduleStore.publishedOfficiallyAbsentCount)")
                             .foregroundColor(.myBlack)
                     }
                     if selectedTap == .officiallyAbsented {
@@ -113,6 +114,10 @@ struct AttendancePickerView: View {
                 }
             }
 
+        }
+        .onAppear {
+            print("AttendancePickerView온어피어")
+            scheduleStore.fetchScheduleWithScheudleID(scheduleID: schedule.id)
         }
     }
 }

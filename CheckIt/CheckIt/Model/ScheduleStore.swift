@@ -13,6 +13,12 @@ class ScheduleStore: ObservableObject {
     @Published var userScheduleList: [Schedule] = [] ///유저가 속해있는 스케줄 리스트
     @Published var recentSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
     
+    
+    //출석부 카운트
+    @Published var publishedAttendanceCount: Int = 0
+    @Published var publishedLateCount: Int = 0
+    @Published var publishedAbsentCount: Int = 0
+    @Published var publishedOfficiallyAbsentCount: Int = 0
     let database = Firestore.firestore()
     
     // MARK: - fetchSchedule 함수
@@ -52,7 +58,72 @@ class ScheduleStore: ObservableObject {
                 }
             }
     }
+
+    //스케줄 id를 가지고 패치
+    func fetchScheduleWithScheudleID(scheduleID: String) {
+
+        database.collection("Schedule").whereField(ScheduleConstants.id, isEqualTo: scheduleID)
+            .getDocuments { [self] (snapshot, error) in
+                self.publishedAttendanceCount = 0
+                self.publishedLateCount = 0
+                self.publishedAbsentCount = 0
+                self.publishedOfficiallyAbsentCount = 0
+                if let snapshot {
+                    for document in snapshot.documents {
+                        let id: String = document.documentID
+                        let docData = document.data()
+                        
+                        let groupName: String = docData[ScheduleConstants.groupName] as? String ?? ""
+                        let lateFee: Int = docData[ScheduleConstants.lateFee] as? Int ?? 0
+                        let absenteeFee: Int = docData[ScheduleConstants.absenteeFee] as? Int ?? 0
+                        let location: String = docData[ScheduleConstants.location] as? String ?? ""
+                        let agreeTime: Int = docData[ScheduleConstants.agreeTime] as? Int ?? 0
+                        let memo: String = docData[ScheduleConstants.memo] as? String ?? ""
+                        let attendanceCount: Int = docData[ScheduleConstants.attendanceCount] as? Int ?? 0
+                        let lateCount: Int = docData[ScheduleConstants.lateCount] as? Int ?? 0
+                        let absentCount: Int = docData[ScheduleConstants.absentCount] as? Int ?? 0
+                        let officiallyAbsentCount: Int = docData[ScheduleConstants.officiallyAbsentCount] as? Int ?? 0
+                        
+                        let startTime: Timestamp = docData["start_time"] as? Timestamp ?? Timestamp()
+                        let startTimestamp: Date = startTime.dateValue()
+                        
+                        let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
+                        let endTimestamp: Date = endTime.dateValue()
+                        
+                        let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
+                        
+                        print(schedule, "반영이 되나")
+                        
+                        self.publishedAttendanceCount = schedule.attendanceCount
+                        self.publishedLateCount = schedule.lateCount
+                        self.publishedAbsentCount = schedule.absentCount
+                        self.publishedOfficiallyAbsentCount = schedule.officiallyAbsentCount
+                                    
+                    }
+                }
+            }
+    }
+
+    // MARK: - updateSchedule 함수
+    func updateScheduleAttendanceCount(schedule: Schedule) {
+        
+        print("updateScheduleAttendanceCount실행")
+        database.collection("Schedule").whereField(ScheduleConstants.groupName, isEqualTo: schedule.groupName).getDocuments { snapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let doc = snapshot?.documents else { return }
+            doc.first!.reference.updateData([
+                ScheduleConstants.attendanceCount: schedule.attendanceCount,
+                ScheduleConstants.lateCount : schedule.lateCount,
+                ScheduleConstants.absentCount : schedule.absentCount,
+                ScheduleConstants.officiallyAbsentCount : schedule.officiallyAbsentCount
+            ])
+        }
+    }
+
     
+
     
     /// schedule id 배열을 받아서 참석자 검증 - 개인
     func fetchUserScheduleList(scheduleList: [Schedule], userID : String, attendanceStore: AttendanceStore) {

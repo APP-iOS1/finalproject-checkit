@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct AttendanceDetailStatusView: View {
-    @State var attendanceStatus: [Attendance]
     var category: AttendanceCategory
     var schedule: Schedule
-    
-    @State var lateStatusAttendanceList: [Attendance]
     @EnvironmentObject var attendanceStore: AttendanceStore
-    @State var changedLateStatusAttendanceList: [Attendance]
+    @State var changedLateStatusAttendanceList: [Attendance] = []
     var body: some View {
+        
         VStack(alignment: .center) {
             if category == .lated { //지각일 경우 지각비 안내
                 HStack {
@@ -27,27 +25,44 @@ struct AttendanceDetailStatusView: View {
             }
             makeView(.attendanced)
                 .padding(.bottom)
-            
-            if category != .lated {
-                ForEach(attendanceStatus.indices, id: \.self) { index in
-                    LateCostCellView(data: $attendanceStatus[index], category: category)
-
-                    Divider()
-                        .frame(minWidth: UIScreen.main.bounds.width)
-                }
-                .padding(.vertical, 5)
-            }
-            if category == .lated {
-                ForEach(changedLateStatusAttendanceList.indices, id: \.self) { index in
-                    LateCostCellView(data: $changedLateStatusAttendanceList[index], category: category)
-
-                    Divider()
-                        .frame(minWidth: UIScreen.main.bounds.width)
-                }
-                .padding(.vertical, 5)
-                Spacer() //지각일 경우 총 지각비 표시하기
-                Text("총 지각비 \(schedule.lateFee * (changedLateStatusAttendanceList.filter({ $0.settlementStatus == false }).count))원")
-            }
+//            switch category {
+//            case .attendanced:
+//                ForEach(attendanceStore.attendanceStatusList.indices, id: \.self) { index in
+//                    PenaltyCostCellView(data: $attendanceStatus[index], category: category)
+//
+//                    Divider()
+//                        .frame(minWidth: UIScreen.main.bounds.width)
+//                }
+//                .padding(.vertical, 5)
+//            case .lated:
+//                ForEach(attendanceStore.latedStatusList.indices, id: \.self) { index in
+//                    PenaltyCostCellView(data: $attendanceStatus[index], category: category)
+//
+//                    Divider()
+//                        .frame(minWidth: UIScreen.main.bounds.width)
+//                }
+//                .padding(.vertical, 5)
+//                Spacer() //지각일 경우 총 지각비 표시하기
+//                Text("총 지각비 \(schedule.lateFee * (changedLateStatusAttendanceList.filter({ $0.settlementStatus == false }).count))원")
+//            case .absented:
+//                ForEach(attendanceStore.attendanceStatusList.indices, id: \.self) { index in
+//                    PenaltyCostCellView(data: $attendanceStatus[index], category: category)
+//
+//                    Divider()
+//                        .frame(minWidth: UIScreen.main.bounds.width)
+//                }
+//                .padding(.vertical, 5)
+//                Spacer() //지각일 경우 총 지각비 표시하기
+//                Text("총 지각비 \(schedule.lateFee * (changedLateStatusAttendanceList.filter({ $0.settlementStatus == false }).count))원")
+//            case .officiallyAbsented:
+//                ForEach(attendanceStore.attendanceStatusList.indices, id: \.self) { index in
+//                    PenaltyCostCellView(data: $attendanceStatus[index], category: category)
+//
+//                    Divider()
+//                        .frame(minWidth: UIScreen.main.bounds.width)
+//                }
+//                .padding(.vertical, 5)
+//            }
         }
         .padding(.top, 20)
         .padding(.horizontal, 20)
@@ -76,21 +91,38 @@ struct AttendanceDetailStatusView: View {
         }
         .font(.title3)
         .onAppear {
+            print(category, "?????/")
+            attendanceStore.fetchStatusAttendance(scheduleID: schedule.id)
 
+//            attendanceStore.fetchAttendance(scheduleID: schedule.id)
+            
+//            changedLateStatusAttendanceList = attendanceStore.attendanceList.filter({
+//                $0.attendanceStatus == category.rawValue
+//            })
+            
+            
         }
         .onDisappear {
-            if category == .lated {
-                print("언제 dis")
-                for index in 0..<lateStatusAttendanceList.count {
-                    if lateStatusAttendanceList[index] != changedLateStatusAttendanceList[index] {
-                        print(changedLateStatusAttendanceList[index], "바뀐것만 뽀ㅃ자")
-//                        attendanceStore.updateAttendace(attendanceData: changedLateStatusAttendanceList[index]) //todo
-                    }
-                }
-            }
+//            if category == .lated {
+//                print("언제 dis")
+//                for index in 0..<lateStatusAttendanceList.count {
+//                    if lateStatusAttendanceList[index] != changedLateStatusAttendanceList[index] {
+//                        print(changedLateStatusAttendanceList[index], "바뀐것만 뽀ㅃ자")
+////                        attendanceStore.updateAttendace(attendanceData: changedLateStatusAttendanceList[index]) //todo
+//                    }
+//                }
+//            }
+            print(changedLateStatusAttendanceList, "????????")
+            print(attendanceStore.attendanceStatusList, "어텐던스 리스트")
+            print(attendanceStore.latedStatusList, "어텐던스 리스트")
+            print(attendanceStore.absentedStatusList, "어텐던스 리스트")
+            print(attendanceStore.officiallyAbsentedStatusList, "어텐던스 리스트")
         }
         .onChange(of: changedLateStatusAttendanceList) { newValue in
             print(changedLateStatusAttendanceList,"바뀌나?")
+            changedLateStatusAttendanceList = attendanceStore.attendanceList.filter({
+                $0.attendanceStatus == category.rawValue
+            })
         }
     }
 }

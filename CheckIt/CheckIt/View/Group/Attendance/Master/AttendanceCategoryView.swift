@@ -9,23 +9,26 @@ import SwiftUI
 
 struct AttendanceCategoryView: View {
     @EnvironmentObject var attendanceStore: AttendanceStore
-    var selection: AttendanceCategory
+    @EnvironmentObject var scheduleStore: ScheduleStore
+    @Binding var selection: AttendanceCategory
     var schedule : Schedule
 //    @State var lateStatusAttendanceList: [Attendance] = []
     var body: some View {
         VStack {
-            switch selection {
-            case .attendanced:
-                AttendanceDetailStatusView(attendanceStatus: attendanceStore.attendanceList.filter {$0.attendanceStatus == selection.rawValue}, category: selection, schedule: schedule, lateStatusAttendanceList: attendanceStore.attendanceList.filter({ $0.attendanceStatus == "지각" }), changedLateStatusAttendanceList: attendanceStore.attendanceList.filter({ $0.attendanceStatus == "지각" }))
-            case .lated:
-                AttendanceDetailStatusView(attendanceStatus: attendanceStore.attendanceList.filter {$0.attendanceStatus == selection.rawValue}, category: selection, schedule: schedule, lateStatusAttendanceList: attendanceStore.attendanceList.filter({ $0.attendanceStatus == "지각" }), changedLateStatusAttendanceList: attendanceStore.attendanceList.filter({ $0.attendanceStatus == "지각" }))
-            case .absented:
-                AttendanceDetailStatusView(attendanceStatus: attendanceStore.attendanceList.filter {$0.attendanceStatus == selection.rawValue}, category: selection, schedule: schedule, lateStatusAttendanceList: attendanceStore.attendanceList.filter({ $0.attendanceStatus == "지각" }), changedLateStatusAttendanceList: attendanceStore.attendanceList.filter({ $0.attendanceStatus == "지각" }))
-            case .officiallyAbsented:
-                AttendanceDetailStatusView(attendanceStatus: attendanceStore.attendanceList.filter {$0.attendanceStatus == selection.rawValue}, category: selection, schedule: schedule, lateStatusAttendanceList: attendanceStore.attendanceList.filter({ $0.attendanceStatus == "지각" }), changedLateStatusAttendanceList: attendanceStore.attendanceList.filter({ $0.attendanceStatus == "지각" }))
-            }
+//            switch selection {
+//            case .attendanced:
+//                AttendanceDetailStatusView(attendanceStatus: attendanceStore.attendanceStatusList, category: selection, schedule: schedule)
+//            case .lated:
+//                AttendanceDetailStatusView(attendanceStatus: attendanceStore.latedStatusList, category: selection, schedule: schedule)
+//            case .absented:
+//                AttendanceDetailStatusView(attendanceStatus: attendanceStore.absentedStatusList, category: selection, schedule: schedule)
+//            case .officiallyAbsented:
+//                AttendanceDetailStatusView(attendanceStatus: attendanceStore.officiallyAbsentedStatusList, category: selection, schedule: schedule)
+//            }
+            AttendanceDetailStatusView(category: selection, schedule: schedule)
         }
         .onAppear {
+
         }
     }
 }
