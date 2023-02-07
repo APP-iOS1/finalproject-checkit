@@ -203,6 +203,10 @@ class ScheduleStore: ObservableObject {
                 .whereField("group_name", isEqualTo: groupName)
                 .order(by: "start_time", descending: true)
                 .getDocuments()
+            if querySnapshot.isEmpty {
+                print("fetchRecentSchedule 실패(동아리 처음 개설)")
+                return
+            }
             
             let id: String = querySnapshot.documents[0].documentID
             let docData = querySnapshot.documents[0].data()
