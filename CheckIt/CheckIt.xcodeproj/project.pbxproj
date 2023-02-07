@@ -42,7 +42,7 @@
 		2869DE3E2977CC5400D8CAFB /* AttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */; };
 		2869DE402977CC8800D8CAFB /* AttendanceCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */; };
 		2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */; };
-		2869DE442977CF0200D8CAFB /* LateCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* LateCostCellView.swift */; };
+		2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */; };
 		2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */; };
 		2BDA61F12977C6CE00FDD307 /* MakeGroupModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */; };
 		2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */; };
@@ -62,6 +62,7 @@
 		A529BD4D298CABF500AE232B /* MemberStoreConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD4C298CABF500AE232B /* MemberStoreConstants.swift */; };
 		A529BD4F2990C02200AE232B /* EditScheduleAttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD4E2990C02200AE232B /* EditScheduleAttendanceView.swift */; };
 		A529BD512990C1EC00AE232B /* EditScheduleAttendanceListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD502990C1EC00AE232B /* EditScheduleAttendanceListCell.swift */; };
+		A54737B2299164E6002F64F7 /* NotPenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54737B1299164E6002F64F7 /* NotPenaltyCostCellView.swift */; };
 		A5775BD02988E9E8000DFC3F /* CameraScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */; };
 		A5775BD22988ECC1000DFC3F /* CameraScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD12988ECC1000DFC3F /* CameraScanner.swift */; };
 		A5775BD42989FE21000DFC3F /* CameraScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */; };
@@ -181,7 +182,7 @@
 		2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
 		2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceDetailView.swift; sourceTree = "<group>"; };
-		2869DE432977CF0200D8CAFB /* LateCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LateCostCellView.swift; sourceTree = "<group>"; };
+		2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltyCostCellView.swift; sourceTree = "<group>"; };
 		2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMainView.swift; sourceTree = "<group>"; };
 		2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeGroupModalView.swift; sourceTree = "<group>"; };
 		2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGruopModalView.swift; sourceTree = "<group>"; };
@@ -201,6 +202,7 @@
 		A529BD4C298CABF500AE232B /* MemberStoreConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStoreConstants.swift; sourceTree = "<group>"; };
 		A529BD4E2990C02200AE232B /* EditScheduleAttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScheduleAttendanceView.swift; sourceTree = "<group>"; };
 		A529BD502990C1EC00AE232B /* EditScheduleAttendanceListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScheduleAttendanceListCell.swift; sourceTree = "<group>"; };
+		A54737B1299164E6002F64F7 /* NotPenaltyCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotPenaltyCostCellView.swift; sourceTree = "<group>"; };
 		A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewController.swift; sourceTree = "<group>"; };
 		A5775BD12988ECC1000DFC3F /* CameraScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScanner.swift; sourceTree = "<group>"; };
 		A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewModel.swift; sourceTree = "<group>"; };
@@ -316,7 +318,8 @@
 				2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */,
 				2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */,
 				2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */,
-				2869DE432977CF0200D8CAFB /* LateCostCellView.swift */,
+				2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */,
+				A54737B1299164E6002F64F7 /* NotPenaltyCostCellView.swift */,
 				2807AA9A297A536300B1676C /* AttendanceCategoryView.swift */,
 				2807AA9C297A5E0500B1676C /* AttendancePickerView.swift */,
 				2807AAA0297A5FEE00B1676C /* AttendanceDetailStatusView.swift */,
@@ -811,7 +814,7 @@
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
 				A529BD512990C1EC00AE232B /* EditScheduleAttendanceListCell.swift in Sources */,
 				A529BD4D298CABF500AE232B /* MemberStoreConstants.swift in Sources */,
-				2869DE442977CF0200D8CAFB /* LateCostCellView.swift in Sources */,
+				2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */,
 				2822CE162988AFEC00316139 /* User.swift in Sources */,
 				2807AA9D297A5E0500B1676C /* AttendancePickerView.swift in Sources */,
 				A529BD43298CA7CC00AE232B /* UserConstants.swift in Sources */,
@@ -837,6 +840,7 @@
 				1A3CB2632990B8DD00EA5E84 /* WebView.swift in Sources */,
 				FDEE4906298D5883009DF195 /* AppleLoginStore.swift in Sources */,
 				2822CE242988DDF000316139 /* ScheduleStore.swift in Sources */,
+				A54737B2299164E6002F64F7 /* NotPenaltyCostCellView.swift in Sources */,
 				1A41F4462977AA820051F464 /* LateFeeView.swift in Sources */,
 				1A41F4402977A8D40051F464 /* GroupScheduleView.swift in Sources */,
 				FD2D07FB297BFDEC00CC010E /* GeoCodingService.swift in Sources */,

@@ -16,8 +16,8 @@ struct EditScheduleAttendanceView: View {
     var body: some View {
         VStack {
             ScrollView {
-                ForEach(attendanceStore.attendanceList.indices, id: \.self) { index in
-                    EditScheduleAttendanceListCell(data: $attendanceStore.attendanceList[index])
+                ForEach(changedAttendancList.indices, id: \.self) { index in
+                    EditScheduleAttendanceListCell(data: $changedAttendancList[index])
                 }
             }
         }
@@ -27,36 +27,37 @@ struct EditScheduleAttendanceView: View {
                     var attendanceStatus: [Int] = [0, 0, 0, 0]
                     for index in 0..<attendanceStore.attendanceList.count {
                         //schedule update함수
-//                        switch attendanceStore.attendanceList[index].attendanceStatus {
-//                        case "출석":
-//                            attendanceStatus[0] += 1
-//                        case "지각":
-//                            attendanceStatus[1] += 1
-//                        case "결석":
-//                            attendanceStatus[2] += 1
-//                        case "공결":
-//                            attendanceStatus[3] += 1
-//                        default:
-//                            print("error")
-//                            break
-//                        }
-//                        schedule.attendanceCount = attendanceStatus[0]
-//                        schedule.lateCount = attendanceStatus[1]
-//                        schedule.absentCount = attendanceStatus[2]
-//                        schedule.officiallyAbsentCount = attendanceStatus[3]
-//                        
-//                        scheduleStore.updateScheduleAttendanceCount(schedule: schedule)
+                            switch changedAttendancList[index].attendanceStatus {
+                            case "출석":
+                                attendanceStatus[0] += 1
+                            case "지각":
+                                attendanceStatus[1] += 1
+                            case "결석":
+                                attendanceStatus[2] += 1
+                            case "공결":
+                                attendanceStatus[3] += 1
+                            default:
+                                print("error")
+                                break
+                            }
+                            schedule.attendanceCount = attendanceStatus[0]
+                            schedule.lateCount = attendanceStatus[1]
+                            schedule.absentCount = attendanceStatus[2]
+                            schedule.officiallyAbsentCount = attendanceStatus[3]
 //                        
                         
                         //attendance update함수
                         if changedAttendancList[index] != attendanceStore.attendanceList[index] {
                             print(attendanceStore.attendanceList[index], "바뀐거")
-                            attendanceStore.updateAttendace(attendanceData: attendanceStore.attendanceList[index], scheduleID: schedule.id, uid: attendanceStore.attendanceList[index].id)
+                            attendanceStore.updateAttendace(attendanceData: changedAttendancList[index], scheduleID: schedule.id, uid: attendanceStore.attendanceList[index].id)
                         }
                         //todo 스케줄 컬렉션에 멤버 채우기
 //                            attendanceStore.fetchAttendance(scheduleID: schedule.id)
 //                            dismiss()
                     }
+                    scheduleStore.updateScheduleAttendanceCount(schedule: schedule)
+                    scheduleStore.fetchSchedule(gruopName: schedule.groupName)
+                    attendanceStore.fetchAttendance(scheduleID: schedule.id)
                 } label: {
                     Text("수정완료")
                 }
