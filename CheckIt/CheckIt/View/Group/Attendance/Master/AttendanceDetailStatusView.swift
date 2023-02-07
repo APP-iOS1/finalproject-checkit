@@ -32,7 +32,7 @@ struct AttendanceDetailStatusView: View {
                     Spacer()
                     Text("결석비 :")
                     Text("\(schedule.lateFee)원 / 건")
-
+                        .font(.system(size: 16, weight: .medium))
                 }
                 .foregroundColor(.myGray)
                 .frame(height: 20)
