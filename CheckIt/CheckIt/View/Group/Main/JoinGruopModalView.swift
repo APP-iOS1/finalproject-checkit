@@ -62,6 +62,7 @@ struct JoinGruopModalView: View {
                         presentations.forEach {
                             $0.wrappedValue = false
                         }
+                        //
                     case .notValidated:
                         toastMessage = "올바르지 않은 초대코드 입니다."
                     case .fulled:
