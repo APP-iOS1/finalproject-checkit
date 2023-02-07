@@ -18,13 +18,13 @@ struct CalendarView: View {
     
     var body: some View {
         VStack {
-            //달력섹션
             CustomDatePickerView(currentDate: $currentDate, selectedGroup: $selectedGroup, totalSchedule: $totalSchedule, currentMonth: $currentMonth)
             
             Divider()
             
             //일정섹션
             TaskView(currentDate: $currentDate, totalSchedule: $totalSchedule, selectedGroup: $selectedGroup)
+//                .padding(.top, -8)
             Spacer()
         }
         .padding(.vertical)

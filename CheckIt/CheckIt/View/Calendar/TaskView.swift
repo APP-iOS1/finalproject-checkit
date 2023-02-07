@@ -18,8 +18,8 @@ struct TaskView: View {
         HStack {
             VStack(alignment: .leading, spacing: 10) {
                 //MARK: - 일정 날짜
-                Text("\(extraData.selectedDate(date: currentDate)[1]).\(extraData.selectedDate(date: currentDate)[2]) \(extraData.selectedDate(date: currentDate)[3])")
-                    .font(.title2.bold())
+                Text("To Do List")
+                    .font(.title3)
                     .padding(.top, 25)
                 
                 ScrollView(showsIndicators: true) {
@@ -44,13 +44,14 @@ struct TaskView: View {
                                     Spacer()
                                 }
                                 .padding(.bottom, 10)
-                                .padding(.top, 20)
+                                .padding(.top, 17)
                             }
                         }
                     }
                 }
             }
             .padding(.leading,30)
+            .padding(.top, -8)
             Spacer()
         }
     }

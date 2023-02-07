@@ -17,23 +17,24 @@ struct PickerView: View {
     //동아리 샘플 배열
     
     var body: some View {
-            ZStack {
-                RoundedRectangle(cornerRadius: 5)
-                    .foregroundColor(Color.myLightGray)
-                Menu {
-                    Picker(selection: $selectedGroup) {
-                        ForEach(groupStore.groups, id: \.self) { group in
-                            Text(group.name)
-                                .tag(group.name)
-                        }
-                    } label: {}
-                } label: {
-                    Text(selectedGroup)
-                        .font(.body)
-                        .frame(width: 170)
-                }.id(selectedGroup)
-            }
-            .frame(width: 180, height: 35)
+        HStack {
+            Text(selectedGroup)
+                .font(.body)
+
+            Menu {
+                Picker(selection: $selectedGroup) {
+                    ForEach(groupStore.groups, id: \.self) { group in
+                        Text(group.name)
+                            .tag(group.name)
+                    }
+                } label: {}
+            } label: {
+                Image(systemName: "chevron.down")
+            }.id(selectedGroup)
+            Spacer()
         }
+        .frame(width: 180, height: 35)
+        }
+    
 }
 
