@@ -54,6 +54,13 @@ class MemberStore: ObservableObject {
                 .updateData([
                     "position" : newPosition
                 ])
+            
+            // 실시간 Update를 위해 members 배열 업데이트
+            DispatchQueue.main.async {
+                let index = self.members.firstIndex { $0.uid == uid } ?? 0
+                self.members[index] = Member(uid: uid, position: newPosition)
+            }
+            
         } catch {
             print("updatePosition error: \(error.localizedDescription)")
         }
@@ -65,8 +72,7 @@ class MemberStore: ObservableObject {
     ///
     /// 동아리에서 멤버를 삭제(강퇴)시 해야하는 작업은 다음과 같다.
     /// 1. 동아리 멤버 컬렉션에서 멤버 삭제
-    /// 2. 동아리 컬렉션에 동아리원 숫자 감소
-    /// 3. 삭제된 동아리원 groupId에서 강퇴 또는 나간 동아리 id 삭제
+    /// 2. 삭제된 동아리원 groupId에서 강퇴 또는 나간 동아리 id 삭제
     func removeMember(_ groupId: String, uid: String) async {
         do {
             try await database.collection("Group").document(groupId)
@@ -89,7 +95,7 @@ class MemberStore: ObservableObject {
             guard document.exists == true else { return }
             
             let data = document.data()!
-            var groupIdList = data["group_id"] as? [String] ?? []
+            let groupIdList = data["group_id"] as? [String] ?? []
             
             let newList = groupIdList.filter{$0 != groupId}
             
