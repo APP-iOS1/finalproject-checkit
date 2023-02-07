@@ -23,40 +23,42 @@ class ScheduleStore: ObservableObject {
     
     // MARK: - fetchSchedule 함수
     
-    func fetchSchedule(gruopName: String) {
-        database.collection("Schedule").whereField("group_name", isEqualTo: gruopName)
-            .getDocuments { (snapshot, error) in
-                self.scheduleList.removeAll()
+    func fetchSchedule(gruopName: String) async {
+        do {
+            self.scheduleList.removeAll()
+            let querySnapshot = try await database.collection("Schedule").whereField("group_name", isEqualTo: gruopName).getDocuments()
+            
+            for document in querySnapshot.documents {
+                let id: String = document.documentID
+                let docData = document.data()
                 
-                if let snapshot {
-                    for document in snapshot.documents {
-                        let id: String = document.documentID
-                        let docData = document.data()
-                        
-                        let groupName: String = docData[ScheduleConstants.groupName] as? String ?? ""
-                        let lateFee: Int = docData[ScheduleConstants.lateFee] as? Int ?? 0
-                        let absenteeFee: Int = docData[ScheduleConstants.absenteeFee] as? Int ?? 0
-                        let location: String = docData[ScheduleConstants.location] as? String ?? ""
-                        let agreeTime: Int = docData[ScheduleConstants.agreeTime] as? Int ?? 0
-                        let memo: String = docData[ScheduleConstants.memo] as? String ?? ""
-                        let attendanceCount: Int = docData[ScheduleConstants.attendanceCount] as? Int ?? 0
-                        let lateCount: Int = docData[ScheduleConstants.lateCount] as? Int ?? 0
-                        let absentCount: Int = docData[ScheduleConstants.absentCount] as? Int ?? 0
-                        let officiallyAbsentCount: Int = docData[ScheduleConstants.officiallyAbsentCount] as? Int ?? 0
-                        
-                        let startTime: Timestamp = docData["start_time"] as? Timestamp ?? Timestamp()
-                        let startTimestamp: Date = startTime.dateValue()
-                        
-                        let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
-                        let endTimestamp: Date = endTime.dateValue()
-                        
-                        let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
-                        
-                        self.scheduleList.append(schedule)
-                        print("fetchstore: \(self.scheduleList)")
-                    }
+                let groupName: String = docData[ScheduleConstants.groupName] as? String ?? ""
+                let lateFee: Int = docData[ScheduleConstants.lateFee] as? Int ?? 0
+                let absenteeFee: Int = docData[ScheduleConstants.absenteeFee] as? Int ?? 0
+                let location: String = docData[ScheduleConstants.location] as? String ?? ""
+                let agreeTime: Int = docData[ScheduleConstants.agreeTime] as? Int ?? 0
+                let memo: String = docData[ScheduleConstants.memo] as? String ?? ""
+                let attendanceCount: Int = docData[ScheduleConstants.attendanceCount] as? Int ?? 0
+                let lateCount: Int = docData[ScheduleConstants.lateCount] as? Int ?? 0
+                let absentCount: Int = docData[ScheduleConstants.absentCount] as? Int ?? 0
+                let officiallyAbsentCount: Int = docData[ScheduleConstants.officiallyAbsentCount] as? Int ?? 0
+                
+                let startTime: Timestamp = docData["start_time"] as? Timestamp ?? Timestamp()
+                let startTimestamp: Date = startTime.dateValue()
+                
+                let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
+                let endTimestamp: Date = endTime.dateValue()
+                
+                let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
+                
+                DispatchQueue.main.async {
+                    self.scheduleList.append(schedule)
                 }
             }
+        }
+        catch {
+            
+        }
     }
 
     //스케줄 id를 가지고 패치
@@ -105,20 +107,23 @@ class ScheduleStore: ObservableObject {
     }
 
     // MARK: - updateSchedule 함수
-    func updateScheduleAttendanceCount(schedule: Schedule) {
+    func updateScheduleAttendanceCount(schedule: Schedule) async {
         
         print("updateScheduleAttendanceCount실행")
-        database.collection("Schedule").whereField(ScheduleConstants.groupName, isEqualTo: schedule.groupName).whereField(ScheduleConstants.id, isEqualTo: schedule.id).getDocuments { snapshot, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            guard let doc = snapshot?.documents else { return }
-            doc.first!.reference.updateData([
+        do {
+            let querySnapshot = try await database.collection("Schedule").whereField(ScheduleConstants.groupName, isEqualTo: schedule.groupName).whereField(ScheduleConstants.id, isEqualTo: schedule.id).getDocuments()
+            
+            if querySnapshot.isEmpty { return }
+            
+            try await querySnapshot.documents.first!.reference.updateData([
                 ScheduleConstants.attendanceCount: schedule.attendanceCount,
                 ScheduleConstants.lateCount : schedule.lateCount,
                 ScheduleConstants.absentCount : schedule.absentCount,
                 ScheduleConstants.officiallyAbsentCount : schedule.officiallyAbsentCount
             ])
+        }
+        catch {
+            print("updateScheduleAttendanceCount \(error.localizedDescription)")
         }
     }
 
@@ -170,7 +175,7 @@ class ScheduleStore: ObservableObject {
             print("add schedule error: \(error.localizedDescription)")
         }
         
-        fetchSchedule(gruopName: group.name)
+        await fetchSchedule(gruopName: group.name)
         await addScheduleInGroup(schedule.id, group: group)
         // FIXME: - 일정을 만들때 해당하는 출석부도 만들어야 한다.
         // 연속으로 일정을 만드는 경우 이전일정은 저장은 안되는 문제도 존재

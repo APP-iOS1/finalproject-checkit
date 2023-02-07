@@ -24,6 +24,8 @@ struct AddScheduleView: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var attendanceStroe: AttendanceStore
+    @EnvironmentObject var memberStore: MemberStore
     @Binding var showToast: Bool
     
     var group: Group
@@ -192,10 +194,18 @@ struct AddScheduleView: View {
                     let start1 = start.getAllTimeInfo()
                     let end1 = end.getAllTimeInfo()
                     
-                    let schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: memo, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
+                    var schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: memo, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
+                    
                     
                     Task {
+                        try await memberStore.fetchMember(group.id)
+                        schedule.officiallyAbsentCount = memberStore.members.count
                         await scheduleStore.addSchedule(schedule, group: group)
+                        for member in memberStore.members {
+                            var attendance = Attendance(id: "", scheduleId: schedule.id, attendanceStatus: "공결", settlementStatus: false)
+                            attendance.id = member.uid
+                            await attendanceStroe.addAttendance(attendance: attendance)
+                        }
                     }
                     
                     dismiss()
