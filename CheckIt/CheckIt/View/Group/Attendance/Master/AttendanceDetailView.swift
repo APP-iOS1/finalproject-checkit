@@ -43,6 +43,7 @@ struct AttendanceDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             print(schedule.id, "스케줄 아이디")
+            attendanceStore.fetchAttendance(scheduleID: schedule.id)
         }
         
     }
