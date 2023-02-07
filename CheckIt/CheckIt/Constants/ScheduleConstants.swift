@@ -8,6 +8,7 @@
 import Foundation
 
 enum ScheduleConstants {
+    static let id = "id"
     static let groupName = "group_name"
     static let lateFee = "late_fee"
     static let absenteeFee = "absentee_fee"
