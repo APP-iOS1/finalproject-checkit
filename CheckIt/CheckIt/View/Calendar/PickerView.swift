@@ -26,9 +26,6 @@ struct PickerView: View {
     
     var body: some View {
         HStack {
-            Text(selectedGroup)
-                .font(.body)
-
             Menu {
                 Picker(selection: $selectedGroup) {
                     ForEach(pickerList, id: \.self) { menu in
@@ -37,6 +34,8 @@ struct PickerView: View {
                     }
                 } label: {}
             } label: {
+                Text(selectedGroup)
+                    .font(.body)
                 Image(systemName: "chevron.down")
             }.id(selectedGroup)
             Spacer()
