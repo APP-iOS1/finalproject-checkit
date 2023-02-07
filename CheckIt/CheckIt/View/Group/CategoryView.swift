@@ -164,10 +164,10 @@ struct CategoryView: View {
         .onAppear {
             print(group.name, "네임")
             print(group.scheduleID, "Sssss")
-            scheduleStore.fetchSchedule(gruopName: group.name)
             
             memberStore.members.removeAll()
             Task {
+                await scheduleStore.fetchSchedule(gruopName: group.name)
                 do {
                     try await memberStore.fetchMember(group.id)
                 } catch MemberError.notFoundMember {
