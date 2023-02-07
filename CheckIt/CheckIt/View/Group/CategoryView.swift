@@ -12,6 +12,8 @@ struct CategoryView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var memberStore: MemberStore
     
+    @State private var isDialog: Bool = false
+    
     let categories: [String] = ["동아리 일정", "출석부", "동아리 정보"]
     var group: Group
     
@@ -78,6 +80,22 @@ struct CategoryView: View {
             
             Spacer()
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    isDialog.toggle()
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .rotationEffect(.degrees(-90))
+                }
+            }
+        }
+        .confirmationDialog("ddd", isPresented: $isDialog) {
+            Button("ddd") {
+                print("ss")
+            }
+        }
+        
         .onAppear {
             print(group.name, "네임")
             print(group.scheduleID, "Sssss")
