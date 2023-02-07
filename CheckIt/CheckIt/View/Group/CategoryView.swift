@@ -18,6 +18,8 @@ struct CategoryView: View {
     
     @State private var isDialog: Bool = false
     @State private var isCheckExsit: Bool = false
+    @State private var isRemoveGroup: Bool = false
+    
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     
@@ -114,18 +116,8 @@ struct CategoryView: View {
                     
                 }
                 Button("동아리 삭제하기", role: .destructive) {
-                    Task {
-                        let uidList = memberStore.members.map { $0.uid }
-                        await groupStore.removeGroup(groupId: group.id ,uidList: uidList)
-                        print("동아리 삭제 완료")
-                        
-                        toastMessage = "동아리 삭제가 완료되었습니다."
-                        
-                        showToast.toggle()
-                        dismiss()
-                    }
+                    isRemoveGroup.toggle()
                 }
-                
             } else {
                 Button("동아리 나가기", role: .destructive) {
                     isCheckExsit.toggle()
@@ -147,6 +139,25 @@ struct CategoryView: View {
             }
         }, message: {
             Text("해당 동아리를 나가면\n동아리에 대한 모든 정보가 사라집니다.")
+                .multilineTextAlignment(.center)
+        })
+        
+        .alert("해당 동아리를 삭제하시겠습니까?", isPresented: $isRemoveGroup, actions: {
+            Button("취소하기", role: .cancel) { }
+            Button("삭제하기", role: .destructive) {
+                Task {
+                    let uidList = memberStore.members.map { $0.uid }
+                    await groupStore.removeGroup(groupId: group.id ,uidList: uidList)
+                    print("동아리 삭제 완료")
+                    
+                    toastMessage = "동아리 삭제가 완료되었습니다."
+                    
+                    showToast.toggle()
+                    dismiss()
+                }
+            }
+        }, message: {
+            Text("해당 동아리를 삭제하면\n동아리에 대한 모든 정보가 사라집니다.")
                 .multilineTextAlignment(.center)
         })
         
