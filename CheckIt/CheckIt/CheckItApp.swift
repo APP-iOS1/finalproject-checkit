@@ -24,12 +24,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     @available(iOS 9.0, *)
     func application(_ application: UIApplication, open url: URL,
                      options: [UIApplication.OpenURLOptionsKey: Any])
-      -> Bool {
-          if (AuthApi.isKakaoTalkLoginUrl(url)) {
-                     return AuthController.handleOpenUrl(url: url)
-                 }
-          
-          return GIDSignIn.sharedInstance.handle(url)
+    -> Bool {
+        if (AuthApi.isKakaoTalkLoginUrl(url)) {
+            return AuthController.handleOpenUrl(url: url)
+        }
+        
+        return GIDSignIn.sharedInstance.handle(url)
     }
 }
 
@@ -44,13 +44,13 @@ struct CheckItApp: App {
     @StateObject private var memberStore = MemberStore()
     
     init() {
-            // Kakao SDK 초기화
-            KakaoSDK.initSDK(appKey: "7a4ee9f84ebf3bcf24029e1c6febb14d")
-        }
+        // Kakao SDK 초기화
+        KakaoSDK.initSDK(appKey: "7a4ee9f84ebf3bcf24029e1c6febb14d")
+    }
     
     var body: some Scene {
         WindowGroup {
-            NavigationView {             
+            NavigationView {
                 LoginRouteView()
                     .onOpenURL(perform: { url in
                         if (AuthApi.isKakaoTalkLoginUrl(url)) {
@@ -62,22 +62,17 @@ struct CheckItApp: App {
                     .environmentObject(scheduleStore)
                     .environmentObject(attendanceStore)
                     .environmentObject(memberStore)
-                    .onAppear{
-                        if let user = Auth.auth().currentUser {
-                            userStore.isPresentedLoginView = false
-                            userStore.userData = user
-                            print(user.uid)
-                            
-                            Task {
-                                await userStore.fetchUser(user.uid)
-                                groupStore.startGroupListener(userStore)
-                                userStore.startUserListener(user.uid)
-                            }
-                        }
+                    .task {
+                        guard let user = Auth.auth().currentUser else { return }
+                        userStore.isPresentedLoginView = false
+                        userStore.userData = user
+                        await userStore.fetchUser(user.uid)
+                        groupStore.startGroupListener(userStore)
+                        userStore.startUserListener(user.uid)
                     }
-                    
-
+                
             }
         }
     }
 }
+
