@@ -15,7 +15,7 @@ struct CheckMainView: View {
     @State var count : CGFloat = 0
     @State var screen = UIScreen.main.bounds.width - 30
     var op : CGFloat {
-        ((self.screen + 15) * CGFloat(groupStore.groups.count / 2)) - (groupStore.groups.count % 2 == 0 ? -((self.screen + 15) * self.count) : 0)
+        ((self.screen + 15) * CGFloat(groupStore.groups.count / 2)) - (groupStore.groups.count % 2 == 0 ? ((self.screen + 15) / 2) : 0)
     }
     
     var card: [Card] {cardGenerate()}
@@ -24,16 +24,14 @@ struct CheckMainView: View {
         TabView {
             VStack {
                 Spacer()
-                HStack(spacing: 47) {
+                HStack(spacing: 33) {
                     ForEach(0..<groupStore.groups.count, id: \.self) { index in
                         VStack {
                             HStack {
                                 CheckItCard(group: groupStore.groups[index], index: index, card: card)
                                     .offset(x: self.x)
                                     .highPriorityGesture(DragGesture()
-                                                         
                                         .onChanged({ (value) in
-                                            
                                             if value.translation.width > 0 {
                                                 self.x = value.location.x
                                             } else {
@@ -43,7 +41,6 @@ struct CheckMainView: View {
                                             .onEnded({ (value) in
                                                 if value.translation.width > 0 {
                                                     if value.translation.width > ((self.screen - 80) / 2) && Int(self.count) != 0 {
-                                                        
                                                         self.count -= 1
                                                         self.updateHeight(value: Int(self.count))
                                                         self.x = -((self.screen + 15) * self.count)
@@ -74,9 +71,7 @@ struct CheckMainView: View {
                             }
                         }
                         .padding(.top, 60)
-                        
                     }
-                    
                 }
                 .frame(width: UIScreen.main.bounds.width)
                 .offset(x: self.op)
@@ -84,11 +79,8 @@ struct CheckMainView: View {
                 Spacer()
                 
             }
-            //            .background(Color.black.opacity(0.07).edgesIgnoringSafeArea(.top))
-            //            .navigationBarTitle("Carousel List")
             .animation(.spring())
     }
-    
 }
     func updateHeight(value : Int){
         var tempCard = cardGenerate()
