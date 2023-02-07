@@ -12,6 +12,7 @@ struct GroupMainView: View {
     @State var showingPlusSheet: Bool = false
     @State var isMakingGroup: Bool = false
     @State var isJoiningGroup: Bool = false
+    // FIXME: - 토스트 관련 열거형으로 리팩토링 필요
     @State var showToast: Bool = false
     @State var toastMessage: String = ""
     
@@ -35,7 +36,7 @@ struct GroupMainView: View {
                             
                             ForEach(groupStores.groups) { group in
                                 // MARK: - 동아리 리스트
-                                NavigationLink(destination: CategoryView(group: group)) {
+                                NavigationLink(destination: CategoryView(showToast: $showToast, toastMessage: $toastMessage, group: group)) {
                                     GroupMainDetailView(group: group, groupImage: groupStores.groupImage[group.id] ?? UIImage())
                                         .frame(height: 130)
                                         .background(Color.myLightGray)
@@ -73,6 +74,7 @@ struct GroupMainView: View {
 
         }
         .padding()
+        
         .onAppear {
             userStores.fetchUserDictionaryList()
         }
