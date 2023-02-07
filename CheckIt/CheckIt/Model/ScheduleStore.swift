@@ -239,4 +239,46 @@ class ScheduleStore: ObservableObject {
             print("fetch group image error: \(error.localizedDescription)")
         }
     }
+    
+    // MARK: - 캘린더
+    func fetchCalendarSchedule(groupName: String) async {
+        do {
+            self.scheduleList.removeAll()
+            
+            let querySnapshot = try await database.collection("Schedule")
+                .whereField("group_name", isEqualTo: groupName)
+                .getDocuments()
+            
+            for document in querySnapshot.documents {
+                let id: String = document.documentID
+                let docData = document.data()
+                
+                let groupName: String = docData[ScheduleConstants.groupName] as? String ?? ""
+                let lateFee: Int = docData[ScheduleConstants.lateFee] as? Int ?? 0
+                let absenteeFee: Int = docData[ScheduleConstants.absenteeFee] as? Int ?? 0
+                let location: String = docData[ScheduleConstants.location] as? String ?? ""
+                let agreeTime: Int = docData[ScheduleConstants.agreeTime] as? Int ?? 0
+                let memo: String = docData[ScheduleConstants.memo] as? String ?? ""
+                let attendanceCount: Int = docData[ScheduleConstants.attendanceCount] as? Int ?? 0
+                let lateCount: Int = docData[ScheduleConstants.lateCount] as? Int ?? 0
+                let absentCount: Int = docData[ScheduleConstants.absentCount] as? Int ?? 0
+                let officiallyAbsentCount: Int = docData[ScheduleConstants.officiallyAbsentCount] as? Int ?? 0
+                
+                let startTime: Timestamp = docData["start_time"] as? Timestamp ?? Timestamp()
+                let startTimestamp: Date = startTime.dateValue()
+                
+                let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
+                let endTimestamp: Date = endTime.dateValue()
+                
+                let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
+                
+                DispatchQueue.main.async {
+                    self.scheduleList.append(schedule)
+                }
+            }
+        }
+        catch {
+            print("fetch group image error: \(error.localizedDescription)")
+        }
+    }
 }

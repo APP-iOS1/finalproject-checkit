@@ -37,11 +37,11 @@ class ExtraData: ObservableObject {
 }
 
 struct CustomDatePickerView: View {
-    @EnvironmentObject var groupStore: GroupStore
-    @EnvironmentObject var scheduleStore: ScheduleStore
-    
     @ObservedObject var extraData = ExtraData()
     @Binding var currentDate: Date
+    //피커에서 선택된 그룹
+    @Binding var selectedGroup: String
+    @Binding var totalSchedule: [Schedule]
     
     //화살표 누르면 달(month) 업데이트
     @Binding var currentMonth: Int
@@ -52,7 +52,7 @@ struct CustomDatePickerView: View {
             let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
             
             HStack {
-                PickerView()
+                PickerView(selectedGroup: $selectedGroup)
                 Spacer()
             }
             .padding(.horizontal)
@@ -128,32 +128,45 @@ struct CustomDatePickerView: View {
     func CardView(value: DateValue) -> some View {
         VStack {
             if value.day != -1 {
-                
-                if let task = tasks.first(where: { task in
-                    return extraData.isSameDay(date1: task.taskDate, date2: value.date)
-                }){
+//                filterArray = arrayTest.filter { (element) -> Bool in
+//                    return element >= 10
+                if let filterSchedule = totalSchedule.filter({ schedule in
+                    return extraData.isSameDay(date1: schedule.startTime, date2: value.date)
+                }) {
+//                if let filterSchedule = totalSchedule.filter { schedule in
+//                    return extraData.isSameDay(date1: schedule.startTime, date2: value.date)
+//                }) {
+                    
                     Text("\(value.day)")
                         .font(.body.bold())
                     Spacer()
                     
                     HStack(spacing: 6) {
                         //FIXME: 3+ 라벨 처리
-                        let taskNum = task.task.count
-//                        let taskNum = (task.task.count < 3 ? task.task.count : 3)
-                        if taskNum > 3 {
-                            Text("3+")
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundColor(Color.myRed)
-                                .frame(width: 28, height: 16)
-                                .overlay(RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.myRed, lineWidth: 1))
+                        if !filterSchedule.isEmpty {
+                            let scheduleNum = filterSchedule.count
+                            
+//                            Button {
+//                                print(filterSchedule)
+//                            } label: {
+//                                Text("today")
+//                            }
+                            
+                            if scheduleNum > 3 {
+                                Text("3+")
+                                    .font(.caption)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color.myRed)
+                                    .frame(width: 28, height: 16)
+                                    .overlay(RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.myRed, lineWidth: 1))
                                 
-                        } else {
-                            ForEach(0..<taskNum) {_ in
-                                Circle()
-                                    .fill(Color.myRed)
-                                    .frame(width: 7, height: 7)
+                            } else {
+                                ForEach(0..<scheduleNum) {_ in
+                                    Circle()
+                                        .fill(Color.myRed)
+                                        .frame(width: 7, height: 7)
+                                }
                             }
                         }
                     }
