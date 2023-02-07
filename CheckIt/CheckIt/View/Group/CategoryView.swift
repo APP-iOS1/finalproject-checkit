@@ -120,8 +120,9 @@ struct CategoryView: View {
                 Button("동아리 나가기", role: .destructive) {
                     Task {
                         await groupStore.removeMember(userStore.user?.id ?? "ExitGroupError", groupdId: group.id)
-                        
+                        self.groupStore.groups.removeAll { $0.id == group.id}
                         toastMessage = "동아리 탈퇴가 완료되었습니다."
+                        
                         showToast.toggle()
                         dismiss()
                     }
