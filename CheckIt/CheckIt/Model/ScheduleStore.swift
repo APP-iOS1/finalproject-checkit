@@ -25,7 +25,10 @@ class ScheduleStore: ObservableObject {
     
     func fetchSchedule(gruopName: String) async {
         do {
-            self.scheduleList.removeAll()
+            DispatchQueue.main.async {
+                self.scheduleList.removeAll()
+            }
+            
             let querySnapshot = try await database.collection("Schedule").whereField("group_name", isEqualTo: gruopName).getDocuments()
             
             for document in querySnapshot.documents {
@@ -133,8 +136,11 @@ class ScheduleStore: ObservableObject {
     /// schedule id 배열을 받아서 참석자 검증 - 개인
     func fetchUserScheduleList(scheduleList: [Schedule], userID : String, attendanceStore: AttendanceStore) {
         Task {
-            userScheduleList.removeAll()
-            attendanceStore.attendanceList.removeAll()
+            DispatchQueue.main.async {
+                self.userScheduleList.removeAll()
+                attendanceStore.attendanceList.removeAll()
+            }
+            
             for schedule in scheduleList {
                 let validId = await  attendanceStore.checkUserAttendance(scheduleID: schedule.id, id: userID)
                 print(validId, " valid")
@@ -185,6 +191,7 @@ class ScheduleStore: ObservableObject {
     func addScheduleInGroup(_ scheduleId: String, group: Group) async {
         var scheduleList = group.scheduleID
         scheduleList.append(scheduleId)
+        
         let newScheduleList = scheduleList
         
         do {
@@ -202,7 +209,9 @@ class ScheduleStore: ObservableObject {
     // MARK: - 동아리 카드 디테일 정보
     func fetchRecentSchedule(groupName: String) async {
         do {
-            self.scheduleList.removeAll()
+            DispatchQueue.main.async {
+                self.scheduleList.removeAll()
+            }
             
             let querySnapshot = try await database.collection("Schedule")
                 .whereField("group_name", isEqualTo: groupName)
@@ -248,7 +257,10 @@ class ScheduleStore: ObservableObject {
     // MARK: - 캘린더
     func fetchCalendarSchedule(groupName: String) async {
         do {
-            self.scheduleList.removeAll()
+            DispatchQueue.main.async {
+                self.scheduleList.removeAll()
+            }
+            
             
             let querySnapshot = try await database.collection("Schedule")
                 .whereField("group_name", isEqualTo: groupName)
