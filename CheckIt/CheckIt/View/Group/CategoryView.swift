@@ -14,7 +14,11 @@ struct CategoryView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var groupStore: GroupStore
     
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var isDialog: Bool = false
+    @Binding var showToast: Bool
+    @Binding var toastMessage: String
     
     let categories: [String] = ["동아리 일정", "출석부", "동아리 정보"]
     var group: Group
@@ -116,6 +120,10 @@ struct CategoryView: View {
                 Button("동아리 나가기", role: .destructive) {
                     Task {
                         await groupStore.removeMember(userStore.user?.id ?? "ExitGroupError", groupdId: group.id)
+                        
+                        toastMessage = "동아리 탈퇴가 완료되었습니다."
+                        showToast.toggle()
+                        dismiss()
                     }
                 }
             }
@@ -146,7 +154,7 @@ struct CategoryView: View {
 
 struct CategoryView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryView(group: Group.sampleGroup)
+        CategoryView(showToast: .constant(true), toastMessage: .constant("dd"), group: Group.sampleGroup)
             .environmentObject(ScheduleStore())
             .environmentObject(MemberStore())
     }
