@@ -93,7 +93,7 @@ class GroupStore: ObservableObject {
         let hostID = group[GroupConstants.hostID] as? String ?? ""
         let description = group[GroupConstants.description] as? String ?? ""
         let scheduleID = group[GroupConstants.scheduleID] as? [String] ?? []
-        let memberCount = group[GroupConstants.memberCount] as? Int ?? 0
+        let memberLimit = group[GroupConstants.memberLimit] as? Int ?? 0
         
         let group = Group(id: id,
                           name: name,
@@ -102,7 +102,7 @@ class GroupStore: ObservableObject {
                           hostID: hostID,
                           description: description,
                           scheduleID: scheduleID,
-                          memberCount: memberCount)
+                          memberLimit: memberLimit)
         
         readImages("group_images/\(id)", groupId: group.id)
         
@@ -145,7 +145,7 @@ class GroupStore: ObservableObject {
                     "\(GroupConstants.image)": group.image,
                     "\(GroupConstants.description)": group.description,
                     "\(GroupConstants.scheduleID)": group.scheduleID,
-                    "\(GroupConstants.memberCount)": group.memberCount
+                    "\(GroupConstants.memberLimit)": group.memberLimit
                 ])
             DispatchQueue.main.async {
                 self.groups.append(group)
@@ -235,7 +235,7 @@ class GroupStore: ObservableObject {
                 let hostID = data[GroupConstants.hostID] as? String ?? ""
                 let description = data[GroupConstants.description] as? String ?? ""
                 let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
-                let memberCount = data[GroupConstants.memberCount] as? Int ?? 0
+                let memberLimit = data[GroupConstants.memberLimit] as? Int ?? 0
 
                 do {
                     let image = try await fetchImages("group_images/\(id)")
@@ -259,7 +259,7 @@ class GroupStore: ObservableObject {
                                   hostID: hostID,
                                   description: description,
                                   scheduleID: scheduleID,
-                                  memberCount: memberCount)
+                                  memberLimit: memberLimit)
 
                 DispatchQueue.main.async {
                     self.groups.append(group)
@@ -310,7 +310,6 @@ class GroupStore: ObservableObject {
                     ])
                 //FIXME: - User를 파라미터의 User로 변경 필요
                 await addGroupsInUser(user, joinedGroupId: groupId)
-                await addGroupMemberCount(groupId)
                 //await fetchGroups(user)
                 
                 
@@ -358,21 +357,6 @@ class GroupStore: ObservableObject {
             print("addGroupsInUser error: \(error.localizedDescription)")
         }
     }
-    
-    /// 동아리에 참가할 시 동아리의 memberCount를 증가시키는 메소드
-    /// - Parameter groupdId: 참가할 동아리의 id
-    func addGroupMemberCount(_ groupId: String) async {
-        let oldUserCount = await getMemberCount(groupId)
-        do {
-            try await database.collection("Group")
-                .document(groupId)
-                .updateData([
-                    "member_count": oldUserCount + 1,
-                ])
-        } catch {
-            print("addGroupMemberCount error: \(error.localizedDescription)")
-        }
-    }
     /// 동아리에 참가할 시 참가할 동아리의 멤버 수를 반환하는 메소드
     /// - Parameter groupdId: 참가할 동아리의 id
     func getMemberCount(_ groupId: String) async -> Int {
@@ -382,30 +366,11 @@ class GroupStore: ObservableObject {
                 .getDocument()
             if !querySnapshot.exists { return 0 }
             let data = querySnapshot.data()!
-            let memberCount = data[GroupConstants.memberCount] as? Int ?? 0
+            let memberCount = data[GroupConstants.memberLimit] as? Int ?? 0
             return memberCount
         } catch {
             print("getMemberCount error: \(error.localizedDescription)")
             return 0
-        }
-    }
-    
-    /// 동아리 구성원의 수를 1 감소하는 메소드
-    /// - Parameter groupId: 동아리원이 나가거나 강퇴된 동아리 id
-    func reduceMemberCount(_ groupdId: String) async {
-        do {
-            let document = try await database.collection("Group").document(groupdId).getDocument()
-            if document.exists {
-                let data = document.data()!
-                let memberCount = data["member_count"] as? Int ?? 0
-                
-                try await database.collection("Group").document(groupdId)
-                    .updateData([
-                        "member_count": memberCount - 1
-                    ])
-            }
-        } catch {
-            print("reduceCount error: \(error.localizedDescription)")
         }
     }
 }
