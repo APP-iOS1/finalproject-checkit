@@ -47,9 +47,8 @@ struct GroupMemberListCell: View {
                     
                     Spacer()
                     
-                    ///  1. 동아리 멤버 컬렉션에서 멤버 삭제
-                    /// 2. 동아리 컬렉션에 동아리원 숫자 감소
-                    /// 3. 삭제된 동아리원 groupId에서 강퇴 또는 나간 동아리 id 삭제
+                    /// 1. 동아리 멤버 컬렉션에서 멤버 삭제
+                    /// 2. 삭제된 동아리원 groupId에서 강퇴 또는 나간 동아리 id 삭제
                     Button {
                         isRemoveMember.toggle()
                         
