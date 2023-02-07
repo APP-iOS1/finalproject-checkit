@@ -26,9 +26,10 @@ struct EditScheduleAttendanceListCell: View {
         }
     }
     var body: some View {
-        VStack {
-            HStack {
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
                 Text(userName)
+                    .font(.system(size: 16, weight: .regular))
                 Spacer()
                 Menu {
                     Button {
@@ -53,20 +54,21 @@ struct EditScheduleAttendanceListCell: View {
                     }
                 } label: {
                     RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 45, height: 25)
+                        .frame(width: 61, height: 30)
                         .foregroundColor(.white)
                         .overlay{
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(attendanceColor, lineWidth: 1)
+                                .stroke(attendanceColor, lineWidth: 2)
                             Text(data.attendanceStatus)
                                 .foregroundColor(attendanceColor)
-                                .font(.caption)
-                                .bold()
+                                .font(.system(size: 16, weight: .bold))
                         }
                 }
 
             }
         }
+        .padding(.horizontal, 40)
+        .frame(height: 65)
         .onAppear {
             userName = userStore.userDictionaryList[data.id] ?? ""
         }

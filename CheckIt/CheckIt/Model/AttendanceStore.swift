@@ -23,6 +23,22 @@ class AttendanceStore: ObservableObject {
     
     let database = Firestore.firestore()
     
+    //출석부 추가(Add) 함수
+    func addAttendance(attendance: Attendance) async {
+        do {
+            try await database.collection("Schedule").document(attendance.scheduleId).collection("Attendance").document(attendance.id)
+                .setData([
+                    AttendanceConstants.id : attendance.id,
+                    AttendanceConstants.attendanceStatus : attendance.attendanceStatus,
+                    AttendanceConstants.scheduleId : attendance.scheduleId,
+                    AttendanceConstants.settlementStatus : attendance.settlementStatus
+                ])
+        }
+        catch {
+            print("addAttendance error: \(error.localizedDescription)")
+        }
+    }
+    
     // 출석부 Fetch 함수
     func fetchAttendance(scheduleID: String) {
         attendanceList.removeAll()
@@ -48,11 +64,13 @@ class AttendanceStore: ObservableObject {
     //출석 상태 fetch 함수
     func fetchStatusAttendance(scheduleID: String) async {
         do {
-            attendanceStatusList.removeAll()
-            latedStatusList.removeAll()
-            absentedStatusList.removeAll()
-            officiallyAbsentedStatusList.removeAll()
-            
+            DispatchQueue.main.async {
+                self.attendanceStatusList.removeAll()
+                self.latedStatusList.removeAll()
+                self.absentedStatusList.removeAll()
+                self.officiallyAbsentedStatusList.removeAll()
+
+            }
             let querySnapshot = try await database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: scheduleID)
                 .getDocuments()
             
