@@ -75,7 +75,7 @@ struct GroupScheduleView: View {
 //                    scheduleStore.scheduleList = []
                 }
                 .refreshable {
-                    scheduleStore.fetchSchedule(gruopName: group.name)
+                    await scheduleStore.fetchSchedule(gruopName: group.name)
                 }
                 
             }
