@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct PickerView: View {
+    @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
     
     @State var selectedGroup = "전체"
     //동아리 샘플 배열
-    var groups = ["전체", "지니의맛집", "지니의맛집탐", "지니의맛집탐방", "호이의 SSG 응원방", "허니부리 또구 교실", "또리의 이력서 클럽ㅇㅇ"]
     
     var body: some View {
             ZStack {
@@ -19,9 +20,9 @@ struct PickerView: View {
                     .foregroundColor(Color.myLightGray)
                 Menu {
                     Picker(selection: $selectedGroup) {
-                        ForEach(groups, id: \.self) { group in
-                            Text(group)
-                                .tag(group)
+                        ForEach(groupStore.groups, id: \.self) { group in
+                            Text(group.name)
+                                .tag(group.name)
                         }
                     } label: {}
                 } label: {

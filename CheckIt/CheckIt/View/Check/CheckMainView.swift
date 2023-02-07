@@ -9,8 +9,7 @@ import SwiftUI
 
 struct CheckMainView: View {
     @EnvironmentObject var groupStore: GroupStore
-    @EnvironmentObject var userStore: UserStore
-
+    
     @State var x : CGFloat = 0
     @State var count : CGFloat = 0
     @State var screen = UIScreen.main.bounds.width - 30
