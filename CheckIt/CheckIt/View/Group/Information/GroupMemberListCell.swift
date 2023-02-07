@@ -33,30 +33,36 @@ struct GroupMemberListCell: View {
                     .lineLimit(1)
                     .frame(width: 52)
                 
-                Button {
-                    print("dd")
-                } label: {
-                    Image(systemName: "person.circle.fill")
-                        .foregroundColor(.black)
-                }
-                
-                Spacer()
-                
-                ///  1. 동아리 멤버 컬렉션에서 멤버 삭제
-                /// 2. 동아리 컬렉션에 동아리원 숫자 감소
-                /// 3. 삭제된 동아리원 groupId에서 강퇴 또는 나간 동아리 id 삭제
-                Button {
-                    isRemoveMember.toggle()
+                HStack {
+                    Menu {
+                        if member.position == "운영진" {
+                            Button("구성원") { changePosition(member.uid, position: "구성원") }
+                        } else {
+                            Button("운영진") { changePosition(member.uid, position: "운영진") }
+                        }
+                    } label: {
+                        Image(systemName: "person.circle.fill")
+                            .foregroundColor(.black)
+                    }
                     
-                } label: {
-                    Image(systemName: "xmark")
-                        .resizable()
-                        .frame(width: 14, height: 14)
-                        .foregroundColor(.black)
-                        .fontWeight(.semibold)
+                    Spacer()
+                    
+                    ///  1. 동아리 멤버 컬렉션에서 멤버 삭제
+                    /// 2. 동아리 컬렉션에 동아리원 숫자 감소
+                    /// 3. 삭제된 동아리원 groupId에서 강퇴 또는 나간 동아리 id 삭제
+                    Button {
+                        isRemoveMember.toggle()
+                        
+                    } label: {
+                        Image(systemName: "xmark")
+                            .resizable()
+                            .frame(width: 14, height: 14)
+                            .foregroundColor(.black)
+                            .fontWeight(.semibold)
+                    }
+                    .padding(.trailing)
                 }
                 .opacity(isEditing && member.uid != group.hostID ? 1 : 0)
-                .padding(.trailing)
             }
             .frame(height: 45)
             .frame(maxWidth: .infinity)
@@ -84,6 +90,10 @@ struct GroupMemberListCell: View {
                 Text("취소하기")
             })
         }
+    }
+    
+    func changePosition(_ uid: String, position: String) -> Void {
+        print("호출")
     }
 }
 
