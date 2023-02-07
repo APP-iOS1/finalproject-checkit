@@ -37,6 +37,9 @@ class ExtraData: ObservableObject {
 }
 
 struct CustomDatePickerView: View {
+    @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
+    
     @ObservedObject var extraData = ExtraData()
     @Binding var currentDate: Date
     
