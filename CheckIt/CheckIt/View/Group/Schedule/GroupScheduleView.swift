@@ -36,8 +36,11 @@ struct GroupScheduleView: View {
             VStack {
                 ScrollView {
                     ForEach(scheduleStore.scheduleList) { schedule in
-                        NavigationLink(destination: ScheduleDetailView(schedule: schedule)) {
+                        NavigationLink(destination: ScheduleDetailView(group: group, schedule: schedule)) {
                             ScheduleDetailCellView(schedule: schedule)
+                                .onAppear {
+                                    print("schedule: \(schedule)")
+                                }
                         }
                     }
                 }
