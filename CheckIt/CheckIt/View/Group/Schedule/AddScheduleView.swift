@@ -186,22 +186,17 @@ struct AddScheduleView: View {
                 // MARK: - 일정 만들기 버튼
                 Button {
                     showToast.toggle()
-                    
-                    print("일정 추가 호출")
-                    print("버튼을 누른 시점에서 그룹: \(group)")
-                    
                     // 날짜정보와 시간정보를 하나의 문자열로 합침
                     let start = startTime.getDateString() + " " + startTime.getTimeString()
                     let end = startTime.getDateString() + " " + endTime.getTimeString()
+                    
                     // 문자열을 기반으로 Date 인스턴스생성
                     let start1 = start.getAllTimeInfo()
                     let end1 = end.getAllTimeInfo()
                     
                     var schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: memo, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
                     
-                    
                     Task {
-                        //try await memberStore.fetchMember(group.id) // 없어도 됨
                         schedule.officiallyAbsentCount = memberStore.members.count
                         await scheduleStore.addSchedule(schedule, group: group)
                         for member in memberStore.members {
