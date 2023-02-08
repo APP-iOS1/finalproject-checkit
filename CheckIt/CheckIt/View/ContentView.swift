@@ -11,7 +11,7 @@ struct ContentView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var groupStore: GroupStore
     var body: some View {
-        NavigationStack {
+        //NavigationStack {
             TabView {
                 CheckMainView()
                     .tabItem {
@@ -36,18 +36,19 @@ struct ContentView: View {
                         Text("마이")
                     }
             }
-        .accentColor(Color.myGreen)
-        .onAppear {
-            guard let user = userStore.user else { return }
-            //groupStore.startGroupListener(userStore)
-            Task {
-                await groupStore.fetchGroups(user)
+            .accentColor(Color.myGreen)
+            .onAppear {
+                guard let user = userStore.user else { return }
+                //groupStore.startGroupListener(userStore)
+                Task {
+                    await groupStore.fetchGroups(user)
+                }
+                userStore.startUserListener(user.id)
             }
-            userStore.startUserListener(user.id)
-        }
-        .onDisappear {
-            groupStore.detachListener()
-        }
+            .onDisappear {
+                groupStore.detachListener()
+            }
+        //}
     }
 }
 

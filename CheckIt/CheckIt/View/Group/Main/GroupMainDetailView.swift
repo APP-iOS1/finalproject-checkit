@@ -52,8 +52,7 @@ struct GroupMainDetailView: View {
                             }
                         }
                     }
-                    .padding(.trailing, 20)
-                    
+                            
                     //                Spacer()
                     
                     VStack(alignment: .leading, spacing: 10) {
