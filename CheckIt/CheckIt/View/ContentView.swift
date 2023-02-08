@@ -11,30 +11,31 @@ struct ContentView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var groupStore: GroupStore
     var body: some View {
-        TabView {
-            CheckMainView()
-                .tabItem {
-                    Image(systemName: "checkmark.seal.fill")
-                    Text("출석체크")
-                }
-            GroupMainView()
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("동아리")
-                }
-            
-            CalendarView()
-                .tabItem {
-                    Image(systemName: "calendar")
-                    Text("캘린더")
-                }
-            
-            MyPageView()
-                .tabItem {
-                    Image(systemName: "person.fill")
-                    Text("마이")
-                }
-        }
+        NavigationStack {
+            TabView {
+                CheckMainView()
+                    .tabItem {
+                        Image(systemName: "checkmark.seal.fill")
+                        Text("출석체크")
+                    }
+                GroupMainView()
+                    .tabItem {
+                        Image(systemName: "house.fill")
+                        Text("동아리")
+                    }
+                
+                CalendarView()
+                    .tabItem {
+                        Image(systemName: "calendar")
+                        Text("캘린더")
+                    }
+                
+                MyPageView()
+                    .tabItem {
+                        Image(systemName: "person.fill")
+                        Text("마이")
+                    }
+            }
         .accentColor(Color.myGreen)
         .onAppear {
             guard let user = userStore.user else { return }
