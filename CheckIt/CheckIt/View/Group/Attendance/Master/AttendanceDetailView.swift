@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-struct LateCost: Identifiable, Hashable {
-    var id = UUID().uuidString
-    let name: String
-    var attendance: String
-    let cost: Int
-}
 
 struct AttendanceDetailView: View {
     @State private var selectedTap: AttendanceCategory = .attendanced
@@ -26,8 +20,7 @@ struct AttendanceDetailView: View {
                 .padding(.top, 10)
                 .padding(.bottom, 10)
             AttendancePickerView(selectedTap: $selectedTap, schedule: schedule)
-
-            AttendanceCategoryView(selection: $selectedTap, schedule: schedule)
+            AttendanceDetailStatusView(category: selectedTap, schedule: schedule)
             
             Spacer()
         }

@@ -96,15 +96,24 @@ struct MakeGroupModalView: View {
                                   scheduleID: [],
                                   memberLimit: 8)
                 Task {
-                    await groupStores.createGroup(userStores.user!, group: group, image: selectedPhotoData.first ?? UIImage())
-                    await groupStores.addGroupsInUser(userStores.user!, joinedGroupId: group.id)
-                    await userStores.fetchUser(userStores.user!.id)
+                    let canCreate = await groupStores.canUseGroupsName(groupName: groupName)
+                    if canCreate {
+                        print("실행?")
+                        await groupStores.createGroup(userStores.user!, group: group, image: selectedPhotoData.first ?? UIImage())
+                        await groupStores.addGroupsInUser(userStores.user!, joinedGroupId: group.id)
+                        await userStores.fetchUser(userStores.user!.id)
+                        showToast.toggle()
+                        toastMessage = "동아리 생성이 완료되었습니다."
+                    }
+                    else {
+                        print("중복")
+                        showToast.toggle()
+                        toastMessage = "동아리 이름이 중복됩니다."
+                    }
                     
                     
                     print("user의 groupid: \(userStores.user?.groupID)")
                 }
-                showToast.toggle()
-                toastMessage = "동아리 생성이 완료되었습니다."
                 //FIXME: - User Store에서 User를 리스너로 변경 필요
                 
                 presentations.forEach {
