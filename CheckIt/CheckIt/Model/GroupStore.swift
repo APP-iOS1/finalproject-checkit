@@ -70,8 +70,8 @@ class GroupStore: ObservableObject {
     ///
     /// 동아리 데이터의 관찰을 종료합니다.
     func detachListener() {
-        self.groups.removeAll()
-        self.groupImage = [:]
+        print("detachListener 호출")
+        self.groupDetail = Group.sampleGroup
         listener?.remove()
     }
     
