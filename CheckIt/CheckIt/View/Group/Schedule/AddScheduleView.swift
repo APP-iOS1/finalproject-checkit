@@ -202,7 +202,7 @@ struct AddScheduleView: View {
                         schedule.officiallyAbsentCount = memberStore.members.count
                         await scheduleStore.addSchedule(schedule, group: group)
                         for member in memberStore.members {
-                            var attendance = Attendance(id: "", scheduleId: schedule.id, attendanceStatus: "공결", settlementStatus: false)
+                            var attendance = Attendance(id: "", scheduleId: schedule.id, attendanceStatus: "결석", settlementStatus: false)
                             attendance.id = member.uid
                             await attendanceStroe.addAttendance(attendance: attendance)
                         }

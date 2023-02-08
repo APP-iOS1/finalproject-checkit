@@ -24,8 +24,7 @@ struct CheckMapView: View {
     
     var body: some View {
         VStack {
-            
-            
+           
             // MapView
             MapViewWithUserLocation()
             
@@ -56,13 +55,16 @@ struct CheckMapView: View {
                 .sheet(isPresented: $showQR) {
                     if isGroupHost {
                         CameraScanner()
+     
+ 
                     } else {
                         QRSheetView()
                             .presentationDetents([.medium])
                     }
                 } // - sheet
-            
-            
+
+       
+    
             
         } // - VStack
         .animation(.easeOut(duration: 0.3), value: isAlert)

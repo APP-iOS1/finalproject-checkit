@@ -47,25 +47,28 @@ struct CustomDatePickerView: View {
     @Binding var currentMonth: Int
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing:  UIScreen.main.bounds.height * 0.02) {
             //요일 array
             let days: [String] = ["일", "월", "화", "수", "목", "금", "토"]
             
             HStack {
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
                     PickerView(selectedGroup: $selectedGroup)
-                        .padding(.bottom, -20)
+//                        .padding(.top)
+//                        .padding(.top, UIScreen.main.bounds.height * 0.01)
                     Text("\(extraData.selectedDate(date: currentDate)[1]).\(extraData.selectedDate(date: currentDate)[2]) \(extraData.selectedDate(date: currentDate)[3])")
-                        .font(.system(size: 45))
+                        .font(.largeTitle)
+//                        .font(.system(size: 40))
                         .fontWeight(.bold)
-                        .padding(.bottom, -10)
+//                        .padding(.bottom)
+//                        .padding(.top, -(UIScreen.main.bounds.height * 0.01))
                 }
                 .padding(.leading, 20)
                 Spacer()
             }
             .foregroundColor(.white)
-            .frame(width: UIScreen.main.bounds.width, height: 130, alignment: .leading)
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.125, alignment: .leading)
             .background(Color.myGreen)
             .padding(.top, -25)
             
