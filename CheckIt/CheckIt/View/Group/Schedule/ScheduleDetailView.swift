@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ScheduleDetailView: View {
     @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
     
     @State private var memo: String = ""
     
@@ -142,7 +145,14 @@ struct ScheduleDetailView: View {
                             }
                             
                             Button(role: .destructive) {
-                                
+                                Task {
+                                    async let attendanceId = attendanceStore.getAttendanceId(schedule.id)
+                                    await attendanceStore.removeAttendance(schedule.id, attendanceId: attendanceId) // 1.
+                                    
+                                    let schedueList = scheduleStore.scheduleList
+                                    await groupStore.removeScheduleInGroup(group.id, scheduleList: schedueList, scheduleId: schedule) // 2.
+                                    
+                                }
                             } label: {
                                 Label("삭제하기", systemImage: "trash")
                                     .foregroundColor(.red)
