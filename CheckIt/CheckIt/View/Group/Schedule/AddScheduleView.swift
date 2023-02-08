@@ -214,10 +214,12 @@ struct AddScheduleView: View {
                     Text("일정 만들기")
                         .modifier(GruopCustomButtonModifier())
                 }
+                .disabled(viewModel.result?.isEmpty ?? true)
             }
             .padding(.horizontal, 30)
             
         }
+
         .sheet(isPresented: $isShowingWebView) {
             WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
         }
@@ -229,7 +231,7 @@ struct AddScheduleView: View {
 
 struct AddScheduleView_Previews: PreviewProvider {
     @State static private var showToast = false
-    
+
     static var previews: some View {
         AddScheduleView(showToast: $showToast, group: Group.sampleGroup)
     }
