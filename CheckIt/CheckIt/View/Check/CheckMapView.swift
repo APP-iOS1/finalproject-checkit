@@ -4,93 +4,75 @@
 //
 //  Created by sole on 2023/01/18.
 //
-
+import CoreLocation
 import SwiftUI
 import MapKit
 
 struct CheckMapView: View {
     ///카메라 띄우기 위한 설정
-    
     @State private var showCameraScannerView = false
-    
-    //FIXME: 테스트 코드입니다.
-    @State var showQRCode: Bool = false
+    @State var showQR: Bool = false
+    @State var showsUserLocation: Bool = true
+    @State var userTrackingMode: MapUserTrackingMode = .follow
     @State private var isGroupHost: Bool = true //테스트용 추후에 서버에서 받은 값으로 변경 예정
+
+    
+    
     @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.478846, longitude: 126.620930), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
+    var isActive: Bool = false
     @State var isAlert: Bool = false
     
     var body: some View {
         VStack {
-                Map(coordinateRegion: $region)
-                    .ignoresSafeArea()
-                    .overlay(alignment: .bottom) {
-                        // 출석하기 버튼
-                        VStack {
-                            if isAlert {
-                                ToastAlert()
-                                    .padding(.vertical, 100)
-                                    .onAppear {
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                            self.isAlert = false
-                                        }
-                                    }
-                            }
-                            
-                            
-                            Button(action: { }) {
-                                CheckItButtonLabel(isActive: false, text: "출석하기")
-                            }
-                            .frame(width: 338, height: 62)
-                            .padding(.bottom ,10)
-                            .offset(y: -80)
-                            //FIXME: - Prototype용 코드 (출석하기 버튼이 비활성화 됐을 때 사용)
-                            .disabled(true)
-                            .onTapGesture { isAlert = true }
-                        }
-                    }
-                    
-                
-                
-                    .toolbar {
-                        Button {
-                            if isGroupHost {
-                                self.showCameraScannerView.toggle()
-                                
-                            } else {
-                                showQRCode.toggle()
-                            }
-                            
-                        } label: {
-                            QRButtonLabel()
-                        }
+            
+            
+            // MapView
+            MapViewWithUserLocation()
+            
+                .overlay(alignment: .bottom) {
+                    VStack {
+                        // 토스트 알럿
+                        CustomToastAlert(isPresented: $isAlert)
                         
-                    } // - toolbar
+                        // 출석하기 버튼, isActive가 false면 자동으로 disable됨
+                        CheckItButton(isActive: isActive, isAlert: $isAlert, text: "출석하기") {
+                           // 출석 범위에 들어왔을 때 action
+                        
+                        }
+                        .frame(width: 338)
+                        .padding(.bottom ,10)
+                        .offset(y: -50)
+                    } // - VStack
+                } // - overlay
             
             
-            .sheet(isPresented: isGroupHost ? $showCameraScannerView : $showQRCode) {
-                
-                if isGroupHost {
-                    CameraScanner()
-                    
-                } else {
-                    QRSheetView()
-                        .presentationDetents([.medium])
-                }
-            } // - sheet
-            // Toast Alert (Alert의 Opacity를 애니메이션으로 바꾸는 방식으로 수정해야 함.)
-            //FIXME: 애니메이션이 보일땐 자연스러운데 없어질때 뚝 없어지는 느낌임.
+            // QR 시트 버튼
+                .toolbar {
+                    Button (action: { showQR.toggle() }) { QRButtonLabel() }
+                } // - toolbar
             
-
+            
+            // QR 시트
+                .sheet(isPresented: $showQR) {
+                    if isGroupHost {
+                        CameraScanner()
+                    } else {
+                        QRSheetView()
+                            .presentationDetents([.medium])
+                    }
+                } // - sheet
+            
+            
             
         } // - VStack
-        //        .animation(.linear(duration: 0.3), value: isAlert)
         .animation(.easeOut(duration: 0.3), value: isAlert)
         .transition(.opacity)
         .toolbarBackground(Material.ultraThinMaterial, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-
     }
 }
+
+
 
 
 
