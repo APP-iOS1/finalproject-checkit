@@ -17,41 +17,50 @@ struct GroupScheduleView: View {
     @State private var isAddSheet: Bool = false
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                HStack {
-                    Spacer()
-                    
-                    Button {
-                        isAddSheet.toggle()
-                    } label: {
-                        Image(systemName: "plus")
-                            .resizable()
-                            .frame(width:20, height:20)
-                            .foregroundColor(.black)
-                            .padding([.bottom, .trailing], 5)
-                    }
-                }
+        //NavigationStack {
+        VStack {
+            HStack {
+                Spacer()
                 
-                VStack {
-                    ScrollView {
-                        ForEach(scheduleStore.scheduleList) { schedule in
-                            ScheduleDetailView(schedule: schedule)
+                Button {
+                    isAddSheet.toggle()
+                } label: {
+                    Image(systemName: "plus")
+                        .resizable()
+                        .frame(width:20, height:20)
+                        .foregroundColor(.black)
+                        .padding([.bottom, .trailing], 5)
+                }
+            }
+            
+            VStack {
+                ScrollView {
+                    ForEach(scheduleStore.scheduleList) { schedule in
+                        NavigationLink(destination: ScheduleDetailView(schedule: schedule)) {
+                            ScheduleDetailCellView(schedule: schedule)
                         }
                     }
                 }
-                .onDisappear{
-//                    // 다른 동아리의 일정이 나타나는 현상 때문에 초기화
-//                    scheduleStore.scheduleList = []
-                }
-                .refreshable {
-                    await scheduleStore.fetchSchedule(groupName: groupStore.groupDetail.name)
-                }
             }
-            .padding(.horizontal, 30)
         }
+        
+//        .refreshable {
+//            await scheduleStore.fetchSchedule(groupName: groupStore.groupDetail.name)
+//        }
+        
+        .padding(.horizontal, 30)
+        //}
+        
+        
         .sheet(isPresented: $isAddSheet) {
             AddScheduleView(showToast: $showToast, group: group)
+        }
+        
+        .onAppear {
+            print("GroupScheduleView onAppear호출")
+        }
+        .onDisappear {
+            print("GroupScheduleView onDisappear 호출")
         }
         
         .toast(isPresenting: $showToast){
