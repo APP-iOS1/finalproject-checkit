@@ -29,6 +29,7 @@ struct NotPenaltyCostCellView: View {
     var body: some View {
         HStack {
             Text(userName)
+                .font(.system(size: 16, weight: .regular))
             Spacer()
             RoundedRectangle(cornerRadius: 10)
                 .frame(width: 45, height: 25)

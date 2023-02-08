@@ -20,6 +20,9 @@ struct AttendanceStatusView: View {
                     
                     NavigationLink(destination: AttendanceDetailView(schedule: scheduleStore.scheduleList[index])) {
                         AttendanceCellView(schedule: scheduleStore.scheduleList[index])
+                            .padding(.horizontal, 30)
+                            .padding(.bottom, 10)
+                            .padding(.top, 10)
                     }
                 }
             }
