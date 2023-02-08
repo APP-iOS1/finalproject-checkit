@@ -200,5 +200,18 @@ class AttendanceStore: ObservableObject {
         }
         return "error"
     }
+    
+    /// 일정을 삭제하는 메소드 입니다.
+    /// - Parameter attendanceId: 삭제할 출석의 id
+    func removeAttendance(_ scheduleId: String attendanceId: String) async {
+        do {
+            try await database.collection("Schedule").document(scheduleId)
+                .collection("Attendance")
+                .document(attendanceId)
+                .delete()
+        } catch {
+            print("removeAttendance error: \(error.localizedDescription)")
+        }
+    }
 
 }
