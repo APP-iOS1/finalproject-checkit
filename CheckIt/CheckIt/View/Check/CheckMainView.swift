@@ -14,7 +14,7 @@ struct CheckMainView: View {
     var card: [Card] {cardGenerate()}
     
     var body: some View {
-        NavigationStack {
+//        NavigationStack {
             TabView(selection: $page) {
                 ForEach(0..<groupStore.groups.count, id: \.self) { index in
                     CheckItCard(group: groupStore.groups[index], index: index, card: card)
@@ -25,7 +25,7 @@ struct CheckMainView: View {
             .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             .onChange(of: page) { value in print("selected tab = \(value)")
             }
-        }
+//        }
     }
     
     func cardGenerate() -> [Card] {
