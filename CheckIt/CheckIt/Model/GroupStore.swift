@@ -58,9 +58,10 @@ class GroupStore: ObservableObject {
                 case .modified:
                     print("동아리 수정")
                     // FIXME: 오류 발생 위험
-                    self.readGroup(diff.document.data())
+                    self.updateGroup(diff.document.data())
                 case .removed:
                     print("동아리 제거")
+                    self.removeDetailGroup()
                 }
             }
         }
@@ -123,6 +124,40 @@ class GroupStore: ObservableObject {
                 self.groupImage[groupId] = UIImage(data: data)
             }
         }
+    }
+    // FIXME: - 중복 코드 수정 필요
+    func updateGroup(_ group: [String:Any]) {
+        print("동아리 수정")
+        
+        let id = group[GroupConstants.id] as? String ?? ""
+        let name = group[GroupConstants.name] as? String ?? ""
+        let invitationCode = group[GroupConstants.invitationCode] as? String ?? ""
+        let image = group[GroupConstants.image] as? String ?? ""
+        let hostID = group[GroupConstants.hostID] as? String ?? ""
+        let description = group[GroupConstants.description] as? String ?? ""
+        let scheduleID = group[GroupConstants.scheduleID] as? [String] ?? []
+        let memberLimit = group[GroupConstants.memberLimit] as? Int ?? 0
+        
+        let group = Group(id: id,
+                          name: name,
+                          invitationCode: invitationCode,
+                          image: image,
+                          hostID: hostID,
+                          description: description,
+                          scheduleID: scheduleID,
+                          memberLimit: memberLimit)
+        
+        readImages("group_images/\(id)", groupId: group.id)
+        
+        self.groupDetail = group
+        let updateGroupIndex = self.groups.firstIndex {$0.id == group.id } ?? -1
+        self.groups[updateGroupIndex] = group
+    }
+    
+    /// 동아리 삭제하기를 눌렀을때 호출되는 메소드
+    func removeDetailGroup() {
+        print("removeDetailGroup 호출")
+        self.groupDetail = Group.sampleGroup
     }
     
     // MARK: - 동아리를 개설하는 메소드
