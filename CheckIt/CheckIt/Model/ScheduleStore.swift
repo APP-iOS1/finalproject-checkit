@@ -23,13 +23,13 @@ class ScheduleStore: ObservableObject {
     
     // MARK: - fetchSchedule 함수
     
-    func fetchSchedule(gruopName: String) async {
+    func fetchSchedule(groupName: String) async {
         do {
             DispatchQueue.main.async {
                 self.scheduleList.removeAll()
             }
             
-            let querySnapshot = try await database.collection("Schedule").whereField("group_name", isEqualTo: gruopName).getDocuments()
+            let querySnapshot = try await database.collection("Schedule").whereField("group_name", isEqualTo: groupName).getDocuments()
             
             for document in querySnapshot.documents {
                 let id: String = document.documentID

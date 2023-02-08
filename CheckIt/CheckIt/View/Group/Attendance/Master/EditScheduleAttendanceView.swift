@@ -74,7 +74,7 @@ struct EditScheduleAttendanceView: View {
 
                         Task {
                             await scheduleStore.updateScheduleAttendanceCount(schedule: schedule)
-                            await scheduleStore.fetchSchedule(gruopName: schedule.groupName)
+                            await scheduleStore.fetchSchedule(groupName: schedule.groupName)
                             isLoading = false
                             dismiss()
                         }
