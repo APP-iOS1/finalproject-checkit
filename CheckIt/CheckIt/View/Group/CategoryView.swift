@@ -51,30 +51,30 @@ struct CategoryView: View {
                                 .background(i == clickedIndex ?
                                             Color.black
                                     .frame(
-                                        width: 70,
-                                        height: 3)
+                                        width: 60,
+                                        height: 2)
                                     .offset(y: 17)
                                             :
                                                 Color.white
-                                    .frame(height: 3)
+                                    .frame(height: 2)
                                     .offset(y: 15)
                                 )
-                                .font(i == clickedIndex ? .system(size: 18).bold(): .system(size: 18))
+                                .font(i == clickedIndex ? .system(size: 16).bold(): .system(size: 16))
                         } else {
                             Text(categories[i])
                                 .foregroundColor(i == clickedIndex ? .black : .gray)
                                 .background(i == clickedIndex ?
                                             Color.black
                                     .frame(
-                                        width: 100,
-                                        height: 3)
+                                        width: 85,
+                                        height: 2)
                                         .offset(y: 17)
                                             :
                                                 Color.white
-                                    .frame(height: 3)
+                                    .frame(height: 2)
                                     .offset(y: 15)
                                 )
-                                .font(i == clickedIndex ? .system(size: 18).bold(): .system(size: 18))
+                                .font(i == clickedIndex ? .system(size: 16).bold(): .system(size: 16))
                         }
                     })
                     .padding(.top, 3)
@@ -115,7 +115,7 @@ struct CategoryView: View {
                     isDialog.toggle()
                 } label: {
                     Image(systemName: "ellipsis")
-                        .rotationEffect(.degrees(-90))
+//                        .rotationEffect(.degrees(-90))
                 }
             }
         }
@@ -203,5 +203,7 @@ struct CategoryView_Previews: PreviewProvider {
         CategoryView(showToast: .constant(true), toastMessage: .constant("dd"), group: Group.sampleGroup)
             .environmentObject(ScheduleStore())
             .environmentObject(MemberStore())
+            .environmentObject(GroupStore())
+            .environmentObject(UserStore())
     }
 }
