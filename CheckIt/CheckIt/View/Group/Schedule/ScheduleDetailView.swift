@@ -15,6 +15,8 @@ struct ScheduleDetailView: View {
     @EnvironmentObject var attendanceStore: AttendanceStore
     
     @State private var memo: String = ""
+    @State private var isRemoveSchedule: Bool = false
+    
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     
@@ -148,18 +150,7 @@ struct ScheduleDetailView: View {
                             }
                             
                             Button(role: .destructive) {
-                                Task {
-                                    print("==scheduleStore.scheduleList==: \(scheduleStore.scheduleList)")
-                                    toastMessage = "일정 삭제가 완료 되었습니다."
-                                    async let attendanceId = await attendanceStore.getAttendanceId(schedule.id)
-                                    await attendanceStore.removeAttendance(schedule.id, attendanceId: attendanceId) // 1.
-                                    await groupStore.removeScheduleInGroup(group.id, scheduleList: scheduleStore.scheduleList, scheduleId: schedule.id) // 2.
-                                    await scheduleStore.removeSchedule(schedule.id)
-                                    print("삭제 성공")
-                                    
-                                    showToast.toggle()
-                                    dismiss()
-                                }
+                                isRemoveSchedule.toggle()
                             } label: {
                                 Label("삭제하기", systemImage: "trash")
                                     .foregroundColor(.red)
@@ -171,6 +162,26 @@ struct ScheduleDetailView: View {
                     .opacity(isHost ? 1 : 0)
                 }
             }
+            .alert("해당 일정을 삭제하시겠습니까?", isPresented: $isRemoveSchedule, actions: {
+                Button("취소하기", role: .cancel) { }
+                Button("삭제하기", role: .destructive) {
+                    Task {
+                        print("==scheduleStore.scheduleList==: \(scheduleStore.scheduleList)")
+                        toastMessage = "일정 삭제가 완료 되었습니다."
+                        async let attendanceId = await attendanceStore.getAttendanceId(schedule.id)
+                        await attendanceStore.removeAttendance(schedule.id, attendanceId: attendanceId) // 1.
+                        await groupStore.removeScheduleInGroup(group.id, scheduleList: scheduleStore.scheduleList, scheduleId: schedule.id) // 2.
+                        await scheduleStore.removeSchedule(schedule.id)
+                        print("삭제 성공")
+                        
+                        showToast.toggle()
+                        dismiss()
+                    }
+                }
+            }, message: {
+                Text("해당 일정을 삭제하면\n일정과 출석에 대한 모든 정보가 사라집니다.")
+                    .multilineTextAlignment(.center)
+            })
             
             .onAppear {
                 memo = schedule.memo
