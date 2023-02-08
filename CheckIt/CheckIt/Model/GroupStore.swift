@@ -494,18 +494,22 @@ class GroupStore: ObservableObject {
     
     /// 동아리 컬렉션에서 일정을 삭제하는 메소드
     /// - Parameter groupId: 삭제할 일정이 속해있는 동아리
-    /// - Parameter scheduleList 현재 동아리에 속한 일정들
+    /// - Parameter scheduleList: 현재 동아리에 속한 일정들
     /// - Parameter scheduleId: 삭제할 일정
-    func removeScheduleInGroup(_ groupId: String, scheduleList: [Schedule], scheduleId: String) async {
+    /// - Returns: 동아리에서 삭제될 일정이 제거된 데이터 리스트
+    func removeScheduleInGroup(_ groupId: String, scheduleList: [Schedule], scheduleId: String) async -> [Schedule] {
         var newScheduleList = scheduleList
         newScheduleList.removeAll {$0.id == scheduleId }
+        
         do {
             try await database.collection("Group").document(groupId)
                 .updateData([
                     "schedule_id": newScheduleList
                 ])
+            return newScheduleList
         } catch {
             print("removeScheduleInGroup error: \(error.localizedDescription)")
         }
+        return newScheduleList
     }
 }
