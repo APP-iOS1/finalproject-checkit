@@ -16,7 +16,6 @@ struct CategoryView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    @State private var isDialog: Bool = false
     @State private var isCheckExsit: Bool = false
     @State private var isRemoveGroup: Bool = false
     
@@ -35,11 +34,6 @@ struct CategoryView: View {
     
     var body: some View {
         VStack {
-//            Text(group.name)
-//                .font(.title2)
-//                .bold()
-//                .padding()
-            
             HStack {
                 ForEach(categories.indices, id: \.self) { i in
                     Button(action: {
@@ -53,7 +47,7 @@ struct CategoryView: View {
                                     .frame(
                                         width: 60,
                                         height: 2)
-                                    .offset(y: 17)
+                                        .offset(y: 17)
                                             :
                                                 Color.white
                                     .frame(height: 2)
@@ -112,32 +106,42 @@ struct CategoryView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    isDialog.toggle()
+                Menu {
+                    if isHost {
+                        Section {
+                            Button {
+                                
+                            } label: {
+                                Label("동아리 편집하기", systemImage: "highlighter")
+                            }
+                            
+                            Button {
+//                                ShareLink
+                            } label: {
+                                Label("초대 링크 공유하기", systemImage: "square.and.arrow.up")
+                            }
+                            
+                            Button(role: .destructive) {
+                                isRemoveGroup.toggle()
+                            } label: {
+                                Label("동아리 삭제하기", systemImage: "trash")
+                                    .foregroundColor(.red)
+                            }
+                        }
+                    } else {
+                        Section {
+                            Button(role: .destructive) {
+                                isCheckExsit.toggle()
+                            } label: {
+                                Label("동아리 나가기", systemImage: "rectangle.portrait.and.arrow.right")
+                                    .foregroundColor(.red)
+                            }
+                        }
+                    }
                 } label: {
                     Image(systemName: "ellipsis")
-//                        .rotationEffect(.degrees(-90))
                 }
             }
-        }
-        
-        .confirmationDialog("ddd", isPresented: $isDialog) {
-            if isHost {
-                Button("동아리 편집하기") {
-                    
-                }
-                Button("초대 링크 공유하기") {
-                    
-                }
-                Button("동아리 삭제하기", role: .destructive) {
-                    isRemoveGroup.toggle()
-                }
-            } else {
-                Button("동아리 나가기", role: .destructive) {
-                    isCheckExsit.toggle()
-                }
-            }
-            Button("취소", role: .cancel) { }
         }
         .alert("해당 동아리를 나가시겠습니까?", isPresented: $isCheckExsit, actions: {
             Button("취소하기", role: .cancel) { }
@@ -175,6 +179,8 @@ struct CategoryView: View {
                 .multilineTextAlignment(.center)
         })
         
+        
+        
         .onAppear {
             groupStore.startGroupListener(group)
             print(group.name, "네임")
@@ -204,7 +210,7 @@ struct NoAnimation: ButtonStyle {
         configuration.label
     }
 }
-    
+
 struct CategoryView_Previews: PreviewProvider {
     static var previews: some View {
         CategoryView(showToast: .constant(true), toastMessage: .constant("dd"), group: Group.sampleGroup)
