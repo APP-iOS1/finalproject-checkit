@@ -12,9 +12,12 @@ struct GroupScheduleView: View {
     var group: Group
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var memberStore: MemberStore
     @State private var showToast = false
     
     @State private var isAddSheet: Bool = false
+    @Binding var isGroupManager: Bool
     
     var body: some View {
         NavigationStack {
@@ -32,6 +35,8 @@ struct GroupScheduleView: View {
                             .padding([.bottom, .trailing], 5)
                     }
                 }
+                .opacity(isGroupManager ? 1 : 0)
+                .disabled(isGroupManager ? false : true)
                 
                 VStack {
                     ScrollView {
@@ -39,6 +44,8 @@ struct GroupScheduleView: View {
                             ScheduleDetailView(schedule: schedule)
                         }
                     }
+                }
+                .onAppear {
                 }
                 .onDisappear{
 //                    // 다른 동아리의 일정이 나타나는 현상 때문에 초기화

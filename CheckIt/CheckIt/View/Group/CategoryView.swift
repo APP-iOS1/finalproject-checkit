@@ -18,6 +18,7 @@ struct CategoryView: View {
     
     @State private var isCheckExsit: Bool = false
     @State private var isRemoveGroup: Bool = false
+    @State var isGroupManager: Bool = false
     
     @Binding var showToast: Bool
     @Binding var toastMessage: String
@@ -80,7 +81,7 @@ struct CategoryView: View {
             .padding(.bottom, 20)
             
             if clickedIndex == 0 {
-                GroupScheduleView(group: groupStore.groupDetail)
+                GroupScheduleView(group: groupStore.groupDetail, isGroupManager: $isGroupManager)
             }
             if clickedIndex == 1 {
                 AttendanceStatusView(scheduleIDList: group.scheduleID, hostId: group.hostID)
@@ -191,6 +192,16 @@ struct CategoryView: View {
                 await scheduleStore.fetchSchedule(groupName: group.name)
                 do {
                     try await memberStore.fetchMember(group.id)
+                    for member in memberStore.members {
+                        if  member.uid == userStore.user?.id && (member.position == "방장" || member.position == "운영진") {
+                            isGroupManager = true
+                            break
+                        }
+                        else {
+                            isGroupManager = false
+                        }
+                    }
+                    
                 } catch MemberError.notFoundMember {
                     print("member를 못찾음")
                 } catch {
