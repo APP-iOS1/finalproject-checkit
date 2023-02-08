@@ -14,14 +14,16 @@ struct GroupScheduleView: View {
     @EnvironmentObject var groupStore: GroupStore
     @State private var showToast = false
     
+    @State private var isAddSheet: Bool = false
+    
     var body: some View {
         NavigationStack {
             VStack {
                 HStack {
                     Spacer()
                     
-                    NavigationLink {
-                        AddScheduleView(showToast: $showToast, group: group)
+                    Button {
+                        isAddSheet.toggle()
                     } label: {
                         Image(systemName: "plus")
                             .resizable()
@@ -38,9 +40,6 @@ struct GroupScheduleView: View {
                         }
                     }
                 }
-                .onAppear {
-                    
-                }
                 .onDisappear{
 //                    // 다른 동아리의 일정이 나타나는 현상 때문에 초기화
 //                    scheduleStore.scheduleList = []
@@ -48,10 +47,13 @@ struct GroupScheduleView: View {
                 .refreshable {
                     await scheduleStore.fetchSchedule(groupName: groupStore.groupDetail.name)
                 }
-                
             }
             .padding(.horizontal, 30)
         }
+        .sheet(isPresented: $isAddSheet) {
+            AddScheduleView(showToast: $showToast, group: group)
+        }
+        
         .toast(isPresenting: $showToast){
             
             // .alert is the default displayMode

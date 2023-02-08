@@ -32,9 +32,10 @@ struct AddScheduleView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment:.leading, spacing: 20) {
+            VStack(alignment:.leading) {
                 Text("일정 추가하기")
                     .font(.system(size: 24, weight: .semibold))
+                    .padding(.top)
                 
                 Divider()
                 
@@ -178,6 +179,7 @@ struct AddScheduleView: View {
                             }
                         }
                     }
+                    .padding(.bottom)
                     .padding(5)
                 }
                 
@@ -214,6 +216,7 @@ struct AddScheduleView: View {
                 }
             }
             .padding(.horizontal, 30)
+            
         }
         .sheet(isPresented: $isShowingWebView) {
             WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
