@@ -158,6 +158,7 @@ class ScheduleStore: ObservableObject {
     
     // MARK: - addSchedule 함수
     func addSchedule(_ schedule: Schedule, group: Group) async {
+        print("addSchedule 호출")
         do {
             try await database.collection("Schedule")
                 .document(schedule.id)
