@@ -16,24 +16,25 @@ struct TaskView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 10) {
-                //MARK: - 일정 날짜
-                Text("To Do List")
-                    .font(.title3)
-                    .padding(.top, 25)
-                
-                ScrollView(showsIndicators: true) {
-                    //MARK: - 일정 디테일
-                    if let filterSchedule = totalSchedule.filter({ schedule in
-                        if selectedGroup != "전체" {
-                            return extraData.isSameDay(date1: schedule.startTime, date2: currentDate) && (schedule.groupName == selectedGroup)
-                        } else {
-                            return extraData.isSameDay(date1: schedule.startTime, date2: currentDate)
-                        }
-                    }) {
-                        if !filterSchedule.isEmpty {
+            if let filterSchedule = totalSchedule.filter({ schedule in
+                if selectedGroup != "전체" {
+                    return extraData.isSameDay(date1: schedule.startTime, date2: currentDate) && (schedule.groupName == selectedGroup)
+                } else {
+                    return extraData.isSameDay(date1: schedule.startTime, date2: currentDate)
+                }
+            }) {
+                if !filterSchedule.isEmpty {
+                    VStack(alignment: .leading, spacing: 9) {
+                        //MARK: - 일정 날짜
+                        Text("예정된 일정")
+                            .font(.title3)
+                            .padding(.top, 25)
+                            .bold()
+                        
+                        ScrollView(showsIndicators: true) {
+                            //MARK: - 일정 디테일
                             ForEach(filterSchedule) { schedule in
-                                HStack(spacing: 30) {
+                                HStack(spacing: 20) {
                                     ExDivider(color: .myRed)
                                     VStack(alignment: .leading, spacing: 5) {
                                         Text("\(extraData.selectedDate(date: schedule.startTime)[5]):\(extraData.selectedDate(date: schedule.startTime)[6]) \(extraData.selectedDate(date: schedule.startTime)[4])")
@@ -48,11 +49,22 @@ struct TaskView: View {
                             }
                         }
                     }
+                    .padding(.leading,30)
+                    .padding(.top, -8)
+                    Spacer()
+                } else {
+                    VStack {
+                        Spacer()
+                        
+                        Text("일정 없음")
+                            .foregroundColor(Color.myGray)
+                            .font(.title3)
+                            .bold()
+                        Spacer()
+                    }
                 }
             }
-            .padding(.leading,30)
-            .padding(.top, -8)
-            Spacer()
+            
         }
     }
 }
