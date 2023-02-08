@@ -15,103 +15,104 @@ struct AttendancePickerView: View {
     var body: some View {
         HStack {
             //출석
-            Button {
-                selectedTap = .attendanced
-            } label: {
-                VStack {
-                    HStack {
-                        Text(AttendanceCategory.attendanced.rawValue)
-                            .foregroundColor(.myBlack)
-                        Text("\(scheduleStore.publishedAttendanceCount)")
-                            .foregroundColor(.myGreen)
-                    }
-                    if selectedTap == .attendanced {
-                        Capsule()
-                            .foregroundColor(.black)
-                            .frame(height: 2)
-                    }
-                    else {
-                        Capsule()
-                            .foregroundColor(.white)
-                            .frame(height: 2)
-                    }
-                    
+            VStack(spacing: 8) {
+                HStack(spacing: 3) {
+                    Text(AttendanceCategory.attendanced.rawValue)
+                        .foregroundColor(.myBlack)
+                    Text("\(scheduleStore.publishedAttendanceCount)")
+                        .foregroundColor(.myGreen)
                 }
+                .onTapGesture {
+                    selectedTap = .attendanced
+                }
+                .font(.system(size: 18, weight: selectedTap == .attendanced ? .semibold : .medium))
+                if selectedTap == .attendanced {
+                    Capsule()
+                        .foregroundColor(.black)
+                        .frame(height: 2)
+                }
+                else {
+                    Capsule()
+                        .foregroundColor(.white)
+                        .frame(height: 2)
+                }
+                
             }
 
             //지각
-            Button {
-                selectedTap = .lated
-            } label: {
-                VStack {
-                    HStack {
-                        Text(AttendanceCategory.lated.rawValue)
-                            .foregroundColor(.myBlack)
-                        Text("\(scheduleStore.publishedLateCount)")
-                            .foregroundColor(.myOrange)
-                    }
-                    if selectedTap == .lated {
-                        Capsule()
-                            .foregroundColor(.black)
-                            .frame(height: 2)
-                    }
-                    else {
-                        Capsule()
-                            .foregroundColor(.white)
-                            .frame(height: 2)
-                    }
-                    
+            VStack(spacing: 8) {
+                HStack(spacing: 3) {
+                    Text(AttendanceCategory.lated.rawValue)
+                        .foregroundColor(.myBlack)
+                    Text("\(scheduleStore.publishedLateCount)")
+                        .foregroundColor(.myOrange)
                 }
+                .font(.system(size: 18, weight: selectedTap == .lated ? .semibold : .medium))
+                .onTapGesture {
+                    selectedTap = .lated
+                }
+                if selectedTap == .lated {
+                    Capsule()
+                        .foregroundColor(.black)
+                        .frame(height: 2)
+                }
+                else {
+                    Capsule()
+                        .foregroundColor(.white)
+                        .frame(height: 2)
+                }
+                
             }
 
+
             //결석
-            Button {
-                selectedTap = .absented
-            } label: {
-                VStack {
-                    HStack {
-                        Text(AttendanceCategory.absented.rawValue)
-                            .foregroundColor(.myBlack)
-                        Text("\(scheduleStore.publishedAbsentCount)")
-                            .foregroundColor(.myRed)
-                    }
-                    if selectedTap == .absented {
-                        Capsule()
-                            .foregroundColor(.black)
-                            .frame(height: 2)
-                    }
-                    else {
-                        Capsule()
-                            .foregroundColor(.white)
-                            .frame(height: 2)
-                    }
-                    
+            VStack(spacing: 8) {
+                HStack(spacing: 3) {
+                    Text(AttendanceCategory.absented.rawValue)
+                        .foregroundColor(.myBlack)
+                    Text("\(scheduleStore.publishedAbsentCount)")
+                        .foregroundColor(.myRed)
                 }
+                .font(.system(size: 18, weight: selectedTap == .absented ? .semibold : .medium))
+                .onTapGesture {
+                    selectedTap = .absented
+                }
+                if selectedTap == .absented {
+                    Capsule()
+                        .foregroundColor(.black)
+                        .frame(height: 2)
+                }
+                else {
+                    Capsule()
+                        .foregroundColor(.white)
+                        .frame(height: 2)
+                }
+                
             }
 
             //공결
-            Button {
-                selectedTap = .officiallyAbsented
-            } label: {
-                VStack {
-                    HStack {
-                        Text(AttendanceCategory.officiallyAbsented.rawValue)
-                            .foregroundColor(.myBlack)
-                        Text("\(scheduleStore.publishedOfficiallyAbsentCount)")
-                            .foregroundColor(.myBlack)
-                    }
-                    if selectedTap == .officiallyAbsented {
-                        Capsule()
-                            .foregroundColor(.black)
-                            .frame(height: 2)
-                    }
-                    else {
-                        Capsule()
-                            .foregroundColor(.white)
-                            .frame(height: 2)
-                    }
-                    
+            VStack(spacing: 8) {
+                HStack(spacing: 3) {
+                    Text(AttendanceCategory.officiallyAbsented.rawValue)
+                        .foregroundColor(.myBlack)
+                    Text("\(scheduleStore.publishedOfficiallyAbsentCount)")
+                        .foregroundColor(.myBlack)
                 }
+                .font(.system(size: 18, weight: selectedTap == .officiallyAbsented ? .semibold : .medium))
+                .onTapGesture {
+                    selectedTap = .officiallyAbsented
+                }
+                if selectedTap == .officiallyAbsented {
+                    Capsule()
+                        .foregroundColor(.black)
+                        .frame(height: 2)
+                }
+                else {
+                    Capsule()
+                        .foregroundColor(.white)
+                        .frame(height: 2)
+                }
+                
             }
 
         }

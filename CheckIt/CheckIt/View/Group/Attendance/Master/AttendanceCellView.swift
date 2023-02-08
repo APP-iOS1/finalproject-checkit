@@ -13,11 +13,12 @@ struct AttendanceCellView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment:.leading) {
+            VStack(alignment:.leading, spacing: 0) {
                 Text(Date().yearMonthDayDateToString(date: schedule.startTime)) // 출석 날짜
-                    .font(.headline)
+                    .font(.system(size: 13, weight: .medium))
                     .foregroundColor(.black)
-                    .padding(.bottom, 15)
+                    .padding(.top, 21)
+                    .padding(.leading, 21)
                 
                 Spacer()
                 
@@ -42,26 +43,27 @@ struct AttendanceCellView: View {
                         .bold()
                     
                     Text("공결")
-                        
                     Text("\(schedule.officiallyAbsentCount)")   //공결 횟수
                         .foregroundColor(.myBlack)
                         .bold()
                 }
                 .foregroundColor(.black)
+                .font(.system(size: 16, weight: .medium))
+                .padding(.leading, 21)
+                .padding(.bottom, 21)
+                
                 
                 Spacer()
             }
-            .padding()
             Spacer()
         }
         .background {
             RoundedRectangle(cornerRadius: 10)
                 .foregroundColor(.myLightGray)
-                .frame(height: 120)
+                .frame(height: 90)
             
         }
-        .frame(height: 120)
-        .padding()
+        .frame(height: 90)
         .onAppear {
             print(attendanceStore.entireAttendanceList, "dd")
         }

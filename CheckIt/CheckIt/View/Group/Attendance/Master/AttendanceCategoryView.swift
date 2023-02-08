@@ -14,17 +14,7 @@ struct AttendanceCategoryView: View {
     var schedule : Schedule
 //    @State var lateStatusAttendanceList: [Attendance] = []
     var body: some View {
-        VStack {
-//            switch selection {
-//            case .attendanced:
-//                AttendanceDetailStatusView(attendanceStatus: attendanceStore.attendanceStatusList, category: selection, schedule: schedule)
-//            case .lated:
-//                AttendanceDetailStatusView(attendanceStatus: attendanceStore.latedStatusList, category: selection, schedule: schedule)
-//            case .absented:
-//                AttendanceDetailStatusView(attendanceStatus: attendanceStore.absentedStatusList, category: selection, schedule: schedule)
-//            case .officiallyAbsented:
-//                AttendanceDetailStatusView(attendanceStatus: attendanceStore.officiallyAbsentedStatusList, category: selection, schedule: schedule)
-//            }
+        VStack(spacing: 0) {
             AttendanceDetailStatusView(category: selection, schedule: schedule)
         }
         .onAppear {
