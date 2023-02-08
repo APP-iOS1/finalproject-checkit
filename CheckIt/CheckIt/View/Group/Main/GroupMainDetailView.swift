@@ -26,10 +26,16 @@ struct GroupMainDetailView: View {
                 HStack {
                     ZStack(alignment: .topLeading) {
                         // MARK: - 동아리 이미지
-                        Image(uiImage: groupImage)
-                            .resizable()
-                            .frame(width: 90, height: 90)
-                            .clipShape(Circle())
+                        ZStack {
+                            Circle()
+                                .foregroundColor(.gray)
+                                .frame(width: 90, height: 90)
+                            Image(uiImage: groupImage)
+                                .resizable()
+                                .frame(width: 90, height: 90)
+                                .clipShape(Circle())
+                        }
+                        .padding(.trailing, 20)
                         
                         if isHost {
                             ZStack {
@@ -82,7 +88,7 @@ struct GroupMainDetailView: View {
                             .frame(width: 90, height: 90)
                             .clipShape(Circle())
                     }
-                        .padding(.trailing, 20)
+                    .padding(.trailing, 20)
                     
                     //                Spacer()
                     
