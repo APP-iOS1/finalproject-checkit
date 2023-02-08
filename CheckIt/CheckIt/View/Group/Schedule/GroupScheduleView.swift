@@ -34,37 +34,7 @@ struct GroupScheduleView: View {
                 VStack {
                     ScrollView {
                         ForEach(scheduleStore.scheduleList) { schedule in
-                            VStack {
-                                ZStack(alignment: .leading) {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .foregroundColor(Color.myLightGray)
-                                        .frame(height: 150)
-                                    
-                                    VStack(alignment: .leading) {
-                                        
-                                        HStack {
-                                            customSymbols(name: "calendar")
-                                            // MARK: - 동아리 일정 날짜
-                                            Text("\(schedule.startTime, format:.dateTime.year().day().month())")
-                                        }
-                                        
-                                        HStack {
-                                            customSymbols(name: "clock")
-                                            // MARK: - 동아리 일정 시간
-                                            Text("\(schedule.startTime, format:.dateTime.hour().minute())")
-                                            Text("~")
-                                            Text("\(schedule.endTime, format:.dateTime.hour().minute())")
-                                        }
-                                        
-                                        HStack {
-                                            customSymbols(name: "mapPin")
-                                            // MARK: - 동아리 일정 장소
-                                            Text(schedule.location)
-                                        }
-                                    }
-                                    .padding(30)
-                                }
-                            }
+                            ScheduleDetailView(schedule: schedule)
                         }
                     }
                 }
