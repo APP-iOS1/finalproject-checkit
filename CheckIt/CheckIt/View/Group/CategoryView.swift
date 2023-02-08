@@ -35,10 +35,10 @@ struct CategoryView: View {
     
     var body: some View {
         VStack {
-            Text(group.name)
-                .font(.title2)
-                .bold()
-                .padding()
+//            Text(group.name)
+//                .font(.title2)
+//                .bold()
+//                .padding()
             
             HStack {
                 ForEach(categories.indices, id: \.self) { i in
@@ -77,10 +77,10 @@ struct CategoryView: View {
                                 .font(i == clickedIndex ? .system(size: 18).bold(): .system(size: 18))
                         }
                     })
-                    .padding(.top)
+                    .padding(.top, 3)
                     .padding(.horizontal)
                 }
-            }
+            } // - HStack
             .frame(width: 330)
             .padding(.bottom, 20)
             
@@ -95,7 +95,20 @@ struct CategoryView: View {
             }
             
             Spacer()
+            
+        } // - VStack
+        .navigationTitle("\(group.name)")
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "arrow.backward")
+                }
+            }
         }
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
