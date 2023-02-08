@@ -18,7 +18,7 @@ extension Date {
     /// date 인스턴스를 연도-월-일로 반환하는 메소드
     func getDateString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "y-m-d"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         
         return dateFormatter.string(from: self)
     }

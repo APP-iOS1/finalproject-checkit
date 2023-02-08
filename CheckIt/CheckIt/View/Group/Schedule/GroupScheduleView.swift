@@ -14,14 +14,16 @@ struct GroupScheduleView: View {
     @EnvironmentObject var groupStore: GroupStore
     @State private var showToast = false
     
+    @State private var isAddSheet: Bool = false
+    
     var body: some View {
         NavigationStack {
             VStack {
                 HStack {
                     Spacer()
                     
-                    NavigationLink {
-                        AddScheduleView(showToast: $showToast, group: groupStore.groupDetail)
+                    Button {
+                        isAddSheet.toggle()
                     } label: {
                         Image(systemName: "plus")
                             .resizable()
@@ -34,54 +36,24 @@ struct GroupScheduleView: View {
                 VStack {
                     ScrollView {
                         ForEach(scheduleStore.scheduleList) { schedule in
-                            VStack {
-                                ZStack(alignment: .leading) {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .foregroundColor(Color.myLightGray)
-                                        .frame(height: 150)
-                                    
-                                    VStack(alignment: .leading) {
-                                        
-                                        HStack {
-                                            customSymbols(name: "calendar")
-                                            // MARK: - 동아리 일정 날짜
-                                            Text("\(schedule.startTime, format:.dateTime.year().day().month())")
-                                        }
-                                        
-                                        HStack {
-                                            customSymbols(name: "clock")
-                                            // MARK: - 동아리 일정 시간
-                                            Text("\(schedule.startTime, format:.dateTime.hour().minute())")
-                                            Text("~")
-                                            Text("\(schedule.endTime, format:.dateTime.hour().minute())")
-                                        }
-                                        
-                                        HStack {
-                                            customSymbols(name: "mapPin")
-                                            // MARK: - 동아리 일정 장소
-                                            Text(schedule.location)
-                                        }
-                                    }
-                                    .padding(30)
-                                }
-                            }
+                            ScheduleDetailView(schedule: schedule)
                         }
                     }
-                }
-                .onAppear {
-                    
                 }
                 .onDisappear{
 //                    // 다른 동아리의 일정이 나타나는 현상 때문에 초기화
 //                    scheduleStore.scheduleList = []
                 }
                 .refreshable {
-                    await scheduleStore.fetchSchedule(gruopName: groupStore.groupDetail.name)
+                    await scheduleStore.fetchSchedule(groupName: groupStore.groupDetail.name)
                 }
-                
             }
             .padding(.horizontal, 30)
         }
+        .sheet(isPresented: $isAddSheet) {
+            AddScheduleView(showToast: $showToast, group: group)
+        }
+        
         .toast(isPresenting: $showToast){
             
             // .alert is the default displayMode
