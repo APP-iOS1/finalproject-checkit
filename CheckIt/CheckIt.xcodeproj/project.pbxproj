@@ -109,14 +109,15 @@
 		FD4E25EC297785E800F6F875 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = FD4E25EB297785E800F6F875 /* FirebaseStorage */; };
 		FD4E25EE297785E800F6F875 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = FD4E25ED297785E800F6F875 /* FirebaseStorageCombine-Community */; };
 		FD4E25F02977AC8500F6F875 /* CheckItCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25EF2977AC8500F6F875 /* CheckItCard.swift */; };
-		FD4E25F22977AF8B00F6F875 /* CheckItButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F12977AF8B00F6F875 /* CheckItButtonLabel.swift */; };
+		FD4E25F22977AF8B00F6F875 /* CheckItButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F12977AF8B00F6F875 /* CheckItButton.swift */; };
 		FD4E25F42977B20800F6F875 /* DdayLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F32977B20800F6F875 /* DdayLabel.swift */; };
 		FD4E25F62977B84A00F6F875 /* CheckMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F52977B84A00F6F875 /* CheckMainView.swift */; };
 		FD4E25F82977B9E900F6F875 /* CheckMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F72977B9E900F6F875 /* CheckMapView.swift */; };
 		FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25F92977BA6600F6F875 /* QRSheetView.swift */; };
 		FD4E25FE2977C44C00F6F875 /* QRButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */; };
 		FD74973F298F1ABB001C424D /* LoginRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD74973E298F1ABB001C424D /* LoginRouteView.swift */; };
-		FDE58061297A53A600B7AC28 /* ToastAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE58060297A53A500B7AC28 /* ToastAlert.swift */; };
+		FD909F9C299388900002F55F /* MapViewWithUserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD909F9B299388900002F55F /* MapViewWithUserLocation.swift */; };
+		FDE58061297A53A600B7AC28 /* CustomToastAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE58060297A53A500B7AC28 /* CustomToastAlert.swift */; };
 		FDEE4904298D4D92009DF195 /* GoogleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4903298D4D92009DF195 /* GoogleStore.swift */; };
 		FDEE4906298D5883009DF195 /* AppleLoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4905298D5883009DF195 /* AppleLoginStore.swift */; };
 		FDEE4909298D7DAD009DF195 /* KakaoLoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4908298D7DAD009DF195 /* KakaoLoginStore.swift */; };
@@ -235,14 +236,15 @@
 		FD4E25B9297783CD00F6F875 /* CheckItUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FD4E25D02977849900F6F875 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		FD4E25EF2977AC8500F6F875 /* CheckItCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItCard.swift; sourceTree = "<group>"; };
-		FD4E25F12977AF8B00F6F875 /* CheckItButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItButtonLabel.swift; sourceTree = "<group>"; };
+		FD4E25F12977AF8B00F6F875 /* CheckItButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItButton.swift; sourceTree = "<group>"; };
 		FD4E25F32977B20800F6F875 /* DdayLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdayLabel.swift; sourceTree = "<group>"; };
 		FD4E25F52977B84A00F6F875 /* CheckMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckMainView.swift; sourceTree = "<group>"; };
 		FD4E25F72977B9E900F6F875 /* CheckMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckMapView.swift; sourceTree = "<group>"; };
 		FD4E25F92977BA6600F6F875 /* QRSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRSheetView.swift; sourceTree = "<group>"; };
 		FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRButtonLabel.swift; sourceTree = "<group>"; };
 		FD74973E298F1ABB001C424D /* LoginRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouteView.swift; sourceTree = "<group>"; };
-		FDE58060297A53A500B7AC28 /* ToastAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastAlert.swift; sourceTree = "<group>"; };
+		FD909F9B299388900002F55F /* MapViewWithUserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewWithUserLocation.swift; sourceTree = "<group>"; };
+		FDE58060297A53A500B7AC28 /* CustomToastAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToastAlert.swift; sourceTree = "<group>"; };
 		FDEE4903298D4D92009DF195 /* GoogleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleStore.swift; sourceTree = "<group>"; };
 		FDEE4905298D5883009DF195 /* AppleLoginStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginStore.swift; sourceTree = "<group>"; };
 		FDEE4907298D606B009DF195 /* CheckIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CheckIt.entitlements; sourceTree = "<group>"; };
@@ -537,12 +539,13 @@
 			children = (
 				FD4E25EF2977AC8500F6F875 /* CheckItCard.swift */,
 				FD4E25F72977B9E900F6F875 /* CheckMapView.swift */,
+				FD909F9B299388900002F55F /* MapViewWithUserLocation.swift */,
 				FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */,
 				FD4E25F92977BA6600F6F875 /* QRSheetView.swift */,
 				FD4E25F52977B84A00F6F875 /* CheckMainView.swift */,
 				FD4E25F32977B20800F6F875 /* DdayLabel.swift */,
-				FD4E25F12977AF8B00F6F875 /* CheckItButtonLabel.swift */,
-				FDE58060297A53A500B7AC28 /* ToastAlert.swift */,
+				FD4E25F12977AF8B00F6F875 /* CheckItButton.swift */,
+				FDE58060297A53A500B7AC28 /* CustomToastAlert.swift */,
 				A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */,
 				A5775BD12988ECC1000DFC3F /* CameraScanner.swift */,
 			);
@@ -796,14 +799,14 @@
 				A5FF27A82977C3F30059C312 /* PremiumRateView.swift in Sources */,
 				2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */,
 				FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */,
-				FD4E25F22977AF8B00F6F875 /* CheckItButtonLabel.swift in Sources */,
+				FD4E25F22977AF8B00F6F875 /* CheckItButton.swift in Sources */,
 				A5C48C11297A606D007D49DF /* GroupMemberListCell.swift in Sources */,
 				A529BD47298CA8FC00AE232B /* ScheduleConstants.swift in Sources */,
 				864DC4872977B19F005DB201 /* TaskView.swift in Sources */,
 				FDEE4909298D7DAD009DF195 /* KakaoLoginStore.swift in Sources */,
 				1A3CB2672990D6F600EA5E84 /* LicenseView.swift in Sources */,
 				FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */,
-				FDE58061297A53A600B7AC28 /* ToastAlert.swift in Sources */,
+				FDE58061297A53A600B7AC28 /* CustomToastAlert.swift in Sources */,
 				1A41F4442977AA600051F464 /* AttendanceStatusView.swift in Sources */,
 				A5775BD02988E9E8000DFC3F /* CameraScannerViewController.swift in Sources */,
 				A529BD45298CA8C700AE232B /* SeminarConstants.swift in Sources */,
@@ -857,6 +860,7 @@
 				864DC4892977B2F9005DB201 /* CustomDatePickerView.swift in Sources */,
 				2822CE1C2988B3E500316139 /* Schedule.swift in Sources */,
 				2822CE1A2988B14400316139 /* Member.swift in Sources */,
+				FD909F9C299388900002F55F /* MapViewWithUserLocation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1025,6 +1029,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Check It!에서 지도에 접근하고자 합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1062,6 +1067,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Check It!에서 지도에 접근하고자 합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

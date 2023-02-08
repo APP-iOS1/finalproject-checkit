@@ -7,10 +7,33 @@
 
 import SwiftUI
 
-struct CheckItButtonLabel: View {
-    var isActive: Bool
+struct CheckItButton: View {
+    var isActive: Bool = false
+    @Binding var isAlert: Bool
     var text: String = "Check It!"
+    var action: () -> () = {}
     // 
+    
+    var body: some View {
+        Button(action: action) {
+            buttonLabel
+        }
+        .disabled(!isActive)
+        .onTapGesture { isAlert = true }
+    }
+    
+    var buttonLabel: some View {
+        displayLabel
+        .frame(height: 62)
+        .overlay {
+            Text("\(text)")
+                .font(.title2.bold())
+                .foregroundColor(.white)
+        }
+    }
+    
+    
+    //MARK: - ButtonLabel
     private var inActiveLabel: some View {
         get {
             RoundedRectangle(cornerRadius: 15)
@@ -26,18 +49,9 @@ struct CheckItButtonLabel: View {
         }
     }
     
-    private var buttonLabel: some View {
+    var displayLabel: some View {
         get {
-            return isActive ? AnyView(activeLabel) : AnyView(inActiveLabel)
-        }
-    }
-    var body: some View {
-       buttonLabel
-        .frame(height: 62)
-        .overlay {
-            Text("\(text)")
-                .font(.title2.bold())
-                .foregroundColor(.white)
+            isActive ? AnyView(activeLabel) : AnyView(inActiveLabel)
         }
     }
 }
