@@ -67,7 +67,8 @@ struct CheckItApp: App {
                         userStore.isPresentedLoginView = false
                         userStore.userData = user
                         await userStore.fetchUser(user.uid)
-                        groupStore.startGroupListener(userStore)
+                        //groupStore.startGroupListener(userStore)
+                        await groupStore.fetchGroups(userStore.user!)
                         userStore.startUserListener(user.uid)
                     }
                 
