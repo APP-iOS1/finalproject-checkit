@@ -21,66 +21,76 @@ struct CheckMapView: View {
     
     var body: some View {
         VStack {
-                Map(coordinateRegion: $region)
-                    .ignoresSafeArea()
-                    .overlay(alignment: .bottom) {
-                        // 출석하기 버튼
-                        VStack {
-                            if isAlert {
-                                ToastAlert()
-                                    .padding(.vertical, 100)
-                                    .onAppear {
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                            self.isAlert = false
-                                        }
+            Map(coordinateRegion: $region)
+                .ignoresSafeArea()
+                .overlay(alignment: .bottom) {
+                    // 출석하기 버튼
+                    VStack {
+                        if isAlert {
+                            ToastAlert()
+                                .padding(.vertical, 100)
+                                .onAppear {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        self.isAlert = false
                                     }
-                            }
-                            
-                            
-                            Button(action: { }) {
-                                CheckItButtonLabel(isActive: false, text: "출석하기")
-                            }
-                            .frame(width: 338, height: 62)
-                            .padding(.bottom ,10)
-                            .offset(y: -80)
-                            //FIXME: - Prototype용 코드 (출석하기 버튼이 비활성화 됐을 때 사용)
-                            .disabled(true)
-                            .onTapGesture { isAlert = true }
-                        }
-                    }
-                    
-                
-                
-                    .toolbar {
-                        Button {
-                            if isGroupHost {
-                                self.showCameraScannerView.toggle()
-                                
-                            } else {
-                                showQRCode.toggle()
-                            }
-                            
-                        } label: {
-                            QRButtonLabel()
+                                }
                         }
                         
-                    } // - toolbar
-            
-            
-            .sheet(isPresented: isGroupHost ? $showCameraScannerView : $showQRCode) {
-                
-                if isGroupHost {
-                    CameraScanner()
-                    
-                } else {
-                    QRSheetView()
-                        .presentationDetents([.medium])
+                        Button {
+                            
+                        } label: {
+                            RoundedRectangle(cornerRadius: 18)
+                                .frame(height: 62)
+                                .foregroundColor(Color.myGray)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 18)
+                                        .stroke(Color.white, lineWidth: 1.5)
+                                    Text("출석하기")
+                                        .foregroundColor(.white)
+                                        .font(.title2.bold())
+                                }
+                        }
+                        .frame(width: 338, height: 62)
+                        .padding(.bottom ,10)
+                        .offset(y: -80)
+                        //FIXME: - Prototype용 코드 (출석하기 버튼이 비활성화 됐을 때 사용)
+                        .disabled(true)
+                        .onTapGesture { isAlert = true }
+                    }
                 }
-            } // - sheet
+            
+            
+            
+                .toolbar {
+                    Button {
+                        if isGroupHost {
+                            self.showCameraScannerView.toggle()
+                            
+                        } else {
+                            showQRCode.toggle()
+                        }
+                        
+                    } label: {
+                        QRButtonLabel()
+                    }
+                    
+                } // - toolbar
+            
+            
+                .sheet(isPresented: isGroupHost ? $showCameraScannerView : $showQRCode) {
+                    
+                    if isGroupHost {
+                        CameraScanner()
+                        
+                    } else {
+                        QRSheetView()
+                            .presentationDetents([.medium])
+                    }
+                } // - sheet
             // Toast Alert (Alert의 Opacity를 애니메이션으로 바꾸는 방식으로 수정해야 함.)
             //FIXME: 애니메이션이 보일땐 자연스러운데 없어질때 뚝 없어지는 느낌임.
             
-
+            
             
         } // - VStack
         //        .animation(.linear(duration: 0.3), value: isAlert)
@@ -88,7 +98,6 @@ struct CheckMapView: View {
         .transition(.opacity)
         .toolbarBackground(Material.ultraThinMaterial, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-
     }
 }
 
