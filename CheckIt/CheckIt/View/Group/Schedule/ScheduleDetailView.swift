@@ -15,6 +15,8 @@ struct ScheduleDetailView: View {
     @EnvironmentObject var attendanceStore: AttendanceStore
     
     @State private var memo: String = ""
+    @Binding var showToast: Bool
+    @Binding var toastMessage: String
     
     var group: Group
     var schedule: Schedule
@@ -147,14 +149,15 @@ struct ScheduleDetailView: View {
                             
                             Button(role: .destructive) {
                                 Task {
-                                    async let attendanceId = attendanceStore.getAttendanceId(schedule.id)
+                                    print("==scheduleStore.scheduleList==: \(scheduleStore.scheduleList)")
+                                    toastMessage = "일정 삭제가 완료 되었습니다."
+                                    async let attendanceId = await attendanceStore.getAttendanceId(schedule.id)
                                     await attendanceStore.removeAttendance(schedule.id, attendanceId: attendanceId) // 1.
-                                    
-                                    let schedueList = scheduleStore.scheduleList
-                                    async let newScheduleList = groupStore.removeScheduleInGroup(group.id, scheduleList: schedueList, scheduleId: schedule.id) // 2.
+                                    await groupStore.removeScheduleInGroup(group.id, scheduleList: scheduleStore.scheduleList, scheduleId: schedule.id) // 2.
                                     await scheduleStore.removeSchedule(schedule.id)
-                                    scheduleStore.scheduleList = await newScheduleList
+                                    print("삭제 성공")
                                     
+                                    showToast.toggle()
                                     dismiss()
                                 }
                             } label: {

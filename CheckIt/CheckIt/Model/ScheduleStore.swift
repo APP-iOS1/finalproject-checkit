@@ -222,8 +222,10 @@ class ScheduleStore: ObservableObject {
     /// 3. 일정 컬렉션에서 일정 삭제
     func removeSchedule(_ scheduleId: String) async {
         do {
+            print("삭제할 id: \(scheduleId)")
             try await database.collection("Schedule").document(scheduleId).delete()
         } catch {
+            
             print("removeSchedule error: \(error.localizedDescription)")
         }
     }
