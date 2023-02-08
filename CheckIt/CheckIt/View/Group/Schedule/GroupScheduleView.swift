@@ -11,6 +11,7 @@ import AlertToast
 struct GroupScheduleView: View {
     var group: Group
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var groupStore: GroupStore
     @State private var showToast = false
     
     var body: some View {
@@ -20,7 +21,7 @@ struct GroupScheduleView: View {
                     Spacer()
                     
                     NavigationLink {
-                        AddScheduleView(showToast: $showToast, group: group)
+                        AddScheduleView(showToast: $showToast, group: groupStore.groupDetail)
                     } label: {
                         Image(systemName: "plus")
                             .resizable()
@@ -75,7 +76,7 @@ struct GroupScheduleView: View {
 //                    scheduleStore.scheduleList = []
                 }
                 .refreshable {
-                    await scheduleStore.fetchSchedule(gruopName: group.name)
+                    await scheduleStore.fetchSchedule(gruopName: groupStore.groupDetail.name)
                 }
                 
             }

@@ -85,13 +85,13 @@ struct CategoryView: View {
             .padding(.bottom, 20)
             
             if clickedIndex == 0 {
-                GroupScheduleView(group: group)
+                GroupScheduleView(group: groupStore.groupDetail)
             }
             if clickedIndex == 1 {
                 AttendanceStatusView(scheduleIDList: group.scheduleID, hostId: group.hostID)
             }
             if clickedIndex == 2 {
-                GroupInformationView(group: group)
+                GroupInformationView(group: groupStore.groupDetail)
             }
             
             Spacer()
@@ -175,6 +175,7 @@ struct CategoryView: View {
         })
         
         .onAppear {
+            groupStore.startGroupListener(group)
             print(group.name, "네임")
             print(group.scheduleID, "Sssss")
             
@@ -191,6 +192,7 @@ struct CategoryView: View {
             }
         }
         .onDisappear {
+            groupStore.detachListener()
             print(group.scheduleID, "---------")
         }
     }
