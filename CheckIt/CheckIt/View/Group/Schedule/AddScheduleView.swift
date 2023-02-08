@@ -187,6 +187,9 @@ struct AddScheduleView: View {
                 Button {
                     showToast.toggle()
                     
+                    print("일정 추가 호출")
+                    print("버튼을 누른 시점에서 그룹: \(group)")
+                    
                     // 날짜정보와 시간정보를 하나의 문자열로 합침
                     let start = startTime.getDateString() + " " + startTime.getTimeString()
                     let end = startTime.getDateString() + " " + endTime.getTimeString()
@@ -198,7 +201,7 @@ struct AddScheduleView: View {
                     
                     
                     Task {
-                        try await memberStore.fetchMember(group.id)
+                        //try await memberStore.fetchMember(group.id) // 없어도 됨
                         schedule.officiallyAbsentCount = memberStore.members.count
                         await scheduleStore.addSchedule(schedule, group: group)
                         for member in memberStore.members {
