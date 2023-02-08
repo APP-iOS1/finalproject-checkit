@@ -11,7 +11,7 @@ extension String {
     /// 문자열을 2023-03-01 12:20으로 반환하는 메소드
     func getAllTimeInfo() -> Date {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "y-m-d HH:mm"
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         
         return dateFormatter.date(from: self)!
     }

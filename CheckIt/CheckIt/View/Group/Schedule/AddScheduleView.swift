@@ -32,9 +32,10 @@ struct AddScheduleView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment:.leading, spacing: 20) {
+            VStack(alignment:.leading) {
                 Text("일정 추가하기")
                     .font(.system(size: 24, weight: .semibold))
+                    .padding(.top)
                 
                 Divider()
                 
@@ -178,6 +179,7 @@ struct AddScheduleView: View {
                             }
                         }
                     }
+                    .padding(.bottom)
                     .padding(5)
                 }
                 
@@ -186,19 +188,17 @@ struct AddScheduleView: View {
                 // MARK: - 일정 만들기 버튼
                 Button {
                     showToast.toggle()
-                    
                     // 날짜정보와 시간정보를 하나의 문자열로 합침
                     let start = startTime.getDateString() + " " + startTime.getTimeString()
                     let end = startTime.getDateString() + " " + endTime.getTimeString()
+                    
                     // 문자열을 기반으로 Date 인스턴스생성
                     let start1 = start.getAllTimeInfo()
                     let end1 = end.getAllTimeInfo()
                     
                     var schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: memo, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
                     
-                    
                     Task {
-                        try await memberStore.fetchMember(group.id)
                         schedule.officiallyAbsentCount = memberStore.members.count
                         await scheduleStore.addSchedule(schedule, group: group)
                         for member in memberStore.members {
@@ -214,9 +214,12 @@ struct AddScheduleView: View {
                     Text("일정 만들기")
                         .modifier(GruopCustomButtonModifier())
                 }
+                .disabled(viewModel.result?.isEmpty ?? true)
             }
             .padding(.horizontal, 30)
+            
         }
+
         .sheet(isPresented: $isShowingWebView) {
             WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
         }
@@ -228,7 +231,7 @@ struct AddScheduleView: View {
 
 struct AddScheduleView_Previews: PreviewProvider {
     @State static private var showToast = false
-    
+
     static var previews: some View {
         AddScheduleView(showToast: $showToast, group: Group.sampleGroup)
     }

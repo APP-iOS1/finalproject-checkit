@@ -188,7 +188,7 @@ struct CategoryView: View {
             
             memberStore.members.removeAll()
             Task {
-                await scheduleStore.fetchSchedule(gruopName: group.name)
+                await scheduleStore.fetchSchedule(groupName: group.name)
                 do {
                     try await memberStore.fetchMember(group.id)
                 } catch MemberError.notFoundMember {
@@ -199,7 +199,7 @@ struct CategoryView: View {
             }
         }
         .onDisappear {
-            groupStore.detachListener()
+            //groupStore.detachListener()
             print(group.scheduleID, "---------")
         }
     }
