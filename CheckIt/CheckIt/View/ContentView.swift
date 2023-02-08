@@ -36,15 +36,17 @@ struct ContentView: View {
                         Text("마이")
                     }
             }
-            .accentColor(Color.myGreen)
-            .onAppear {
-                guard let user = userStore.user else { return }
-                groupStore.startGroupListener(userStore)
-                userStore.startUserListener(user.id)
+        .accentColor(Color.myGreen)
+        .onAppear {
+            guard let user = userStore.user else { return }
+            //groupStore.startGroupListener(userStore)
+            Task {
+                await groupStore.fetchGroups(user)
             }
-            .onDisappear {
-                groupStore.detachListener()
-            }
+            userStore.startUserListener(user.id)
+        }
+        .onDisappear {
+            groupStore.detachListener()
         }
     }
 }
