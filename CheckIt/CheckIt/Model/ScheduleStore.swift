@@ -158,6 +158,7 @@ class ScheduleStore: ObservableObject {
     
     // MARK: - addSchedule 함수
     func addSchedule(_ schedule: Schedule, group: Group) async {
+        print("addSchedule group: \(group)")
         do {
             try await database.collection("Schedule")
                 .document(schedule.id)
@@ -176,12 +177,18 @@ class ScheduleStore: ObservableObject {
                     ScheduleConstants.absentCount: schedule.absentCount,
                     ScheduleConstants.officiallyAbsentCount: schedule.officiallyAbsentCount
                 ])
+            print("추가된 일정: \(schedule)")
+            
+            DispatchQueue.main.async {
+                self.scheduleList.append(schedule)
+            }
             
         } catch {
             print("add schedule error: \(error.localizedDescription)")
         }
         
-        await fetchSchedule(gruopName: group.name)
+        
+        //await fetchSchedule(gruopName: group.name)
         await addScheduleInGroup(schedule.id, group: group)
         // FIXME: - 일정을 만들때 해당하는 출석부도 만들어야 한다.
         // 연속으로 일정을 만드는 경우 이전일정은 저장은 안되는 문제도 존재
@@ -254,7 +261,7 @@ class ScheduleStore: ObservableObject {
         }
     }
     
-    // MARK: - 캘린더
+    // TODO: - 삭제 예정
     func fetchCalendarSchedule(groupName: String) async {
         do {
             DispatchQueue.main.async {
