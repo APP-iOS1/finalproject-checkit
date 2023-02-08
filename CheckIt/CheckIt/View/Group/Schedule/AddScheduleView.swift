@@ -26,7 +26,9 @@ struct AddScheduleView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var attendanceStroe: AttendanceStore
     @EnvironmentObject var memberStore: MemberStore
+    
     @Binding var showToast: Bool
+    @Binding var toastMessage: String
     
     var group: Group
     
@@ -188,6 +190,7 @@ struct AddScheduleView: View {
                 // MARK: - 일정 만들기 버튼
                 Button {
                     showToast.toggle()
+                    toastMessage = "일정 생성이 완료 되었습니다."
                     // 날짜정보와 시간정보를 하나의 문자열로 합침
                     let start = startTime.getDateString() + " " + startTime.getTimeString()
                     let end = startTime.getDateString() + " " + endTime.getTimeString()
@@ -235,6 +238,6 @@ struct AddScheduleView_Previews: PreviewProvider {
     @State static private var showToast = false
 
     static var previews: some View {
-        AddScheduleView(showToast: $showToast, group: Group.sampleGroup)
+        AddScheduleView(showToast: $showToast, toastMessage: .constant(""), group: Group.sampleGroup)
     }
 }
