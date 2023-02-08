@@ -77,8 +77,9 @@ struct CategoryView: View {
                                 .font(i == clickedIndex ? .system(size: 16).bold(): .system(size: 16))
                         }
                     })
-                    .padding(.top, 3)
+                    .padding(.top, 10)
                     .padding(.horizontal)
+                    .buttonStyle(NoAnimation())
                 }
             } // - HStack
             .frame(width: 330)
@@ -198,6 +199,12 @@ struct CategoryView: View {
     }
 }
 
+struct NoAnimation: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+    }
+}
+    
 struct CategoryView_Previews: PreviewProvider {
     static var previews: some View {
         CategoryView(showToast: .constant(true), toastMessage: .constant("dd"), group: Group.sampleGroup)
