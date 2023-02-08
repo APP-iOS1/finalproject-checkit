@@ -212,6 +212,21 @@ class ScheduleStore: ObservableObject {
             print("addScheduleInGroup error: \(error.localizedDescription)")
         }
     }
+    /// 일정을 삭제하는 메소드
+    /// - Parameter groupId: 삭제할 일정이 속해있는 동아리
+    /// - Parameter scheduleId: 삭제할 일정
+    /// - Parameter scheduleList 현재 동아리에 속한 일정들
+    /// 일정 삭제는 다음과 같은 절차로 수행된다.
+    /// 1. 일정 내에 있는 Attendance 컬렉션 삭제
+    /// 2. 일정이 속한 동아리 컬렉션에서 일정 id 삭제
+    /// 3. 일정 컬렉션에서 일정 삭제
+    func removeSchedule(_ scheduleId: String) async {
+        do {
+            try await database.collection("Schedule").document(scheduleId).delete()
+        } catch {
+            print("removeSchedule error: \(error.localizedDescription)")
+        }
+    }
     
     // MARK: - 동아리 카드 디테일 정보
     func fetchRecentSchedule(groupName: String) async {

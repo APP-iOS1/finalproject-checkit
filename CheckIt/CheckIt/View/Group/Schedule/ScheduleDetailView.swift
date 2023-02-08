@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ScheduleDetailView: View {
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
@@ -150,8 +151,11 @@ struct ScheduleDetailView: View {
                                     await attendanceStore.removeAttendance(schedule.id, attendanceId: attendanceId) // 1.
                                     
                                     let schedueList = scheduleStore.scheduleList
-                                    await groupStore.removeScheduleInGroup(group.id, scheduleList: schedueList, scheduleId: schedule) // 2.
+                                    async let newScheduleList = groupStore.removeScheduleInGroup(group.id, scheduleList: schedueList, scheduleId: schedule.id) // 2.
+                                    await scheduleStore.removeSchedule(schedule.id)
+                                    scheduleStore.scheduleList = await newScheduleList
                                     
+                                    dismiss()
                                 }
                             } label: {
                                 Label("삭제하기", systemImage: "trash")
