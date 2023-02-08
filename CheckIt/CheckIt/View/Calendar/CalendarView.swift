@@ -19,6 +19,7 @@ struct CalendarView: View {
     var body: some View {
         VStack {
             CustomDatePickerView(currentDate: $currentDate, selectedGroup: $selectedGroup, totalSchedule: $totalSchedule, currentMonth: $currentMonth)
+                .padding(.horizontal)
             
             Divider()
             

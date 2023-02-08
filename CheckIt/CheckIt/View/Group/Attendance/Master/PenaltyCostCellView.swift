@@ -35,15 +35,14 @@ struct PenaltyCostCellView: View {
                     data.settlementStatus.toggle()
                     print(data, "ddddddddd")
                 } label: {
-                    ZStack {
-                        Image(systemName: "square")
-                        if data.settlementStatus == true {
-                            Image(systemName: "checkmark")
-                        }
-                    }
+                    Image(systemName: data.settlementStatus ? "checkmark.square" : "square")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(.black)
                 }
-                Text(userName)
-                
+                .frame(width: 70)
+                Text(" \(userName)")
+                    .font(.system(size: 16, weight: .regular))
                 Spacer()
             
                 RoundedRectangle(cornerRadius: 10)
