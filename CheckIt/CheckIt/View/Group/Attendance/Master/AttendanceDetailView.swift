@@ -21,10 +21,12 @@ struct AttendanceDetailView: View {
     var schedule: Schedule
     var body: some View {
         VStack {
+            Text("\(Date().yearMonthDayDateToString(date: schedule.startTime)) 출석부")
+                .font(.system(size: 20, weight: .regular))
+                .padding(.top, 10)
+                .padding(.bottom, 10)
             AttendancePickerView(selectedTap: $selectedTap, schedule: schedule)
-                .padding()
-                .padding(.top, UIScreen.main.bounds.height / 30)
-            
+
             AttendanceCategoryView(selection: $selectedTap, schedule: schedule)
             
             Spacer()
@@ -39,8 +41,6 @@ struct AttendanceDetailView: View {
 
             }
         }
-        .navigationTitle("\(Date().yearMonthDayDateToString(date: schedule.startTime)) 출석부")
-        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             print(schedule.id, "스케줄 아이디")
             attendanceStore.fetchAttendance(scheduleID: schedule.id)
