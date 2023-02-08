@@ -192,7 +192,7 @@ struct CategoryView: View {
             }
         }
         .onDisappear {
-            groupStore.detachListener()
+            //groupStore.detachListener()
             print(group.scheduleID, "---------")
         }
     }

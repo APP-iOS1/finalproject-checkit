@@ -21,7 +21,7 @@ struct GroupScheduleView: View {
                     Spacer()
                     
                     NavigationLink {
-                        AddScheduleView(showToast: $showToast, group: groupStore.groupDetail)
+                        AddScheduleView(showToast: $showToast, group: group)
                     } label: {
                         Image(systemName: "plus")
                             .resizable()
