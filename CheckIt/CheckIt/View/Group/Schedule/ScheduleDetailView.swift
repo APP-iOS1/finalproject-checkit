@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct ScheduleDetailView: View {
     @Environment(\.dismiss) var dismiss
@@ -15,10 +16,13 @@ struct ScheduleDetailView: View {
     @EnvironmentObject var attendanceStore: AttendanceStore
     
     @State private var memo: String = ""
+    @State private var isEditSchedule: Bool = false
     @State private var isRemoveSchedule: Bool = false
     
     @Binding var showToast: Bool
     @Binding var toastMessage: String
+    
+    @State private var editSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
     
     var group: Group
     var schedule: Schedule
@@ -144,11 +148,10 @@ struct ScheduleDetailView: View {
                     Menu {
                         Section {
                             Button {
-                                
+                                isEditSchedule.toggle()
                             } label: {
                                 Label("수정하기", systemImage: "highlighter")
                             }
-                            
                             Button(role: .destructive) {
                                 isRemoveSchedule.toggle()
                             } label: {
@@ -161,6 +164,13 @@ struct ScheduleDetailView: View {
                     }
                     .opacity(isHost ? 1 : 0)
                 }
+            }
+            .toast(isPresenting: $showToast){
+                AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
+            }
+            
+            .sheet(isPresented: $isEditSchedule) {
+                EditScheduleView(schedule: $editSchedule, showToast: $showToast, toastMessage: .constant(""), group: group)
             }
             .alert("해당 일정을 삭제하시겠습니까?", isPresented: $isRemoveSchedule, actions: {
                 Button("취소하기", role: .cancel) { }
@@ -186,6 +196,24 @@ struct ScheduleDetailView: View {
             .onAppear {
                 memo = schedule.memo
             }
+        }
+        .onAppear {
+            editSchedule = Schedule(
+                id: schedule.id,
+                groupName: schedule.groupName,
+                lateFee: schedule.lateFee,
+                absenteeFee: schedule.absenteeFee,
+                location: schedule.location,
+                startTime: schedule.startTime,
+                endTime: schedule.endTime,
+                agreeTime: schedule.agreeTime,
+                memo: schedule.memo,
+                attendanceCount: schedule.attendanceCount,
+                lateCount: schedule.lateCount,
+                absentCount: schedule.absentCount,
+                officiallyAbsentCount: schedule.officiallyAbsentCount
+            )
+            print("editSchedule:",editSchedule)
         }
     }
 }
