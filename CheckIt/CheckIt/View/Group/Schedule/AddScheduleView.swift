@@ -18,8 +18,6 @@ struct AddScheduleView: View {
     @State private var lateFee: Int = 0
     @State private var absentFee: Int = 0
     
-    @State var isShowingWebView: Bool = false
-    @State var bar = true
     @ObservedObject var viewModel = WebViewModel()
     
     @Environment(\.dismiss) var dismiss
@@ -31,6 +29,7 @@ struct AddScheduleView: View {
     @Binding var toastMessage: String
     
     var group: Group
+    
     
     var body: some View {
         ScrollView {
@@ -79,7 +78,8 @@ struct AddScheduleView: View {
                         
                         ZStack {
                             Button {
-                                isShowingWebView.toggle()
+                                self.viewModel.isPresentedWebView = true
+                                
                             } label: {
                                 ZStack(alignment: .leading) {
                                     Rectangle()
@@ -225,12 +225,10 @@ struct AddScheduleView: View {
             
         }
 
-        .sheet(isPresented: $isShowingWebView) {
+        .sheet(isPresented: $viewModel.isPresentedWebView) {
             WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
         }
-        .onReceive(self.viewModel.bar.receive(on: RunLoop.main)) { value in
-            self.bar = value
-        }
+        
     }
 }
 
