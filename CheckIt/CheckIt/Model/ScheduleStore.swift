@@ -10,9 +10,8 @@ import FirebaseFirestore
 
 class ScheduleStore: ObservableObject {
     @Published var scheduleList: [Schedule] = []
+    @Published var recentSchedule: [Schedule] = []
     @Published var userScheduleList: [Schedule] = [] ///유저가 속해있는 스케줄 리스트
-    @Published var recentSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
-    
     
     //출석부 카운트
     @Published var publishedAttendanceCount: Int = 0
@@ -265,10 +264,7 @@ class ScheduleStore: ObservableObject {
     // MARK: - 동아리 카드 디테일 정보
     func fetchRecentSchedule(groupName: String) async {
         do {
-            DispatchQueue.main.async {
-                self.scheduleList.removeAll()
-            }
-            
+            print("2")
             let querySnapshot = try await database.collection("Schedule")
                 .whereField("group_name", isEqualTo: groupName)
                 .order(by: "start_time", descending: true)
@@ -301,8 +297,9 @@ class ScheduleStore: ObservableObject {
             let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
             
             DispatchQueue.main.async {
-                self.recentSchedule = schedule
-                print(schedule.startTime)
+                self.recentSchedule.append(schedule)
+                print("스케줄:\(schedule)")
+                print("나와라:\(self.recentSchedule)")
             }
         }
         catch {
@@ -359,4 +356,26 @@ class ScheduleStore: ObservableObject {
             return []
         }
     }
+    
+//    func returnRecentScheduleList(groups: [Group]) async -> [Schedule] {
+//        var tempSchedule: [Schedule] = []
+//
+//        print("groups: \(groups)")
+//        await withTaskGroup(of: Schedule.self) { taskGroup in
+//            for group in groups {
+//                taskGroup.addTask {
+//                    print("1")
+//                    await self.fetchRecentSchedule(groupName: group.name)
+//                    return self.recentSchedule
+//                }
+//            }
+//            for await schedule in taskGroup {
+//                print("4: \(schedule)")
+//                tempSchedule.append(schedule)
+//            }
+//
+//        }
+//        print("반환값 : \(tempSchedule)")
+//        return tempSchedule
+//    }
 }

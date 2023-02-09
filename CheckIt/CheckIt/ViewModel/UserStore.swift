@@ -26,6 +26,8 @@ class UserStore: ObservableObject {
 
     var userData: FirebaseAuth.User? = nil
     
+    var isLogined: Bool = false
+    
     private var listener: ListenerRegistration?
     
     enum LoginState {

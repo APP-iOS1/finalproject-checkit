@@ -550,4 +550,29 @@ class GroupStore: ObservableObject {
         }
         return newScheduleList
     }
+    
+    // DB에 바뀐 Group을 반영하는 친구
+    // 스토리지에 따로 반영을 하기위해서 newImage
+    func editGroup(newGroup: Group, newImage: UIImage) async {
+        do {
+            try await database.collection("Group")
+                .document(newGroup.id)
+                .updateData([
+                    // 파이어베이스는 항상 키:값으로 받아옴
+                    GroupConstants.name: newGroup.name,
+                    GroupConstants.image: newGroup.image, // group.id로 불러와서 사실상 필요없음
+                    GroupConstants.description: newGroup.description
+                ])
+            // 스토리지에 새로 업로드
+            await createImages(newImage, path: newGroup.id)
+            
+            // 리스너를 달아놔서 패치 필요없음
+            // 네트워트 통신이 느려서 바로바로 바꿔줄 수 없어서 await를 붙인다.
+        } catch {
+            print("\(error.localizedDescription)")
+            
+            return
+        }
+    }
+    
 }
