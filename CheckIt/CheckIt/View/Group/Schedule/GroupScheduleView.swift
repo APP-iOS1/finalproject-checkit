@@ -56,7 +56,6 @@ struct GroupScheduleView: View {
                         }
                     }
                     .onAppear {
-//                        scheduleStore.scheduleList.sort(by: <#T##(Schedule, Schedule) throws -> Bool#>)
                     }
                     .onDisappear{
                         //                    // 다른 동아리의 일정이 나타나는 현상 때문에 초기화
