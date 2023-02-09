@@ -43,6 +43,7 @@ struct PenaltyCostCellView: View {
                 .frame(width: 70)
                 Text(" \(userName)")
                     .font(.system(size: 16, weight: .regular))
+                    .offset(x:-5)
                 Spacer()
             
                 RoundedRectangle(cornerRadius: 10)
@@ -57,6 +58,7 @@ struct PenaltyCostCellView: View {
                             .bold()
                     }
             }
+            .offset(x:-10)
         }
         .frame(height: 40)
         .onAppear {
