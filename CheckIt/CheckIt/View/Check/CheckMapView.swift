@@ -9,24 +9,20 @@ import SwiftUI
 import MapKit
 
 struct CheckMapView: View {
+    @StateObject var locationManager = LocationManager()
+    
     ///카메라 띄우기 위한 설정
     @State private var showCameraScannerView = false
     @State var showQR: Bool = false
-    @State var showsUserLocation: Bool = true
-    @State var userTrackingMode: MapUserTrackingMode = .follow
     @State private var isGroupHost: Bool = true //테스트용 추후에 서버에서 받은 값으로 변경 예정
-
     
-    
-    @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.478846, longitude: 126.620930), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
-    var isActive: Bool = false
+    @State var isActive: Bool = true
     @State var isAlert: Bool = false
     
     var body: some View {
         VStack {
-           
             // MapView
-            MapViewWithUserLocation()
+            MapViewWithUserLocation(locationManager: locationManager)
             
                 .overlay(alignment: .bottom) {
                     VStack {
@@ -36,7 +32,12 @@ struct CheckMapView: View {
                         // 출석하기 버튼, isActive가 false면 자동으로 disable됨
                         CheckItButton(isActive: isActive, isAlert: $isAlert, text: "출석하기") {
                            // 출석 범위에 들어왔을 때 action
-                        
+                            print(Date())
+                            // 출석 시간인지 확인하는 로직
+                            
+                            // 출석 범위인지 확인하는 로직
+//                            print(locationManager.location?.coordinate.latitude, locationManager.location?.coordinate.longitude)
+                            print(isInAttendanceRegion(from: CLLocationCoordinate2D(latitude: 0, longitude: 0), to: locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)))
                         }
                         .frame(width: 338)
                         .padding(.bottom ,10)
@@ -72,7 +73,16 @@ struct CheckMapView: View {
         .toolbarBackground(Material.ultraThinMaterial, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
     }
+    
+    
+    func isInAttendanceRegion(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> Bool {
+        // meter 단위로 계산
+        let distance = CLLocationCoordinate2D.distance(from: from, to: to)
+        return distance <= 10 ? true : false
+    }
 }
+
+
 
 
 
