@@ -264,7 +264,7 @@ class ScheduleStore: ObservableObject {
     // MARK: - 동아리 카드 디테일 정보
     func fetchRecentSchedule(groupName: String) async {
         do {
-            print("2")
+            
             let querySnapshot = try await database.collection("Schedule")
                 .whereField("group_name", isEqualTo: groupName)
                 .order(by: "start_time", descending: true)
