@@ -40,26 +40,32 @@ struct GroupScheduleView: View {
             }
             
             VStack {
-                ScrollView {
-                    ForEach(scheduleStore.scheduleList) { schedule in
-                        NavigationLink(destination: ScheduleDetailView(showToast: $showToast, toastMessage: $toastMessage, group: group, schedule: schedule)) {
-                            ScheduleDetailCellView(schedule: schedule)
-                                .onAppear {
-                                    print("schedule: \(schedule)")
-                                }
+                if scheduleStore.scheduleList.isEmpty {
+                    Spacer()
+                    ScheduleEmptyView()
+                    Spacer()
+                } else {
+                    ScrollView {
+                        ForEach(scheduleStore.scheduleList) { schedule in
+                            NavigationLink(destination: ScheduleDetailView(showToast: $showToast, toastMessage: $toastMessage, group: group, schedule: schedule)) {
+                                ScheduleDetailCellView(schedule: schedule)
+                                    .onAppear {
+                                        print("schedule: \(schedule)")
+                                    }
+                            }
                         }
                     }
+                    .onAppear {
+//                        scheduleStore.scheduleList.sort(by: <#T##(Schedule, Schedule) throws -> Bool#>)
+                    }
+                    .onDisappear{
+                        //                    // 다른 동아리의 일정이 나타나는 현상 때문에 초기화
+                        //                    scheduleStore.scheduleList = []
+                    }
+                    .refreshable {
+                        await scheduleStore.fetchSchedule(groupName: groupStore.groupDetail.name)
+                    }
                 }
-                .onAppear {
-                }
-                .onDisappear{
-//                    // 다른 동아리의 일정이 나타나는 현상 때문에 초기화
-//                    scheduleStore.scheduleList = []
-                }
-                .refreshable {
-                    await scheduleStore.fetchSchedule(groupName: groupStore.groupDetail.name)
-                }
-
 
             }
         }
@@ -68,7 +74,7 @@ struct GroupScheduleView: View {
 //            await scheduleStore.fetchSchedule(groupName: groupStore.groupDetail.name)
 //        }
         
-        .padding(.horizontal, 30)
+        .padding(.horizontal, 20)
         //}
         
         
