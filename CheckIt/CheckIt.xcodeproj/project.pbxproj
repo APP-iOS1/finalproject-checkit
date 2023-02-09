@@ -13,6 +13,7 @@
 		1A3CB2652990D04C00EA5E84 /* TermsConditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB2642990D04C00EA5E84 /* TermsConditionsView.swift */; };
 		1A3CB2672990D6F600EA5E84 /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB2662990D6F600EA5E84 /* LicenseView.swift */; };
 		1A3CB2692990D97900EA5E84 /* FrequentlyAskedQuestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB2682990D97900EA5E84 /* FrequentlyAskedQuestionsView.swift */; };
+		1A3CB28F2994870800EA5E84 /* EditScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3CB28E2994870800EA5E84 /* EditScheduleView.swift */; };
 		1A41F4402977A8D40051F464 /* GroupScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */; };
 		1A41F4422977A8F70051F464 /* AddScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4412977A8F70051F464 /* AddScheduleView.swift */; };
 		1A41F4442977AA600051F464 /* AttendanceStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4432977AA600051F464 /* AttendanceStatusView.swift */; };
@@ -159,6 +160,7 @@
 		1A3CB2642990D04C00EA5E84 /* TermsConditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsConditionsView.swift; sourceTree = "<group>"; };
 		1A3CB2662990D6F600EA5E84 /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
 		1A3CB2682990D97900EA5E84 /* FrequentlyAskedQuestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentlyAskedQuestionsView.swift; sourceTree = "<group>"; };
+		1A3CB28E2994870800EA5E84 /* EditScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScheduleView.swift; sourceTree = "<group>"; };
 		1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScheduleView.swift; sourceTree = "<group>"; };
 		1A41F4412977A8F70051F464 /* AddScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleView.swift; sourceTree = "<group>"; };
 		1A41F4432977AA600051F464 /* AttendanceStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceStatusView.swift; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 			children = (
 				1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */,
 				1A41F4412977A8F70051F464 /* AddScheduleView.swift */,
+				1A3CB28E2994870800EA5E84 /* EditScheduleView.swift */,
 				285437C12993753A00E29CE1 /* ScheduleDetailCellView.swift */,
 				285437C32993BD6C00E29CE1 /* ScheduleDetailView.swift */,
 			);
@@ -834,6 +837,7 @@
 				A529BD43298CA7CC00AE232B /* UserConstants.swift in Sources */,
 				2822CE282988DE3300316139 /* MemberStore.swift in Sources */,
 				2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */,
+				1A3CB28F2994870800EA5E84 /* EditScheduleView.swift in Sources */,
 				A5C48C0F297A5221007D49DF /* GroupPosition.swift in Sources */,
 				2869DE402977CC8800D8CAFB /* AttendanceCellView.swift in Sources */,
 				A529BD4F2990C02200AE232B /* EditScheduleAttendanceView.swift in Sources */,
