@@ -64,5 +64,17 @@ extension Date {
         }
         return Status.attendance.rawValue
     }
+    func pastDateCompare(compareDate: Date) -> Bool {
+        let now = Date.now
+        
+        //수정 가능 시간
+        if now < compareDate {
+            return true
+        }
+        //수정 불가능
+        else {
+            return false
+        }
+    }
 }
 
