@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
     var body: some View {
         //NavigationStack {
             TabView {
@@ -47,8 +48,13 @@ struct ContentView: View {
                 
                 Task {
                     await groupStore.fetchGroups(user)
+                    print("groups: \(groupStore.groups)")
+                    for group in groupStore.groups {
+                        await scheduleStore.fetchRecentSchedule(groupName: group.name)
+                    }
                 }
                 userStore.startUserListener(user.id)
+                print("groups : \(groupStore.groups)")
             }
             .onDisappear {
                 groupStore.detachListener()
