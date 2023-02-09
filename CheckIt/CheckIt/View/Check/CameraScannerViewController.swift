@@ -12,9 +12,7 @@ import SwiftUI
 
 struct CameraScannerViewController: UIViewControllerRepresentable {
     @Binding var startScanning: Bool
-    @Binding var test1 : String?
-    @Binding var test2 : String?
-    @Binding var test3 : String?
+    @Binding var userID: String?
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
@@ -50,10 +48,8 @@ struct CameraScannerViewController: UIViewControllerRepresentable {
         func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
             switch item {
             case .barcode(let barcode):
-                let details = barcode.payloadStringValue?.components(separatedBy: "\n") ?? ["test1", "test2", "teset3"]
-                parent.test1 = details[0] //id
-                parent.test2 = details[1]
-                parent.test3 = details[2]
+                let details = barcode.payloadStringValue ?? ""
+                parent.userID = details // uid
                 print("barcode: \(barcode.payloadStringValue ?? "알 수 없음")")
                     dataScanner.stopScanning()
                     dataScanner.dismiss(animated: true)
