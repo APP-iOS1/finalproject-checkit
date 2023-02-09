@@ -27,10 +27,14 @@ struct AttendanceDetailStatusView: View {
                 }
                 .foregroundColor(.myGray)
                 .frame(height: 20)
+                .offset(y:-15)
                 HStack {
-                    Text("[정산 여부] ")
-                        .frame(width: 80)
-                    Text("이름")
+                    HStack {
+                        Text("[정산 여부] ")
+                            .frame(width: 80)
+                        Text("이름")
+                    }
+                    .offset(x: -20)
                     Spacer()
                     Text("출석현황")
                 }
@@ -45,10 +49,14 @@ struct AttendanceDetailStatusView: View {
                 }
                 .foregroundColor(.myGray)
                 .frame(height: 20)
+                .offset(y:-15)
                 HStack {
-                    Text("[정산 여부] ")
-                        .frame(width: 80)
-                    Text("이름")
+                    HStack {
+                        Text("[정산 여부] ")
+                            .frame(width: 80)
+                        Text("이름")
+                    }
+                    .offset(x: -20)
                     Spacer()
                     Text("출석현황")
                 }
@@ -80,20 +88,20 @@ struct AttendanceDetailStatusView: View {
                 ScrollView {
                     ForEach(attendanceStore.attendanceStatusList.indices, id: \.self) { index in
                         NotPenaltyCostCellView(data: attendanceStore.attendanceStatusList[index], category: category)
-                            .padding(.horizontal, 30)
+                            .padding(.top)
+                            .padding(.horizontal, 35)
 
                         Divider()
-                            .frame(minWidth: UIScreen.main.bounds.width)
                     }
                 }
             case .lated:
                 ScrollView {
                     ForEach(changedLatedStatusList.indices, id: \.self) { index in
                         PenaltyCostCellView(data: $changedLatedStatusList[index], category: category)
-                            .padding(.horizontal, 30)
+                            .padding(.top)
+                            .padding(.horizontal, 35)
 
                         Divider()
-                            .frame(minWidth: UIScreen.main.bounds.width)
                     }
                 }
                 Spacer() //지각일 경우 총 지각비 표시하기
@@ -109,15 +117,16 @@ struct AttendanceDetailStatusView: View {
                 ScrollView {
                     ForEach(changedAbsentStatusList.indices, id: \.self) { index in
                         PenaltyCostCellView(data: $changedAbsentStatusList[index], category: category)
+                            .padding(.top)
                             .padding(.horizontal, 30)
 
                         Divider()
                             .frame(minWidth: UIScreen.main.bounds.width)
                     }
                 }
-                Spacer() //지각일 경우 총 지각비 표시하기
+                Spacer() //결석일 경우 총 결석비 표시하기
                 HStack(spacing: 0) {
-                    Text("미정산 결산비: ")
+                    Text("미정산 결석비: ")
                         .font(.system(size: 20, weight: .bold))
 //                        .padding(.leading, 20)
                     Text("\(schedule.lateFee * (changedAbsentStatusList.filter({ $0.settlementStatus == false }).count)) 원")
@@ -128,10 +137,10 @@ struct AttendanceDetailStatusView: View {
                 ScrollView {
                     ForEach(attendanceStore.officiallyAbsentedStatusList.indices, id: \.self) { index in
                         NotPenaltyCostCellView(data: attendanceStore.officiallyAbsentedStatusList[index], category: category)
-//                            .padding(.horizontal, 40)
+                            .padding(.top)
+                            .padding(.horizontal, 35)
 
                         Divider()
-                            .frame(minWidth: UIScreen.main.bounds.width)
                     }
                     .padding(.vertical, 5)
                     
