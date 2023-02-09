@@ -1,5 +1,5 @@
 //
-//  GroupEditView.swift
+//  EditGroupView.swift
 //  CheckIt
 //
 //  Created by 황예리 on 2023/02/09.
@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 import AlertToast
 
-struct GroupEditView: View {
+struct EditGroupView: View {
     @EnvironmentObject var groupStores: GroupStore
     @EnvironmentObject var userStores: UserStore
     
@@ -149,12 +149,12 @@ struct GroupEditView: View {
     } // - isCountValid
 }
 
-struct GroupEditView_Previews: PreviewProvider {
+struct EditGroupView_Previews: PreviewProvider {
     @State static var showToast: Bool = false
     @State static var toastMessage: String = ""
     
     static var previews: some View {
-        GroupEditView(showToast: $showToast, toastMessage: $toastMessage)
+        EditGroupView(showToast: $showToast, toastMessage: $toastMessage)
             .environmentObject(GroupStore())
     }
 }
