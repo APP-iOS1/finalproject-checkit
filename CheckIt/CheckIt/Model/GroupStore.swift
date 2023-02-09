@@ -291,7 +291,7 @@ class GroupStore: ObservableObject {
                     // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
                     DispatchQueue.main.async {
                         if image == nil {
-                            self.groupImage[id] = UIImage()
+                            //self.groupImage[id] = UIImage()
                         } else {
                             self.groupImage[id] = UIImage(data: image!)!
                         }

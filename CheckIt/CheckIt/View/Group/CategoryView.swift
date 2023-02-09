@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct CategoryView: View {
     @State var clickedIndex: Int = 0
@@ -27,7 +28,7 @@ struct CategoryView: View {
     
     let categories: [String] = ["동아리 일정", "출석부", "동아리 정보"]
     
-    @State var group: Group
+    var group: Group
     @State private var changedGroup: Group = Group.sampleGroup
     
     // FIXME: - 현재는 방장인지 아닌지만 여부를 나타내는데 운영진도 고려해야함
@@ -148,6 +149,9 @@ struct CategoryView: View {
         .sheet(isPresented: $isEditGroup) {
             EditGroupView(showToast: $showToast, toastMessage: $toastMessage, group: $changedGroup)
                 .presentationDetents([.height(600)])
+        }
+        .toast(isPresenting: $showToast){
+            AlertToast(displayMode: .banner(.slide), type: .complete(.myGreen), title: toastMessage)
         }
         
         .alert("해당 동아리를 나가시겠습니까?", isPresented: $isCheckExsit, actions: {
