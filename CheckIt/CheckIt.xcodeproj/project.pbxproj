@@ -23,6 +23,8 @@
 		2807AA9B297A536300B1676C /* AttendanceCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AA9A297A536300B1676C /* AttendanceCategoryView.swift */; };
 		2807AA9D297A5E0500B1676C /* AttendancePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AA9C297A5E0500B1676C /* AttendancePickerView.swift */; };
 		2807AAA1297A5FEE00B1676C /* AttendanceDetailStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AAA0297A5FEE00B1676C /* AttendanceDetailStatusView.swift */; };
+		28122E962994DBDC0091F23E /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 28122E952994DBDC0091F23E /* SkeletonView */; };
+		28122E992994DC930091F23E /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 28122E982994DC930091F23E /* Lottie */; };
 		2822CE162988AFEC00316139 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE152988AFEC00316139 /* User.swift */; };
 		2822CE182988B06400316139 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE172988B06400316139 /* Group.swift */; };
 		2822CE1A2988B14400316139 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE192988B14400316139 /* Member.swift */; };
@@ -270,12 +272,14 @@
 				FDEE490C298E3AEA009DF195 /* KakaoSDK in Frameworks */,
 				FD4E25E4297785E800F6F875 /* FirebaseDatabaseSwift in Frameworks */,
 				FD4E25DA297785E800F6F875 /* FirebaseAnalyticsSwift in Frameworks */,
+				28122E962994DBDC0091F23E /* SkeletonView in Frameworks */,
 				FD4E25E0297785E800F6F875 /* FirebaseAuthCombine-Community in Frameworks */,
 				FD03F4CA298B3D0E005B355D /* AlertToast in Frameworks */,
 				FD03F4D4298B3F7A005B355D /* FirebaseStorageUI in Frameworks */,
 				FD4E25EE297785E800F6F875 /* FirebaseStorageCombine-Community in Frameworks */,
 				FD03F4D0298B3F7A005B355D /* FirebaseDatabaseUI in Frameworks */,
 				FD4E25E8297785E800F6F875 /* FirebaseFirestoreCombine-Community in Frameworks */,
+				28122E992994DC930091F23E /* Lottie in Frameworks */,
 				FD4E25DE297785E800F6F875 /* FirebaseAuth in Frameworks */,
 				FD4E25EC297785E800F6F875 /* FirebaseStorage in Frameworks */,
 				FD4E25EA297785E800F6F875 /* FirebaseFirestoreSwift in Frameworks */,
@@ -655,6 +659,8 @@
 				FDEE4915298E3AEA009DF195 /* KakaoSDKTemplate */,
 				FDEE4917298E3AEA009DF195 /* KakaoSDKUser */,
 				FDEE491E298EEE67009DF195 /* SwiftyJSON */,
+				28122E952994DBDC0091F23E /* SkeletonView */,
+				28122E982994DC930091F23E /* Lottie */,
 			);
 			productName = CheckIt;
 			productReference = FD4E2599297783CC00F6F875 /* CheckIt.app */;
@@ -737,6 +743,8 @@
 				FD03F4CE298B3F7A005B355D /* XCRemoteSwiftPackageReference "FirebaseUI-iOS" */,
 				FDEE490A298E3AEA009DF195 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				FDEE491D298EEE67009DF195 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				28122E942994DBDC0091F23E /* XCRemoteSwiftPackageReference "SkeletonView" */,
+				28122E972994DC920091F23E /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			productRefGroup = FD4E259A297783CC00F6F875 /* Products */;
 			projectDirPath = "";
@@ -1221,6 +1229,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		28122E942994DBDC0091F23E /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		28122E972994DC920091F23E /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		2869DE342977B00C00D8CAFB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -1288,6 +1312,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		28122E952994DBDC0091F23E /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28122E942994DBDC0091F23E /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
+		};
+		28122E982994DC930091F23E /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28122E972994DC920091F23E /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
+		};
 		2869DE352977B00C00D8CAFB /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2869DE342977B00C00D8CAFB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
