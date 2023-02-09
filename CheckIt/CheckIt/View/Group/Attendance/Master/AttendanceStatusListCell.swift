@@ -15,8 +15,7 @@ struct AttendanceStatusListCell: View {
             VStack {
                 RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(Color.myLightGray)
-                    .frame(width: .infinity, height:100)
-                    .padding(.horizontal, 40)
+                    .frame(height:100)
             }
             VStack(alignment: .leading) {
                 HStack {
@@ -38,20 +37,19 @@ struct AttendanceStatusListCell: View {
                                 .bold()
                         }
                 }
-                .padding(.bottom, 10)
                 
                 HStack {
                     Text("\(Date().hourMinuteDateToString(date: schedule?.startTime ?? Date())) ~ \(Date().hourMinuteDateToString(date: schedule?.endTime ?? Date()))")
                         .font(.subheadline)
                     Spacer()
                     
-                    Text(String(schedule?.lateFee ?? 0))
+                    Text(String("\(schedule?.lateFee ?? 0) 원" ?? "0 원"))
                         .bold()
                 }
             }
-            .padding(.horizontal, 70)
+            .padding(.horizontal, 20)
         }
-        .padding(.vertical, 10)
+        .padding(.horizontal, 20)
     }
 }
 

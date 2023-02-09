@@ -64,6 +64,7 @@ struct GroupInformationView: View {
                     .multilineTextAlignment(.leading)
                     Spacer()
                 }
+                .padding(.bottom, 20)
                 
                 //동아리 멤버 리스트
                     ZStack {
@@ -107,7 +108,7 @@ struct GroupInformationView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 32)
+                .padding(.horizontal, 20)
                 .padding(.bottom, 8) //아직 기준을 잘 모르겠음
             }
         }
