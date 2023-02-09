@@ -39,7 +39,12 @@ struct ContentView: View {
             .accentColor(Color.myGreen)
             .onAppear {
                 guard let user = userStore.user else { return }
-                //groupStore.startGroupListener(userStore)
+                if userStore.isFirstLogin {
+                    return
+                }
+                
+                userStore.isLogined.toggle()
+                
                 Task {
                     await groupStore.fetchGroups(user)
                 }
