@@ -74,6 +74,9 @@
 		A5775BD22988ECC1000DFC3F /* CameraScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD12988ECC1000DFC3F /* CameraScanner.swift */; };
 		A5775BD42989FE21000DFC3F /* CameraScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */; };
 		A5775BD6298A275A000DFC3F /* AttendanceStatusListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD5298A275A000DFC3F /* AttendanceStatusListCell.swift */; };
+		A58CF9D029952D480032E004 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58CF9CF29952D480032E004 /* LottieView.swift */; };
+		A58CF9D22995380B0032E004 /* Indicator.json in Resources */ = {isa = PBXBuildFile; fileRef = A58CF9D12995380A0032E004 /* Indicator.json */; };
+		A58CF9D62995457E0032E004 /* SecondIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = A58CF9D52995457E0032E004 /* SecondIndicator.json */; };
 		A5C48C0D297A506D007D49DF /* GroupInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C0C297A506D007D49DF /* GroupInformationView.swift */; };
 		A5C48C0F297A5221007D49DF /* GroupPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C0E297A5221007D49DF /* GroupPosition.swift */; };
 		A5C48C11297A606D007D49DF /* GroupMemberListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C10297A606D007D49DF /* GroupMemberListCell.swift */; };
@@ -220,6 +223,9 @@
 		A5775BD12988ECC1000DFC3F /* CameraScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScanner.swift; sourceTree = "<group>"; };
 		A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewModel.swift; sourceTree = "<group>"; };
 		A5775BD5298A275A000DFC3F /* AttendanceStatusListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceStatusListCell.swift; sourceTree = "<group>"; };
+		A58CF9CF29952D480032E004 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		A58CF9D12995380A0032E004 /* Indicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Indicator.json; sourceTree = "<group>"; };
+		A58CF9D52995457E0032E004 /* SecondIndicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SecondIndicator.json; path = ../../../../../Downloads/SecondIndicator.json; sourceTree = "<group>"; };
 		A5C48C0C297A506D007D49DF /* GroupInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInformationView.swift; sourceTree = "<group>"; };
 		A5C48C0E297A5221007D49DF /* GroupPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupPosition.swift; sourceTree = "<group>"; };
 		A5C48C10297A606D007D49DF /* GroupMemberListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMemberListCell.swift; sourceTree = "<group>"; };
@@ -414,6 +420,8 @@
 				FD4E25C8297783E000F6F875 /* ViewModel */,
 				FD4E25C6297783D000F6F875 /* View */,
 				FD4E25A0297783CC00F6F875 /* Assets.xcassets */,
+				A58CF9D12995380A0032E004 /* Indicator.json */,
+				A58CF9D52995457E0032E004 /* SecondIndicator.json */,
 				FD4E25A2297783CC00F6F875 /* Preview Content */,
 			);
 			path = CheckIt;
@@ -453,6 +461,7 @@
 				FD4E25CD2977842200F6F875 /* Calendar */,
 				FD4E25CE2977842A00F6F875 /* MyPage */,
 				FD4E25CB2977840F00F6F875 /* Login */,
+				A58CF9CF29952D480032E004 /* LottieView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -762,9 +771,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A58CF9D62995457E0032E004 /* SecondIndicator.json in Resources */,
 				FD4E25A4297783CC00F6F875 /* Preview Assets.xcassets in Resources */,
 				FD4E25A1297783CC00F6F875 /* Assets.xcassets in Resources */,
 				FDEE491C298ECE93009DF195 /* GoogleService-Info.plist in Resources */,
+				A58CF9D22995380B0032E004 /* Indicator.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -805,6 +816,7 @@
 				FD2D0800297C0FB100CC010E /* CustomSymbols.swift in Sources */,
 				FD4E25D12977849900F6F875 /* ColorExtension.swift in Sources */,
 				1A3CB2692990D97900EA5E84 /* FrequentlyAskedQuestionsView.swift in Sources */,
+				A58CF9D029952D480032E004 /* LottieView.swift in Sources */,
 				1A3CB25E298A614E00EA5E84 /* Card.swift in Sources */,
 				A5FF27A02977AD3F0059C312 /* MyPageView.swift in Sources */,
 				FDEE4904298D4D92009DF195 /* GoogleStore.swift in Sources */,
@@ -1044,7 +1056,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JB8T59WMFR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckIt/Info.plist;
@@ -1082,7 +1094,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JB8T59WMFR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckIt/Info.plist;

@@ -9,13 +9,15 @@ import SwiftUI
 
 
 struct CameraScanner: View {
-    
+    var schedule: Schedule
     @StateObject private var cameraScannerViewModel = CameraScannerViewModel()
     @State private var startScanning: Bool = false
     @State private var notCapacityScannerState: Bool = false
     @State var userID : String? = nil
     @Environment(\.presentationMode) var presentationMode
-    //    @EnvironmentObject var attendanceStore : AttendanceStore
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
+
     var body: some View {
         NavigationView {
             CameraScannerViewController(
@@ -55,6 +57,9 @@ struct CameraScanner: View {
             }
             .onDisappear {
                 print(startScanning, "dss")
+                print(userID, "userID")
+                print(schedule, "Schedule")
+                print(attendanceStore, "attendanceStore")
                 //                    print(seminarID)
 //                                    if let test1 = test1 {
 //                                        attendanceStore.addAttendance(
@@ -63,7 +68,13 @@ struct CameraScanner: View {
 //                                    } else { return }
                 if let userID = userID {
                     //출첵하는 함수
-                    print(userID)
+                    print(userID, "userID")
+                    print(schedule, "Schedule")
+                    let attendanceStatus = Date().dateCompare(compareDate: schedule.startTime)
+//                    let attendance = Attendance(id: userID, scheduleId: schedule.id, attendanceStatus: attendanceStatus, settlementStatus: false)
+                    print(attendanceStatus, "출석이냐 지갹이냐 결석이냐")
+                    
+//                    attendanceStore.updateAttendace(attendanceData: attendance, scheduleID: schedule.id, uid: userID)
                 } else { return }
             }
         }
@@ -77,8 +88,8 @@ struct CameraScanner: View {
     }
 }
 
-struct CameraScanner_Previews: PreviewProvider {
-    static var previews: some View {
-        CameraScanner()
-    }
-}
+//struct CameraScanner_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CameraScanner()
+//    }
+//}

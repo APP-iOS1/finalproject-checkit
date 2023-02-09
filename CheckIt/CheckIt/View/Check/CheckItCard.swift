@@ -11,7 +11,8 @@ struct CheckItCard: View {
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStore: UserStore
-
+    @EnvironmentObject var attendanceStore: AttendanceStore
+    
     @State var dDay: String = "D-day"
 //    @State var groupName: String = "허니미니의 또구 동아리"
 //    @State var place: String = "신촌 베이스볼클럽"
@@ -56,7 +57,9 @@ struct CheckItCard: View {
                             .padding(10)
                         
                         // Check It 버튼
-                        NavigationLink(destination: CheckMapView(group: group).environmentObject(userStore)) {
+                        NavigationLink(destination: CheckMapView(group: group, schedule: scheduleStore.recentSchedule)
+                            .environmentObject(userStore)
+                            .environmentObject(attendanceStore)) {
                             CheckItButton(isActive: card[index].isActiveButton, isAlert: .constant(false)).buttonLabel
                         }
                         .frame(width: 200)
