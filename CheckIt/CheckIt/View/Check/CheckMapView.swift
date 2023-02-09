@@ -10,11 +10,15 @@ import MapKit
 
 struct CheckMapView: View {
     @StateObject var locationManager = LocationManager()
-    
+    @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var userStore: UserStore
     ///카메라 띄우기 위한 설정
     @State private var showCameraScannerView = false
     @State var showQR: Bool = false
-    @State private var isGroupHost: Bool = true //테스트용 추후에 서버에서 받은 값으로 변경 예정
+    var group: Group
+        var isHost: Bool {
+            group.hostID == userStore.user?.id ?? ""
+        }
     
     @State var isActive: Bool = true
     @State var isAlert: Bool = false
@@ -50,18 +54,14 @@ struct CheckMapView: View {
                 .toolbar {
                     Button (action: {
                         showQR.toggle()
-
-
                     }) { QRButtonLabel() }
                 } // - toolbar
             
             
             // QR 시트
                 .sheet(isPresented: $showQR) {
-                    if isGroupHost {
+                    if isHost {
                         CameraScanner()
-     
- 
                     } else {
                         QRSheetView()
                             .presentationDetents([.medium])
@@ -70,9 +70,6 @@ struct CheckMapView: View {
                     
                 } // - sheet
 
-       
-    
-            
         } // - VStack
         .animation(.easeOut(duration: 0.3), value: isAlert)
         .transition(.opacity)
@@ -90,12 +87,3 @@ struct CheckMapView: View {
         return distance <= 10 ? true : false
     }
 }
-
-
-
-//struct CheckMapView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CheckMapView()
-//    }
-//}
-//
