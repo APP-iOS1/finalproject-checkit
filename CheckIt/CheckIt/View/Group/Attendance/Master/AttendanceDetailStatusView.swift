@@ -38,8 +38,7 @@ struct AttendanceDetailStatusView: View {
                     Spacer()
                     Text("출석현황")
                 }
-                .font(.system(size: 16, weight: .medium))
-                .padding(.horizontal, 40)
+                .font(.system(size: 16, weight: .bold))                .padding(.horizontal, 40)
             case .absented:
                 HStack {
                     Spacer()
@@ -60,7 +59,7 @@ struct AttendanceDetailStatusView: View {
                     Spacer()
                     Text("출석현황")
                 }
-                .font(.system(size: 16, weight: .medium))
+                .font(.system(size: 16, weight: .bold))
                 .padding(.horizontal, 40)
             case .attendanced:
                 HStack { }
@@ -70,7 +69,7 @@ struct AttendanceDetailStatusView: View {
                     Spacer()
                     Text("출석현황")
                 }
-                .font(.system(size: 16, weight: .medium))
+                .font(.system(size: 16, weight: .bold))
                 .padding(.horizontal, 40)
             case .officiallyAbsented:
                 HStack { }
@@ -80,7 +79,7 @@ struct AttendanceDetailStatusView: View {
                     Spacer()
                     Text("출석현황")
                 }
-                .font(.system(size: 16, weight: .medium))
+                .font(.system(size: 16, weight: .bold))
                 .padding(.horizontal, 40)
             }
             switch category {

@@ -18,7 +18,7 @@ struct AttendanceDetailView: View {
             Text("\(Date().yearMonthDayDateToString(date: schedule.startTime)) 출석부")
                 .font(.system(size: 20, weight: .regular))
                 .padding(.top, 10)
-                .padding(.bottom, 10)
+                .padding(.bottom, 20)
             AttendancePickerView(selectedTap: $selectedTap, schedule: schedule)
             AttendanceDetailStatusView(category: selectedTap, schedule: schedule)
             
