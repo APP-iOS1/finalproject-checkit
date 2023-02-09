@@ -27,7 +27,7 @@ struct CategoryView: View {
     
     let categories: [String] = ["동아리 일정", "출석부", "동아리 정보"]
     
-    @State var group: Group
+    var group: Group
     @State private var changedGroup: Group = Group.sampleGroup
     
     // FIXME: - 현재는 방장인지 아닌지만 여부를 나타내는데 운영진도 고려해야함
