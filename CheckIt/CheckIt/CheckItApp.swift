@@ -64,14 +64,16 @@ struct CheckItApp: App {
                     .environmentObject(memberStore)
                     .task {
                         guard let user = Auth.auth().currentUser else { return }
+                        if userStore.isFirstLogin {
+                            return
+                        }
                         userStore.isPresentedLoginView = false
                         userStore.userData = user
+                        userStore.isFirstLogin.toggle()
                         await userStore.fetchUser(user.uid)
-                        //groupStore.startGroupListener(userStore)
                         await groupStore.fetchGroups(userStore.user!)
                         userStore.startUserListener(user.uid)
                     }
-                
             }
         }
     }
