@@ -102,6 +102,9 @@ struct EditGroupView: View {
 
                 Task {
                     await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.id]!)
+                    
+                    self.groupStores.groupDetail = newGroup
+                    
                     let index = self.groupStores.groups.firstIndex{ $0.id == group.id }
                     self.groupStores.groups[index ?? -1] = newGroup
 
