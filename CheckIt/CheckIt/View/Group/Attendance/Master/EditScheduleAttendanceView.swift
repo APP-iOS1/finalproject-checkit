@@ -75,8 +75,10 @@ struct EditScheduleAttendanceView: View {
                         Task {
                             await scheduleStore.updateScheduleAttendanceCount(schedule: schedule)
                             await scheduleStore.fetchSchedule(groupName: schedule.groupName)
-                            isLoading = false
-                            dismiss()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                isLoading = false
+                                dismiss()
+                            }
                         }
                     } label: {
                         Text("수정완료")
@@ -90,9 +92,8 @@ struct EditScheduleAttendanceView: View {
                     Color(.systemBackground)
                         .ignoresSafeArea()
                         .opacity(0.8)
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .myGreen))
-                        .scaleEffect(4)
+                    LottieView(filename: "SecondIndicator")
+                        .frame(width: 150, height: 150)
                     }
 
                 }

@@ -14,11 +14,13 @@ struct CheckMapView: View {
     @State var showQR: Bool = false
     @State var showsUserLocation: Bool = true
     @State var userTrackingMode: MapUserTrackingMode = .follow
-    @State private var isGroupHost: Bool = false //테스트용 추후에 서버에서 받은 값으로 변경 예정
+    @State private var isGroupHost: Bool = true //테스트용 추후에 서버에서 받은 값으로 변경 예정
     
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
     var group: Group
+    var schedule: Schedule
     var isHost: Bool {
         group.hostID == userStore.user?.id ?? ""
     }
@@ -64,13 +66,14 @@ struct CheckMapView: View {
             // QR 시트
                 .sheet(isPresented: $showQR) {
                     if isGroupHost {
-                        CameraScanner()
-     
+                        CameraScanner(schedule: schedule, userID: userStore.user?.id)
+                            .environmentObject(userStore)
  
                     } else {
                         QRSheetView()
                             .presentationDetents([.medium])
                             .environmentObject(userStore)
+                            .environmentObject(attendanceStore)
                     }
                     
                 } // - sheet
