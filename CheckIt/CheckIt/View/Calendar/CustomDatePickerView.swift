@@ -42,6 +42,7 @@ struct CustomDatePickerView: View {
     //피커에서 선택된 그룹
     @Binding var selectedGroup: String
     @Binding var totalSchedule: [Schedule]
+    @Binding var totalAttendance: [Attendance]
     
     //화살표 누르면 달(month) 업데이트
     @Binding var currentMonth: Int
@@ -139,7 +140,7 @@ struct CustomDatePickerView: View {
     func CardView(value: DateValue) -> some View {
         VStack {
             if value.day != -1 {
-                if let filterSchedule = totalSchedule.filter({ schedule in
+                if let filterSchedules = totalSchedule.filter({ schedule in
                 if selectedGroup != "전체" {
                     return extraData.isSameDay(date1: schedule.startTime, date2: value.date) && (schedule.groupName == selectedGroup)
                 } else {
@@ -152,8 +153,12 @@ struct CustomDatePickerView: View {
                 
                 HStack(spacing: 6) {
                     //FIXME: 3+ 라벨 처리
-                    if !filterSchedule.isEmpty {
-                        let scheduleNum = filterSchedule.count
+                    if !filterSchedules.isEmpty {
+                        // MARK: - selectedGroup에 맞춰 필터된 스케줄을 시간순으로 정렬(과거순)
+                        let sortedSchedules = filterSchedules.sorted {
+                            $0.startTime < $1.startTime
+                        }
+                        let scheduleNum = sortedSchedules.count
                        
                         if scheduleNum > 3 {
                             Text("3+")
@@ -166,10 +171,39 @@ struct CustomDatePickerView: View {
                                 .padding(.top, -5)
                             
                         } else {
-                            ForEach(0..<scheduleNum) {_ in
-                                Circle()
-                                    .fill(Color.myRed)
-                                    .frame(width: 7, height: 7)
+                            ForEach(sortedSchedules) { schedule in
+                                // MARK: - 지금을 기준으로 지난 일정과 예정 일정을 구분
+                                switch Date().dateCompare(fromDate: schedule.startTime) {
+                                case "Future":
+                                    Circle()
+                                        .fill(Color.myGray)
+                                        .frame(width: 7, height: 7)
+                                default:
+                                    // MARK: - 일정에 맞는 출석상태를 필터링
+                                    if let filterAttendance = totalAttendance.first(where: { attendance in
+                                        return attendance.scheduleId == schedule.id
+                                    }) {
+                                        switch filterAttendance.attendanceStatus {
+                                        case "출석":
+                                            Circle()
+                                                .fill(Color.myGreen)
+                                                .frame(width: 7, height: 7)
+                                        case "지각":
+                                            Circle()
+                                                .fill(Color.myOrange)
+                                                .frame(width: 7, height: 7)
+                                        case "공결":
+                                            Circle()
+                                                .fill(Color.myBlack)
+                                                .frame(width: 7, height: 7)
+                                        default:
+                                            Circle()
+                                                .fill(Color.myRed)
+                                                .frame(width: 7, height: 7)
+                                        }
+                                        
+                                    }
+                                }
                             }
                         }
                     }
@@ -218,22 +252,6 @@ struct CustomDatePickerView: View {
         }
         
         return days
-    }
-}
-
-//MARK: 현재 달(month) 날짜들을 Date 타입으로 Get
-extension Date {
-    
-    func getAllDates() -> [Date] {
-        let calendar = Calendar.current
-        
-        let startDate = calendar.date(from: Calendar.current.dateComponents([.year, .month], from: self))!
-        
-        let range = calendar.range(of: .day, in: .month, for: startDate)
-        
-        return range?.compactMap { day -> Date in
-            return calendar.date(byAdding: .day, value: day - 1, to: startDate)!
-        } ?? []
     }
 }
 

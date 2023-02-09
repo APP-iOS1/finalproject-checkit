@@ -48,7 +48,11 @@ struct CheckMapView: View {
             
             // QR 시트 버튼
                 .toolbar {
-                    Button (action: { showQR.toggle() }) { QRButtonLabel() }
+                    Button (action: {
+                        showQR.toggle()
+
+
+                    }) { QRButtonLabel() }
                 } // - toolbar
             
             
@@ -61,7 +65,9 @@ struct CheckMapView: View {
                     } else {
                         QRSheetView()
                             .presentationDetents([.medium])
+                            .environmentObject(userStore)
                     }
+                    
                 } // - sheet
 
        
@@ -72,6 +78,9 @@ struct CheckMapView: View {
         .transition(.opacity)
         .toolbarBackground(Material.ultraThinMaterial, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
+        .onAppear {
+            print(userStore.user?.id, "유저 아이디")
+        }
     }
     
     
@@ -84,13 +93,9 @@ struct CheckMapView: View {
 
 
 
-
-
-
-
-struct CheckMapView_Previews: PreviewProvider {
-    static var previews: some View {
-        CheckMapView()
-    }
-}
-
+//struct CheckMapView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CheckMapView()
+//    }
+//}
+//
