@@ -46,6 +46,7 @@
 		2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */; };
 		2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */; };
 		2B661EBB29948F2D00CAE64D /* GroupEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBA29948F2D00CAE64D /* GroupEditView.swift */; };
+		2B661EBD2994D44900CAE64D /* Ex+UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBC2994D44900CAE64D /* Ex+UIScreen.swift */; };
 		2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */; };
 		2BDA61F12977C6CE00FDD307 /* MakeGroupModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */; };
 		2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */; };
@@ -190,6 +191,7 @@
 		2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceDetailView.swift; sourceTree = "<group>"; };
 		2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltyCostCellView.swift; sourceTree = "<group>"; };
 		2B661EBA29948F2D00CAE64D /* GroupEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEditView.swift; sourceTree = "<group>"; };
+		2B661EBC2994D44900CAE64D /* Ex+UIScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIScreen.swift"; sourceTree = "<group>"; };
 		2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMainView.swift; sourceTree = "<group>"; };
 		2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeGroupModalView.swift; sourceTree = "<group>"; };
 		2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGruopModalView.swift; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 			children = (
 				2845444C298A26F1001B2EED /* Ex+Date.swift */,
 				2845444E298A2DAC001B2EED /* Ex+String.swift */,
+				2B661EBC2994D44900CAE64D /* Ex+UIScreen.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -829,6 +832,7 @@
 				A529BD512990C1EC00AE232B /* EditScheduleAttendanceListCell.swift in Sources */,
 				A529BD4D298CABF500AE232B /* MemberStoreConstants.swift in Sources */,
 				2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */,
+				2B661EBD2994D44900CAE64D /* Ex+UIScreen.swift in Sources */,
 				2822CE162988AFEC00316139 /* User.swift in Sources */,
 				2807AA9D297A5E0500B1676C /* AttendancePickerView.swift in Sources */,
 				A529BD43298CA7CC00AE232B /* UserConstants.swift in Sources */,
