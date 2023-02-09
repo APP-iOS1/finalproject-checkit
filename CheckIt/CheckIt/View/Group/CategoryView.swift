@@ -13,6 +13,7 @@ struct CategoryView: View {
     @EnvironmentObject var memberStore: MemberStore
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
     
     @Environment(\.dismiss) private var dismiss
     
@@ -165,6 +166,13 @@ struct CategoryView: View {
             Button("취소하기", role: .cancel) { }
             Button("삭제하기", role: .destructive) {
                 Task {
+                    // 동아리 내의 일정 및 연관된 출석부 컬렉션 삭제
+                    for scheduleId in group.scheduleID {
+                        async let attendanceId = await attendanceStore.getAttendanceId(scheduleId)
+                        await attendanceStore.removeAttendance(scheduleId, attendanceId: attendanceId)
+                        await scheduleStore.removeSchedule(scheduleId)
+                    }
+                    
                     let uidList = memberStore.members.map { $0.uid }
                     await groupStore.removeGroup(groupId: group.id ,uidList: uidList)
                     self.groupStore.groups.removeAll { $0.id == group.id}

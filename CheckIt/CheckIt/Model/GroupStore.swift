@@ -426,19 +426,22 @@ class GroupStore: ObservableObject {
     ///
     /// 동아리를 삭제하는 절차는 다음과 같다.
     /// 1. 동아리 컬렉션 내 member 컬렉션 삭제 -> 컬렉션내 모든 document를 삭제해야 함
-    /// 2. 동아리 컬렉션 document 삭제
-    /// 3. 방장 및 가입한 모든 유저의 필드에서 groupId제거
+    /// 2. 동아리가 가진 모든 스케줄을 삭제
+    /// 3. 스케줄에 연관된 컬렉션 삭제
+    /// 4. 동아리 컬렉션 document 삭제
+    /// 5. 방장 및 가입한 모든 유저의 필드에서 groupId제거
+    /// 6. 스토리지내 이미지 삭제
     func removeGroup(groupId: String, uidList: [String]) async {
         let docRef = database.collection("Group").document(groupId)
         
         await removeMemberCollection(ref: docRef, uidList: uidList) // 1.
         
         do {
-            try await docRef.delete() // 2.
+            try await docRef.delete() // 4.
         } catch {
             print("Groupstore removeGroup error: \(error.localizedDescription)")
         }
-        await removeGroupIdAllMember(groupId: groupId, uidList: uidList) // 3.
+        await removeGroupIdAllMember(groupId: groupId, uidList: uidList) // 5.
     }
     /// 동아리의 MemberCollection을 삭제하는 메소드
     /// - Parameter ref: 삭제할 동아리의 reference
