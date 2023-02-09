@@ -10,8 +10,6 @@ import MapKit
 
 struct CheckMapView: View {
     @StateObject var locationManager = LocationManager()
-    @EnvironmentObject var scheduleStore: ScheduleStore
-    @EnvironmentObject var userStore: UserStore
     ///카메라 띄우기 위한 설정
     @State private var showCameraScannerView = false
     @State var showQR: Bool = false

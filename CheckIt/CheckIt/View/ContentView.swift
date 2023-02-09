@@ -40,7 +40,7 @@ struct ContentView: View {
             .accentColor(Color.myGreen)
             .onAppear {
                 guard let user = userStore.user else { return }
-                if userStore.isFirstLogin {
+                if userStore.isLogined {
                     return
                 }
                 

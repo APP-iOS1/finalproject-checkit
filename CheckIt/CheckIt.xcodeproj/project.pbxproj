@@ -76,7 +76,7 @@
 		A5775BD6298A275A000DFC3F /* AttendanceStatusListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD5298A275A000DFC3F /* AttendanceStatusListCell.swift */; };
 		A58CF9D029952D480032E004 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58CF9CF29952D480032E004 /* LottieView.swift */; };
 		A58CF9D22995380B0032E004 /* Indicator.json in Resources */ = {isa = PBXBuildFile; fileRef = A58CF9D12995380A0032E004 /* Indicator.json */; };
-		A58CF9D62995457E0032E004 /* SecondIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = A58CF9D52995457E0032E004 /* SecondIndicator.json */; };
+		A58CF9DA299553680032E004 /* SecondIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = A58CF9D9299553680032E004 /* SecondIndicator.json */; };
 		A5C48C0D297A506D007D49DF /* GroupInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C0C297A506D007D49DF /* GroupInformationView.swift */; };
 		A5C48C0F297A5221007D49DF /* GroupPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C0E297A5221007D49DF /* GroupPosition.swift */; };
 		A5C48C11297A606D007D49DF /* GroupMemberListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C48C10297A606D007D49DF /* GroupMemberListCell.swift */; };
@@ -225,7 +225,7 @@
 		A5775BD5298A275A000DFC3F /* AttendanceStatusListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceStatusListCell.swift; sourceTree = "<group>"; };
 		A58CF9CF29952D480032E004 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		A58CF9D12995380A0032E004 /* Indicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Indicator.json; sourceTree = "<group>"; };
-		A58CF9D52995457E0032E004 /* SecondIndicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SecondIndicator.json; path = ../../../../../Downloads/SecondIndicator.json; sourceTree = "<group>"; };
+		A58CF9D9299553680032E004 /* SecondIndicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = SecondIndicator.json; path = ../../../../SecondIndicator.json; sourceTree = "<group>"; };
 		A5C48C0C297A506D007D49DF /* GroupInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInformationView.swift; sourceTree = "<group>"; };
 		A5C48C0E297A5221007D49DF /* GroupPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupPosition.swift; sourceTree = "<group>"; };
 		A5C48C10297A606D007D49DF /* GroupMemberListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMemberListCell.swift; sourceTree = "<group>"; };
@@ -421,7 +421,7 @@
 				FD4E25C6297783D000F6F875 /* View */,
 				FD4E25A0297783CC00F6F875 /* Assets.xcassets */,
 				A58CF9D12995380A0032E004 /* Indicator.json */,
-				A58CF9D52995457E0032E004 /* SecondIndicator.json */,
+				A58CF9D9299553680032E004 /* SecondIndicator.json */,
 				FD4E25A2297783CC00F6F875 /* Preview Content */,
 			);
 			path = CheckIt;
@@ -771,7 +771,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A58CF9D62995457E0032E004 /* SecondIndicator.json in Resources */,
+				A58CF9DA299553680032E004 /* SecondIndicator.json in Resources */,
 				FD4E25A4297783CC00F6F875 /* Preview Assets.xcassets in Resources */,
 				FD4E25A1297783CC00F6F875 /* Assets.xcassets in Resources */,
 				FDEE491C298ECE93009DF195 /* GoogleService-Info.plist in Resources */,

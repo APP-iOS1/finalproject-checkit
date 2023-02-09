@@ -67,15 +67,18 @@ struct CheckItCard: View {
                                 }
                         }
                         
-//                        if let compareDate = Date().dateCompare(fromDate: <#T##Date#>)
                         // Check It 버튼
-                        NavigationLink(destination: CheckMapView(group: group, schedule: scheduleStore.recentSchedule)
-                            .environmentObject(userStore)
-                            .environmentObject(attendanceStore)) {
-                            CheckItButton(isActive: card[index].isActiveButton, isAlert: .constant(false)).buttonLabel
+                        if let filterSchedule = recentScheduleList.first(where: { schedule in
+                                        return schedule.groupName == group.name
+                        }) {
+                            NavigationLink(destination: CheckMapView(group: group, schedule: filterSchedule)
+                                .environmentObject(userStore)
+                                .environmentObject(attendanceStore)) {
+                                CheckItButton(isActive: card[index].isActiveButton, isAlert: .constant(false)).buttonLabel
+                            }
+                            .frame(width: 200)
+                            .disabled(!card[index].isActiveButton)
                         }
-                        .frame(width: 200)
-                        .disabled(!card[index].isActiveButton)
                     } // - VStack
                 } // - overlay
         }
