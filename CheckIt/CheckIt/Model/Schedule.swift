@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Schedule: Identifiable {
+struct Schedule: Identifiable, Hashable {
     var id: String
     var groupName: String // 동아리명
     var lateFee: Int

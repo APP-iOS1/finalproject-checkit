@@ -183,6 +183,35 @@ class AttendanceStore: ObservableObject {
         }
         return false
     }
-
     
+    /// 일정에 해당하는 스케줄의 id를 얻는 메소드 입니다.
+    /// - Parameter scheduleId: 가져올 출석이랑 연관된 일정
+    /// - Returns: 출석의 id
+    func getAttendanceId(_ scheduleId: String) async -> String {
+        do {
+           let querySnapshot = try await database.collection("Schedule").document(scheduleId)
+                .collection("Attendance")
+                .getDocuments()
+            if querySnapshot.isEmpty { return "Error"}
+            let document = querySnapshot.documents.first!
+            return document.documentID
+        } catch {
+            print("getAttendance error: \(error.localizedDescription)")
+        }
+        return "error"
+    }
+    
+    /// 일정을 삭제하는 메소드 입니다.
+    /// - Parameter attendanceId: 삭제할 출석의 id
+    func removeAttendance(_ scheduleId: String, attendanceId: String) async {
+        do {
+            try await database.collection("Schedule").document(scheduleId)
+                .collection("Attendance")
+                .document(attendanceId)
+                .delete()
+        } catch {
+            print("removeAttendance error: \(error.localizedDescription)")
+        }
+    }
+
 }

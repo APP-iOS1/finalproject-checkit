@@ -401,6 +401,7 @@ class GroupStore: ObservableObject {
             return 0
         }
     }
+    // FIXME: - 동아리 삭제할 시 안에 있는 스케줄도 삭제해야 함
     /// 동아리를 삭제하는 메소드
     /// - Parameter groupdId: 삭제할 동아리의 id
     /// - Parameter uidList: 삭제할 동아리 멤버들의 id 리스트
@@ -490,5 +491,28 @@ class GroupStore: ObservableObject {
         } catch {
             print("removeGroupId error: \(error.localizedDescription)")
         }
+    }
+    
+    /// 동아리 컬렉션에서 일정을 삭제하는 메소드
+    /// - Parameter groupId: 삭제할 일정이 속해있는 동아리
+    /// - Parameter scheduleList: 현재 동아리에 속한 일정들
+    /// - Parameter scheduleId: 삭제할 일정
+    /// - Returns: 동아리에서 삭제될 일정이 제거된 데이터 리스트
+    func removeScheduleInGroup(_ groupId: String, scheduleList: [Schedule], scheduleId: String) async -> [Schedule] {
+        var newScheduleIdList = scheduleList.map {$0.id }
+        newScheduleIdList.removeAll {$0 == scheduleId }
+        
+        var newScheduleList = scheduleList.filter{$0.id != scheduleId}
+        
+        do {
+            try await database.collection("Group").document(groupId)
+                .updateData([
+                    "schedule_id": newScheduleIdList
+                ])
+            return newScheduleList
+        } catch {
+            print("removeScheduleInGroup error: \(error.localizedDescription)")
+        }
+        return newScheduleList
     }
 }
