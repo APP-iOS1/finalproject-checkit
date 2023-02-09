@@ -18,6 +18,7 @@ struct CategoryView: View {
     
     @State private var isCheckExsit: Bool = false
     @State private var isRemoveGroup: Bool = false
+    @State private var isEditGroup: Bool = false
     @State var isGroupManager: Bool = false
     
     @Binding var showToast: Bool
@@ -111,9 +112,9 @@ struct CategoryView: View {
                     if isHost {
                         Section {
                             Button {
-                                
+                                isEditGroup.toggle()
                             } label: {
-                                Label("동아리 편집하기", systemImage: "highlighter")
+                                Label("동아리 정보 수정하기", systemImage: "highlighter")
                             }
                             
                             ShareLink(item: group.invitationCode) {
@@ -142,6 +143,11 @@ struct CategoryView: View {
                 }
             }
         }
+        .sheet(isPresented: $isEditGroup) {
+            GroupEditView(showToast: $showToast, toastMessage: $toastMessage)
+                .presentationDetents([.height(600)])
+        }
+        
         .alert("해당 동아리를 나가시겠습니까?", isPresented: $isCheckExsit, actions: {
             Button("취소하기", role: .cancel) { }
             Button("나가기", role: .destructive) {
