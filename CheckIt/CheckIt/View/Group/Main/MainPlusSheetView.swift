@@ -33,7 +33,7 @@ struct MainPlusSheetView: View {
             .sheet(isPresented: $isMakingGroup) {
                 MakeGroupModalView(showToast: $showToast, toastMessage: $toastMessage)
                     .environment(\.presentations, presentations + [$isMakingGroup])
-                    .presentationDetents([.height(650)])
+                    .presentationDetents([.height(600)])
             }
             
             Text("아래 버튼을 누르고 코드를 입력해주세요.")
