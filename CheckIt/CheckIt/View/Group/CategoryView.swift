@@ -26,7 +26,9 @@ struct CategoryView: View {
     @Binding var toastMessage: String
     
     let categories: [String] = ["동아리 일정", "출석부", "동아리 정보"]
-    var group: Group
+    
+    @State var group: Group
+    @State private var changedGroup: Group = Group.sampleGroup
     
     // FIXME: - 현재는 방장인지 아닌지만 여부를 나타내는데 운영진도 고려해야함
     /// 현재 동아리가 자신이 방장인지 확인하는 연산 프로퍼티
@@ -145,7 +147,7 @@ struct CategoryView: View {
             }
         }
         .sheet(isPresented: $isEditGroup) {
-            EditGroupView(showToast: $showToast, toastMessage: $toastMessage)
+            EditGroupView(showToast: $showToast, toastMessage: $toastMessage, group: $changedGroup)
                 .presentationDetents([.height(600)])
         }
         
@@ -195,8 +197,7 @@ struct CategoryView: View {
         .onAppear {
             print("Category onAppear 호출")
             groupStore.startGroupListener(group)
-            print(group.name, "네임")
-            print(group.scheduleID, "Sssss")
+            changedGroup = group
             
             memberStore.members.removeAll()
             Task {
