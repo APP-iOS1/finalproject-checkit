@@ -18,7 +18,7 @@ struct GroupScheduleView: View {
     
     @State private var isAddSheet: Bool = false
     @Binding var isGroupManager: Bool
-    
+    @State var toastMessage = ""
     var body: some View {
         NavigationStack {
             VStack {
@@ -37,16 +37,6 @@ struct GroupScheduleView: View {
                 }
                 .opacity(isGroupManager ? 1 : 0)
                 .disabled(isGroupManager ? false : true)
-                
-                Button {
-                    isAddSheet.toggle()
-                } label: {
-                    Image(systemName: "plus")
-                        .resizable()
-                        .frame(width:20, height:20)
-                        .foregroundColor(.black)
-                        .padding([.bottom, .trailing], 5)
-                }
             }
             
             VStack {
