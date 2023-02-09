@@ -81,7 +81,6 @@ struct CategoryView: View {
                     .buttonStyle(NoAnimation())
                 }
             } // - HStack
-            .frame(width: 330)
             .padding(.bottom, 20)
             
             if clickedIndex == 0 {

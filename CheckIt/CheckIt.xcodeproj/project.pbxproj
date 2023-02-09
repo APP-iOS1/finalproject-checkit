@@ -19,6 +19,7 @@
 		1A41F4442977AA600051F464 /* AttendanceStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4432977AA600051F464 /* AttendanceStatusView.swift */; };
 		1A41F4462977AA820051F464 /* LateFeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4452977AA820051F464 /* LateFeeView.swift */; };
 		1A41F4482977AE3C0051F464 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4472977AE3C0051F464 /* CategoryView.swift */; };
+		1AC25B8529953AF500BFBF12 /* ScheduleEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC25B8429953AF500BFBF12 /* ScheduleEmptyView.swift */; };
 		2807AA99297A514D00B1676C /* AttendanceCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AA98297A514D00B1676C /* AttendanceCategory.swift */; };
 		2807AA9B297A536300B1676C /* AttendanceCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AA9A297A536300B1676C /* AttendanceCategoryView.swift */; };
 		2807AA9D297A5E0500B1676C /* AttendancePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AA9C297A5E0500B1676C /* AttendancePickerView.swift */; };
@@ -172,6 +173,7 @@
 		1A41F4432977AA600051F464 /* AttendanceStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceStatusView.swift; sourceTree = "<group>"; };
 		1A41F4452977AA820051F464 /* LateFeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LateFeeView.swift; sourceTree = "<group>"; };
 		1A41F4472977AE3C0051F464 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
+		1AC25B8429953AF500BFBF12 /* ScheduleEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEmptyView.swift; sourceTree = "<group>"; };
 		2807AA98297A514D00B1676C /* AttendanceCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCategory.swift; sourceTree = "<group>"; };
 		2807AA9A297A536300B1676C /* AttendanceCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCategoryView.swift; sourceTree = "<group>"; };
 		2807AA9C297A5E0500B1676C /* AttendancePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendancePickerView.swift; sourceTree = "<group>"; };
@@ -604,6 +606,7 @@
 				1A3CB28E2994870800EA5E84 /* EditScheduleView.swift */,
 				285437C12993753A00E29CE1 /* ScheduleDetailCellView.swift */,
 				285437C32993BD6C00E29CE1 /* ScheduleDetailView.swift */,
+				1AC25B8429953AF500BFBF12 /* ScheduleEmptyView.swift */,
 			);
 			path = Schedule;
 			sourceTree = "<group>";
@@ -857,6 +860,7 @@
 				2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */,
 				2B661EBD2994D44900CAE64D /* Ex+UIScreen.swift in Sources */,
 				2822CE162988AFEC00316139 /* User.swift in Sources */,
+				1AC25B8529953AF500BFBF12 /* ScheduleEmptyView.swift in Sources */,
 				2807AA9D297A5E0500B1676C /* AttendancePickerView.swift in Sources */,
 				A529BD43298CA7CC00AE232B /* UserConstants.swift in Sources */,
 				2822CE282988DE3300316139 /* MemberStore.swift in Sources */,
