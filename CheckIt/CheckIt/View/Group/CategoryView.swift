@@ -19,6 +19,7 @@ struct CategoryView: View {
     
     @State private var isCheckExsit: Bool = false
     @State private var isRemoveGroup: Bool = false
+    @State private var isEditGroup: Bool = false
     @State var isGroupManager: Bool = false
     
     @Binding var showToast: Bool
@@ -85,7 +86,7 @@ struct CategoryView: View {
                 GroupScheduleView(group: groupStore.groupDetail, isGroupManager: $isGroupManager)
             }
             if clickedIndex == 1 {
-                AttendanceStatusView(scheduleIDList: group.scheduleID, hostId: group.hostID)
+                AttendanceStatusView(isGroupManager: $isGroupManager, scheduleIDList: group.scheduleID, hostId: group.hostID)
             }
             if clickedIndex == 2 {
                 GroupInformationView(group: groupStore.groupDetail)
@@ -112,14 +113,12 @@ struct CategoryView: View {
                     if isHost {
                         Section {
                             Button {
-                                
+                                isEditGroup.toggle()
                             } label: {
-                                Label("동아리 편집하기", systemImage: "highlighter")
+                                Label("동아리 정보 수정하기", systemImage: "highlighter")
                             }
                             
-                            Button {
-//                                ShareLink
-                            } label: {
+                            ShareLink(item: group.invitationCode) {
                                 Label("초대 링크 공유하기", systemImage: "square.and.arrow.up")
                             }
                             
@@ -145,6 +144,11 @@ struct CategoryView: View {
                 }
             }
         }
+        .sheet(isPresented: $isEditGroup) {
+            EditGroupView(showToast: $showToast, toastMessage: $toastMessage)
+                .presentationDetents([.height(600)])
+        }
+        
         .alert("해당 동아리를 나가시겠습니까?", isPresented: $isCheckExsit, actions: {
             Button("취소하기", role: .cancel) { }
             Button("나가기", role: .destructive) {
@@ -187,8 +191,6 @@ struct CategoryView: View {
             Text("해당 동아리를 삭제하면\n동아리에 대한 모든 정보가 사라집니다.")
                 .multilineTextAlignment(.center)
         })
-        
-        
         
         .onAppear {
             print("Category onAppear 호출")

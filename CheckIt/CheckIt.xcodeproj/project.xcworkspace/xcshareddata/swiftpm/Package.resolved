@@ -154,6 +154,15 @@
       }
     },
     {
+      "identity" : "lottie-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-spm.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "f2b51cea3a3da8516d9f63f7cec1fabcdcf704dc"
+      }
+    },
+    {
       "identity" : "nanopb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/nanopb.git",
@@ -187,6 +196,15 @@
       "state" : {
         "revision" : "61fefe9c284fd41ddef77d02749e88f00c305196",
         "version" : "2.2.2"
+      }
+    },
+    {
+      "identity" : "skeletonview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Juanpe/SkeletonView",
+      "state" : {
+        "revision" : "739a4f5d78731bebc48811c75fa9e1f4c4cef23e",
+        "version" : "1.30.4"
       }
     },
     {
