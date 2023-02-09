@@ -193,6 +193,38 @@ class ScheduleStore: ObservableObject {
         // 연속으로 일정을 만드는 경우 이전일정은 저장은 안되는 문제도 존재
     }
     
+    // MARK: - updateSchedule 함수
+    func updateSchedule(_ schedule: Schedule, group: Group) async {
+        print("updateSchedule 호출")
+        do {
+            try await database.collection("Schedule")
+                .document(schedule.id)
+                .updateData([
+                    "id": schedule.id,
+                    ScheduleConstants.groupName : schedule.groupName,
+                    ScheduleConstants.lateFee : schedule.lateFee,
+                    ScheduleConstants.absenteeFee: schedule.absenteeFee,
+                    ScheduleConstants.location: schedule.location,
+                    ScheduleConstants.agreeTime: schedule.agreeTime,
+                    ScheduleConstants.memo : schedule.memo,
+                    ScheduleConstants.startTime: schedule.startTime,
+                    ScheduleConstants.endTime: schedule.endTime,
+                    ScheduleConstants.attendanceCount: schedule.attendanceCount,
+                    ScheduleConstants.lateCount: schedule.lateCount,
+                    ScheduleConstants.absentCount: schedule.absentCount,
+                    ScheduleConstants.officiallyAbsentCount: schedule.officiallyAbsentCount
+                ])
+            print("수정된 일정: \(schedule)")
+            
+//            DispatchQueue.main.async {
+//                self.scheduleList.append(schedule)
+//            }
+            
+        } catch {
+            print("update schedule error: \(error.localizedDescription)")
+        }
+    }
+    
     // MARK: - addScheduleInGroup 함수
     func addScheduleInGroup(_ scheduleId: String, group: Group) async {
         var scheduleList = group.scheduleID

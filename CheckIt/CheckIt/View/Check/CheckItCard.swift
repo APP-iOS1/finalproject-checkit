@@ -10,6 +10,7 @@ import SwiftUI
 struct CheckItCard: View {
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var userStore: UserStore
 
     @State var dDay: String = "D-day"
 //    @State var groupImage: Image = Image("chocobi")
@@ -67,7 +68,7 @@ struct CheckItCard: View {
                         
 //                        if let compareDate = Date().dateCompare(fromDate: <#T##Date#>)
                         // Check It 버튼
-                        NavigationLink(destination: CheckMapView()) {
+                        NavigationLink(destination: CheckMapView(group: group).environmentObject(userStore)) {
                             CheckItButton(isActive: card[index].isActiveButton, isAlert: .constant(false)).buttonLabel
                         }
                         .frame(width: 200)

@@ -12,22 +12,15 @@ struct CameraScanner: View {
     
     @StateObject private var cameraScannerViewModel = CameraScannerViewModel()
     @State private var startScanning: Bool = false
-    
     @State private var notCapacityScannerState: Bool = false
-    
-    @State var test1 : String? = nil
-    @State var test2 : String? = nil
-    @State var test3 : String? = nil
-    
+    @State var userID : String? = nil
     @Environment(\.presentationMode) var presentationMode
     //    @EnvironmentObject var attendanceStore : AttendanceStore
     var body: some View {
         NavigationView {
             CameraScannerViewController(
                 startScanning: $startScanning,
-                test1: $test1,
-                test2: $test2,
-                test3: $test3)
+                userID: $userID)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {
@@ -63,11 +56,15 @@ struct CameraScanner: View {
             .onDisappear {
                 print(startScanning, "dss")
                 //                    print(seminarID)
-                //                    if let test1 = test1 {
-                //                        attendanceStore.addAttendance(
-                //                            seminarID: seminarID,
-                //                            attendance: Attendance(id: scanIdResult, uid: scanUid ?? "", userNickname: scanUserNickname ?? ""))
-                //                    } else { return }
+//                                    if let test1 = test1 {
+//                                        attendanceStore.addAttendance(
+//                                            seminarID: seminarID,
+//                                            attendance: Attendance(id: scanIdResult, uid: scanUid ?? "", userNickname: scanUserNickname ?? ""))
+//                                    } else { return }
+                if let userID = userID {
+                    //출첵하는 함수
+                    print(userID)
+                } else { return }
             }
         }
         .task {
