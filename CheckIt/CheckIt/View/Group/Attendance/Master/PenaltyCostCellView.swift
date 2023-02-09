@@ -58,6 +58,7 @@ struct PenaltyCostCellView: View {
                     }
             }
         }
+        .frame(height: 40)
         .onAppear {
             userName = userStore.userDictionaryList[data.id] ?? ""
         }

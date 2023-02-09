@@ -36,29 +36,33 @@ struct EditScheduleAttendanceListCell: View {
                         data.attendanceStatus = "출석"
                     } label: {
                         Text("출석")
+                            .font(.system(size: 16, weight: .regular))
                     }
                     Button {
                         data.attendanceStatus = "지각"
                     } label: {
                         Text("지각")
+                            .font(.system(size: 16, weight: .regular))
                     }
                     Button {
                         data.attendanceStatus = "결석"
                     } label: {
                         Text("결석")
+                            .font(.system(size: 16, weight: .regular))
                     }
                     Button {
                         data.attendanceStatus = "공결"
                     } label: {
                         Text("공결")
+                            .font(.system(size: 16, weight: .regular))
                     }
                 } label: {
                     RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 61, height: 30)
+                        .frame(width: 45, height: 25)
                         .foregroundColor(.white)
                         .overlay{
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(attendanceColor, lineWidth: 2)
+                                .stroke(attendanceColor, lineWidth: 1)
                             Text(data.attendanceStatus)
                                 .foregroundColor(attendanceColor)
                                 .font(.system(size: 16, weight: .bold))
@@ -67,8 +71,8 @@ struct EditScheduleAttendanceListCell: View {
 
             }
         }
-        .padding(.horizontal, 40)
-        .frame(height: 65)
+        .padding(.horizontal, 30)
+        .frame(height: 40)
         .onAppear {
             userName = userStore.userDictionaryList[data.id] ?? ""
         }

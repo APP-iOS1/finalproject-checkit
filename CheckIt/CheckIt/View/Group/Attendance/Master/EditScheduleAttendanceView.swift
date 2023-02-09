@@ -20,8 +20,8 @@ struct EditScheduleAttendanceView: View {
             VStack(spacing: 0) {
                 Text("\(Date().yearMonthDayDateToString(date: schedule.startTime)) 출석부")
                     .font(.system(size: 20, weight: .regular))
-                    .padding(.top, 34)
-                    .padding(.bottom, 30)
+                    .padding(.top, 10)
+                    .padding(.bottom, 10)
                 HStack(alignment: .center) {
                     Text("이름")
                     Spacer()
@@ -29,7 +29,7 @@ struct EditScheduleAttendanceView: View {
                     
                 }
                 .font(.system(size: 16, weight: .bold))
-                .padding(.horizontal, 40)
+                .padding(.horizontal, 30)
                 
                 ScrollView {
                     ForEach(changedAttendancList.indices, id: \.self) { index in
