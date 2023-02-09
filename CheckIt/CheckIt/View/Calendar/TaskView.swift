@@ -12,18 +12,19 @@ struct TaskView: View {
     
     @Binding var currentDate: Date
     @Binding var totalSchedule: [Schedule]
+    @Binding var totalAttendance: [Attendance]
     @Binding var selectedGroup: String
     
     var body: some View {
         HStack {
-            if let filterSchedule = totalSchedule.filter({ schedule in
+            if let filterSchedules = totalSchedule.filter({ schedule in
                 if selectedGroup != "전체" {
                     return extraData.isSameDay(date1: schedule.startTime, date2: currentDate) && (schedule.groupName == selectedGroup)
                 } else {
                     return extraData.isSameDay(date1: schedule.startTime, date2: currentDate)
                 }
             }) {
-                if !filterSchedule.isEmpty {
+                if !filterSchedules.isEmpty {
                     VStack(alignment: .leading, spacing: 9) {
                         //MARK: - 일정 날짜
                         Text("예정된 일정")
@@ -32,10 +33,33 @@ struct TaskView: View {
                             .bold()
                         
                         ScrollView(showsIndicators: true) {
+                            // MARK: - selectedGroup에 맞춰 필터된 스케줄을 시간순으로 정렬(과거순)
+                            let sortedSchedules = filterSchedules.sorted {
+                                $0.startTime < $1.startTime
+                            }
                             //MARK: - 일정 디테일
-                            ForEach(filterSchedule) { schedule in
+                            ForEach(sortedSchedules) { schedule in
                                 HStack(spacing: 20) {
-                                    ExDivider(color: .myRed)
+                                    switch Date().dateCompare(fromDate: schedule.startTime) {
+                                    case "Future":
+                                        ExDivider(color: .myGray)
+                                    default:
+                                        if let filterAttendance = totalAttendance.first(where: { attendance in
+                                            return attendance.scheduleId == schedule.id
+                                        }) {
+                                            switch filterAttendance.attendanceStatus {
+                                            case "출석":
+                                                ExDivider(color: .myGreen)
+                                            case "지각":
+                                                ExDivider(color: .myOrange)
+                                            case "공결":
+                                                ExDivider(color: .myBlack)
+                                            default:
+                                                ExDivider(color: .myRed)
+                                            }
+                                        }
+                                    }
+                                    
                                     VStack(alignment: .leading, spacing: 5) {
                                         Text("\(extraData.selectedDate(date: schedule.startTime)[5]):\(extraData.selectedDate(date: schedule.startTime)[6]) \(extraData.selectedDate(date: schedule.startTime)[4])")
                                             .font(.body)
