@@ -68,10 +68,11 @@ struct EditScheduleAttendanceListCell: View {
                                 .font(.system(size: 16, weight: .bold))
                         }
                 }
+                .offset(x:-2)
 
             }
         }
-        .padding(.horizontal, 30)
+        .padding(.horizontal, 45)
         .frame(height: 40)
         .onAppear {
             userName = userStore.userDictionaryList[data.id] ?? ""
