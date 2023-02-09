@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomToastAlert: View {
-    @State var distance: Int = 100
+    @Binding var distance: Double
     @Binding var isPresented: Bool
     var body: some View {
         if isPresented {
@@ -16,7 +16,8 @@ struct CustomToastAlert: View {
                 .overlay {
                     VStack {
                         Text("모임 장소로 이동해주세요.")
-                        Text("모임 위치까지 \(distance)m 남았습니다.")
+                        Text("모임 위치까지") + Text(" \(distance)m ").underline() + Text("남았습니다.")
+                            
                     }
                 }
                 .padding(.vertical, 80)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CheckItButton: View {
-    var isActive: Bool = false
+    @Binding var isActive: Bool
     @Binding var isAlert: Bool
     var text: String = "Check It!"
     var action: () -> () = {}
