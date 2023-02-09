@@ -9,9 +9,8 @@ import SwiftUI
 import MapKit
 
 struct CheckMapView: View {
-    @StateObject var locationManager = LocationManager()
-    ///카메라 띄우기 위한 설정
-    @State private var showCameraScannerView = false
+    @StateObject var locationManager: LocationManager
+
     @State var showQR: Bool = false
     
     @State private var isGroupHost: Bool = true //테스트용 추후에 서버에서 받은 값으로 변경 예정
@@ -25,11 +24,10 @@ struct CheckMapView: View {
         group.hostID == userStore.user?.id ?? ""
     }
     
-
     
     @State var isActive: Bool = true
     @State var isAlert: Bool = false
-    
+    var coordinate: CLLocationCoordinate2D?
     var body: some View {
         VStack {
             // MapView
@@ -38,17 +36,25 @@ struct CheckMapView: View {
                 .overlay(alignment: .bottom) {
                     VStack {
                         // 토스트 알럿
-                        CustomToastAlert(isPresented: $isAlert)
+                        CustomToastAlert(distance: $locationManager.distance, isPresented: $isAlert)
                         
                         // 출석하기 버튼, isActive가 false면 자동으로 disable됨
-                        CheckItButton(isActive: isActive, isAlert: $isAlert, text: "출석하기") {
+                        CheckItButton(isActive: $locationManager.isInAttendanceRegion, isAlert: $isAlert, text: "출석하기") {
                            // 출석 범위에 들어왔을 때 action
-                            print(Date())
+                
                             // 출석 시간인지 확인하는 로직
+                            let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime)
+                            // 출석 시간이면 db로 데이터 보냄
                             
-                            // 출석 범위인지 확인하는 로직
-//                            print(locationManager.location?.coordinate.latitude, locationManager.location?.coordinate.longitude)
-                            print(isInAttendanceRegion(from: CLLocationCoordinate2D(latitude: 0, longitude: 0), to: locationManager.location?.coordinate ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)))
+                            //FIXME: db에서 잘못된 시간이 들어오고 있음
+                            if timeCompareResult == "출석" || timeCompareResult == "지각" {
+                                // 출석 상태 변경zr
+                                attendanceStore.updateAttendace(attendanceData: Attendance(id: userStore.user!.id, scheduleId: schedule.id, attendanceStatus: "\(timeCompareResult)", settlementStatus: false), scheduleID: schedule.id, uid: userStore.user!.id)
+                                print(schedule.id)
+                            }
+                           
+                            // 아니면 불가능하다는 알럿 보여주기
+    
                         }
                         .frame(width: 338)
                         .padding(.bottom ,10)
@@ -91,9 +97,7 @@ struct CheckMapView: View {
     }
     
     
-    func isInAttendanceRegion(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> Bool {
-        // meter 단위로 계산
-        let distance = CLLocationCoordinate2D.distance(from: from, to: to)
-        return distance <= 10 ? true : false
-    }
+
 }
+
+

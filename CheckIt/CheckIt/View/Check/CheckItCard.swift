@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct CheckItCard: View {
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var attendanceStore: AttendanceStore
+    
+    var locationManager: LocationManager { LocationManager(toCoordinate: coordinate ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)) }
     
     @State var dDay: String = "D-day"
     //    @State var groupImage: Image = Image("chocobi")
@@ -24,7 +27,10 @@ struct CheckItCard: View {
     var index: Int
     var card: [Card]
     @Binding var recentScheduleList: [Schedule]
+    @State var action: Int?
+ 
     let calendar = Calendar.current
+    @State var coordinate: CLLocationCoordinate2D?
     
     @State private var filterSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
     
@@ -73,16 +79,33 @@ struct CheckItCard: View {
                         
                         // Check It 버튼
                         if let filterSchedule = recentScheduleList.first(where: { schedule in
-                            return schedule.groupName == group.name
-                        }) {
-                            NavigationLink(destination: CheckMapView(group: group, schedule: filterSchedule)
+                            schedule.groupName == group.name
+                        }){
+                            NavigationLink(destination: CheckMapView(locationManager: locationManager, group: group, schedule: filterSchedule, coordinate: coordinate)
                                 .environmentObject(userStore)
-                                .environmentObject(attendanceStore)) {
-                                    CheckItButton(isActive: card[index].isActiveButton, isAlert: .constant(false)).buttonLabel
-                                }
-                                .frame(width: 200)
-                                .disabled(!card[index].isActiveButton)
+                                .environmentObject(attendanceStore) ,tag: 0, selection: $action) {}
                         }
+                            
+                            
+                            
+                        CheckItButton(isActive: .constant(card[index].isActiveButton), isAlert: .constant(false)) {
+                                guard let filterSchedule = recentScheduleList.first(where: { schedule in
+                                                return schedule.groupName == group.name
+                                }) else { return }
+                            Task {
+                                if let filterSchedule = recentScheduleList.first(where: { schedule in
+                                    schedule.groupName == group.name
+                                }) {
+                                    guard let coordinateString = await GeoCodingService.getCoordinateFromAddress(address: filterSchedule.location) else { return }
+                                    self.coordinate = CLLocationCoordinate2D(latitude: Double(coordinateString[0]) ?? 0.0, longitude: Double(coordinateString[1]) ?? 0.0)
+                                    action = 0
+                                }
+                            }
+                                
+                            }
+                            .frame(width: 200)
+      
+                       
                     } // - VStack
                 } // - overlay
             //        .onAppear {
@@ -94,6 +117,8 @@ struct CheckItCard: View {
             //            print("filter: \(self.filterSchedule)")
             //        }
         }
+        
+
     }
     //        .onAppear {
     //            Task {
