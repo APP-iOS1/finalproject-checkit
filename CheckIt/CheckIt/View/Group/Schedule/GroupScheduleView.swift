@@ -46,7 +46,7 @@ struct GroupScheduleView: View {
                     Spacer()
                 } else {
                     ScrollView {
-                        ForEach(scheduleStore.scheduleList) { schedule in
+                        ForEach(scheduleStore.scheduleList.sorted(by: { $0.startTime < $1.startTime})) { schedule in
                             NavigationLink(destination: ScheduleDetailView(showToast: $showToast, toastMessage: $toastMessage, group: group, schedule: schedule)) {
                                 ScheduleDetailCellView(schedule: schedule)
                                     .onAppear {
