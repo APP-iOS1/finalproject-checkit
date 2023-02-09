@@ -15,7 +15,7 @@ struct AttendanceDetailStatusView: View {
     @State var changedAbsentStatusList: [Attendance] = []
     var body: some View {
         
-        VStack(alignment: .center) {
+        VStack(spacing: 0) {
             switch category {
             case .lated:
                 HStack {
@@ -27,6 +27,15 @@ struct AttendanceDetailStatusView: View {
                 }
                 .foregroundColor(.myGray)
                 .frame(height: 20)
+                HStack {
+                    Text("[정산 여부] ")
+                        .frame(width: 80)
+                    Text("이름")
+                    Spacer()
+                    Text("출석현황")
+                }
+                .font(.system(size: 16, weight: .medium))
+                .padding(.horizontal, 40)
             case .absented:
                 HStack {
                     Spacer()
@@ -36,37 +45,56 @@ struct AttendanceDetailStatusView: View {
                 }
                 .foregroundColor(.myGray)
                 .frame(height: 20)
+                HStack {
+                    Text("[정산 여부] ")
+                        .frame(width: 80)
+                    Text("이름")
+                    Spacer()
+                    Text("출석현황")
+                }
+                .font(.system(size: 16, weight: .medium))
+                .padding(.horizontal, 40)
             case .attendanced:
                 HStack { }
                 .frame(height: 20)
+                HStack {
+                    Text("이름")
+                    Spacer()
+                    Text("출석현황")
+                }
+                .font(.system(size: 16, weight: .medium))
+                .padding(.horizontal, 40)
             case .officiallyAbsented:
                 HStack { }
                 .frame(height: 20)
+                HStack {
+                    Text("이름")
+                    Spacer()
+                    Text("출석현황")
+                }
+                .font(.system(size: 16, weight: .medium))
+                .padding(.horizontal, 40)
             }
-            makeView(category)
-                .padding(.bottom, 10)
             switch category {
             case .attendanced:
                 ScrollView {
                     ForEach(attendanceStore.attendanceStatusList.indices, id: \.self) { index in
                         NotPenaltyCostCellView(data: attendanceStore.attendanceStatusList[index], category: category)
-                            .padding(.horizontal, 40)
+                            .padding(.horizontal, 30)
 
                         Divider()
                             .frame(minWidth: UIScreen.main.bounds.width)
                     }
-                    .padding(.vertical, 5)
                 }
             case .lated:
                 ScrollView {
                     ForEach(changedLatedStatusList.indices, id: \.self) { index in
                         PenaltyCostCellView(data: $changedLatedStatusList[index], category: category)
-                            .padding(.horizontal, 40)
+                            .padding(.horizontal, 30)
 
                         Divider()
                             .frame(minWidth: UIScreen.main.bounds.width)
                     }
-                    .padding(.vertical, 5)
                 }
                 Spacer() //지각일 경우 총 지각비 표시하기
                 HStack(spacing: 0) {
@@ -81,12 +109,11 @@ struct AttendanceDetailStatusView: View {
                 ScrollView {
                     ForEach(changedAbsentStatusList.indices, id: \.self) { index in
                         PenaltyCostCellView(data: $changedAbsentStatusList[index], category: category)
-                            .padding(.horizontal, 40)
+                            .padding(.horizontal, 30)
 
                         Divider()
                             .frame(minWidth: UIScreen.main.bounds.width)
                     }
-                    .padding(.vertical, 5)
                 }
                 Spacer() //지각일 경우 총 지각비 표시하기
                 HStack(spacing: 0) {
@@ -101,7 +128,7 @@ struct AttendanceDetailStatusView: View {
                 ScrollView {
                     ForEach(attendanceStore.officiallyAbsentedStatusList.indices, id: \.self) { index in
                         NotPenaltyCostCellView(data: attendanceStore.officiallyAbsentedStatusList[index], category: category)
-                            .padding(.horizontal, 40)
+//                            .padding(.horizontal, 40)
 
                         Divider()
                             .frame(minWidth: UIScreen.main.bounds.width)
@@ -112,35 +139,6 @@ struct AttendanceDetailStatusView: View {
             }
         }
         .padding(.top, 20)
-        .padding(.horizontal, 20)
-    }
-    
-    func makeView(_ status: AttendanceCategory) -> some View {
-        HStack {
-            switch status {
-            case .attendanced:
-                Text("이름")
-                Spacer()
-                Text("출석현황")
-            case .lated:
-                Text("[정산 여부] ")
-                    .frame(width: 80)
-                Text("이름")
-                Spacer()
-                Text("출석현황")
-            case .absented:
-                Text("[정산 여부] ")
-                    .frame(width: 80)
-                Text("이름")
-                Spacer()
-                Text("출석현황")
-            case .officiallyAbsented:
-                Text("이름")
-                Spacer()
-                Text("출석현황")
-            }
-        }
-        .font(.system(size: 16, weight: .medium))
         .onAppear {
             print(category, "?????/")
             Task {

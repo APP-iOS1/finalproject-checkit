@@ -12,16 +12,31 @@ struct GroupScheduleView: View {
     var group: Group
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var memberStore: MemberStore
     @State private var showToast = false
     
     @State private var isAddSheet: Bool = false
-    @State private var toastMessage: String = ""
+    @Binding var isGroupManager: Bool
     
     var body: some View {
-        //NavigationStack {
-        VStack {
-            HStack {
-                Spacer()
+        NavigationStack {
+            VStack {
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        isAddSheet.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                            .resizable()
+                            .frame(width:20, height:20)
+                            .foregroundColor(.black)
+                            .padding([.bottom, .trailing], 5)
+                    }
+                }
+                .opacity(isGroupManager ? 1 : 0)
+                .disabled(isGroupManager ? false : true)
                 
                 Button {
                     isAddSheet.toggle()
@@ -45,6 +60,17 @@ struct GroupScheduleView: View {
                         }
                     }
                 }
+                .onAppear {
+                }
+                .onDisappear{
+//                    // 다른 동아리의 일정이 나타나는 현상 때문에 초기화
+//                    scheduleStore.scheduleList = []
+                }
+                .refreshable {
+                    await scheduleStore.fetchSchedule(groupName: groupStore.groupDetail.name)
+                }
+
+
             }
         }
         

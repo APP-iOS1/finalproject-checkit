@@ -234,6 +234,24 @@ class GroupStore: ObservableObject {
             }
         }
     }
+    // MARK: - 동아리 생성 시 중복을 확인하는 메소드
+    func canUseGroupsName(groupName: String) async -> Bool {
+        do {
+
+            let querySnapshot = try await database.collection("Group").whereField("name", isEqualTo: groupName).getDocuments()
+            
+            if querySnapshot.isEmpty {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+        catch {
+            print("checkGroupsName error: \(error.localizedDescription)")
+        }
+        return false
+    }
     
     // MARK: - 자신이 속한 동아리 데이터를 가져오는 메소드
     /// - Parameter uid: 로그인한 사용자의 uid
