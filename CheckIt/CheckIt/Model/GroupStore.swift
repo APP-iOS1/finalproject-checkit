@@ -419,26 +419,31 @@ class GroupStore: ObservableObject {
             return 0
         }
     }
-    // FIXME: - 동아리 삭제할 시 안에 있는 스케줄도 삭제해야 함
+    // MARK: - REMOVE
+    
     /// 동아리를 삭제하는 메소드
     /// - Parameter groupdId: 삭제할 동아리의 id
     /// - Parameter uidList: 삭제할 동아리 멤버들의 id 리스트
     ///
     /// 동아리를 삭제하는 절차는 다음과 같다.
     /// 1. 동아리 컬렉션 내 member 컬렉션 삭제 -> 컬렉션내 모든 document를 삭제해야 함
-    /// 2. 동아리 컬렉션 document 삭제
-    /// 3. 방장 및 가입한 모든 유저의 필드에서 groupId제거
+    /// 2. 동아리가 가진 모든 스케줄을 삭제
+    /// 3. 스케줄에 연관된 컬렉션 삭제
+    /// 4. 동아리 컬렉션 document 삭제
+    /// 5. 방장 및 가입한 모든 유저의 필드에서 groupId제거
+    /// 6. 스토리지내 이미지 삭제
     func removeGroup(groupId: String, uidList: [String]) async {
         let docRef = database.collection("Group").document(groupId)
         
         await removeMemberCollection(ref: docRef, uidList: uidList) // 1.
         
         do {
-            try await docRef.delete() // 2.
+            try await docRef.delete() // 4.
         } catch {
             print("Groupstore removeGroup error: \(error.localizedDescription)")
         }
-        await removeGroupIdAllMember(groupId: groupId, uidList: uidList) // 3.
+        await removeGroupIdAllMember(groupId: groupId, uidList: uidList) // 5.
+        await removeGroupImage(groupId) // 6.
     }
     /// 동아리의 MemberCollection을 삭제하는 메소드
     /// - Parameter ref: 삭제할 동아리의 reference
@@ -508,6 +513,18 @@ class GroupStore: ObservableObject {
             
         } catch {
             print("removeGroupId error: \(error.localizedDescription)")
+        }
+    }
+    /// 동아리의 이미지를 삭제하는 메소드입니다.
+    /// - Parameter groupId: 삭제할 동아리 id
+    func removeGroupImage(_ groupId: String) async {
+        let path = "group_images/\(groupId)"
+        let imageRef = storage.reference().child(path)
+        
+        do {
+            try await imageRef.delete()
+        } catch {
+            print("removeGroupImage error: \(error.localizedDescription)")
         }
     }
     
