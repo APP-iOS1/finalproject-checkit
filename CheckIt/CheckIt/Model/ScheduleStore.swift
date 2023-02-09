@@ -264,7 +264,6 @@ class ScheduleStore: ObservableObject {
     // MARK: - 동아리 카드 디테일 정보
     func fetchRecentSchedule(groupName: String) async {
         do {
-            print("2")
             let querySnapshot = try await database.collection("Schedule")
                 .whereField("group_name", isEqualTo: groupName)
                 .order(by: "start_time", descending: true)
@@ -298,8 +297,6 @@ class ScheduleStore: ObservableObject {
             
             DispatchQueue.main.async {
                 self.recentSchedule.append(schedule)
-                print("스케줄:\(schedule)")
-                print("나와라:\(self.recentSchedule)")
             }
         }
         catch {
