@@ -116,9 +116,7 @@ struct CategoryView: View {
                                 Label("동아리 편집하기", systemImage: "highlighter")
                             }
                             
-                            Button {
-//                                ShareLink
-                            } label: {
+                            ShareLink(item: group.invitationCode) {
                                 Label("초대 링크 공유하기", systemImage: "square.and.arrow.up")
                             }
                             
@@ -179,8 +177,6 @@ struct CategoryView: View {
             Text("해당 동아리를 삭제하면\n동아리에 대한 모든 정보가 사라집니다.")
                 .multilineTextAlignment(.center)
         })
-        
-        
         
         .onAppear {
             print("Category onAppear 호출")
