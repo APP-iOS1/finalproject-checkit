@@ -12,7 +12,6 @@ struct CheckItButton: View {
     @Binding var isAlert: Bool
     var text: String = "Check It!"
     var action: () -> () = {}
-    // 
     
     var body: some View {
         Button(action: action) {
@@ -24,12 +23,12 @@ struct CheckItButton: View {
     
     var buttonLabel: some View {
         displayLabel
-        .frame(height: 62)
-        .overlay {
-            Text("\(text)")
-                .font(.title2.bold())
-                .foregroundColor(.white)
-        }
+            .frame(height: 62)
+            .overlay {
+                Text("\(text)")
+                    .font(.title2.bold())
+                    .foregroundColor(.white)
+            }
     }
     
     
@@ -38,6 +37,10 @@ struct CheckItButton: View {
         get {
             RoundedRectangle(cornerRadius: 15)
                 .foregroundColor(.myGray)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 18)
+                        .stroke(Color.white, lineWidth: 1.5)
+                }
         }
     }
     
@@ -55,10 +58,6 @@ struct CheckItButton: View {
         }
     }
 }
-//
 
-//struct CheckItButton_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CheckItButtonLabel()
-//    }
-//}
+
+
