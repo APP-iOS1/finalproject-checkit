@@ -62,17 +62,20 @@ struct CheckItApp: App {
                     .environmentObject(scheduleStore)
                     .environmentObject(attendanceStore)
                     .environmentObject(memberStore)
-                    .task {
-                        guard let user = Auth.auth().currentUser else { return }
-                        if userStore.isFirstLogin {
-                            return
+                    .onAppear {
+                        Task {
+                            guard let user = Auth.auth().currentUser else { return }
+                            userStore.isPresentedLoginView = false
+                            userStore.userData = user
+                            await userStore.fetchUser(user.uid)
+                            //groupStore.startGroupListener(userStore)
+                            await groupStore.fetchGroups(userStore.user!)
+                            userStore.startUserListener(user.uid)
+                            print("groups: \(groupStore.groups)")
+                            for group in groupStore.groups {
+                                await scheduleStore.fetchRecentSchedule(groupName: group.name)
+                            }
                         }
-                        userStore.isPresentedLoginView = false
-                        userStore.userData = user
-                        userStore.isFirstLogin.toggle()
-                        await userStore.fetchUser(user.uid)
-                        await groupStore.fetchGroups(userStore.user!)
-                        userStore.startUserListener(user.uid)
                     }
             }
         }

@@ -40,8 +40,6 @@ struct CalendarView: View {
                     await tempSchedule.append(contentsOf: temp)
                 }
                 totalSchedule = tempSchedule
-                print("totalSchedule \(totalSchedule)")
-                
                 guard let uid = userStore.user?.id else {return}
                 
                 for schedule in tempSchedule {
@@ -49,7 +47,6 @@ struct CalendarView: View {
                 }
                 
                 totalAttendance = attendanceStore.attendanceList
-                print("출석확인 \(totalAttendance)")
             }
         }
     }
