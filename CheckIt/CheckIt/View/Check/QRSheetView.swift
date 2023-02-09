@@ -9,7 +9,7 @@ import SwiftUI
 import CoreImage.CIFilterBuiltins
 
 struct QRSheetView: View {
-    
+    @EnvironmentObject var userStore: UserStore
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
     
@@ -21,7 +21,7 @@ struct QRSheetView: View {
             
             VStack {
                 // 각 로그인 한 ID 정보 넣어줘야 함
-                Image(uiImage: generateQRCode(from: "사용자 정보"))
+                Image(uiImage: generateQRCode(from: userStore.user?.id ?? ""))
                     .resizable()
                     .interpolation(.none)
                     .scaledToFit()
@@ -30,6 +30,9 @@ struct QRSheetView: View {
             }
         }
         .presentationDragIndicator(.visible)
+        .onAppear {
+            print(userStore.user?.id ?? "")
+        }
     }
     
     

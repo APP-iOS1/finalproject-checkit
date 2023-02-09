@@ -86,7 +86,7 @@ struct CategoryView: View {
                 GroupScheduleView(group: groupStore.groupDetail, isGroupManager: $isGroupManager)
             }
             if clickedIndex == 1 {
-                AttendanceStatusView(scheduleIDList: group.scheduleID, hostId: group.hostID)
+                AttendanceStatusView(isGroupManager: $isGroupManager, scheduleIDList: group.scheduleID, hostId: group.hostID)
             }
             if clickedIndex == 2 {
                 GroupInformationView(group: groupStore.groupDetail)
