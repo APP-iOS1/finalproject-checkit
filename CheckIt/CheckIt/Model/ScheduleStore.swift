@@ -279,12 +279,13 @@ class ScheduleStore: ObservableObject {
     }
     
     // TODO: - 삭제 예정
-    func fetchCalendarSchedule(groupName: String) async {
+    func fetchCalendarSchedule(groupName: String) async -> [Schedule]{
+        var temp: [Schedule] = []
+        
         do {
-            DispatchQueue.main.async {
-                self.scheduleList.removeAll()
-            }
-            
+//            DispatchQueue.main.async {
+//                self.scheduleList.removeAll()
+//            }
             
             let querySnapshot = try await database.collection("Schedule")
                 .whereField("group_name", isEqualTo: groupName)
@@ -313,13 +314,17 @@ class ScheduleStore: ObservableObject {
                 
                 let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
                 
-                DispatchQueue.main.async {
-                    self.scheduleList.append(schedule)
-                }
+//                DispatchQueue.main.async {
+                    temp.append(schedule)
+                    
+//                }
             }
+            return temp
         }
         catch {
             print("fetch group image error: \(error.localizedDescription)")
+            
+            return []
         }
     }
 }
