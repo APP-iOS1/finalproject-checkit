@@ -70,7 +70,7 @@ struct CameraScanner: View {
                     //출첵하는 함수
                     print(userID, "userID")
                     print(schedule, "Schedule")
-                    let attendanceStatus = Date().dateCompare(compareDate: schedule.startTime)
+                    let attendanceStatus = Date.dateCompare(compareDate: schedule.startTime)
 //                    let attendance = Attendance(id: userID, scheduleId: schedule.id, attendanceStatus: attendanceStatus, settlementStatus: false)
                     print(attendanceStatus, "출석이냐 지갹이냐 결석이냐")
                     

@@ -49,11 +49,14 @@ extension Date {
         return dateString
     }
     
-    func dateCompare(compareDate: Date) -> String {
+    //FIXME: 사용자 설정 시간에 따라 메서드가 바뀌어야 함
+    static func dateCompare(compareDate: Date) -> String {
         let now = Date.now
+        // 출석 인정 시작 시각입니다.
+        let startTime = compareDate.addingTimeInterval(-300)
         let lateTime = compareDate.addingTimeInterval(300) //5분까지는 출석
         let absentTime = compareDate.addingTimeInterval(600) //5분 지나면
-        if now < lateTime {
+        if now >= startTime && now < lateTime {
             return Status.attendance.rawValue
         }
         else if lateTime < now && now <= absentTime {
