@@ -1,5 +1,5 @@
 //
-//  GroupEditView.swift
+//  EditGroupView.swift
 //  CheckIt
 //
 //  Created by 황예리 on 2023/02/09.
@@ -9,12 +9,11 @@ import SwiftUI
 import PhotosUI
 import AlertToast
 
-struct GroupEditView: View {
+struct EditGroupView: View {
     @EnvironmentObject var groupStores: GroupStore
     @EnvironmentObject var userStores: UserStore
+    @Environment(\.dismiss) var dismiss
     
-    @State private var changedGroupName: String = ""
-    @State private var changedGroupDescription: String = ""
     @State private var text: String = ""
     
     @State private var selectedItems: [PhotosPickerItem] = []
@@ -22,6 +21,8 @@ struct GroupEditView: View {
     
     @Binding var showToast: Bool
     @Binding var toastMessage: String
+    
+    @Binding var group: Group
     
     var maxGroupNameCount: Int = 15
     var maxGroupDescriptionCount: Int = 40
@@ -34,23 +35,28 @@ struct GroupEditView: View {
             Text("동아리 정보 수정하기")
                 .font(.system(size: 24, weight: .bold))
             
+            // 사진첩, 고른 사진은 selectedItems, selectedPhotoData에 할당
             PhotosPicker(selection: $selectedItems, maxSelectionCount: 1, matching: .images) {
                 ZStack {
+                    // 고른게 0개라는 뜻
                     if selectedPhotoData.isEmpty {
-                        Circle().fill(Color.myLightGray)
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
-                        Image(systemName: "plus")
+                        // 바뀐게 없으니깐 옛날 사진 보여줌
+                        // FIXME: - 강제 언래핑을 옵셔널로 고치기
+                        Image(uiImage: groupStores.groupImage[group.id]!)
                             .resizable()
-                            .frame(width: 20, height: 20)
+                            .clipShape(Circle())
+                            .frame(width: 120, height: 120)
+                        // 사진 하나 골랐다.
                     } else {
-                        Image(uiImage: selectedPhotoData.first!)
+                        Image(uiImage: selectedPhotoData.first!) // 하나밖에 없으니깐 first
                             .resizable()
                             .clipShape(Circle())
                             .frame(width: 120, height: 120)
                     }
+                    
                 }
             }
+            // 변화가 있는걸 감지하는 onChange, 변화가 있음 고른거 잔뜩 소매에 집어넣겠다.
             .onChange(of: selectedItems) { newPhotos in
                 selectedPhotoData.removeAll()
                 for photo in newPhotos {
@@ -68,48 +74,40 @@ struct GroupEditView: View {
             
             // MARK: - 동아리 이름 텍스트필드
             CustomTextField(
-                text: $changedGroupName,
-                placeholder: "동아리 이름을 입력해주세요! (필수)",
+                text: $group.name,
+                placeholder: "\(group.name)",
                 maximumCount: maxGroupNameCount)
             .font(.system(size: 14, weight: .regular))
             
             // MARK: - 동아리 상세 내용 텍스트필드
             CustomTextField(
-                text: $changedGroupDescription,
-                placeholder: "동아리의 상세 내용을 적어주세요. (필수)",
+                text: $group.description,
+                placeholder: "\(group.description)",
                 maximumCount: maxGroupDescriptionCount)
             .font(.system(size: 14, weight: .regular))
             
             // MARK: - 동아리 편집하기 버튼
             Button {
-                
-//                let group = Group(id: UUID().uuidString,
-//                                  name: groupName,
-//                                  invitationCode: UUID().uuidString,
-//                                  image: "example",
-//                                  hostID: userStores.user?.id ?? "N/A",
-//                                  description: groupDescription,
-//                                  scheduleID: [],
-//                                  memberLimit: 8)
-//                Task {
-//                    let canCreate = await groupStores.canUseGroupsName(groupName: groupName)
-//                    if canCreate {
-//                        print("실행?")
-//                        await groupStores.createGroup(userStores.user!, group: group, image: selectedPhotoData.first ?? UIImage())
-//                        await groupStores.addGroupsInUser(userStores.user!, joinedGroupId: group.id)
-//                        await userStores.fetchUser(userStores.user!.id)
-//                        showToast.toggle()
-//                        toastMessage = "동아리 생성이 완료되었습니다."
-//                    }
-//                    else {
-//                        print("중복")
-//                        showToast.toggle()
-//                        toastMessage = "동아리 이름이 중복됩니다."
-//                    }
-//
-//
-//                    print("user의 groupid: \(userStores.user?.groupID)")
-//                }
+                showToast.toggle()
+                toastMessage = "동아리 수정이 완료되었습니다."
+
+                let newGroup = Group(id: group.id,
+                                     name: group.name,
+                                     invitationCode: group.invitationCode,
+                                     image: group.image,
+                                     hostID: group.hostID,
+                                     description: group.description,
+                                     scheduleID: group.scheduleID,
+                                     memberLimit: group.memberLimit)
+
+                Task {
+                    await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.id]!)
+                    let index = self.groupStores.groups.firstIndex{ $0.id == group.id }
+                    self.groupStores.groups[index ?? -1] = newGroup
+
+                    toastMessage = "동아리 수정이 완료되었습니다."
+                    dismiss()
+                }
                 
             } label: {
                 Text("동아리 편집하기")
@@ -131,14 +129,14 @@ struct GroupEditView: View {
     //MARK: - isCountValid
     /// 글자수 조건이 맞는지 확인하는 메서드입니다.
     private func isCountValid() -> Bool {
-        if changedGroupName.isEmpty || changedGroupDescription.isEmpty {
+        if group.name.isEmpty || group.description.isEmpty {
             DispatchQueue.main.async{
                 self.alertMessage = "한 글자 이상 입력해야 합니다!"
             }
             return false
         }
         
-        if changedGroupName.count > maxGroupNameCount || changedGroupDescription.count > maxGroupDescriptionCount {
+        if group.name.count > maxGroupNameCount || group.description.count > maxGroupDescriptionCount {
             DispatchQueue.main.async{
                 self.alertMessage = "입력 가능한 글자 수를 넘었습니다!"
             }
@@ -149,12 +147,12 @@ struct GroupEditView: View {
     } // - isCountValid
 }
 
-struct GroupEditView_Previews: PreviewProvider {
-    @State static var showToast: Bool = false
-    @State static var toastMessage: String = ""
-    
-    static var previews: some View {
-        GroupEditView(showToast: $showToast, toastMessage: $toastMessage)
-            .environmentObject(GroupStore())
-    }
-}
+//struct EditGroupView_Previews: PreviewProvider {
+//    @State static var showToast: Bool = false
+//    @State static var toastMessage: String = ""
+//
+//    static var previews: some View {
+//        EditGroupView(showToast: $showToast, toastMessage: $toastMessage)
+//            .environmentObject(GroupStore())
+//    }
+//}

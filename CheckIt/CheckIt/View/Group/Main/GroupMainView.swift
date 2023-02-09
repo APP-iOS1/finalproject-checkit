@@ -51,6 +51,10 @@ struct GroupMainView: View {
             }
             .onAppear {
                 scheduleStore.scheduleList = []
+                guard let user = userStores.user else { return }
+                let hostGroups = groupStores.groups.filter{ $0.hostID == user.id }
+                let notHostGroups = groupStores.groups.filter{ $0.hostID != user.id }
+                groupStores.groups = hostGroups + notHostGroups
             }
             .navigationTitle("나의 동아리")
             .toolbar {
