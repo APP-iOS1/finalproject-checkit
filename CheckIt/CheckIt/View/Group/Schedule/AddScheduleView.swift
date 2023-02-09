@@ -26,7 +26,9 @@ struct AddScheduleView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var attendanceStroe: AttendanceStore
     @EnvironmentObject var memberStore: MemberStore
+    
     @Binding var showToast: Bool
+    @Binding var toastMessage: String
     
     var group: Group
     
@@ -188,6 +190,7 @@ struct AddScheduleView: View {
                 // MARK: - 일정 만들기 버튼
                 Button {
                     showToast.toggle()
+                    toastMessage = "일정 생성이 완료 되었습니다."
                     // 날짜정보와 시간정보를 하나의 문자열로 합침
                     let start = startTime.getDateString() + " " + startTime.getTimeString()
                     let end = startTime.getDateString() + " " + endTime.getTimeString()
@@ -196,7 +199,9 @@ struct AddScheduleView: View {
                     let start1 = start.getAllTimeInfo()
                     let end1 = end.getAllTimeInfo()
                     
-                    var schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: place, startTime: start1, endTime: end1, agreeTime: lateMin, memo: memo, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
+                    guard let location = viewModel.result else { fatalError() }
+                    
+                    var schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: location, startTime: start1, endTime: end1, agreeTime: lateMin, memo: memo, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
                     
                     Task {
                         schedule.officiallyAbsentCount = memberStore.members.count
@@ -233,6 +238,6 @@ struct AddScheduleView_Previews: PreviewProvider {
     @State static private var showToast = false
 
     static var previews: some View {
-        AddScheduleView(showToast: $showToast, group: Group.sampleGroup)
+        AddScheduleView(showToast: $showToast, toastMessage: .constant(""), group: Group.sampleGroup)
     }
 }
