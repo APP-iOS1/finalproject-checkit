@@ -36,7 +36,8 @@
 		283B70B7298C98EF003782C3 /* GroupEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B70B6298C98EF003782C3 /* GroupEmptyView.swift */; };
 		2845444D298A26F1001B2EED /* Ex+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845444C298A26F1001B2EED /* Ex+Date.swift */; };
 		2845444F298A2DAC001B2EED /* Ex+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845444E298A2DAC001B2EED /* Ex+String.swift */; };
-		285437C22993753A00E29CE1 /* ScheduleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285437C12993753A00E29CE1 /* ScheduleDetailView.swift */; };
+		285437C22993753A00E29CE1 /* ScheduleDetailCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285437C12993753A00E29CE1 /* ScheduleDetailCellView.swift */; };
+		285437C42993BD6C00E29CE1 /* ScheduleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285437C32993BD6C00E29CE1 /* ScheduleDetailView.swift */; };
 		2869DE332977AC1D00D8CAFB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE322977AC1D00D8CAFB /* LoginView.swift */; };
 		2869DE362977B00C00D8CAFB /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 2869DE352977B00C00D8CAFB /* GoogleSignIn */; };
 		2869DE382977B00C00D8CAFB /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2869DE372977B00C00D8CAFB /* GoogleSignInSwift */; };
@@ -180,7 +181,8 @@
 		283B70B6298C98EF003782C3 /* GroupEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEmptyView.swift; sourceTree = "<group>"; };
 		2845444C298A26F1001B2EED /* Ex+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Date.swift"; sourceTree = "<group>"; };
 		2845444E298A2DAC001B2EED /* Ex+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+String.swift"; sourceTree = "<group>"; };
-		285437C12993753A00E29CE1 /* ScheduleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetailView.swift; sourceTree = "<group>"; };
+		285437C12993753A00E29CE1 /* ScheduleDetailCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetailCellView.swift; sourceTree = "<group>"; };
+		285437C32993BD6C00E29CE1 /* ScheduleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetailView.swift; sourceTree = "<group>"; };
 		2869DE322977AC1D00D8CAFB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		2869DE3D2977CC5400D8CAFB /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
@@ -578,7 +580,8 @@
 			children = (
 				1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */,
 				1A41F4412977A8F70051F464 /* AddScheduleView.swift */,
-				285437C12993753A00E29CE1 /* ScheduleDetailView.swift */,
+				285437C12993753A00E29CE1 /* ScheduleDetailCellView.swift */,
+				285437C32993BD6C00E29CE1 /* ScheduleDetailView.swift */,
 			);
 			path = Schedule;
 			sourceTree = "<group>";
@@ -777,6 +780,7 @@
 				2807AAA1297A5FEE00B1676C /* AttendanceDetailStatusView.swift in Sources */,
 				1A3CB2612990B8D200EA5E84 /* WebViewModel.swift in Sources */,
 				2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */,
+				285437C42993BD6C00E29CE1 /* ScheduleDetailView.swift in Sources */,
 				2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */,
 				FD74973F298F1ABB001C424D /* LoginRouteView.swift in Sources */,
 				2BDA61F52977D2C400FDD307 /* Modifiers.swift in Sources */,
@@ -817,7 +821,7 @@
 				FD4E25F82977B9E900F6F875 /* CheckMapView.swift in Sources */,
 				FD4E25F02977AC8500F6F875 /* CheckItCard.swift in Sources */,
 				283B70B7298C98EF003782C3 /* GroupEmptyView.swift in Sources */,
-				285437C22993753A00E29CE1 /* ScheduleDetailView.swift in Sources */,
+				285437C22993753A00E29CE1 /* ScheduleDetailCellView.swift in Sources */,
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
 				A529BD512990C1EC00AE232B /* EditScheduleAttendanceListCell.swift in Sources */,
 				A529BD4D298CABF500AE232B /* MemberStoreConstants.swift in Sources */,

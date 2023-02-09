@@ -183,6 +183,7 @@ struct CategoryView: View {
         
         
         .onAppear {
+            print("Category onAppear 호출")
             groupStore.startGroupListener(group)
             print(group.name, "네임")
             print(group.scheduleID, "Sssss")
