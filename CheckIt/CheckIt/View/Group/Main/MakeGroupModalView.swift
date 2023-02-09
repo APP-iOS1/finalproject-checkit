@@ -91,7 +91,7 @@ struct MakeGroupModalView: View {
                 
                 let group = Group(id: UUID().uuidString,
                                   name: groupName,
-                                  invitationCode: UUID().uuidString,
+                                  invitationCode: Group.randomCode,
                                   image: "example",
                                   hostID: userStores.user?.id ?? "N/A",
                                   description: groupDescription,

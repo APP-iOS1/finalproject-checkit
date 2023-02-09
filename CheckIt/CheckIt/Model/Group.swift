@@ -17,6 +17,16 @@ struct Group: Identifiable, Hashable {
     var scheduleID: [String]
     var memberLimit: Int
     
+    static var randomCode: String {
+        let stringData = UUID().uuidString.suffix(8)
+        let data = stringData.data (using: .utf8)
+        
+        var encode = data!.base64EncodedString()
+        encode.removeLast()
+        
+        return encode
+    }
+    
     static let sampleGroup: Group = Group(id: "1",
                                           name: "허미니의 또구동아리",
                                           invitationCode: "ㅇㄴㅁㅇㅁㄴㅇ",
