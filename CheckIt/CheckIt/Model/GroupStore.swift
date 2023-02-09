@@ -419,7 +419,8 @@ class GroupStore: ObservableObject {
             return 0
         }
     }
-    // FIXME: - 동아리 삭제할 시 안에 있는 스케줄도 삭제해야 함
+    // MARK: - REMOVE
+    
     /// 동아리를 삭제하는 메소드
     /// - Parameter groupdId: 삭제할 동아리의 id
     /// - Parameter uidList: 삭제할 동아리 멤버들의 id 리스트
@@ -442,6 +443,7 @@ class GroupStore: ObservableObject {
             print("Groupstore removeGroup error: \(error.localizedDescription)")
         }
         await removeGroupIdAllMember(groupId: groupId, uidList: uidList) // 5.
+        await removeGroupImage(groupId) // 6.
     }
     /// 동아리의 MemberCollection을 삭제하는 메소드
     /// - Parameter ref: 삭제할 동아리의 reference
@@ -511,6 +513,18 @@ class GroupStore: ObservableObject {
             
         } catch {
             print("removeGroupId error: \(error.localizedDescription)")
+        }
+    }
+    /// 동아리의 이미지를 삭제하는 메소드입니다.
+    /// - Parameter groupId: 삭제할 동아리 id
+    func removeGroupImage(_ groupId: String) async {
+        let path = "group_images/\(groupId)"
+        let imageRef = storage.reference().child(path)
+        
+        do {
+            try await imageRef.delete()
+        } catch {
+            print("removeGroupImage error: \(error.localizedDescription)")
         }
     }
     
