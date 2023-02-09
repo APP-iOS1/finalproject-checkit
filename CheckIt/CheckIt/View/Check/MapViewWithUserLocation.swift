@@ -13,32 +13,46 @@ import SwiftUI
 struct MapViewWithUserLocation: View {
     @StateObject var locationManager: LocationManager
     @State var userTrackingMode: MapUserTrackingMode = .none
+    var mapMarkers: [Marker] {
+        [Marker(location: MapMarker(coordinate: locationManager.toCoordinate, tint: .green))]
+    }
     
-        var region: Binding<MKCoordinateRegion>? {
-            guard let location = locationManager.location else {
-                return MKCoordinateRegion.noneRegion().getBinding()
-            }
-            
-            let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
-            
-            return region.getBinding()
+    var region: Binding<MKCoordinateRegion>? {
+        guard let location = locationManager.location else {
+            return MKCoordinateRegion.noneRegion().getBinding()
         }
+        
+        let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
+        
+        return region.getBinding()
+    }
     
     var body: some View {
-            if let region = region {
-                Map(coordinateRegion: region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $userTrackingMode)
-                    .ignoresSafeArea()
-                
+        if let region = region {
+            Map(coordinateRegion: region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $userTrackingMode, annotationItems: mapMarkers) { marker in
+                marker.location
             }
+            .ignoresSafeArea()
+            
         }
+    }
 }
+
+struct Marker: Identifiable {
+    var id = UUID()
+    var location: MapMarker
+}
+
 
 final class LocationManager: NSObject, ObservableObject {
     @Published var location: CLLocation?
- 
+    @Published var distance: Double = -1.0
+    @Published var isInAttendanceRegion: Bool = false
+    var toCoordinate: CLLocationCoordinate2D
     private let locationManager = CLLocationManager()
     
-    override init() {
+    init(toCoordinate: CLLocationCoordinate2D) {
+        self.toCoordinate = toCoordinate
         super.init()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = kCLDistanceFilterNone
@@ -46,14 +60,24 @@ final class LocationManager: NSObject, ObservableObject {
         locationManager.startUpdatingLocation()
         locationManager.delegate = self
     }
+    
+    
 }
+
 
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-            guard let location = locations.last else { return }
-            DispatchQueue.main.async {
-                self.location = location
+        guard let location = locations.last else { return }
+        DispatchQueue.main.async {
+            self.location = location
+            self.distance = CLLocationCoordinate2D.distance(from: location.coordinate, to: self.toCoordinate)
+            if CLLocationCoordinate2D.isInAttendanceRegion(from: location.coordinate, to: self.toCoordinate) {
+                self.isInAttendanceRegion = true
             }
+            else {
+                self.isInAttendanceRegion = false
+            }
+        }
     }
 }
 
@@ -77,5 +101,11 @@ extension CLLocationCoordinate2D {
         let from = CLLocation(latitude: from.latitude, longitude: from.longitude)
         let to = CLLocation(latitude: to.latitude, longitude: to.longitude)
         return from.distance(from: to)
+    }
+    
+    static func isInAttendanceRegion(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> Bool {
+        // meter 단위로 계산
+        let distance = CLLocationCoordinate2D.distance(from: from, to: to)
+        return distance <= 50 ? true : false
     }
 }
