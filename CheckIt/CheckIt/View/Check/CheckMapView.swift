@@ -78,7 +78,7 @@ struct CheckMapView: View {
                         CameraScanner(schedule: schedule, userID: userStore.user?.id)
                             .environmentObject(userStore)
                     } else {
-                        QRSheetView()
+                        QRSheetView(schedule: schedule)
                             .presentationDetents([.medium])
                             .environmentObject(userStore)
                             .environmentObject(attendanceStore)

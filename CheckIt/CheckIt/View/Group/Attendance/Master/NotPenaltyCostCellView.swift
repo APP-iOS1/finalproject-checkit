@@ -42,6 +42,7 @@ struct NotPenaltyCostCellView: View {
                             .foregroundColor(attendanceColor)
                             .font(.system(size: 16, weight: .bold))
                     }
+                    .offset(x:-10)
             }
         }
 //        .padding(.horizontal, 40)

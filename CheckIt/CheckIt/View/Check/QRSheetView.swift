@@ -9,9 +9,12 @@ import SwiftUI
 import CoreImage.CIFilterBuiltins
 
 struct QRSheetView: View {
+    var schedule: Schedule
     @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
@@ -32,6 +35,12 @@ struct QRSheetView: View {
         .presentationDragIndicator(.visible)
         .onAppear {
             print(userStore.user?.id ?? "")
+            guard let userId = userStore.user?.id else { return }
+            attendanceStore.responseAttendanceListner(schedule: schedule, uid: userId) { result in
+                if result {
+                    dismiss()
+                }
+            }
         }
     }
     
@@ -52,9 +61,9 @@ struct QRSheetView: View {
 }
 
 
-//MARK: - Previews
-struct QRSheetView_Previews: PreviewProvider {
-    static var previews: some View {
-        QRSheetView()
-    }
-}
+////MARK: - Previews
+//struct QRSheetView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        QRSheetView()
+//    }
+//}

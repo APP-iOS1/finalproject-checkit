@@ -21,15 +21,16 @@ struct EditScheduleAttendanceView: View {
                 Text("\(Date().yearMonthDayDateToString(date: schedule.startTime)) 출석부")
                     .font(.system(size: 20, weight: .regular))
                     .padding(.top, 10)
-                    .padding(.bottom, 10)
+                    .padding(.bottom, 30)
                 HStack(alignment: .center) {
                     Text("이름")
+                        .offset(x:10)
                     Spacer()
                     Text("출석 현황")
-                    
                 }
                 .font(.system(size: 16, weight: .bold))
-                .padding(.horizontal, 30)
+                .padding(.horizontal, 40)
+                .padding(.bottom)
                 
                 ScrollView {
                     ForEach(changedAttendancList.indices, id: \.self) { index in
