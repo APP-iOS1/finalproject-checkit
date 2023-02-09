@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct CategoryView: View {
     @State var clickedIndex: Int = 0
@@ -148,6 +149,9 @@ struct CategoryView: View {
         .sheet(isPresented: $isEditGroup) {
             EditGroupView(showToast: $showToast, toastMessage: $toastMessage, group: $changedGroup)
                 .presentationDetents([.height(600)])
+        }
+        .toast(isPresenting: $showToast){
+            AlertToast(displayMode: .banner(.slide), type: .complete(.myGreen), title: toastMessage)
         }
         
         .alert("해당 동아리를 나가시겠습니까?", isPresented: $isCheckExsit, actions: {

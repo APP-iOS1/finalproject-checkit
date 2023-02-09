@@ -88,9 +88,6 @@ struct EditGroupView: View {
             
             // MARK: - 동아리 편집하기 버튼
             Button {
-                showToast.toggle()
-                toastMessage = "동아리 수정이 완료되었습니다."
-
                 let newGroup = Group(id: group.id,
                                      name: group.name,
                                      invitationCode: group.invitationCode,
@@ -103,12 +100,13 @@ struct EditGroupView: View {
                 Task {
                     await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.id]!)
                     
-                    self.groupStores.groupDetail = newGroup
-                    
                     let index = self.groupStores.groups.firstIndex{ $0.id == group.id }
                     self.groupStores.groups[index ?? -1] = newGroup
-
+                    
+                    showToast.toggle()
                     toastMessage = "동아리 수정이 완료되었습니다."
+                    self.groupStores.groupDetail = newGroup
+                    
                     dismiss()
                 }
                 
@@ -124,9 +122,6 @@ struct EditGroupView: View {
         }
         .padding(40)
         .presentationDragIndicator(.visible)
-        .toast(isPresenting: $showAlert){
-            AlertToast(displayMode: .alert, type: .error(.red), title: alertMessage)
-        }
     }
     
     //MARK: - isCountValid
