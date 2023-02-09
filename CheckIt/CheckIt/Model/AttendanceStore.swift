@@ -213,5 +213,30 @@ class AttendanceStore: ObservableObject {
             print("removeAttendance error: \(error.localizedDescription)")
         }
     }
+    
+    ///QR스캔을 통해 스캔이 완료되면 자동으로 결과를 반영할 수 있는 AddListener 메소드
+    private var listener: ListenerRegistration?
+    func responseAttendanceListner(schedule : Schedule, uid: String, completion: @escaping (Bool) -> Void) {
+        self.listener = database.collection("Schedule").document(schedule.id).collection("Attendance").whereField(AttendanceConstants.id, isEqualTo: uid).addSnapshotListener({ querySnapshot, error in
+            
+            guard let snapshot = querySnapshot else {
+                print("Error fetching attendance: \(error!)")
+                return
+            }
+            
+            snapshot.documentChanges.forEach({ diff in
+                switch diff.type {
+                case .added:
+                    print("New Attendance Data")
+                    completion(true)
+                case .modified:
+                    print("Modify Attendance Data")
+                    completion(true)
+                case .removed:
+                    print("Remove Attendance Data")
+                }
+            })
+        })
+    }
 
 }

@@ -206,6 +206,19 @@ struct AddScheduleView: View {
                     Task {
                         schedule.absentCount = memberStore.members.count
                         await scheduleStore.addSchedule(schedule, group: group)
+//                        var recent = scheduleStore.recentSchedule.filter({ recent in
+//                            return recent.groupName == schedule.groupName
+//                        })
+                        let scheduleIdx = scheduleStore.recentSchedule.firstIndex { recent in
+                            return recent.groupName == schedule.groupName
+                        }
+                        if (scheduleIdx != nil) {
+                            if schedule.startTime.dateCompare(fromDate: scheduleStore.recentSchedule[scheduleIdx!].startTime) == "Past" {
+                                scheduleStore.recentSchedule[scheduleIdx!] = schedule
+                            }
+                        } else {
+                            scheduleStore.recentSchedule.append(schedule)
+                        }
                         for member in memberStore.members {
                             var attendance = Attendance(id: "", scheduleId: schedule.id, attendanceStatus: "결석", settlementStatus: false)
                             attendance.id = member.uid

@@ -147,10 +147,13 @@ struct ScheduleDetailView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
                         Section {
-                            Button {
-                                isEditSchedule.toggle()
-                            } label: {
-                                Label("수정하기", systemImage: "highlighter")
+                            //시작시점이 지나번 버튼 가리기
+                            if Date().pastDateCompare(compareDate: schedule.startTime) {
+                                Button {
+                                    isEditSchedule.toggle()
+                                } label: {
+                                    Label("수정하기", systemImage: "highlighter")
+                                }
                             }
                             Button(role: .destructive) {
                                 isRemoveSchedule.toggle()
