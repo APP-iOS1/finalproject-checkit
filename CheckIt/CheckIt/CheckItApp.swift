@@ -65,6 +65,11 @@ struct CheckItApp: App {
                     .onAppear {
                         Task {
                             guard let user = Auth.auth().currentUser else { return }
+                            if userStore.isLogined {
+                                return
+                            }
+                            
+                            userStore.isLogined.toggle()
                             userStore.isPresentedLoginView = false
                             userStore.userData = user
                             await userStore.fetchUser(user.uid)
