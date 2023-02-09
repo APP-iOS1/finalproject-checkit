@@ -29,6 +29,7 @@ struct EditGroupView: View {
     
     @State var showAlert: Bool = false
     @State var alertMessage = "글자수 조건을 확인하세요!"
+    @State private var isClicked: Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
@@ -38,22 +39,25 @@ struct EditGroupView: View {
             // 사진첩, 고른 사진은 selectedItems, selectedPhotoData에 할당
             PhotosPicker(selection: $selectedItems, maxSelectionCount: 1, matching: .images) {
                 ZStack {
-                    // 고른게 0개라는 뜻
-                    if selectedPhotoData.isEmpty {
-                        // 바뀐게 없으니깐 옛날 사진 보여줌
-                        // FIXME: - 강제 언래핑을 옵셔널로 고치기
-                        Image(uiImage: groupStores.groupImage[group.id]!)
-                            .resizable()
-                            .clipShape(Circle())
+                    if groupStores.groupImage[group.id] == nil && selectedPhotoData.isEmpty {
+                        Circle()
+                            .foregroundColor(Color.myGray)
+                            .scaledToFit()
                             .frame(width: 120, height: 120)
-                        // 사진 하나 골랐다.
+                        
                     } else {
-                        Image(uiImage: selectedPhotoData.first!) // 하나밖에 없으니깐 first
-                            .resizable()
-                            .clipShape(Circle())
-                            .frame(width: 120, height: 120)
+                        if selectedPhotoData.isEmpty {
+                            Image(uiImage: groupStores.groupImage[group.id]!)
+                                .resizable()
+                                .clipShape(Circle())
+                                .frame(width: 120, height: 120)
+                        } else {
+                            Image(uiImage: selectedPhotoData.first!) // 하나밖에 없으니깐 first
+                                .resizable()
+                                .clipShape(Circle())
+                                .frame(width: 120, height: 120)
+                        }
                     }
-                    
                 }
             }
             // 변화가 있는걸 감지하는 onChange, 변화가 있음 고른거 잔뜩 소매에 집어넣겠다.
@@ -88,6 +92,11 @@ struct EditGroupView: View {
             
             // MARK: - 동아리 편집하기 버튼
             Button {
+                if isClicked {
+                    return
+                }
+                isClicked.toggle()
+                
                 let newGroup = Group(id: group.id,
                                      name: group.name,
                                      invitationCode: group.invitationCode,
@@ -98,7 +107,7 @@ struct EditGroupView: View {
                                      memberLimit: group.memberLimit)
 
                 Task {
-                    await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.id]!)
+                    await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.id] ?? UIImage())
                     
                     let index = self.groupStores.groups.firstIndex{ $0.id == group.id }
                     self.groupStores.groups[index ?? -1] = newGroup
@@ -106,6 +115,9 @@ struct EditGroupView: View {
                     showToast.toggle()
                     toastMessage = "동아리 수정이 완료되었습니다."
                     self.groupStores.groupDetail = newGroup
+                    if !selectedPhotoData.isEmpty {
+                        self.groupStores.groupImage[group.id] = selectedPhotoData.first!
+                    }
                     
                     dismiss()
                 }
