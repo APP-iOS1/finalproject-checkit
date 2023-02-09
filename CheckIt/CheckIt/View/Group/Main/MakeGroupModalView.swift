@@ -23,6 +23,8 @@ struct MakeGroupModalView: View {
     @State private var selectedItems: [PhotosPickerItem] = []
     @State private var selectedPhotoData: [UIImage] = []
     
+    @State private var isClicked: Bool = false
+    
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     
@@ -89,13 +91,18 @@ struct MakeGroupModalView: View {
                 
                 let group = Group(id: UUID().uuidString,
                                   name: groupName,
-                                  invitationCode: UUID().uuidString,
+                                  invitationCode: Group.randomCode,
                                   image: "example",
                                   hostID: userStores.user?.id ?? "N/A",
                                   description: groupDescription,
                                   scheduleID: [],
                                   memberLimit: 8)
                 Task {
+                    if isClicked {
+                        return
+                    }
+                    isClicked.toggle()
+                    
                     let canCreate = await groupStores.canUseGroupsName(groupName: groupName)
                     if canCreate {
                         print("실행?")
@@ -110,9 +117,7 @@ struct MakeGroupModalView: View {
                         showToast.toggle()
                         toastMessage = "동아리 이름이 중복됩니다."
                     }
-                    
-                    
-                    print("user의 groupid: \(userStores.user?.groupID)")
+                    isClicked.toggle()
                 }
                 //FIXME: - User Store에서 User를 리스너로 변경 필요
                 
