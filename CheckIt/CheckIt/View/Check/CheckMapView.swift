@@ -15,10 +15,19 @@ struct CheckMapView: View {
     ///카메라 띄우기 위한 설정
     @State private var showCameraScannerView = false
     @State var showQR: Bool = false
+    
+    @State private var isGroupHost: Bool = true //테스트용 추후에 서버에서 받은 값으로 변경 예정
+    
+    @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
     var group: Group
-        var isHost: Bool {
-            group.hostID == userStore.user?.id ?? ""
-        }
+    var schedule: Schedule
+    var isHost: Bool {
+        group.hostID == userStore.user?.id ?? ""
+    }
+    
+
     
     @State var isActive: Bool = true
     @State var isAlert: Bool = false
@@ -60,12 +69,15 @@ struct CheckMapView: View {
             
             // QR 시트
                 .sheet(isPresented: $showQR) {
-                    if isHost {
-                        CameraScanner()
+
+                    if isGroupHost {
+                        CameraScanner(schedule: schedule, userID: userStore.user?.id)
+                            .environmentObject(userStore)
                     } else {
                         QRSheetView()
                             .presentationDetents([.medium])
                             .environmentObject(userStore)
+                            .environmentObject(attendanceStore)
                     }
                     
                 } // - sheet

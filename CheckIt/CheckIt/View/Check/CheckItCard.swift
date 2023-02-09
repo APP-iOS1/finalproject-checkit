@@ -11,7 +11,8 @@ struct CheckItCard: View {
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStore: UserStore
-
+    @EnvironmentObject var attendanceStore: AttendanceStore
+    
     @State var dDay: String = "D-day"
 //    @State var groupImage: Image = Image("chocobi")
     @State private var schedules: [Schedule] = []
@@ -68,7 +69,9 @@ struct CheckItCard: View {
                         
 //                        if let compareDate = Date().dateCompare(fromDate: <#T##Date#>)
                         // Check It 버튼
-                        NavigationLink(destination: CheckMapView(group: group).environmentObject(userStore)) {
+                        NavigationLink(destination: CheckMapView(group: group, schedule: scheduleStore.recentSchedule)
+                            .environmentObject(userStore)
+                            .environmentObject(attendanceStore)) {
                             CheckItButton(isActive: card[index].isActiveButton, isAlert: .constant(false)).buttonLabel
                         }
                         .frame(width: 200)
