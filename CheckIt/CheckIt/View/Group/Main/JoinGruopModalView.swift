@@ -15,7 +15,7 @@ struct JoinGruopModalView: View {
     @Environment(\.presentations) private var presentations
     
     @State private var invitationCode: String = ""
-    @State private var isJoined: Bool = false
+    @State private var isClicked: Bool = false
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     
@@ -46,7 +46,11 @@ struct JoinGruopModalView: View {
             
             // MARK: - 동아리 참가하기 버튼
             Button {
-                isJoined.toggle()
+                if isClicked {
+                    return
+                }
+                isClicked.toggle()
+                
                 Task {
                     let statusCode = await groupStores.joinGroup(invitationCode, user: userStores.user!)
                     showToast.toggle()
@@ -71,6 +75,7 @@ struct JoinGruopModalView: View {
                     case .fulled:
                         toastMessage = "동아리 정원이 초과 했습니다."
                     }
+                    isClicked.toggle()
                 }
                 
             } label: {
