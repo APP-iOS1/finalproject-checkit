@@ -204,7 +204,7 @@ struct AddScheduleView: View {
                     var schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: location, startTime: start1, endTime: end1, agreeTime: lateMin, memo: memo, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
                     
                     Task {
-                        schedule.officiallyAbsentCount = memberStore.members.count
+                        schedule.absentCount = memberStore.members.count
                         await scheduleStore.addSchedule(schedule, group: group)
                         for member in memberStore.members {
                             var attendance = Attendance(id: "", scheduleId: schedule.id, attendanceStatus: "결석", settlementStatus: false)

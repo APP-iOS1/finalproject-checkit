@@ -10,6 +10,7 @@ import SwiftUI
 struct CheckItCard: View {
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var userStore: UserStore
 
     @State var dDay: String = "D-day"
 //    @State var groupName: String = "허니미니의 또구 동아리"
@@ -55,7 +56,7 @@ struct CheckItCard: View {
                             .padding(10)
                         
                         // Check It 버튼
-                        NavigationLink(destination: CheckMapView()) {
+                        NavigationLink(destination: CheckMapView(group: group).environmentObject(userStore)) {
                             CheckItButton(isActive: card[index].isActiveButton, isAlert: .constant(false)).buttonLabel
                         }
                         .frame(width: 200)

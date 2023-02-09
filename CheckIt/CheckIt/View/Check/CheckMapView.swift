@@ -14,8 +14,14 @@ struct CheckMapView: View {
     @State var showQR: Bool = false
     @State var showsUserLocation: Bool = true
     @State var userTrackingMode: MapUserTrackingMode = .follow
-    @State private var isGroupHost: Bool = true //테스트용 추후에 서버에서 받은 값으로 변경 예정
-
+    @State private var isGroupHost: Bool = false //테스트용 추후에 서버에서 받은 값으로 변경 예정
+    
+    @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var userStore: UserStore
+    var group: Group
+    var isHost: Bool {
+        group.hostID == userStore.user?.id ?? ""
+    }
     
     
     @State var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.478846, longitude: 126.620930), span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5))
@@ -47,7 +53,11 @@ struct CheckMapView: View {
             
             // QR 시트 버튼
                 .toolbar {
-                    Button (action: { showQR.toggle() }) { QRButtonLabel() }
+                    Button (action: {
+                        showQR.toggle()
+
+
+                    }) { QRButtonLabel() }
                 } // - toolbar
             
             
@@ -60,7 +70,9 @@ struct CheckMapView: View {
                     } else {
                         QRSheetView()
                             .presentationDetents([.medium])
+                            .environmentObject(userStore)
                     }
+                    
                 } // - sheet
 
        
@@ -71,6 +83,9 @@ struct CheckMapView: View {
         .transition(.opacity)
         .toolbarBackground(Material.ultraThinMaterial, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
+        .onAppear {
+            print(userStore.user?.id, "유저 아이디")
+        }
     }
 }
 
@@ -78,9 +93,9 @@ struct CheckMapView: View {
 
 
 
-struct CheckMapView_Previews: PreviewProvider {
-    static var previews: some View {
-        CheckMapView()
-    }
-}
-
+//struct CheckMapView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CheckMapView()
+//    }
+//}
+//
