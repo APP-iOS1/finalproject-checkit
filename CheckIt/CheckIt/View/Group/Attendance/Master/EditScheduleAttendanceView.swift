@@ -24,12 +24,14 @@ struct EditScheduleAttendanceView: View {
                     .padding(.bottom, 10)
                 HStack(alignment: .center) {
                     Text("이름")
+                        .offset(x:10)
                     Spacer()
                     Text("출석 현황")
                     
                 }
                 .font(.system(size: 16, weight: .bold))
-                .padding(.horizontal, 30)
+                .padding(.horizontal, 25)
+                .padding(.bottom)
                 
                 ScrollView {
                     ForEach(changedAttendancList.indices, id: \.self) { index in
