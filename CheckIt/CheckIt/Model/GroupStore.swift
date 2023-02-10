@@ -372,6 +372,19 @@ class GroupStore: ObservableObject {
             return .failure(GroupGetError.getGroupFailed)
         }
     }
+    /// 재생성된 동아리의 초대코드를 업데이트 하는 메소드입니다.
+    /// - Parameter groupId: 재생성할 동아리 id
+    /// - Parameter newInvitationCode: 재생성된 초대코드
+    func updateInvitationCode(_ groupId: String, newInvitationCode: String) async {
+        do {
+           try await database.collection("Group").document(groupId)
+                .updateData([
+                    GroupConstants.invitationCode: newInvitationCode
+                ])
+        } catch {
+            print("updateInvitationCode error: \(error.localizedDescription)")
+        }
+    }
     
     // MARK: - 유저가 동아리에 참가하는 메소드
     /// - Parameter code: 동아리 참가 코드
