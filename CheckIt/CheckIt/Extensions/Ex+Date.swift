@@ -48,6 +48,14 @@ extension Date {
         let dateString = dateFormatter.string(from: date)
         return dateString
     }
+    func yearMonthDayHourMinuteToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 a hh:mm"
+        dateFormatter.amSymbol = "오전"
+        dateFormatter.pmSymbol = "오후"
+        let dateString = dateFormatter.string(from: date)
+        return dateString
+    }
     
     //FIXME: 사용자 설정 시간에 따라 메서드가 바뀌어야 함
     static func dateCompare(compareDate: Date) -> String {

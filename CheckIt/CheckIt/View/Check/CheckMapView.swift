@@ -55,6 +55,9 @@ struct CheckMapView: View {
                             }
 
                         }
+                        .padding(.bottom, 10)
+                        .padding(.trailing, 20)
+                        .offset(y: -40)
                         
                         // 출석하기 버튼, isActive가 false면 자동으로 disable됨
                         CheckItButton(isActive: $locationManager.isInAttendanceRegion, isAlert: $isAlert, text: "출석하기") {
@@ -74,7 +77,8 @@ struct CheckMapView: View {
                             // 아니면 불가능하다는 알럿 보여주기
     
                         }
-                        .frame(width: 338)
+//                        .frame(width: 338) //수정했습니다 to 혜민님
+                        .padding(.horizontal, 20)
                         .padding(.bottom ,10)
                         .offset(y: -50)
                     } // - VStack
