@@ -61,14 +61,19 @@ struct JoinGruopModalView: View {
                         presentations.forEach {
                             $0.wrappedValue = false
                         }
-                    case .newJoined:
+                    case .newJoined(let newGroupId):
                         toastMessage = "동아리 가입이 완료되었습니다."
                         
                         presentations.forEach {
                             $0.wrappedValue = false
                         }
-                        
-                        await groupStores.fetchGroups(userStores.user!)
+                        let result = await groupStores.getGroup(newGroupId)
+                        switch result {
+                        case .success(let group):
+                            self.groupStores.groups.append(group)
+                        case .failure(let error):
+                            print(error)
+                        }
                         
                     case .notValidated:
                         toastMessage = "올바르지 않은 초대코드 입니다."
