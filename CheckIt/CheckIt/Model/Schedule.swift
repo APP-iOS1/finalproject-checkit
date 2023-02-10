@@ -21,4 +21,6 @@ struct Schedule: Identifiable, Hashable {
     var lateCount: Int
     var absentCount: Int
     var officiallyAbsentCount: Int
+    
+    static var sampleSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
 }
