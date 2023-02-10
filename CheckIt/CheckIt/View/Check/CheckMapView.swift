@@ -38,6 +38,24 @@ struct CheckMapView: View {
                         // 토스트 알럿
                         CustomToastAlert(distance: $locationManager.distance, isPresented: $isAlert)
                         
+                        //Apple Map과 연결
+                        HStack {
+                            Spacer()
+                            Button {
+                                
+                                let url = URL(string: "maps://?daddr=\(coordinate?.latitude ?? 0),\(coordinate?.longitude ?? 0)")
+                                if UIApplication.shared.canOpenURL(url!) {
+                                    UIApplication.shared.open(url!)
+                                }
+                                print(schedule.location, "로케이션")
+                            } label: {
+                                Image(systemName: "location.square.fill")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                            }
+
+                        }
+                        
                         // 출석하기 버튼, isActive가 false면 자동으로 disable됨
                         CheckItButton(isActive: $locationManager.isInAttendanceRegion, isAlert: $isAlert, text: "출석하기") {
                            // 출석 범위에 들어왔을 때 action
