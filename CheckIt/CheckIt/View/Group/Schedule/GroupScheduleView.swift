@@ -19,6 +19,7 @@ struct GroupScheduleView: View {
     @State private var showToast = false
     @State var toastMessage = ""
     @State private var isAddSheet: Bool = false
+    @State private var isCheckScheduleEmpty: Bool = false
     
     @Binding var isGroupManager: Bool
     @Binding var isScheduleLoading: Bool
@@ -45,7 +46,7 @@ struct GroupScheduleView: View {
             }
             
             VStack {
-                if scheduleStore.scheduleList.isEmpty {
+                if scheduleStore.scheduleList.isEmpty && isCheckScheduleEmpty {
                     Spacer()
                     ScheduleEmptyView()
                     Spacer()
@@ -89,6 +90,9 @@ struct GroupScheduleView: View {
         
         .onAppear {
             print("GroupScheduleView onAppear호출")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isCheckScheduleEmpty.toggle()
+            }
         }
         .onDisappear {
             print("GroupScheduleView onDisappear 호출")
@@ -105,6 +109,7 @@ struct GroupScheduleView: View {
             //Choose .banner to slide/pop alert from the bottom of the screen
             //AlertToast(displayMode: .banner(.slide), type: .regular, title: "Message Sent!")
         }
+        
     }
     
 }
