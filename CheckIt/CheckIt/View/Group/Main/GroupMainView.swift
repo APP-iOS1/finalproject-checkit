@@ -49,13 +49,6 @@ struct GroupMainView: View {
                     }
                 }
             }
-            .onAppear {
-                scheduleStore.scheduleList = []
-                guard let user = userStores.user else { return }
-                let hostGroups = groupStores.groups.filter{ $0.hostID == user.id }
-                let notHostGroups = groupStores.groups.filter{ $0.hostID != user.id }
-                groupStores.groups = hostGroups + notHostGroups
-            }
             .navigationTitle("나의 동아리")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -84,6 +77,12 @@ struct GroupMainView: View {
         .padding()
         
         .onAppear {
+            scheduleStore.scheduleList = []
+            
+            guard let user = userStores.user else { return }
+            let newGroup = Group.sortedGroup(groupStores.groups, userId: user.id)
+            groupStores.groups = newGroup
+            
             userStores.fetchUserDictionaryList()
         }
     }

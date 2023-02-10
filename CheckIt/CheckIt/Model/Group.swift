@@ -36,4 +36,10 @@ struct Group: Identifiable, Hashable {
                                           scheduleID: [],
                                           memberLimit: 0
     )
+    
+    static func sortedGroup(_ groups: [Group], userId: String) -> [Group]{
+        let hostGroups = groups.filter{ $0.hostID == userId }
+        let notHostGroups = groups.filter{ $0.hostID != userId }
+        return hostGroups + notHostGroups
+    }
 }

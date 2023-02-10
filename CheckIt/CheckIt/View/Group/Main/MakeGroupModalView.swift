@@ -19,6 +19,7 @@ struct MakeGroupModalView: View {
     @State private var groupDescription: String = ""
     @State private var isJoined: Bool = false
     @State private var text: String = ""
+    @State private var isLoading: Bool = false
     
     @State private var selectedItems: [PhotosPickerItem] = []
     @State private var selectedPhotoData: [UIImage] = []
@@ -101,33 +102,34 @@ struct MakeGroupModalView: View {
                     if isClicked {
                         return
                     }
+                    guard let user = userStores.user else { return }
+                    isLoading.toggle()
                     isClicked.toggle()
                     
-                    let canCreate = await groupStores.canUseGroupsName(groupName: groupName)
-                    if canCreate {
-                        print("실행?")
-                        await groupStores.createGroup(userStores.user!, group: group, image: selectedPhotoData.first ?? UIImage())
-                        await groupStores.addGroupsInUser(userStores.user!, joinedGroupId: group.id)
-                        await userStores.fetchUser(userStores.user!.id)
-                        showToast.toggle()
-                        toastMessage = "동아리 생성이 완료되었습니다."
-                    }
-                    else {
-                        print("중복")
-                        showToast.toggle()
-                        toastMessage = "동아리 이름이 중복됩니다."
-                    }
+                    await groupStores.createGroup(user, group: group, image: selectedPhotoData.first ?? UIImage())
+                    await groupStores.addGroupsInUser(user, joinedGroupId: group.id)
+                    await userStores.fetchUser(user.id)
+                    
+                    showToast.toggle()
+                    toastMessage = "동아리 생성이 완료되었습니다."
+                    
+                    presentations.forEach {
+                                    $0.wrappedValue = false
+                                }
+                    let newGroups = Group.sortedGroup(groupStores.groups, userId: user.id)
+                    groupStores.groups = newGroups
                     isClicked.toggle()
+                    
                 }
-                //FIXME: - User Store에서 User를 리스너로 변경 필요
-                
-                presentations.forEach {
-                                $0.wrappedValue = false
-                            }
                 
             } label: {
-                Text("동아리 개설하기")
-                    .modifier(GruopCustomButtonModifier())
+                if isLoading {
+                    ProgressView()
+                        .modifier(GruopCustomButtonModifier())
+                } else {
+                    Text("동아리 개설하기")
+                        .modifier(GruopCustomButtonModifier())
+                }
             }
             .disabled(!isCountValid())
             .onTapGesture{

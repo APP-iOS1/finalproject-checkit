@@ -14,6 +14,7 @@ struct EditScheduleView: View {
     
     @State var isShowingWebView: Bool = false
     @State var bar = true
+    @State private var isLoading: Bool = false
     @ObservedObject var viewModel = WebViewModel()
     
     @Environment(\.dismiss) var dismiss
@@ -183,6 +184,7 @@ struct EditScheduleView: View {
                 
                 // MARK: - 일정 만들기 버튼
                 Button {
+                    isLoading.toggle()
                     showToast.toggle()
                     toastMessage = "일정 수정이 완료 되었습니다."
                     // 날짜정보와 시간정보를 하나의 문자열로 합침
@@ -220,8 +222,13 @@ struct EditScheduleView: View {
                     print("schedule:",schedule)
                     
                 } label: {
-                    Text("일정 수정하기")
-                        .modifier(GruopCustomButtonModifier())
+                    if isLoading {
+                        ProgressView()
+                            .modifier(GruopCustomButtonModifier())
+                    } else {
+                        Text("일정 수정하기")
+                            .modifier(GruopCustomButtonModifier())
+                    }
                 }
                 
             }
