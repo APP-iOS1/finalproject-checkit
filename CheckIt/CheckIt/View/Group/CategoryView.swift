@@ -139,7 +139,7 @@ struct CategoryView: View {
                             Button {
                                 isGenerateCode.toggle()
                             } label: {
-                                Label("초대 코드 재생성하기", systemImage: "highlighter")
+                                Label("초대 코드 재생성하기", systemImage: "arrow.triangle.2.circlepath")
                             }
                         }
                         
@@ -219,7 +219,7 @@ struct CategoryView: View {
                 }
             }
         }, message: {
-            Text("초대 코드를 재생성하면 이전 초대 코드는 사라집니다.")
+            Text("초대 코드를 재생성하면 이전 초대 코드는 사용하실 수 없습니다.")
                 .multilineTextAlignment(.center)
         })
         
