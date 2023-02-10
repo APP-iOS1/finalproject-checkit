@@ -115,15 +115,11 @@ struct CategoryView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     if isHost {
-                        Section {
+                        Section("동아리") {
                             Button {
                                 isEditGroup.toggle()
                             } label: {
                                 Label("동아리 정보 수정하기", systemImage: "highlighter")
-                            }
-                            
-                            ShareLink(item: group.invitationCode) {
-                                Label("초대 링크 공유하기", systemImage: "square.and.arrow.up")
                             }
                             
                             Button(role: .destructive) {
@@ -133,6 +129,18 @@ struct CategoryView: View {
                                     .foregroundColor(.red)
                             }
                         }
+                        
+                        Section("초대코드") {
+                            ShareLink(item: group.invitationCode) {
+                                Label("초대 링크 공유하기", systemImage: "square.and.arrow.up")
+                            }
+                            Button {
+                                isEditGroup.toggle()
+                            } label: {
+                                Label("초대 코드 재생성하기", systemImage: "highlighter")
+                            }
+                        }
+                        
                     } else {
                         Section {
                             Button(role: .destructive) {
