@@ -40,6 +40,7 @@ struct ScheduleDetailCellView: View {
                     }
                 }
                 .padding(30)
+                .foregroundColor(.black)
             }
         }
     }
