@@ -12,7 +12,7 @@ import FirebaseStorage
 
 enum GroupJoinStatus {
     case alreadyJoined
-    case newJoined
+    case newJoined(String)
     case notValidated
     case fulled
 }
@@ -338,7 +338,7 @@ class GroupStore: ObservableObject {
     
     /// 초대코드를 입력하여 동아리에 참가시 참가한 동아리의 데이터를 불러오는 메소드
     /// - Parameter groupId: 참가한 동아리의 id
-    func getGroup(_ groupId: String) async -> Result<Group, Error> {
+    func getGroup(_ groupId: String) async -> Result<Group, GroupGetError> {
         do {
             let documentSnapshot = try await database.collection("Group").document(groupId)
                 .getDocument()
@@ -369,7 +369,7 @@ class GroupStore: ObservableObject {
             return .success(newGroup)
         } catch {
             print("getGroup error: \(error.localizedDescription)")
-            return .failure(GroupGetError.notExisted)
+            return .failure(GroupGetError.getGroupFailed)
         }
     }
     
@@ -404,7 +404,7 @@ class GroupStore: ObservableObject {
                     ])
                 await addGroupsInUser(user, joinedGroupId: groupId)
                 
-                return .newJoined
+                return .newJoined(groupId)
                 
             } catch {
                 print("joinGroup error: \(error.localizedDescription)")
