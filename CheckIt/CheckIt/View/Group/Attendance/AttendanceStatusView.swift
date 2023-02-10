@@ -15,27 +15,50 @@ struct AttendanceStatusView: View {
     @Binding var isGroupManager: Bool
     var scheduleIDList: [String]?
     var hostId: String
+    
     var body: some View {
-        ScrollView {
-            if isGroupManager {
-                ForEach(scheduleStore.scheduleList.indices, id: \.self) { index in
+        VStack {
+                if isGroupManager {
                     
-                    NavigationLink(destination: AttendanceDetailView(schedule: scheduleStore.scheduleList[index])) {
-                        AttendanceCellView(schedule: scheduleStore.scheduleList[index])
-                            .padding(.horizontal, 20)
+                    if scheduleStore.scheduleList.count == 0 {
+                        Spacer()
+                        HStack{}
+                            .frame(height: 25)
+                        AttendanceEmptyView()
+                        Spacer()
+                    } else {
+                        ScrollView {
+                            ForEach(scheduleStore.scheduleList.indices, id: \.self) { index in
+                                
+                                NavigationLink(destination: AttendanceDetailView(schedule: scheduleStore.scheduleList[index])) {
+                                    AttendanceCellView(schedule: scheduleStore.scheduleList[index])
+                                        .padding(.horizontal, 20)
+                                }
+                            }
+                        }
                     }
                 }
-            }
-            else {
-                ForEach(scheduleStore.userScheduleList.indices, id: \.self) { index in
-                    AttendanceStatusListCell(schedule: scheduleStore.userScheduleList[index], attendance: attendanceStore.attendanceList[index])
+                else {
+                    
+                    if scheduleStore.userScheduleList.count == 0 {
+                        Spacer()
+                        HStack{}
+                            .frame(height: 25)
+                        AttendanceEmptyView()
+                        Spacer()
+                    } else {
+                        ScrollView {
+                            ForEach(scheduleStore.userScheduleList.indices, id: \.self) { index in
+                                AttendanceStatusListCell(schedule: scheduleStore.userScheduleList[index], attendance: attendanceStore.attendanceList[index])
+                            }
+                        }
+                    }
                 }
-            }
         }
         .onAppear {
             print("호출 테스트--------------------------")
-//            print(userStore.user?.id ?? "", "유저 id")
-//            print(hostId, "호스트 id")
+            //            print(userStore.user?.id ?? "", "유저 id")
+            //            print(hostId, "호스트 id")
             if isGroupManager {
                 
             }
