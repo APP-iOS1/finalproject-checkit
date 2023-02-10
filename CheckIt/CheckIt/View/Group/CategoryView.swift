@@ -22,6 +22,8 @@ struct CategoryView: View {
     @State private var isRemoveGroup: Bool = false
     @State private var isEditGroup: Bool = false
     @State var isGroupManager: Bool = false
+    @State private var isScheduleLoading: Bool = true
+    @State private var isFirstFetch: Bool = false
     
     @Binding var showToast: Bool
     @Binding var toastMessage: String
@@ -85,7 +87,7 @@ struct CategoryView: View {
             .padding(.bottom, 20)
             
             if clickedIndex == 0 {
-                GroupScheduleView(group: groupStore.groupDetail, isGroupManager: $isGroupManager)
+                GroupScheduleView(group: groupStore.groupDetail, isGroupManager: $isGroupManager, isScheduleLoading: $isScheduleLoading)
             }
             if clickedIndex == 1 {
                 AttendanceStatusView(isGroupManager: $isGroupManager, scheduleIDList: group.scheduleID, hostId: group.hostID)
@@ -199,12 +201,23 @@ struct CategoryView: View {
         
         .onAppear {
             print("Category onAppear 호출")
+            if isFirstFetch {
+                return
+            }
+            isFirstFetch.toggle()
+            
             groupStore.startGroupListener(group)
             changedGroup = group
             
             memberStore.members.removeAll()
             Task {
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    isScheduleLoading.toggle()
+                }
+                
                 await scheduleStore.fetchSchedule(groupName: group.name)
+                
                 do {
                     try await memberStore.fetchMember(group.id)
                     for member in memberStore.members {

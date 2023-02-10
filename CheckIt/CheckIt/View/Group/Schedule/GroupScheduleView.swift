@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import SkeletonUI
 
 struct GroupScheduleView: View {
     var group: Group
@@ -14,11 +15,16 @@ struct GroupScheduleView: View {
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var memberStore: MemberStore
-    @State private var showToast = false
     
-    @State private var isAddSheet: Bool = false
-    @Binding var isGroupManager: Bool
+    @State private var showToast = false
     @State var toastMessage = ""
+    @State private var isAddSheet: Bool = false
+    @State private var isCheckScheduleEmpty: Bool = false
+    
+    @Binding var isGroupManager: Bool
+    @Binding var isScheduleLoading: Bool
+    
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -40,19 +46,20 @@ struct GroupScheduleView: View {
             }
             
             VStack {
-                if scheduleStore.scheduleList.isEmpty {
+                if scheduleStore.scheduleList.isEmpty && isCheckScheduleEmpty {
                     Spacer()
                     ScheduleEmptyView()
                     Spacer()
                 } else {
                     ScrollView {
-                        ForEach(scheduleStore.scheduleList.sorted(by: { $0.startTime < $1.startTime})) { schedule in
-                            NavigationLink(destination: ScheduleDetailView(showToast: $showToast, toastMessage: $toastMessage, group: group, schedule: schedule)) {
-                                ScheduleDetailCellView(schedule: schedule)
-                                    .onAppear {
-                                        print("schedule: \(schedule)")
-                                    }
+                        SkeletonForEach(with: scheduleStore.scheduleList.sorted(by: { $0.startTime < $1.startTime}), quantity: 4) { loading, schedule in
+                            NavigationLink(destination: ScheduleDetailView(showToast: $showToast, toastMessage: $toastMessage, group: group, schedule: schedule ?? Schedule.sampleSchedule)) {
+                                
+                                ScheduleDetailCellView(schedule: schedule ?? Schedule.sampleSchedule)
                             }
+                            .skeleton(with: isScheduleLoading)
+                            .shape(type: .rectangle)
+                            .frame(height: UIScreen.screenHeight / 5.5)
                         }
                     }
                     .onAppear {
@@ -83,6 +90,9 @@ struct GroupScheduleView: View {
         
         .onAppear {
             print("GroupScheduleView onAppear호출")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isCheckScheduleEmpty.toggle()
+            }
         }
         .onDisappear {
             print("GroupScheduleView onDisappear 호출")
@@ -99,6 +109,7 @@ struct GroupScheduleView: View {
             //Choose .banner to slide/pop alert from the bottom of the screen
             //AlertToast(displayMode: .banner(.slide), type: .regular, title: "Message Sent!")
         }
+        
     }
     
 }

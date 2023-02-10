@@ -173,7 +173,7 @@ struct ScheduleDetailView: View {
             }
             
             .sheet(isPresented: $isEditSchedule) {
-                EditScheduleView(schedule: $editSchedule, showToast: $showToast, toastMessage: .constant(""), group: group)
+                EditScheduleView(schedule: $editSchedule, showToast: $showToast, toastMessage: $toastMessage, group: group)
             }
             .alert("해당 일정을 삭제하시겠습니까?", isPresented: $isRemoveSchedule, actions: {
                 Button("취소하기", role: .cancel) { }
