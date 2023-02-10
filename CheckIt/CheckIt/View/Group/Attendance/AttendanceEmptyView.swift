@@ -1,13 +1,13 @@
 //
-//  GroupEmptyView.swift
+//  AttendanceEmptyView.swift
 //  CheckIt
 //
-//  Created by 이학진 on 2023/02/03.
+//  Created by 황예리 on 2023/02/10.
 //
 
 import SwiftUI
 
-struct GroupEmptyView: View {
+struct AttendanceEmptyView: View {
     var body: some View {
         VStack(alignment: .center, spacing: UIScreen.screenHeight * 0.02) {
             Image("grayBox")
@@ -15,17 +15,17 @@ struct GroupEmptyView: View {
                 .frame(width: UIScreen.screenWidth * 0.2, height: UIScreen.screenHeight * 0.1)
                 .padding()
                 
-            Text("아직 가입된 동아리가 없어요.😢")
+            Text("아직 성사된 만남이 없어요.🥹")
                 .font(.system(size: 22, weight: .semibold))
             
-            Text("+ 버튼으로 동아리를 만들거나\n초대된 동아리에 가입해 보세요.")
+            Text("출석부로 해당 일정의 출석 현황\n 및 정산 여부를 관리해 보세요.")
                 .font(.system(size: 18, weight: .regular))
         }
     }
 }
 
-struct GroupEmptyView_Previews: PreviewProvider {
+struct AttendanceEmptyView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupEmptyView()
+        AttendanceEmptyView()
     }
 }
