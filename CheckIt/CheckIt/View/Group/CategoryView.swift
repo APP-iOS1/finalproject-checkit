@@ -21,9 +21,11 @@ struct CategoryView: View {
     @State private var isCheckExsit: Bool = false
     @State private var isRemoveGroup: Bool = false
     @State private var isEditGroup: Bool = false
+    @State private var isGenerateCode: Bool = false
     @State var isGroupManager: Bool = false
     @State private var isScheduleLoading: Bool = true
     @State private var isFirstFetch: Bool = false
+    
     
     @Binding var showToast: Bool
     @Binding var toastMessage: String
@@ -135,7 +137,7 @@ struct CategoryView: View {
                                 Label("초대 링크 공유하기", systemImage: "square.and.arrow.up")
                             }
                             Button {
-                                isEditGroup.toggle()
+                                isGenerateCode.toggle()
                             } label: {
                                 Label("초대 코드 재생성하기", systemImage: "highlighter")
                             }
@@ -204,6 +206,20 @@ struct CategoryView: View {
             }
         }, message: {
             Text("해당 동아리를 삭제하면\n동아리에 대한 모든 정보가 사라집니다.")
+                .multilineTextAlignment(.center)
+        })
+        
+        .alert("초대 코드를 재생성 하시겠습니까?", isPresented: $isGenerateCode, actions: {
+            Button("취소하기", role: .cancel) { }
+            Button("재생성 하기") {
+                Task {
+                    toastMessage = "초대 코드가 재생성 되었습니다."
+                    
+                    showToast.toggle()
+                }
+            }
+        }, message: {
+            Text("초대 코드를 재생성하면 이전 초대 코드는 사라집니다.")
                 .multilineTextAlignment(.center)
         })
         
