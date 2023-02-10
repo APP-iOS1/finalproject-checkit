@@ -102,12 +102,13 @@ struct MakeGroupModalView: View {
                     if isClicked {
                         return
                     }
+                    guard let user = userStores.user else { return }
                     isLoading.toggle()
                     isClicked.toggle()
                     
-                    await groupStores.createGroup(userStores.user!, group: group, image: selectedPhotoData.first ?? UIImage())
-                    await groupStores.addGroupsInUser(userStores.user!, joinedGroupId: group.id)
-                    await userStores.fetchUser(userStores.user!.id)
+                    await groupStores.createGroup(user, group: group, image: selectedPhotoData.first ?? UIImage())
+                    await groupStores.addGroupsInUser(user, joinedGroupId: group.id)
+                    await userStores.fetchUser(user.id)
                     
                     showToast.toggle()
                     toastMessage = "동아리 생성이 완료되었습니다."
@@ -115,7 +116,10 @@ struct MakeGroupModalView: View {
                     presentations.forEach {
                                     $0.wrappedValue = false
                                 }
+                    let newGroups = Group.sortedGroup(groupStores.groups, userId: user.id)
+                    groupStores.groups = newGroups
                     isClicked.toggle()
+                    
                 }
                 
             } label: {
