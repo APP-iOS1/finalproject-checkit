@@ -49,6 +49,7 @@
 		2869DE402977CC8800D8CAFB /* AttendanceCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */; };
 		2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */; };
 		2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */; };
+		28D63A9C2996375E002BF5F4 /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 28D63A9B2996375E002BF5F4 /* SkeletonUI */; };
 		2B661EBB29948F2D00CAE64D /* EditGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBA29948F2D00CAE64D /* EditGroupView.swift */; };
 		2B661EBD2994D44900CAE64D /* Ex+UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBC2994D44900CAE64D /* Ex+UIScreen.swift */; };
 		2B661EBF299587D600CAE64D /* AttendanceEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBE299587D600CAE64D /* AttendanceEmptyView.swift */; };
@@ -291,6 +292,7 @@
 				FD4E25E8297785E800F6F875 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				28122E992994DC930091F23E /* Lottie in Frameworks */,
 				FD4E25DE297785E800F6F875 /* FirebaseAuth in Frameworks */,
+				28D63A9C2996375E002BF5F4 /* SkeletonUI in Frameworks */,
 				FD4E25EC297785E800F6F875 /* FirebaseStorage in Frameworks */,
 				FD4E25EA297785E800F6F875 /* FirebaseFirestoreSwift in Frameworks */,
 				FD2D07FE297BFE3000CC010E /* Alamofire in Frameworks */,
@@ -676,6 +678,7 @@
 				FDEE491E298EEE67009DF195 /* SwiftyJSON */,
 				28122E952994DBDC0091F23E /* SkeletonView */,
 				28122E982994DC930091F23E /* Lottie */,
+				28D63A9B2996375E002BF5F4 /* SkeletonUI */,
 			);
 			productName = CheckIt;
 			productReference = FD4E2599297783CC00F6F875 /* CheckIt.app */;
@@ -760,6 +763,7 @@
 				FDEE491D298EEE67009DF195 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				28122E942994DBDC0091F23E /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				28122E972994DC920091F23E /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				28D63A9A2996375E002BF5F4 /* XCRemoteSwiftPackageReference "SkeletonUI" */,
 			);
 			productRefGroup = FD4E259A297783CC00F6F875 /* Products */;
 			projectDirPath = "";
@@ -1273,6 +1277,14 @@
 				minimumVersion = 6.2.4;
 			};
 		};
+		28D63A9A2996375E002BF5F4 /* XCRemoteSwiftPackageReference "SkeletonUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CSolanaM/SkeletonUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		FD03F4C8298B3D0E005B355D /* XCRemoteSwiftPackageReference "AlertToast" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/elai950/AlertToast.git";
@@ -1351,6 +1363,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2869DE342977B00C00D8CAFB /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		28D63A9B2996375E002BF5F4 /* SkeletonUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28D63A9A2996375E002BF5F4 /* XCRemoteSwiftPackageReference "SkeletonUI" */;
+			productName = SkeletonUI;
 		};
 		FD03F4C9298B3D0E005B355D /* AlertToast */ = {
 			isa = XCSwiftPackageProductDependency;
