@@ -22,6 +22,11 @@ enum GroupCodeValidation {
     case notValidated
 }
 
+enum GroupGetError: Error {
+    case getGroupFailed
+    case notExisted
+}
+
 class GroupStore: ObservableObject {
     @Published var groups: [Group] = []
     @Published var groupDetail: Group = Group.sampleGroup
@@ -331,6 +336,43 @@ class GroupStore: ObservableObject {
         }
     }
     
+    /// 초대코드를 입력하여 동아리에 참가시 참가한 동아리의 데이터를 불러오는 메소드
+    /// - Parameter groupId: 참가한 동아리의 id
+    func getGroup(_ groupId: String) async -> Result<Group, Error> {
+        do {
+            let documentSnapshot = try await database.collection("Group").document(groupId)
+                .getDocument()
+            guard documentSnapshot.exists == true else { return .failure(GroupGetError.notExisted)}
+            
+            let group = documentSnapshot.data()!
+            
+            let id = group[GroupConstants.id] as? String ?? ""
+            let name = group[GroupConstants.name] as? String ?? ""
+            let invitationCode = group[GroupConstants.invitationCode] as? String ?? ""
+            let image = group[GroupConstants.image] as? String ?? ""
+            let hostID = group[GroupConstants.hostID] as? String ?? ""
+            let description = group[GroupConstants.description] as? String ?? ""
+            let scheduleID = group[GroupConstants.scheduleID] as? [String] ?? []
+            let memberLimit = group[GroupConstants.memberLimit] as? Int ?? 0
+            
+            let newGroup = Group(id: id,
+                              name: name,
+                              invitationCode: invitationCode,
+                              image: image,
+                              hostID: hostID,
+                              description: description,
+                              scheduleID: scheduleID,
+                              memberLimit: memberLimit)
+            
+            readImages("group_images/\(id)", groupId: newGroup.id)
+            
+            return .success(newGroup)
+        } catch {
+            print("getGroup error: \(error.localizedDescription)")
+            return .failure(GroupGetError.notExisted)
+        }
+    }
+    
     // MARK: - 유저가 동아리에 참가하는 메소드
     /// - Parameter code: 동아리 참가 코드
     /// - Parameter uid: 참가하는 사용자의 uid
@@ -361,6 +403,7 @@ class GroupStore: ObservableObject {
                         "position": "구성원"
                     ])
                 await addGroupsInUser(user, joinedGroupId: groupId)
+                
                 return .newJoined
                 
             } catch {
