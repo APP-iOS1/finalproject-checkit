@@ -23,6 +23,7 @@ struct CategoryView: View {
     @State private var isEditGroup: Bool = false
     @State var isGroupManager: Bool = false
     @State private var isScheduleLoading: Bool = true
+    @State private var isFirstFetch: Bool = false
     
     @Binding var showToast: Bool
     @Binding var toastMessage: String
@@ -200,11 +201,17 @@ struct CategoryView: View {
         
         .onAppear {
             print("Category onAppear 호출")
+            if isFirstFetch {
+                return
+            }
+            isFirstFetch.toggle()
+            
             groupStore.startGroupListener(group)
             changedGroup = group
             
             memberStore.members.removeAll()
             Task {
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     isScheduleLoading.toggle()
                 }
