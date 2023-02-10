@@ -129,7 +129,7 @@ struct EditGroupView: View {
                     ProgressView()
                         .modifier(GruopCustomButtonModifier())
                 } else {
-                    Text("동아리 편집하기")
+                    Text("저장 하기")
                         .modifier(GruopCustomButtonModifier())
                 }
             }
