@@ -192,7 +192,6 @@ struct EditScheduleView: View {
                     // 문자열을 기반으로 Date 인스턴스생성
                     let start1 = start.getAllTimeInfo()
                     let end1 = end.getAllTimeInfo()
-
                     
                     let newSchedule = Schedule(
                         id: schedule.id,
@@ -217,7 +216,6 @@ struct EditScheduleView: View {
                     let index = self.scheduleStore.scheduleList.firstIndex{ $0.id == schedule.id }
                     self.scheduleStore.scheduleList[index ?? -1] = newSchedule
                     
-                    toastMessage = "일정 수정이 완료 되었습니다."
                     dismiss()
                     print("schedule:",schedule)
                     
