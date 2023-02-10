@@ -15,6 +15,7 @@ struct EditGroupView: View {
     @Environment(\.dismiss) var dismiss
     
     @State private var text: String = ""
+    @State private var isLoading: Bool = false
     
     @State private var selectedItems: [PhotosPickerItem] = []
     @State private var selectedPhotoData: [UIImage] = []
@@ -96,6 +97,7 @@ struct EditGroupView: View {
                     return
                 }
                 isClicked.toggle()
+                isLoading.toggle()
                 
                 let newGroup = Group(id: group.id,
                                      name: group.name,
@@ -123,8 +125,13 @@ struct EditGroupView: View {
                 }
                 
             } label: {
-                Text("동아리 편집하기")
-                    .modifier(GruopCustomButtonModifier())
+                if isLoading {
+                    ProgressView()
+                        .modifier(GruopCustomButtonModifier())
+                } else {
+                    Text("저장 하기")
+                        .modifier(GruopCustomButtonModifier())
+                }
             }
             .disabled(!isCountValid())
             .onTapGesture{
