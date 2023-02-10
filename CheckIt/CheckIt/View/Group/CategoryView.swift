@@ -213,8 +213,9 @@ struct CategoryView: View {
             Button("취소하기", role: .cancel) { }
             Button("재생성 하기") {
                 Task {
-                    toastMessage = "초대 코드가 재생성 되었습니다."
+                    await groupStore.updateInvitationCode(group.id, newInvitationCode: Group.randomCode)
                     
+                    toastMessage = "초대 코드가 재생성 되었습니다."
                     showToast.toggle()
                 }
             }
