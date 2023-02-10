@@ -18,6 +18,8 @@ struct AddScheduleView: View {
     @State private var lateFee: Int = 0
     @State private var absentFee: Int = 0
     
+    @State private var isLoading: Bool = false
+    
     @ObservedObject var viewModel = WebViewModel()
     
     @Environment(\.dismiss) var dismiss
@@ -191,6 +193,7 @@ struct AddScheduleView: View {
                 Button {
                     showToast.toggle()
                     toastMessage = "일정 생성이 완료 되었습니다."
+                    isLoading.toggle()
                     // 날짜정보와 시간정보를 하나의 문자열로 합침
                     let start = startTime.getDateString() + " " + startTime.getTimeString()
                     let end = startTime.getDateString() + " " + endTime.getTimeString()
@@ -229,8 +232,13 @@ struct AddScheduleView: View {
                     dismiss()
                     
                 } label: {
-                    Text("일정 만들기")
-                        .modifier(GruopCustomButtonModifier())
+                    if isLoading {
+                        ProgressView()
+                            .modifier(GruopCustomButtonModifier())
+                    } else {
+                        Text("일정 만들기")
+                            .modifier(GruopCustomButtonModifier())
+                    }
                 }
                 .disabled(viewModel.result?.isEmpty ?? true)
             }
