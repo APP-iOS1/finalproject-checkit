@@ -355,6 +355,24 @@ class ScheduleStore: ObservableObject {
         }
     }
     
+    /// 동아리 이름 변경시 동아리안의 일정들의 group_name을 변경하는 메소드
+    /// - Parameter newName: 변경할 동아리 이름
+    /// - Parameter scheduleIdList: 변경할 동아리들의 일정
+    func updateScheduleGroupName(_ newName: String, scheduleIdList: [String]) async {
+        for id in scheduleIdList {
+            do {
+                try await database.collection("Schedule")
+                    .document(id)
+                    .updateData([
+                        ScheduleConstants.groupName: newName
+                    ])
+            } catch {
+                print("scheduleId erorr: \(id)")
+                print("editScheduleGroupName error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
 //    func returnRecentScheduleList(groups: [Group]) async -> [Schedule] {
 //        var tempSchedule: [Schedule] = []
 //

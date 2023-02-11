@@ -58,7 +58,7 @@ struct AttendanceCellView: View {
             Spacer()
         }
         .background {
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 18)
                 .foregroundColor(.myLightGray)
                 .frame(height: 90)
             
