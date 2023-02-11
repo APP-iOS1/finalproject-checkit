@@ -9,14 +9,14 @@ import SwiftUI
 
 struct MyPageButton: View {
     @Binding var buttonTitle : String
+    @Binding var buttonImage : String
+    
     var body: some View {
-        HStack {
+        HStack(spacing: 10) {
+            Image(systemName: buttonImage)
+            
             Text(buttonTitle)
                 .font(.system(size: 20, weight: .semibold))
-                .padding(.leading, 46)
-            Spacer()
-            Image(systemName: "chevron.right")
-                .padding(.trailing, 46)
         }
         .foregroundColor(.black)
         .frame(minHeight: 30, maxHeight: 58)
@@ -25,7 +25,7 @@ struct MyPageButton: View {
 
 struct MyPageButton_Previews: PreviewProvider {
     static var previews: some View {
-        MyPageButton(buttonTitle: .constant("프리미엄 요금제 알아보기"))
+        MyPageButton(buttonTitle: .constant("프리미엄 요금제 알아보기"), buttonImage: .constant("checkmark.seal"))
             .previewLayout(.sizeThatFits)
     }
 }

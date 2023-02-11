@@ -9,13 +9,16 @@ import SwiftUI
 
 struct CheckMainView: View {
     @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var scheduleStore: ScheduleStore
     @State private var page = 0
+    @State private var isShowingMyPage: Bool = false
     
     var card: [Card] {cardGenerate()}
     
     var body: some View {
-        NavigationStack {
+        
+        NavigationView {
             VStack {
                 TabView(selection: $page) {
                     ForEach(0..<groupStore.groups.count, id: \.self) { index in
@@ -31,16 +34,19 @@ struct CheckMainView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    // MARK: - 마이페이지
-                    NavigationLink {
-                        MyPageView()
-                    } label: {
-                        Image(systemName: "person.fill")
-                            .foregroundColor(.black)
-                    }
+                    NavigationLink(
+                        destination: MyPageView(),
+                        label: {
+                            Label("MyPage", systemImage: "person.circle")
+                                .font(.title2)
+                                .foregroundColor(.black)
+                        })
                 }
             }
-            
+            .navigationDestination(isPresented: $isShowingMyPage) {
+                MyPageView()
+                    .environmentObject(userStore)
+            }
         }
     }
     
