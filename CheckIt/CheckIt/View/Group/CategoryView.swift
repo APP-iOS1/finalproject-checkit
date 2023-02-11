@@ -25,7 +25,7 @@ struct CategoryView: View {
     @State var isGroupManager: Bool = false
     @State private var isScheduleLoading: Bool = true
     @State private var isFirstFetch: Bool = false
-    
+    @State var isLoading: Bool = false
     
     @Binding var showToast: Bool
     @Binding var toastMessage: String
@@ -43,64 +43,78 @@ struct CategoryView: View {
     }
     
     var body: some View {
-        VStack {
-            HStack {
-                ForEach(categories.indices, id: \.self) { i in
-                    Button(action: {
-                        clickedIndex = i
-                    }, label: {
-                        if i == 1 {
-                            Text(categories[i])
-                                .foregroundColor(i == clickedIndex ? .black : .gray)
-                                .background(i == clickedIndex ?
-                                            Color.black
-                                    .frame(
-                                        width: 60,
-                                        height: 2)
-                                        .offset(y: 17)
-                                            :
-                                                Color.white
-                                    .frame(height: 2)
-                                    .offset(y: 15)
-                                )
-                                .font(i == clickedIndex ? .system(size: 16).bold(): .system(size: 16))
-                        } else {
-                            Text(categories[i])
-                                .foregroundColor(i == clickedIndex ? .black : .gray)
-                                .background(i == clickedIndex ?
-                                            Color.black
-                                    .frame(
-                                        width: 85,
-                                        height: 2)
-                                        .offset(y: 17)
-                                            :
-                                                Color.white
-                                    .frame(height: 2)
-                                    .offset(y: 15)
-                                )
-                                .font(i == clickedIndex ? .system(size: 16).bold(): .system(size: 16))
-                        }
-                    })
-                    .padding(.top, 10)
-                    .padding(.horizontal)
-                    .buttonStyle(NoAnimation())
+        ZStack {
+            VStack {
+                HStack {
+                    ForEach(categories.indices, id: \.self) { i in
+                        Button(action: {
+                            clickedIndex = i
+                        }, label: {
+                            if i == 1 {
+                                Text(categories[i])
+                                    .foregroundColor(i == clickedIndex ? .black : .gray)
+                                    .background(i == clickedIndex ?
+                                                Color.black
+                                        .frame(
+                                            width: 60,
+                                            height: 2)
+                                            .offset(y: 17)
+                                                :
+                                                    Color.white
+                                        .frame(height: 2)
+                                        .offset(y: 15)
+                                    )
+                                    .font(i == clickedIndex ? .system(size: 16).bold(): .system(size: 16))
+                            } else {
+                                Text(categories[i])
+                                    .foregroundColor(i == clickedIndex ? .black : .gray)
+                                    .background(i == clickedIndex ?
+                                                Color.black
+                                        .frame(
+                                            width: 85,
+                                            height: 2)
+                                            .offset(y: 17)
+                                                :
+                                                    Color.white
+                                        .frame(height: 2)
+                                        .offset(y: 15)
+                                    )
+                                    .font(i == clickedIndex ? .system(size: 16).bold(): .system(size: 16))
+                            }
+                        })
+                        .padding(.top, 10)
+                        .padding(.horizontal)
+                        .buttonStyle(NoAnimation())
+                    }
+                } // - HStack
+                .padding(.bottom, 20)
+                
+                if clickedIndex == 0 {
+                    GroupScheduleView(group: groupStore.groupDetail, isGroupManager: $isGroupManager, isScheduleLoading: $isScheduleLoading)
                 }
-            } // - HStack
-            .padding(.bottom, 20)
-            
-            if clickedIndex == 0 {
-                GroupScheduleView(group: groupStore.groupDetail, isGroupManager: $isGroupManager, isScheduleLoading: $isScheduleLoading)
+                if clickedIndex == 1 {
+                    AttendanceStatusView(isGroupManager: $isGroupManager, scheduleIDList: group.scheduleID, hostId: group.hostID)
+                }
+                if clickedIndex == 2 {
+                    GroupInformationView(group: groupStore.groupDetail)
+                }
+                
+                Spacer()
+                
+            } // - VStack
+            if isLoading {
+                ZStack {
+                    Color(.systemBackground)
+                        .ignoresSafeArea()
+                        .opacity(0.8)
+                    LottieView(filename: "ThirdIndicator", completion: { value in
+                        print(value, "로티애니메이션")
+                    })
+                        .frame(width: 150, height: 150)
+                    }
             }
-            if clickedIndex == 1 {
-                AttendanceStatusView(isGroupManager: $isGroupManager, scheduleIDList: group.scheduleID, hostId: group.hostID)
-            }
-            if clickedIndex == 2 {
-                GroupInformationView(group: groupStore.groupDetail)
-            }
             
-            Spacer()
-            
-        } // - VStack
+        }
         .navigationTitle("\(group.name)")
         .navigationBarBackButtonHidden()
         .toolbar {
@@ -187,6 +201,8 @@ struct CategoryView: View {
             Button("취소하기", role: .cancel) { }
             Button("삭제하기", role: .destructive) {
                 Task {
+                    isLoading = true //로티 애니메이션 시작
+
                     // 동아리 내의 일정 및 연관된 출석부 컬렉션 삭제
                     for scheduleId in group.scheduleID {
                         async let attendanceId = await attendanceStore.getAttendanceId(scheduleId)
@@ -199,7 +215,7 @@ struct CategoryView: View {
                     self.groupStore.groups.removeAll { $0.id == group.id}
                     
                     toastMessage = "동아리 삭제가 완료되었습니다."
-                    
+                    isLoading = false //로티 애니메이션 종료
                     showToast.toggle()
                     dismiss()
                 }
