@@ -22,8 +22,8 @@ struct AttendanceDetailStatusView: View {
                     Spacer()
                     Text("지각비 :")
                     Text("\(schedule.lateFee)원 / 건")
-                        .foregroundColor(.myGray)
                         .font(.system(size: 16, weight: .medium))
+                        .padding(.trailing, 20)
                 }
                 .foregroundColor(.myGray)
                 .frame(height: 20)
@@ -45,6 +45,7 @@ struct AttendanceDetailStatusView: View {
                     Text("결석비 :")
                     Text("\(schedule.lateFee)원 / 건")
                         .font(.system(size: 16, weight: .medium))
+                        .padding(.trailing, 20)
                 }
                 .foregroundColor(.myGray)
                 .frame(height: 20)
@@ -107,7 +108,7 @@ struct AttendanceDetailStatusView: View {
                 HStack(spacing: 0) {
                     Text("미정산 지각비: ")
                         .font(.system(size: 20, weight: .bold))
-//                        .padding(.leading, 20)
+                        .padding(.leading, 20)
                     Text("\(schedule.lateFee * (changedLatedStatusList.filter({ $0.settlementStatus == false }).count)) 원")
                         .font(.system(size: 20, weight: .medium))
                     Spacer()
@@ -127,7 +128,7 @@ struct AttendanceDetailStatusView: View {
                 HStack(spacing: 0) {
                     Text("미정산 결석비: ")
                         .font(.system(size: 20, weight: .bold))
-//                        .padding(.leading, 20)
+                        .padding(.leading, 20)
                     Text("\(schedule.lateFee * (changedAbsentStatusList.filter({ $0.settlementStatus == false }).count)) 원")
                         .font(.system(size: 20, weight: .medium))
                     Spacer()
