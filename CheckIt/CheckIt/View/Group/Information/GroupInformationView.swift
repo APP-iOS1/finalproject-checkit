@@ -68,7 +68,7 @@ struct GroupInformationView: View {
                 
                 //동아리 멤버 리스트
                     ZStack {
-                        RoundedRectangle(cornerRadius: 10)
+                        RoundedRectangle(cornerRadius: 18)
                             .foregroundColor(.myLightGray)
                         VStack {
                             HStack {
@@ -77,20 +77,22 @@ struct GroupInformationView: View {
                                     .padding(.leading, 28)
                                     .padding(.trailing, 0)
                                 
-                                Text("\(memberStore.members.count)/\(Constants.notPremiumGroupSize) 명")
-                                    .font(.system(size: 16, weight: .semibold))
-                                
                                 Spacer()
                                 
-                                if isHost {
-                                    Button {
-                                        isEditing.toggle()
-                                    } label: {
-                                        Image(systemName: "pencil.circle")
-                                            .foregroundColor(.black)
+                                HStack {
+                                    Text("\(memberStore.members.count) / \(Constants.notPremiumGroupSize) 명")
+                                        .font(.system(size: 16, weight: .semibold))
+                                    
+                                    if isHost {
+                                        Button {
+                                            isEditing.toggle()
+                                        } label: {
+                                            Image(systemName: "pencil.circle")
+                                                .foregroundColor(.black)
+                                        }
                                     }
-                                    .padding(.trailing, 26)
                                 }
+                                .padding(.trailing, 26)
                             }
                             .padding(.vertical, 20)
                             
@@ -108,7 +110,7 @@ struct GroupInformationView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 30)
                 .padding(.bottom, 8) //아직 기준을 잘 모르겠음
             }
         }

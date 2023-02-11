@@ -32,7 +32,8 @@ struct AttendanceStatusView: View {
                                 
                                 NavigationLink(destination: AttendanceDetailView(schedule: scheduleStore.scheduleList[index])) {
                                     AttendanceCellView(schedule: scheduleStore.scheduleList[index])
-                                        .padding(.horizontal, 20)
+                                        .padding(.horizontal, 30)
+                                        .padding(.bottom, 8)
                                 }
                             }
                         }
@@ -50,6 +51,8 @@ struct AttendanceStatusView: View {
                         ScrollView {
                             ForEach(scheduleStore.userScheduleList.indices, id: \.self) { index in
                                 AttendanceStatusListCell(schedule: scheduleStore.userScheduleList[index], attendance: attendanceStore.attendanceList[index])
+                                    .padding(.horizontal, 30)
+                                    .padding(.bottom, 8)
                             }
                         }
                     }

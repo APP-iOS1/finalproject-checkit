@@ -63,13 +63,13 @@ struct CheckItCard: View {
                             Rectangle()
                                 .fill(Color.gray)
                                 .frame(width: 246, height: 186.81)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .clipShape(RoundedRectangle(cornerRadius: 18))
                                 .padding(10)
                             
                             Image(uiImage: groupImage)
                                 .resizable()
                                 .frame(width: 246, height: 186.81)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .clipShape(RoundedRectangle(cornerRadius: 24))
                                 .padding(10)
                                 .onTapGesture {
                                     print("일정 전달 확인 \(recentScheduleList)")
