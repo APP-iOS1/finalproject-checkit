@@ -62,6 +62,7 @@ struct GroupMainView: View {
                             .frame(width: 20, height: 20)
                             .fontWeight(.medium)
                             .foregroundColor(.black)
+                            .padding(.trailing, 20)
                     }
                     .sheet(isPresented: $showingPlusSheet) {
                         MainPlusSheetView(showToast: $showToast, toastMessage: $toastMessage)
@@ -75,7 +76,6 @@ struct GroupMainView: View {
             }
 
         }
-        //.padding()
         
         .onAppear {
             //scheduleStore.scheduleList = []
