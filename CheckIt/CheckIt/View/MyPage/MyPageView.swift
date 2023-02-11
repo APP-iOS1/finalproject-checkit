@@ -13,12 +13,12 @@ struct MyPageView: View {
     var userName: String {
         userStore.user?.name ?? "N/A"
     }
-    var userEmail: String {
-        userStore.user?.email ?? "N/A"
-    }
-    var userImageURL: URL {
-        userStore.userData?.photoURL ?? URL(string: "N/A")!
-    }
+    //    var userEmail: String {
+    //        userStore.user?.email ?? "N/A"
+    //    }
+    //    var userImageURL: URL {
+    //        userStore.userData?.photoURL ?? URL(string: "N/A")!
+    //    }
     
     @State private var primiumPlansButtonTitle: String = "프리미엄 요금제 알아보기"
     @State private var contackUsButtonTitle: String = "문의하기"
@@ -27,15 +27,22 @@ struct MyPageView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            //            AsyncImage(url: userImageURL)
-            Text("반갑습니다, \n\(userName)님")
-                .lineLimit(2)
-                .font(.system(size: 32, weight: .bold))
-                .padding([.top, .leading], 40)
-                .padding(.bottom, 40)
-            
-            Profile(userEmailvalue: userEmail, userImageURL: userImageURL)
-                .padding(.horizontal, 40)
+            VStack(alignment: .leading) {
+                HStack(alignment: .center) {
+                    Text("\(userName) 님")
+                        .font(.system(size: 32, weight: .semibold))
+                    
+                    Image("appleLogoBlack")
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(Circle())
+                        .frame(width: 30, height: 30)
+                    
+                    Spacer()
+                    Profile()
+                }
+            }
+            .padding(.horizontal, 30)
             
             Spacer()
             
@@ -68,7 +75,6 @@ struct MyPageView: View {
                 }
                 Divider()
                     .padding(.horizontal, 24)
-                //                .padding(.bottom, 76)
                     .padding(.bottom)
             }
             
@@ -89,7 +95,7 @@ struct MyPageView: View {
     }
 }
 
-//
+
 //struct MyPageView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        MyPageView()
