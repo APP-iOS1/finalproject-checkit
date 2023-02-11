@@ -31,7 +31,7 @@ struct GroupMemberListCell: View {
                 Text(nameDict[member.uid] ?? "N/A")
                     .font(.system(size: 15, weight: .regular))
                     .lineLimit(1)
-                    .frame(width: 52)
+                    .padding(.leading, 7)
                 
                 HStack {
                     Menu {
