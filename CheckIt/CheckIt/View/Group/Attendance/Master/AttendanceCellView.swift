@@ -14,7 +14,7 @@ struct AttendanceCellView: View {
     var body: some View {
         HStack {
             VStack(alignment:.leading, spacing: 0) {
-                Text(Date().yearMonthDayDateToString(date: schedule.startTime)) // 출석 날짜
+                Text(Date().yearMonthDayHourMinuteToString(date: schedule.startTime)) // 출석 날짜
                     .font(.system(size: 13, weight: .medium))
                     .foregroundColor(.black)
                     .padding(.top, 21)
