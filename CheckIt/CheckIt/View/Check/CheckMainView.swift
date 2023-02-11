@@ -20,17 +20,24 @@ struct CheckMainView: View {
         
         NavigationView {
             VStack {
-                TabView(selection: $page) {
-                    ForEach(0..<groupStore.groups.count, id: \.self) { index in
-                        CheckItCard(group: groupStore.groups[index], groupImage: groupStore.groupImage[groupStore.groups[index].id] ?? UIImage(), index: index, card: card, recentScheduleList: $scheduleStore.recentSchedule)
-                            .tag(index)
-                    }
-                }
-                .tabViewStyle(.page)
-                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-                .onChange(of: page) { value in print("selected tab = \(value)")
-                }
                 
+                if groupStore.groups.isEmpty {
+                    Spacer()
+                    CheckEmptyView()
+                    Spacer()
+                } else {
+                    TabView(selection: $page) {
+                        ForEach(0..<groupStore.groups.count, id: \.self) { index in
+                            CheckItCard(group: groupStore.groups[index], groupImage: groupStore.groupImage[groupStore.groups[index].id] ?? UIImage(), index: index, card: card, recentScheduleList: $scheduleStore.recentSchedule)
+                                .tag(index)
+                        }
+                    }
+                    .tabViewStyle(.page)
+                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                    .onChange(of: page) { value in print("selected tab = \(value)")
+                    }
+                    
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
