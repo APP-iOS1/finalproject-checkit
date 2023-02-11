@@ -185,6 +185,9 @@ struct ScheduleDetailView: View {
                         await attendanceStore.removeAttendance(schedule.id, attendanceId: attendanceId) // 1.
                         await groupStore.removeScheduleInGroup(group.id, scheduleList: scheduleStore.scheduleList, scheduleId: schedule.id) // 2.
                         await scheduleStore.removeSchedule(schedule.id)
+                        
+                        self.scheduleStore.scheduleList.removeAll {$0.id == schedule.id }
+                        
                         print("삭제 성공")
                         
                         showToast.toggle()
