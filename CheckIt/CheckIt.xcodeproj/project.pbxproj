@@ -53,6 +53,7 @@
 		2B661EBB29948F2D00CAE64D /* EditGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBA29948F2D00CAE64D /* EditGroupView.swift */; };
 		2B661EBD2994D44900CAE64D /* Ex+UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBC2994D44900CAE64D /* Ex+UIScreen.swift */; };
 		2B661EBF299587D600CAE64D /* AttendanceEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBE299587D600CAE64D /* AttendanceEmptyView.swift */; };
+		2B661EC12996C19B00CAE64D /* CheckEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EC02996C19B00CAE64D /* CheckEmptyView.swift */; };
 		2BDA61EF2977BC0B00FDD307 /* GroupMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */; };
 		2BDA61F12977C6CE00FDD307 /* MakeGroupModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */; };
 		2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */; };
@@ -204,6 +205,7 @@
 		2B661EBA29948F2D00CAE64D /* EditGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGroupView.swift; sourceTree = "<group>"; };
 		2B661EBC2994D44900CAE64D /* Ex+UIScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIScreen.swift"; sourceTree = "<group>"; };
 		2B661EBE299587D600CAE64D /* AttendanceEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceEmptyView.swift; sourceTree = "<group>"; };
+		2B661EC02996C19B00CAE64D /* CheckEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckEmptyView.swift; sourceTree = "<group>"; };
 		2BDA61EE2977BC0B00FDD307 /* GroupMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMainView.swift; sourceTree = "<group>"; };
 		2BDA61F02977C6CE00FDD307 /* MakeGroupModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeGroupModalView.swift; sourceTree = "<group>"; };
 		2BDA61F22977C72B00FDD307 /* JoinGruopModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGruopModalView.swift; sourceTree = "<group>"; };
@@ -577,6 +579,7 @@
 				FDE58060297A53A500B7AC28 /* CustomToastAlert.swift */,
 				A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */,
 				A5775BD12988ECC1000DFC3F /* CameraScanner.swift */,
+				2B661EC02996C19B00CAE64D /* CheckEmptyView.swift */,
 			);
 			path = Check;
 			sourceTree = "<group>";
@@ -813,6 +816,7 @@
 				2822CE1E2988B61900316139 /* Attendance.swift in Sources */,
 				A5775BD22988ECC1000DFC3F /* CameraScanner.swift in Sources */,
 				A5775BD42989FE21000DFC3F /* CameraScannerViewModel.swift in Sources */,
+				2B661EC12996C19B00CAE64D /* CheckEmptyView.swift in Sources */,
 				283B27B32989F20E00E4D400 /* GroupMainDetailView.swift in Sources */,
 				A5775BD6298A275A000DFC3F /* AttendanceStatusListCell.swift in Sources */,
 				2807AAA1297A5FEE00B1676C /* AttendanceDetailStatusView.swift in Sources */,

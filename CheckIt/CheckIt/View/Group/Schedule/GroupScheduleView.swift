@@ -46,7 +46,7 @@ struct GroupScheduleView: View {
             }
             
             VStack {
-                if scheduleStore.scheduleList.isEmpty && isCheckScheduleEmpty {
+                if scheduleStore.scheduleList.isEmpty {
                     Spacer()
                     ScheduleEmptyView()
                     Spacer()
@@ -70,6 +70,7 @@ struct GroupScheduleView: View {
                     }
                     .refreshable {
                         await scheduleStore.fetchSchedule(groupName: groupStore.groupDetail.name)
+                        print("refreshable 호출")
                     }
                 }
 
@@ -89,10 +90,10 @@ struct GroupScheduleView: View {
         }
         
         .onAppear {
-            print("GroupScheduleView onAppear호출")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                isCheckScheduleEmpty.toggle()
-            }
+//            print("GroupScheduleView onAppear호출")
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                isCheckScheduleEmpty.toggle()
+//            }
         }
         .onDisappear {
             print("GroupScheduleView onDisappear 호출")
