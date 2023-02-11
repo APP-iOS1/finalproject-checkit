@@ -113,6 +113,7 @@ struct AttendanceDetailStatusView: View {
                         .font(.system(size: 20, weight: .medium))
                     Spacer()
                 }
+                .padding(.bottom)
             case .absented:
                 ScrollView {
                     ForEach(changedAbsentStatusList.indices, id: \.self) { index in
@@ -133,6 +134,7 @@ struct AttendanceDetailStatusView: View {
                         .font(.system(size: 20, weight: .medium))
                     Spacer()
                 }
+                .padding(.bottom)
             case .officiallyAbsented:
                 ScrollView {
                     ForEach(attendanceStore.officiallyAbsentedStatusList.indices, id: \.self) { index in
