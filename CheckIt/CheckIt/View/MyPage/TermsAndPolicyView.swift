@@ -1,0 +1,39 @@
+//
+//  TermsAndPolicyView.swift
+//  CheckIt
+//
+//  Created by 황예리 on 2023/02/11.
+//
+
+import SwiftUI
+
+struct TermsAndPolicyView: View {
+    @State private var termsButtonTitle: String = "이용약관"
+    @State private var termsButtonImage: String = "list.clipboard"
+    @State private var openSourceLicenseTitle: String = "오픈소스 라이선스"
+    @State private var openSourceLicenseImage: String = "globe.central.south.asia"
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            
+            NavigationLink(destination: TermsConditionsView()) {
+                MyPageButton(buttonTitle: $termsButtonTitle, buttonImage: $termsButtonImage)
+            }
+            .padding(.top)
+            
+            Divider()
+            
+            NavigationLink(destination: LicenseView()) {
+                MyPageButton(buttonTitle: $openSourceLicenseTitle, buttonImage: $openSourceLicenseImage)
+            }
+            Spacer()
+        }
+        .padding(.horizontal, 30)
+    }
+}
+
+struct TermsAndPolicyView_Previews: PreviewProvider {
+    static var previews: some View {
+        TermsAndPolicyView()
+    }
+}

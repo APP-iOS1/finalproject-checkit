@@ -50,6 +50,7 @@
 		2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */; };
 		2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */; };
 		28D63A9C2996375E002BF5F4 /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 28D63A9B2996375E002BF5F4 /* SkeletonUI */; };
+		2B52E0342997D68100A4A1FD /* TermsAndPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B52E0332997D68100A4A1FD /* TermsAndPolicyView.swift */; };
 		2B661EBB29948F2D00CAE64D /* EditGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBA29948F2D00CAE64D /* EditGroupView.swift */; };
 		2B661EBD2994D44900CAE64D /* Ex+UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBC2994D44900CAE64D /* Ex+UIScreen.swift */; };
 		2B661EBF299587D600CAE64D /* AttendanceEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBE299587D600CAE64D /* AttendanceEmptyView.swift */; };
@@ -202,6 +203,7 @@
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
 		2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceDetailView.swift; sourceTree = "<group>"; };
 		2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltyCostCellView.swift; sourceTree = "<group>"; };
+		2B52E0332997D68100A4A1FD /* TermsAndPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPolicyView.swift; sourceTree = "<group>"; };
 		2B661EBA29948F2D00CAE64D /* EditGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGroupView.swift; sourceTree = "<group>"; };
 		2B661EBC2994D44900CAE64D /* Ex+UIScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIScreen.swift"; sourceTree = "<group>"; };
 		2B661EBE299587D600CAE64D /* AttendanceEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceEmptyView.swift; sourceTree = "<group>"; };
@@ -561,6 +563,7 @@
 				1A3CB2642990D04C00EA5E84 /* TermsConditionsView.swift */,
 				1A3CB2662990D6F600EA5E84 /* LicenseView.swift */,
 				1A3CB2682990D97900EA5E84 /* FrequentlyAskedQuestionsView.swift */,
+				2B52E0332997D68100A4A1FD /* TermsAndPolicyView.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -846,6 +849,7 @@
 				A5FF27A82977C3F30059C312 /* PremiumRateView.swift in Sources */,
 				2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */,
 				FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */,
+				2B52E0342997D68100A4A1FD /* TermsAndPolicyView.swift in Sources */,
 				FD4E25F22977AF8B00F6F875 /* CheckItButton.swift in Sources */,
 				A5C48C11297A606D007D49DF /* GroupMemberListCell.swift in Sources */,
 				A529BD47298CA8FC00AE232B /* ScheduleConstants.swift in Sources */,

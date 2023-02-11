@@ -9,77 +9,78 @@ import SwiftUI
 
 struct MyPageView: View {
     @EnvironmentObject var userStore: UserStore
-    @EnvironmentObject var groupStores: GroupStore
+    
     var userName: String {
         userStore.user?.name ?? "N/A"
     }
-    //    var userEmail: String {
-    //        userStore.user?.email ?? "N/A"
-    //    }
-    //    var userImageURL: URL {
-    //        userStore.userData?.photoURL ?? URL(string: "N/A")!
-    //    }
     
     @State private var primiumPlansButtonTitle: String = "프리미엄 요금제 알아보기"
-    @State private var contackUsButtonTitle: String = "문의하기"
+    @State private var primiumPlansButtonImage: String = "checkmark.seal"
+    @State private var termsAndPolicyButtonTitle: String = "약관 및 정책"
+    @State private var termsAndPolicyButtonImage: String = "info.circle"
+    @State private var contackUsButtonTitle: String = "고객문의"
+    @State private var contackUsButtonImage: String = "questionmark.bubble"
     @State private var logoutButtonTitle: String = "로그아웃"
+    @State private var logoutButtonImage: String = "rectangle.portrait.and.arrow.right"
     @State private var premiumButtonToggle: Bool = false
     
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
-                HStack(alignment: .center) {
+                HStack {
                     Text("\(userName) 님")
                         .font(.system(size: 32, weight: .semibold))
                     
-                    Image("appleLogoBlack")
-                        .resizable()
-                        .scaledToFit()
-                        .clipShape(Circle())
-                        .frame(width: 30, height: 30)
-                    
                     Spacer()
+                    
                     Profile()
                 }
+                Text("Apple 로그인 중")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.gray)
             }
-            .padding(.horizontal, 30)
+            .padding(.top)
             
-            Spacer()
+            Divider()
+                .padding(.vertical)
             
             // MARK: - 프리미엄 요금제 페이지
             Section {
                 Button {
                     premiumButtonToggle.toggle()
                 } label: {
-                    MyPageButton(buttonTitle: $primiumPlansButtonTitle)
+                    MyPageButton(buttonTitle: $primiumPlansButtonTitle, buttonImage: $primiumPlansButtonImage)
                 }.sheet(isPresented: $premiumButtonToggle) {
                     premiumRateView()
                 }
-                Divider()
-                    .padding(.horizontal, 24)
             }
             
-            // MARK: - 문의하기 페이지
+            // MARK: - 약관 및 정책 페이지
+            Section {
+                NavigationLink(destination: TermsAndPolicyView()) {
+                    MyPageButton(buttonTitle: $termsAndPolicyButtonTitle, buttonImage: $termsAndPolicyButtonImage)
+                }
+            }
+            
+            // MARK: - 고객문의 페이지
             Section {
                 NavigationLink(destination: QuestionView()) {
-                    MyPageButton(buttonTitle: $contackUsButtonTitle)
+                    MyPageButton(buttonTitle: $contackUsButtonTitle, buttonImage: $contackUsButtonImage)
                 }
-                Divider()
-                    .padding(.horizontal, 24)
             }
             
             // MARK: - 로그아웃 페이지
             Section {
                 NavigationLink(destination: LogoutView) {
-                    MyPageButton(buttonTitle: $logoutButtonTitle)
+                    MyPageButton(buttonTitle: $logoutButtonTitle, buttonImage: $logoutButtonImage)
                 }
-                Divider()
-                    .padding(.horizontal, 24)
-                    .padding(.bottom)
+//                Divider()
+//                    .padding(.bottom)
             }
             
             Spacer()
         }
+        .padding(.horizontal, 30)
     }
     
     //MARK: - Logout Test Views

@@ -16,7 +16,10 @@ struct Profile: View {
             Button {
                 isPresentedChangeProfileView = true
             } label: {
-                Text("이름 변경하기")
+                Image(systemName: "pencil.line")
+                    .resizable()
+                    .frame(width: 20,height: 20)
+                    .foregroundColor(.black)
             }
             
         }
@@ -35,7 +38,7 @@ struct Profile: View {
         @EnvironmentObject var userStore: UserStore
         var body: some View {
             VStack(alignment: .leading) {
-                Text("이름 변경하기")
+                Text("이름 수정하기")
                     .font(.title2)
                     .bold()
                     .padding(.bottom, 30)
