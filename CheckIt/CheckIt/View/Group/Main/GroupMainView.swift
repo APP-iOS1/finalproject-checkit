@@ -45,7 +45,8 @@ struct GroupMainView: View {
                                 }
                             }
                         }
-                        .padding()
+                        .padding(.vertical, 20)
+                        .padding(.horizontal, 30)
                     }
                 }
             }
@@ -74,10 +75,10 @@ struct GroupMainView: View {
             }
 
         }
-        .padding()
+        //.padding()
         
         .onAppear {
-            scheduleStore.scheduleList = []
+            //scheduleStore.scheduleList = []
             
             guard let user = userStores.user else { return }
             let newGroup = Group.sortedGroup(groupStores.groups, userId: user.id)

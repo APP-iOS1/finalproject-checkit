@@ -159,7 +159,7 @@ struct CategoryView: View {
             }
         }
         .sheet(isPresented: $isEditGroup) {
-            EditGroupView(showToast: $showToast, toastMessage: $toastMessage, group: $changedGroup)
+            EditGroupView(showToast: $showToast, toastMessage: $toastMessage, group: $changedGroup, oldGroupName: group.name)
                 .presentationDetents([.height(600)])
         }
         .toast(isPresenting: $showToast){

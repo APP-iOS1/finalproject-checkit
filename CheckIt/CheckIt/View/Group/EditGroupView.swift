@@ -12,6 +12,8 @@ import AlertToast
 struct EditGroupView: View {
     @EnvironmentObject var groupStores: GroupStore
     @EnvironmentObject var userStores: UserStore
+    @EnvironmentObject var scheduleStores: ScheduleStore
+    
     @Environment(\.dismiss) var dismiss
     
     @State private var text: String = ""
@@ -24,6 +26,7 @@ struct EditGroupView: View {
     @Binding var toastMessage: String
     
     @Binding var group: Group
+    var oldGroupName: String
     
     var maxGroupNameCount: Int = 15
     var maxGroupDescriptionCount: Int = 40
@@ -96,6 +99,7 @@ struct EditGroupView: View {
                 if isClicked {
                     return
                 }
+                
                 isClicked.toggle()
                 isLoading.toggle()
                 
@@ -110,6 +114,11 @@ struct EditGroupView: View {
 
                 Task {
                     await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.id] ?? UIImage())
+                    
+                    if oldGroupName != newGroup.name { // 스케줄내 모든 동아리 이름 변경
+                        print("여기 호출: \(newGroup.name)")
+                        await scheduleStores.updateScheduleGroupName(newGroup.name, scheduleIdList: group.scheduleID)
+                    }
                     
                     let index = self.groupStores.groups.firstIndex{ $0.id == group.id }
                     self.groupStores.groups[index ?? -1] = newGroup
