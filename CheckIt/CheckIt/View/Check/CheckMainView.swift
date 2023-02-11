@@ -14,23 +14,32 @@ struct CheckMainView: View {
     var card: [Card] {cardGenerate()}
     
     var body: some View {
-        //        NavigationStack {
-        TabView(selection: $page) {
-            ForEach(0..<groupStore.groups.count, id: \.self) { index in
-                let count = scheduleStore.recentSchedule.filter {$0.groupName == groupStore.groups[index].name }
-                    .count
-                if count > 0 {
-                    
-                    CheckItCard(group: groupStore.groups[index], groupImage: groupStore.groupImage[groupStore.groups[index].id] ?? UIImage(), index: index, card: card, recentScheduleList: $scheduleStore.recentSchedule)
-                        .tag(index)
+        NavigationView {
+            TabView(selection: $page) {
+                ForEach(0..<groupStore.groups.count, id: \.self) { index in
+                    let count = scheduleStore.recentSchedule.filter {$0.groupName == groupStore.groups[index].name }
+                        .count
+                    if count > 0 {
+                        
+                        CheckItCard(group: groupStore.groups[index], groupImage: groupStore.groupImage[groupStore.groups[index].id] ?? UIImage(), index: index, card: card, recentScheduleList: $scheduleStore.recentSchedule)
+                            .tag(index)
+                    }
                 }
             }
+            .tabViewStyle(.page)
+            .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+            .onChange(of: page) { value in print("selected tab = \(value)")
+            }
+            .toolbar {
+                                ToolbarItem(placement: .navigationBarTrailing) {
+                                    NavigationLink(
+                                        destination: MyPageView(),
+                                        label: {
+                                            Label("Search", systemImage: "magnifyingglass")
+                                        })
+                                }
+                            }
         }
-        .tabViewStyle(.page)
-        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-        .onChange(of: page) { value in print("selected tab = \(value)")
-        }
-        
     }
     func cardGenerate() -> [Card] {
         var tempCard: [Card] = []

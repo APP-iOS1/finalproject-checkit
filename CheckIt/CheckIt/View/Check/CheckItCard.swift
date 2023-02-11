@@ -14,13 +14,12 @@ struct CheckItCard: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var attendanceStore: AttendanceStore
     
+    @ObservedObject var extraData = ExtraData()
+    
     var locationManager: LocationManager { LocationManager(toCoordinate: coordinate ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)) }
     
     @State var dDay: String = "D-day"
-    //    @State var groupImage: Image = Image("chocobi")
     @State private var schedules: [Schedule] = []
-    
-    //    @State private var recentSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
     
     var group: Group
     let groupImage: UIImage
@@ -85,13 +84,12 @@ struct CheckItCard: View {
                                 .environmentObject(userStore)
                                 .environmentObject(attendanceStore) ,tag: 0, selection: $action) {}
                         }
-                            
-                            
-                            
+                        
+                        
                         CheckItButton(isActive: .constant(card[index].isActiveButton), isAlert: .constant(false)) {
-                                guard let filterSchedule = recentScheduleList.first(where: { schedule in
-                                                return schedule.groupName == group.name
-                                }) else { return }
+                            guard let filterSchedule = recentScheduleList.first(where: { schedule in
+                                return schedule.groupName == group.name
+                            }) else { return }
                             Task {
                                 if let filterSchedule = recentScheduleList.first(where: { schedule in
                                     schedule.groupName == group.name
@@ -101,11 +99,11 @@ struct CheckItCard: View {
                                     action = 0
                                 }
                             }
-                                
-                            }
-                            .frame(width: 200)
-      
-                       
+                            
+                        }
+                        .frame(width: 200)
+                        
+                        
                     } // - VStack
                 } // - overlay
             //        .onAppear {
@@ -118,19 +116,9 @@ struct CheckItCard: View {
             //        }
         }
         
-
+        
+        
     }
-    //        .onAppear {
-    //            Task {
-    //                print("그룹명: \(group.name)")
-    //                let temp = await scheduleStore.fetchRecentSchedule(groupName: group.name)
-    //
-    //                self.recentSchedule = temp
-    //                print("recentSchedule: \(recentSchedule)")
-    //            }
-    //        }
-    
-    //}
     
     //    MARK: - View(TopSection)
         private var TopSection: some View {
@@ -139,7 +127,7 @@ struct CheckItCard: View {
                     return schedule.groupName == group.name
                 }) {
                     // 모임 날짜 나타내는 라벨
-                    DdayLabel(dDay: days(from: Date.now, to: filterSchedule.startTime))
+                    DdayLabel(dDay: days(to: filterSchedule.startTime))
                         .padding(.top, 10)
                 } // - VStack
                 
@@ -187,8 +175,25 @@ struct CheckItCard: View {
         }
     
     //MARK: - 일정 디데이 계산해주는 함수
-    func days(from date1: Date, to date2: Date) -> Int {
-        return calendar.dateComponents([.day], from: date1, to: date2).day! + 1
+    func days(to date: Date) -> Int {
+        //지금 날짜
+        var nowComponents = DateComponents()
+        nowComponents.day = calendar.dateComponents([.day], from: Date()).day
+        nowComponents.month = calendar.dateComponents([.month], from: Date()).month
+        nowComponents.year = calendar.dateComponents([.year], from: Date()).year
+        
+        let fromDate = calendar.date(from: nowComponents)
+
+        //일정 날짜
+        var components = DateComponents()
+        components.day = calendar.dateComponents([.day], from: date).day
+        components.month = calendar.dateComponents([.month], from: date).month
+        components.year = calendar.dateComponents([.year], from: date).year
+
+        let toDate = calendar.date(from: components)
+        
+        // 00시 00분을 기준으로 계산
+        return (calendar.dateComponents([.day], from: fromDate!, to: toDate!).day ?? 0)
     }
 }
 

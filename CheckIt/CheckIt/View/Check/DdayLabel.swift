@@ -27,6 +27,9 @@ struct DdayLabel: View {
             }
             .font(.system(size: 13).bold())
             .foregroundColor(.myOrange)
+            .onTapGesture {
+                print("d-day 결과 : \(dDay)")
+            }
     }
 }
 
