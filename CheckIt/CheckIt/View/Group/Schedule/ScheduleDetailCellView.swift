@@ -13,9 +13,9 @@ struct ScheduleDetailCellView: View {
     var body: some View {
         VStack {
             ZStack(alignment: .leading) {
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: 18)
                     .foregroundColor(Color.myLightGray)
-                    .frame(height: 150)
+                    .frame(height: UIScreen.screenHeight / 5.5)
                 
                 VStack(alignment: .leading) {
                     
