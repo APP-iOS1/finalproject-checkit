@@ -46,7 +46,7 @@ struct GroupScheduleView: View {
             }
             
             VStack {
-                if scheduleStore.scheduleList.isEmpty {
+                if scheduleStore.scheduleList.isEmpty && isCheckScheduleEmpty {
                     Spacer()
                     ScheduleEmptyView()
                     Spacer()
@@ -54,8 +54,10 @@ struct GroupScheduleView: View {
                     ScrollView {
                         SkeletonForEach(with: scheduleStore.scheduleList.sorted(by: { $0.startTime < $1.startTime}), quantity: 4) { loading, schedule in
                             NavigationLink(destination: ScheduleDetailView(showToast: $showToast, toastMessage: $toastMessage, group: group, schedule: schedule ?? Schedule.sampleSchedule)) {
-                                
-                                ScheduleDetailCellView(schedule: schedule ?? Schedule.sampleSchedule)
+                                if schedule != nil {
+                                    ScheduleDetailCellView(schedule: schedule ?? Schedule.sampleSchedule)
+                                }
+                                //ScheduleDetailCellView(schedule: schedule ?? Schedule.sampleSchedule)
                             }
                             .skeleton(with: isScheduleLoading)
                             .shape(type: .rectangle)
@@ -90,10 +92,10 @@ struct GroupScheduleView: View {
         }
         
         .onAppear {
-//            print("GroupScheduleView onAppear호출")
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                isCheckScheduleEmpty.toggle()
-//            }
+            print("GroupScheduleView onAppear호출")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                isCheckScheduleEmpty = true
+            }
         }
         .onDisappear {
             print("GroupScheduleView onDisappear 호출")
