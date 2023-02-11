@@ -17,10 +17,8 @@ struct AttendanceCellView: View {
                 Text(Date().yearMonthDayHourMinuteToString(date: schedule.startTime)) // 출석 날짜
                     .font(.system(size: 13, weight: .medium))
                     .foregroundColor(.black)
-                    .padding(.top, 21)
+                    .padding(.bottom, 11)
                     .padding(.leading, 21)
-                
-                Spacer()
                 
                 HStack {
                     Text("출석")
@@ -50,12 +48,15 @@ struct AttendanceCellView: View {
                 .foregroundColor(.black)
                 .font(.system(size: 16, weight: .medium))
                 .padding(.leading, 21)
-                .padding(.bottom, 21)
-                
-                
-                Spacer()
             }
+            
             Spacer()
+            
+            Image(systemName: "greaterthan")
+                .resizable()
+                .frame(width: 10, height: 15)
+                .foregroundColor(.gray)
+                .padding(.trailing, 21)
         }
         .background {
             RoundedRectangle(cornerRadius: 18)
