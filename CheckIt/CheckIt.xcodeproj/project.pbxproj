@@ -74,6 +74,7 @@
 		A529BD4F2990C02200AE232B /* EditScheduleAttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD4E2990C02200AE232B /* EditScheduleAttendanceView.swift */; };
 		A529BD512990C1EC00AE232B /* EditScheduleAttendanceListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529BD502990C1EC00AE232B /* EditScheduleAttendanceListCell.swift */; };
 		A54737B2299164E6002F64F7 /* NotPenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54737B1299164E6002F64F7 /* NotPenaltyCostCellView.swift */; };
+		A572A5742997CD2B001C70DD /* ThirdIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = A572A5732997CD2B001C70DD /* ThirdIndicator.json */; };
 		A5775BD02988E9E8000DFC3F /* CameraScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */; };
 		A5775BD22988ECC1000DFC3F /* CameraScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD12988ECC1000DFC3F /* CameraScanner.swift */; };
 		A5775BD42989FE21000DFC3F /* CameraScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */; };
@@ -226,6 +227,7 @@
 		A529BD4E2990C02200AE232B /* EditScheduleAttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScheduleAttendanceView.swift; sourceTree = "<group>"; };
 		A529BD502990C1EC00AE232B /* EditScheduleAttendanceListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditScheduleAttendanceListCell.swift; sourceTree = "<group>"; };
 		A54737B1299164E6002F64F7 /* NotPenaltyCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotPenaltyCostCellView.swift; sourceTree = "<group>"; };
+		A572A5732997CD2B001C70DD /* ThirdIndicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ThirdIndicator.json; sourceTree = "<group>"; };
 		A5775BCF2988E9E8000DFC3F /* CameraScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewController.swift; sourceTree = "<group>"; };
 		A5775BD12988ECC1000DFC3F /* CameraScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScanner.swift; sourceTree = "<group>"; };
 		A5775BD32989FE21000DFC3F /* CameraScannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewModel.swift; sourceTree = "<group>"; };
@@ -428,6 +430,7 @@
 				FD4E25C8297783E000F6F875 /* ViewModel */,
 				FD4E25C6297783D000F6F875 /* View */,
 				FD4E25A0297783CC00F6F875 /* Assets.xcassets */,
+				A572A5732997CD2B001C70DD /* ThirdIndicator.json */,
 				FD909F9D299558E40002F55F /* SecondIndicator.json */,
 				A58CF9D12995380A0032E004 /* Indicator.json */,
 				FD4E25A2297783CC00F6F875 /* Preview Content */,
@@ -785,6 +788,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD909F9E299558E40002F55F /* SecondIndicator.json in Resources */,
+				A572A5742997CD2B001C70DD /* ThirdIndicator.json in Resources */,
 				FD4E25A4297783CC00F6F875 /* Preview Assets.xcassets in Resources */,
 				FD4E25A1297783CC00F6F875 /* Assets.xcassets in Resources */,
 				FDEE491C298ECE93009DF195 /* GoogleService-Info.plist in Resources */,
