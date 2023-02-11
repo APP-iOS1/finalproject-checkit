@@ -39,7 +39,7 @@ struct AttendanceStatusView: View {
                         }
                     }
                 }
-                else {
+                else { //구성원
                     
                     if scheduleStore.userScheduleList.count == 0 {
                         Spacer()
@@ -49,7 +49,9 @@ struct AttendanceStatusView: View {
                         Spacer()
                     } else {
                         ScrollView {
-                            ForEach(scheduleStore.userScheduleList.indices, id: \.self) { index in
+                            ForEach(scheduleStore.userScheduleList.filter({
+                                $0.startTime < Date.now
+                            }).indices, id: \.self) { index in
                                 AttendanceStatusListCell(schedule: scheduleStore.userScheduleList[index], attendance: attendanceStore.attendanceList[index])
                                     .padding(.horizontal, 30)
                                     .padding(.bottom, 8)

@@ -10,8 +10,10 @@ import SwiftUI
 import UIKit
  
 struct LottieView: UIViewRepresentable {
+    
     //5.
     var filename: String
+    var completion: LottieCompletionBlock?
     let animationView = LottieAnimationView()
 
     func makeUIView(context: Context) -> UIView {
@@ -23,7 +25,9 @@ struct LottieView: UIViewRepresentable {
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .playOnce
 
-        animationView.play()
+        
+        animationView.play(fromFrame: 1, toFrame: 120, completion: completion)
+        
         
         animationView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(animationView)
