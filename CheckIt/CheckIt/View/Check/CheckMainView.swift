@@ -12,16 +12,12 @@ struct CheckMainView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var scheduleStore: ScheduleStore
     @State private var page = 0
-    @State private var isShowingMyPage: Bool = false
     
     var card: [Card] {cardGenerate()}
     
     var body: some View {
- <<<<<<< yeri
-        
         NavigationView {
             VStack {
-                
                 if groupStore.groups.isEmpty {
                     Spacer()
                     CheckEmptyView()
@@ -43,7 +39,8 @@ struct CheckMainView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(
-                        destination: MyPageView(),
+                        destination: MyPageView()
+                                    .environmentObject(userStore),
                         label: {
                             Label("MyPage", systemImage: "person.circle")
                                 .font(.title2)
@@ -51,25 +48,10 @@ struct CheckMainView: View {
                         })
                 }
             }
-            .navigationDestination(isPresented: $isShowingMyPage) {
-                MyPageView()
-                    .environmentObject(userStore)
- =======
-        //        NavigationStack {
-        TabView(selection: $page) {
-            ForEach(0..<groupStore.groups.count, id: \.self) { index in
-                let count = scheduleStore.recentSchedule.filter {$0.groupName == groupStore.groups[index].name }
-                    .count
-                if count > 0 {
-                    
-                    CheckItCard(group: groupStore.groups[index], groupImage: groupStore.groupImage[groupStore.groups[index].id] ?? UIImage(), index: index, card: card, recentScheduleList: $scheduleStore.recentSchedule)
-                        .tag(index)
-                }
- >>>>>>> dev
-            }
-        }
+        } // - NavigationView
     }
     
+    //MARK: - Method(cardGenerate)
     func cardGenerate() -> [Card] {
         var tempCard: [Card] = []
         for i in 0..<groupStore.groups.count {
@@ -89,8 +71,7 @@ struct CheckMainView: View {
             }
         }
         return tempCard
-    }
-    
+    } // - cardGenerate
 }
 
 
