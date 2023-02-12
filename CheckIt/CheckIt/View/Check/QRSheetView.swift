@@ -18,9 +18,14 @@ struct QRSheetView: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.myGreen, .white]),
+            LinearGradient(gradient: Gradient(colors: [.qrCodeGreen, .qrCodeYellow]),
                            startPoint: .top, endPoint: .bottom)
             .edgesIgnoringSafeArea(.all)
+            
+            RoundedRectangle(cornerRadius: 15)
+                .foregroundColor(.white)
+                .frame(width: 160, height: 160)
+            
             
             VStack {
                 // 각 로그인 한 ID 정보 넣어줘야 함
@@ -29,7 +34,6 @@ struct QRSheetView: View {
                     .interpolation(.none)
                     .scaledToFit()
                     .frame(width: 150, height: 150)
-                    .cornerRadius(15)
             }
         }
         .presentationDragIndicator(.visible)
@@ -38,7 +42,7 @@ struct QRSheetView: View {
             guard let userId = userStore.user?.id else { return }
             attendanceStore.responseAttendanceListner(schedule: schedule, uid: userId) { result in
                 if result {
-                    dismiss()
+//                    dismiss()
                 }
             }
         }
