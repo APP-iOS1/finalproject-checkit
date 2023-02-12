@@ -670,8 +670,7 @@ class GroupStore: ObservableObject {
             print("파일이 존재")
             if let image = ImageCacheManager.getObject(forKey: cacheKey, type: .disk(filePath)) {
                 print("디스크에서 읽음")
-                
-                ImageCacheManager.setObject(image: image, forKey: NSString(string: imagePath))
+                ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .memory)
                 DispatchQueue.main.async {
                     self.groupImage[groupId] = image
                 }
@@ -696,14 +695,14 @@ class GroupStore: ObservableObject {
                     }
                     return
                 }
-                print("이미지 캐시에 저장")
                 DispatchQueue.main.async {
                     self.groupImage[groupId] = image
                 }
-                ImageCacheManager.setObject(image: image, forKey: cacheKey)
+                /// 메모리에 이미지 저장
+                ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .memory)
                 
-                print("디스크에 저장")
-                FileManager.default.createFile(atPath: filePath.path, contents: imageData)
+                /// 디스크에 이미지 저장
+                ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .disk(filePath))
             }
         }
     }
