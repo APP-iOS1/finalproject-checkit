@@ -103,6 +103,21 @@ struct EditGroupView: View {
                 isClicked.toggle()
                 isLoading.toggle()
                 
+                // 동아리 수정시 디스크에 있는 이미지 삭제
+                guard let directory = ImageCacheManager.cachesDirectory else {
+                    print("이미지 수정 실패")
+                    return
+                }
+                let imagePath = "\(group.id)"
+                var filePath = URL(fileURLWithPath: directory.path)
+                filePath.appendPathComponent(group.id)
+                
+                do {
+                    try ImageCacheManager.fileManager.removeItem(atPath: filePath.path)
+                } catch {
+                    print("이미지 수정 실패: \(error.localizedDescription)")
+                }
+                
                 let newGroup = Group(id: group.id,
                                      name: group.name,
                                      invitationCode: group.invitationCode,

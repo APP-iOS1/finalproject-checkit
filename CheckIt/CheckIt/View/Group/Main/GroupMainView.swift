@@ -84,6 +84,10 @@ struct GroupMainView: View {
             let newGroup = Group.sortedGroup(groupStores.groups, userId: user.id)
             groupStores.groups = newGroup
             
+//            Task {
+//                await groupStores.fetchGroups(user)
+//            }
+            
             userStores.fetchUserDictionaryList()
         }
     }
