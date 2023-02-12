@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct TermsAndPolicyView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var termsButtonTitle: String = "이용약관"
     @State private var termsButtonImage: String = "list.clipboard"
     @State private var openSourceLicenseTitle: String = "오픈소스 라이선스"
@@ -29,6 +31,17 @@ struct TermsAndPolicyView: View {
             Spacer()
         }
         .padding(.horizontal, 30)
+        
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                }
+            }
+        }
     }
 }
 
