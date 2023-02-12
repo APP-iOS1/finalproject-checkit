@@ -106,7 +106,9 @@ class GroupStore: ObservableObject {
                           scheduleID: scheduleID,
                           memberLimit: memberLimit)
         
-        readImages("group_images/\(id)", groupId: group.id)
+        //readImages("group_images/\(id)", groupId: group.id)
+        
+        readImage(id)
         
         self.groupDetail = group
     }
@@ -152,7 +154,9 @@ class GroupStore: ObservableObject {
                           scheduleID: scheduleID,
                           memberLimit: memberLimit)
         
-        readImages("group_images/\(id)", groupId: group.id)
+        //readImages("group_images/\(id)", groupId: group.id)
+        
+        readImage(id)
         
         self.groupDetail = group
         let updateGroupIndex = self.groups.firstIndex {$0.id == group.id } ?? -1
@@ -191,7 +195,9 @@ class GroupStore: ObservableObject {
             
             await createImages(image, path: group.id)
             
-            readImages("group_images/\(group.id)", groupId: group.id)
+            //readImages("group_images/\(group.id)", groupId: group.id)
+            
+            readImage(group.id)
         } catch {
             print("동아리 생성 에러: \(error.localizedDescription)")
         }
@@ -367,7 +373,9 @@ class GroupStore: ObservableObject {
                               scheduleID: scheduleID,
                               memberLimit: memberLimit)
             
-            readImages("group_images/\(id)", groupId: newGroup.id)
+            //readImages("group_images/\(id)", groupId: newGroup.id)
+            
+            readImage(id)
             
             return .success(newGroup)
         } catch {
@@ -634,6 +642,7 @@ class GroupStore: ObservableObject {
         }
     }
     
+    
     func readImage(_ groupId: String) {
         let imagePath = "\(groupId)"
         let storagePath = "group_images/\(groupId)"
@@ -643,24 +652,53 @@ class GroupStore: ObservableObject {
         
         if let cacheImage = ImageCacheManager.getObject(forKey: cacheKey) {
             print("\(groupId)그룹의 이미지를 캐시에서 가져옴")
-            self.groupImage[groupId] = cacheImage
+            DispatchQueue.main.async {
+                self.groupImage[groupId] = cacheImage
+            }
             return
         }
+        
+        guard let cachesDirectory = ImageCacheManager.fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first else { return }
+        
+        var filePath = URL(fileURLWithPath: cachesDirectory.path)
+        filePath.appendPathComponent(imagePath)
+        
+        if ImageCacheManager.fileManager.fileExists(atPath: filePath.path) {
+            print("파일이 존재")
+            if let data = FileManager.default.contents(atPath: filePath.path) {
+                print("디스크에서 읽음")
+                ImageCacheManager.setObject(image: UIImage(data: data)!, forKey: NSString(string: imagePath))
+                DispatchQueue.main.async {
+                    self.groupImage[groupId] = UIImage(data: data)!
+                }
+                return
+            }
+        }
+        print("filePath: \(filePath)")
         
         ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
                 print("error while downloading image\n\(error.localizedDescription)")
-                self.groupImage[groupId] = UIImage()
+                DispatchQueue.main.async {
+                    self.groupImage[groupId] = UIImage()
+                }
                 return
             } else {
                 guard let imageData = data, let image = UIImage(data: imageData) else {
                     print("스토리지에서 이미지 읽기 실패")
-                    self.groupImage[groupId] = UIImage()
+                    DispatchQueue.main.async {
+                        self.groupImage[groupId] = UIImage()
+                    }
                     return
                 }
                 print("이미지 캐시에 저장")
-                self.groupImage[groupId] = image
+                DispatchQueue.main.async {
+                    self.groupImage[groupId] = image
+                }
                 ImageCacheManager.setObject(image: image, forKey: cacheKey)
+                
+                print("디스크에 저장")
+                FileManager.default.createFile(atPath: filePath.path, contents: imageData)
             }
         }
     }
