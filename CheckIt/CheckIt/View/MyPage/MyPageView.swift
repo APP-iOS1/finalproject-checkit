@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MyPageView: View {
     @EnvironmentObject var userStore: UserStore
+    @Environment(\.dismiss) private var dismiss
     
     var userName: String {
         userStore.user?.name ?? "N/A"
@@ -81,6 +82,17 @@ struct MyPageView: View {
             Spacer()
         }
         .padding(.horizontal, 30)
+        
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                }
+            }
+        }
     }
     
     //MARK: - Logout Test Views

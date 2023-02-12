@@ -203,6 +203,17 @@ struct ScheduleDetailView: View {
                 memo = schedule.memo
             }
         }
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                }
+            }
+        }
+        
         .onAppear {
             editSchedule = Schedule(
                 id: schedule.id,
