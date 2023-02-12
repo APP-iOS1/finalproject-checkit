@@ -25,7 +25,7 @@ struct LottieView: UIViewRepresentable {
         animationView.contentMode = .scaleAspectFit
 //        animationView.loopMode = .playOnce
         animationView.loopMode = .loop
-        animationView.animationSpeed = 1.7
+        animationView.animationSpeed = 2.5
 
         
         animationView.play(fromFrame: 1, toFrame: 120, completion: completion)
