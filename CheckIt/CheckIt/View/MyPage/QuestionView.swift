@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct QuestionView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var frequentlyQeustionsTitle: String = "자주하는 질문"
     @State private var frequentlyQeustionsImage: String = "person.fill.questionmark"
     @State private var customServiceTitle: String = "문의하기"
@@ -39,6 +41,16 @@ struct QuestionView: View {
             Spacer()
         }
         .padding(.horizontal, 30)
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                }
+            }
+        }
     }
 }
 

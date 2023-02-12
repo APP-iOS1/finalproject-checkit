@@ -122,7 +122,7 @@ struct CategoryView: View {
                 Button {
                     dismiss()
                 } label: {
-                    Image(systemName: "arrow.backward")
+                    Image(systemName: "chevron.backward")
                 }
             }
         }

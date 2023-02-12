@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TermsConditionsView: View {
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
         ScrollView {
             Text(
@@ -78,6 +79,16 @@ struct TermsConditionsView: View {
             .padding()
         }
         .navigationBarTitle("이용약관")
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                }
+            }
+        }
     }
 }
 

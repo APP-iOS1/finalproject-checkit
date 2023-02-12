@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MyPageView: View {
     @EnvironmentObject var userStore: UserStore
+    @Environment(\.dismiss) private var dismiss
     
     var userName: String {
         userStore.user?.name ?? "N/A"

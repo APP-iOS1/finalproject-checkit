@@ -14,6 +14,7 @@ struct ContentView: View {
     var body: some View {
         //NavigationStack {
             TabView {
+                
                 CheckMainView()
                     .tabItem {
                         Image(systemName: "checkmark.seal.fill")
@@ -33,10 +34,13 @@ struct ContentView: View {
             }
             .accentColor(Color.myGreen)
             .onAppear {
+                UITabBar.appearance().backgroundColor = .lightGray
+
                 guard let user = userStore.user else { return }
                 if userStore.isLogined {
                     return
                 }
+                //UITabBar.appearance().backgroundColor = .black
                 
                 userStore.isLogined.toggle()
                 
