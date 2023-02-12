@@ -16,6 +16,8 @@ extension Color {
     static var myBlack = Color("myBlack")
     static var gradientGreen = Color("gradientGreen")
     static var gradientLightGreen = Color("gradientLightGreen")
+    static var qrCodeGreen = Color(hex: 0x82C18D, alpha: 1)
+    static var qrCodeYellow = Color(hex: 0xF9DE83, alpha: 1)
     static var toastAlertGray = Color(hex: 0xD9D9D9, alpha: 0.6)
     
     
