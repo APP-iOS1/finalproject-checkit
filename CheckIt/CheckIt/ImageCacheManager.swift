@@ -35,12 +35,28 @@ class ImageCacheManager {
         }
     }
     
-    static func setObject(image: UIImage, forKey key: NSString, type: CacheType) {
+    static func setObject(image: UIImage, forKey key: NSString, type: CacheType, data: Data = Data()) {
         switch type {
         case .memory:
             shared.setObject(image, forKey: key)
         case .disk(let filePath):
-            fileManager.createFile(atPath: filePath.path, contents: image.pngData())
+            fileManager.createFile(atPath: filePath.path, contents: data)
+        }
+    }
+    
+    static func removeFile(_ groupId: String) {
+        guard let directory = ImageCacheManager.cachesDirectory else {
+            print("이미지 수정 실패")
+            return
+        }
+        let imagePath = "\(groupId)"
+        var filePath = URL(fileURLWithPath: directory.path)
+        filePath.appendPathComponent(groupId)
+        
+        do {
+            try fileManager.removeItem(atPath: filePath.path)
+        } catch {
+            print("이미지 수정 실패: \(error.localizedDescription)")
         }
     }
 }
