@@ -156,7 +156,8 @@ class GroupStore: ObservableObject {
         
         //readImages("group_images/\(id)", groupId: group.id)
         
-        readImage(id)
+        
+        
         
         self.groupDetail = group
         let updateGroupIndex = self.groups.firstIndex {$0.id == group.id } ?? -1
@@ -283,7 +284,7 @@ class GroupStore: ObservableObject {
             let querySnapshot = try await database.collection("Group")
                 .whereField("id", in: groupID)
                 .getDocuments()
-            print("실행22")
+
             for document in querySnapshot.documents {
                 let data = document.data()
                 
@@ -296,21 +297,8 @@ class GroupStore: ObservableObject {
                 let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
                 let memberLimit = data[GroupConstants.memberLimit] as? Int ?? 0
                 
-//                do {
-//                    let image = try await fetchImages("group_images/\(id)")
-//
-//                    // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
-//                    DispatchQueue.main.async {
-//                        if image == nil {
-//                            //self.groupImage[id] = UIImage()
-//                        } else {
-//                            self.groupImage[id] = UIImage(data: image!)!
-//                        }
-//                    }
-//                } catch {
-//                    print("fetch group image error: \(error.localizedDescription)")
-//                }
-                // readImages("group_images/\(id)", groupId: id)
+                
+                //readImages("group_images/\(id)", groupId: id)
                 
                 readImage(id)
                 
@@ -646,6 +634,7 @@ class GroupStore: ObservableObject {
     func readImage(_ groupId: String) {
         let imagePath = "\(groupId)"
         let storagePath = "group_images/\(groupId)"
+        let defaultImage = UIImage()
         
         let ref = storage.reference().child(storagePath)
         let cacheKey = NSString(string: imagePath)
@@ -660,6 +649,7 @@ class GroupStore: ObservableObject {
         
         guard let cachesDirectory = ImageCacheManager.cachesDirectory else {
             print("캐시 디렉토리 존재하지 않음")
+            self.groupImage[groupId] = defaultImage
             return
         }
         
@@ -667,7 +657,6 @@ class GroupStore: ObservableObject {
         filePath.appendPathComponent(imagePath)
         
         if ImageCacheManager.fileManager.fileExists(atPath: filePath.path) {
-            print("파일이 존재")
             if let image = ImageCacheManager.getObject(forKey: cacheKey, type: .disk(filePath)) {
                 print("디스크에서 읽음")
                 ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .memory)
@@ -678,13 +667,11 @@ class GroupStore: ObservableObject {
             }
         }
         
-        print("filePath: \(filePath)")
-        
         ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
                 print("error while downloading image\n\(error.localizedDescription)")
                 DispatchQueue.main.async {
-                    self.groupImage[groupId] = UIImage()
+                    self.groupImage[groupId] = defaultImage
                 }
                 return
             } else {
@@ -702,7 +689,9 @@ class GroupStore: ObservableObject {
                 ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .memory)
                 
                 /// 디스크에 이미지 저장
-                ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .disk(filePath))
+                ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .disk(filePath), data: imageData)
+                
+                //ImageCacheManager.fileManager.createFile(atPath: filePath.path, contents: imageData)
             }
         }
     }
