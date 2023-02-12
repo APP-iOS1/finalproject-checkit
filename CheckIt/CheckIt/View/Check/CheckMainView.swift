@@ -25,8 +25,13 @@ struct CheckMainView: View {
                 } else {
                     TabView(selection: $page) {
                         ForEach(0..<groupStore.groups.count, id: \.self) { index in
-                            CheckItCard(group: groupStore.groups[index], groupImage: groupStore.groupImage[groupStore.groups[index].id] ?? UIImage(), index: index, card: card, recentScheduleList: $scheduleStore.recentSchedule)
-                                .tag(index)
+                            let count = scheduleStore.recentSchedule.filter {$0.groupName == groupStore.groups[index].name
+                            }.count
+                            
+                            if count > 0 {
+                                CheckItCard(group: groupStore.groups[index], groupImage: groupStore.groupImage[groupStore.groups[index].id] ?? UIImage(), index: index, card: card, recentScheduleList: $scheduleStore.recentSchedule)
+                                    .tag(index)
+                            }
                         }
                     }
                     .tabViewStyle(.page)
@@ -36,6 +41,7 @@ struct CheckMainView: View {
                     
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(
@@ -45,6 +51,7 @@ struct CheckMainView: View {
                             Label("MyPage", systemImage: "person.circle")
                                 .font(.title2)
                                 .foregroundColor(.black)
+                                .padding([.top,.leading,.trailing])
                         })
                 }
             }

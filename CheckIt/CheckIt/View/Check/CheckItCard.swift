@@ -37,7 +37,7 @@ struct CheckItCard: View {
             //                            return schedule.groupName == group.name
             //            }) {
             RoundedRectangle(cornerRadius: 10)
-                .frame(width: 330, height: 580)
+                .frame(width: UIScreen.screenWidth * 0.8, height: UIScreen.screenHeight * 0.65)
                 .foregroundColor(.myLightGray)
                 .overlay {
                     VStack(alignment: .center) {
@@ -51,21 +51,21 @@ struct CheckItCard: View {
                                 Spacer()
                             }
                         } // - VStack
-                        .frame(width: 280)
-                        .padding(10)
+                        //.frame(width: 280)
+                        .padding([.leading, .trailing, .bottom])
                         
                         //동아리 사진
                         //                        groupImage
                         ZStack {
                             Rectangle()
                                 .fill(Color.gray)
-                                .frame(width: 246, height: 186.81)
+                                .frame(width: UIScreen.screenWidth / 2, height: UIScreen.screenHeight / 5)
                                 .clipShape(RoundedRectangle(cornerRadius: 24))
                                 .padding(10)
                             
                             Image(uiImage: groupImage)
                                 .resizable()
-                                .frame(width: 246, height: 186.81)
+                                .frame(width: UIScreen.screenWidth / 2, height: UIScreen.screenHeight / 5)
                                 .clipShape(RoundedRectangle(cornerRadius: 24))
                                 .padding(10)
                                 .onTapGesture {
@@ -73,6 +73,7 @@ struct CheckItCard: View {
                                     print("그룹 확인 \(groupStore.groups)")
                                 }
                         }
+                        
                         
                         // Check It 버튼
                         if let filterSchedule = recentScheduleList.first(where: { schedule in
@@ -100,7 +101,9 @@ struct CheckItCard: View {
                             }
                                 
                             }
-                            .frame(width: 200)
+                            //.frame(width: 200)
+                        .frame(width: UIScreen.screenWidth * 0.7)
+                        .padding(.top)
       
                        
                     } // - VStack
@@ -137,7 +140,7 @@ struct CheckItCard: View {
                 }) {
                     // 모임 날짜 나타내는 라벨
                     DdayLabel(dDay: days(from: Date.now, to: filterSchedule.startTime))
-                        .padding(.top, 10)
+                        //.padding(.top, 10)
                 } // - VStack
                 
                 // 동아리 이름

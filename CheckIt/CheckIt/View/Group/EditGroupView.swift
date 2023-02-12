@@ -118,6 +118,7 @@ struct EditGroupView: View {
                     if oldGroupName != newGroup.name { // 스케줄내 모든 동아리 이름 변경
                         print("여기 호출: \(newGroup.name)")
                         await scheduleStores.updateScheduleGroupName(newGroup.name, scheduleIdList: group.scheduleID)
+                        await scheduleStores.fetchRecentSchedule(groupName: newGroup.name)
                     }
                     
                     let index = self.groupStores.groups.firstIndex{ $0.id == group.id }

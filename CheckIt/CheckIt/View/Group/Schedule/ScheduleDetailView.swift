@@ -187,6 +187,8 @@ struct ScheduleDetailView: View {
                         await scheduleStore.removeSchedule(schedule.id)
                         
                         self.scheduleStore.scheduleList.removeAll {$0.id == schedule.id }
+                        self.scheduleStore.recentSchedule.removeAll {$0.id == schedule.id}
+                        
                         
                         print("삭제 성공")
                         
@@ -203,6 +205,17 @@ struct ScheduleDetailView: View {
                 memo = schedule.memo
             }
         }
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                }
+            }
+        }
+        
         .onAppear {
             editSchedule = Schedule(
                 id: schedule.id,
