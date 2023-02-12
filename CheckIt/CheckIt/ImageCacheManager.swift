@@ -35,7 +35,12 @@ class ImageCacheManager {
         }
     }
     
-    static func setObject(image: UIImage, forKey key: NSString) {
-        shared.setObject(image, forKey: key)
+    static func setObject(image: UIImage, forKey key: NSString, type: CacheType) {
+        switch type {
+        case .memory:
+            shared.setObject(image, forKey: key)
+        case .disk(let filePath):
+            fileManager.createFile(atPath: filePath.path, contents: image.pngData())
+        }
     }
 }
