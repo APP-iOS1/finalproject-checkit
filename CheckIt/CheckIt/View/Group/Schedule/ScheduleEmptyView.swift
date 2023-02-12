@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ScheduleEmptyView: View {
+    @Binding var infoLabel: String
+    
     var body: some View {
         VStack(alignment: .center, spacing: UIScreen.screenHeight * 0.02) {
             Image("grayBox")
@@ -18,7 +20,7 @@ struct ScheduleEmptyView: View {
             Text("아직 생성된 일정이 없어요.😥")
                 .font(.system(size: 22, weight: .semibold))
 
-            Text("+ 버튼으로 일정을 추가해서\n출석 현황을 관리해 보세요.")
+            Text(infoLabel)
                 .font(.system(size: 18, weight: .regular))
         }
     }
@@ -26,6 +28,6 @@ struct ScheduleEmptyView: View {
 
 struct ScheduleEmptyView_Previews: PreviewProvider {
     static var previews: some View {
-        ScheduleEmptyView()
+        ScheduleEmptyView(infoLabel: .constant("+ 버튼으로 일정을 추가해서\n출석 현황을 관리해 보세요."))
     }
 }
