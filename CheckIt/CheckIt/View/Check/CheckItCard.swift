@@ -25,7 +25,7 @@ struct CheckItCard: View {
     var card: [Card]
     @Binding var recentScheduleList: [Schedule]
     @State var action: Int?
- 
+    
     let calendar = Calendar.current
     @State var coordinate: CLLocationCoordinate2D?
     
@@ -83,13 +83,13 @@ struct CheckItCard: View {
                                 .environmentObject(userStore)
                                 .environmentObject(attendanceStore) ,tag: 0, selection: $action) {}
                         }
-                            
-                            
-                            
+                        
+                        
+                        
                         CheckItButton(isActive: .constant(card[index].isActiveButton), isAlert: .constant(false)) {
-                                guard let filterSchedule = recentScheduleList.first(where: { schedule in
-                                                return schedule.groupName == group.name
-                                }) else { return }
+                            guard let filterSchedule = recentScheduleList.first(where: { schedule in
+                                return schedule.groupName == group.name
+                            }) else { return }
                             Task {
                                 if let filterSchedule = recentScheduleList.first(where: { schedule in
                                     schedule.groupName == group.name
@@ -99,13 +99,13 @@ struct CheckItCard: View {
                                     action = 0
                                 }
                             }
-                                
-                            }
-                            //.frame(width: 200)
+                            
+                        }
+                        //.frame(width: 200)
                         .frame(width: UIScreen.screenWidth * 0.7)
                         .padding(.top)
-      
-                       
+                        
+                        
                     } // - VStack
                 } // - overlay
             //        .onAppear {
@@ -118,7 +118,7 @@ struct CheckItCard: View {
             //        }
         }
         
-
+        
     }
     //        .onAppear {
     //            Task {
@@ -133,62 +133,79 @@ struct CheckItCard: View {
     //}
     
     //    MARK: - View(TopSection)
-        private var TopSection: some View {
-            VStack(alignment: .leading) {
-                if let filterSchedule = recentScheduleList.first(where: { schedule in
-                    return schedule.groupName == group.name
-                }) {
-                    // 모임 날짜 나타내는 라벨
-                    DdayLabel(dDay: days(from: Date.now, to: filterSchedule.startTime))
-                        //.padding(.top, 10)
-                } // - VStack
-                
-                // 동아리 이름
-                Text("\(group.name)")
-                    .font(.title.bold())
-                //        }
-            } // - TopSection
-        }
+    private var TopSection: some View {
+        VStack(alignment: .leading) {
+            if let filterSchedule = recentScheduleList.first(where: { schedule in
+                return schedule.groupName == group.name
+            }) {
+                // 모임 날짜 나타내는 라벨
+                DdayLabel(dDay: days(to: filterSchedule.startTime))
+                //.padding(.top, 10)
+            } // - VStack
+            
+            // 동아리 이름
+            Text("\(group.name)")
+                .font(.title.bold())
+            //        }
+        } // - TopSection
+    }
     
     //    MARK: - View(InformationSection)
-        private var InformationSection: some View {
-            VStack(alignment: .leading) {
-                if let filterSchedule = recentScheduleList.first(where: { schedule in
-                    return schedule.groupName == group.name
-                })
-                {
-                    // 날짜
-                    HStack {
-                        customSymbols(name: "calendar")
-                        Text("\(filterSchedule.startTime, format: .dateTime.year().day().month())")
-                    } // - HStack
-                    .padding(.vertical, 3)
-                    
-                    // 시간
-                    HStack {
-                        customSymbols(name: "clock")
-                        Text("\(filterSchedule.startTime, format: .dateTime.hour().minute())")
-                    } // - HStack
-                    .padding(.vertical, 3)
-                    
-                    // 장소
-                    HStack {
-                        customSymbols(name: "mapPin")
-                            .onTapGesture {
-                                print("schedule: \(recentScheduleList)")
-                                print("\(group.name)'s recent schedule: \(filterSchedule)")
-                            }
-                        Text("\(filterSchedule.location)")
-                    } // - HStack
-                    .padding(.vertical, 3)
-                } // - VStack
-                //        }
-            } // - InformationSection
-        }
+    private var InformationSection: some View {
+        VStack(alignment: .leading) {
+            if let filterSchedule = recentScheduleList.first(where: { schedule in
+                return schedule.groupName == group.name
+            })
+            {
+                // 날짜
+                HStack {
+                    customSymbols(name: "calendar")
+                    Text("\(filterSchedule.startTime, format: .dateTime.year().day().month())")
+                } // - HStack
+                .padding(.vertical, 3)
+                
+                // 시간
+                HStack {
+                    customSymbols(name: "clock")
+                    Text("\(filterSchedule.startTime, format: .dateTime.hour().minute())")
+                } // - HStack
+                .padding(.vertical, 3)
+                
+                // 장소
+                HStack {
+                    customSymbols(name: "mapPin")
+                        .onTapGesture {
+                            print("schedule: \(recentScheduleList)")
+                            print("\(group.name)'s recent schedule: \(filterSchedule)")
+                        }
+                    Text("\(filterSchedule.location)")
+                } // - HStack
+                .padding(.vertical, 3)
+            } // - VStack
+            //        }
+        } // - InformationSection
+    }
     
     //MARK: - 일정 디데이 계산해주는 함수
-    func days(from date1: Date, to date2: Date) -> Int {
-        return calendar.dateComponents([.day], from: date1, to: date2).day! + 1
+    func days(to date: Date) -> Int {
+        //지금 날짜
+        var nowComponents = DateComponents()
+        nowComponents.day = calendar.dateComponents([.day], from: Date()).day
+        nowComponents.month = calendar.dateComponents([.month], from: Date()).month
+        nowComponents.year = calendar.dateComponents([.year], from: Date()).year
+        
+        let fromDate = calendar.date(from: nowComponents)
+        
+        //일정 날짜
+        var components = DateComponents()
+        components.day = calendar.dateComponents([.day], from: date).day
+        components.month = calendar.dateComponents([.month], from: date).month
+        components.year = calendar.dateComponents([.year], from: date).year
+        
+        let toDate = calendar.date(from: components)
+        
+        // 00시 00분을 기준으로 계산
+        return (calendar.dateComponents([.day], from: fromDate!, to: toDate!).day ?? 0)
     }
 }
 
