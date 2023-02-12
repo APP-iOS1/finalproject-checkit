@@ -41,6 +41,7 @@ struct CheckMainView: View {
                     
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(
@@ -51,7 +52,6 @@ struct CheckMainView: View {
                                 .font(.title2)
                                 .foregroundColor(.black)
                                 .padding([.top,.leading,.trailing])
-                                .padding(.top)
                         })
                 }
             }
