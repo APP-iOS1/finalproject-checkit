@@ -650,7 +650,7 @@ class GroupStore: ObservableObject {
         let ref = storage.reference().child(storagePath)
         let cacheKey = NSString(string: imagePath)
         
-        if let cacheImage = ImageCacheManager.getObject(forKey: cacheKey) {
+        if let cacheImage = ImageCacheManager.getObject(forKey: cacheKey, type: .memory) {
             print("\(groupId)그룹의 이미지를 캐시에서 가져옴")
             DispatchQueue.main.async {
                 self.groupImage[groupId] = cacheImage
@@ -658,22 +658,27 @@ class GroupStore: ObservableObject {
             return
         }
         
-        guard let cachesDirectory = ImageCacheManager.fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first else { return }
+        guard let cachesDirectory = ImageCacheManager.cachesDirectory else {
+            print("캐시 디렉토리 존재하지 않음")
+            return
+        }
         
         var filePath = URL(fileURLWithPath: cachesDirectory.path)
         filePath.appendPathComponent(imagePath)
         
         if ImageCacheManager.fileManager.fileExists(atPath: filePath.path) {
             print("파일이 존재")
-            if let data = FileManager.default.contents(atPath: filePath.path) {
+            if let image = ImageCacheManager.getObject(forKey: cacheKey, type: .disk(filePath)) {
                 print("디스크에서 읽음")
-                ImageCacheManager.setObject(image: UIImage(data: data)!, forKey: NSString(string: imagePath))
+                
+                ImageCacheManager.setObject(image: image, forKey: NSString(string: imagePath))
                 DispatchQueue.main.async {
-                    self.groupImage[groupId] = UIImage(data: data)!
+                    self.groupImage[groupId] = image
                 }
                 return
             }
         }
+        
         print("filePath: \(filePath)")
         
         ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
@@ -702,18 +707,4 @@ class GroupStore: ObservableObject {
             }
         }
     }
-    
-//    func readImages(_ path: String, groupId: String) {
-//        let ref = storage.reference().child(path)
-//
-//        ref.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
-//            if let error = error {
-//                print("readImages error: \(error.localizedDescription)")
-//            } else {
-//                guard let data else { return }
-//                print("readImage Success")
-//                self.groupImage[groupId] = UIImage(data: data)
-//            }
-//        }
-//    }
 }
