@@ -7,26 +7,27 @@
 import CoreLocation
 import SwiftUI
 import MapKit
+import AlertToast
 
 struct CheckMapView: View {
     @StateObject var locationManager: LocationManager
-
     @State var showQR: Bool = false
-    
-    @State private var isGroupHost: Bool = true //테스트용 추후에 서버에서 받은 값으로 변경 예정
     
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var attendanceStore: AttendanceStore
     var group: Group
     var schedule: Schedule
-    var isHost: Bool {
+    var isGroupHost: Bool {
         group.hostID == userStore.user?.id ?? ""
     }
     
-    
+    // 출석하기 버튼이 활성화 되는지 판단하는 변수
     @State var isActive: Bool = true
+    // 경고창을 띄울지 판단하는 변수
     @State var isAlert: Bool = false
+    // 경고창의 모드(장소,시간)를 판단하는 변수
+    @State var alertMode: AlertMode = .time
     var coordinate: CLLocationCoordinate2D?
     var body: some View {
         VStack {
@@ -36,48 +37,24 @@ struct CheckMapView: View {
                 .overlay(alignment: .bottom) {
                     VStack {
                         // 토스트 알럿
-                        CustomToastAlert(distance: $locationManager.distance, isPresented: $isAlert)
+                        CustomToastAlert(distance: locationManager.distance, isPresented: $isAlert, mode: $alertMode)
                         
                         //Apple Map과 연결
                         HStack {
                             Spacer()
-                            Button {
-                                
-                                let url = URL(string: "maps://?daddr=\(coordinate?.latitude ?? 0),\(coordinate?.longitude ?? 0)")
-                                if UIApplication.shared.canOpenURL(url!) {
-                                    UIApplication.shared.open(url!)
-                                }
-                                print(schedule.location, "로케이션")
-                            } label: {
-                                Image(systemName: "location.square.fill")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
-                            }
-
+                            guideDirectionButton
                         }
                         .padding(.bottom, 10)
                         .padding(.trailing, 20)
                         .offset(y: -40)
                         
                         // 출석하기 버튼, isActive가 false면 자동으로 disable됨
-                        CheckItButton(isActive: $locationManager.isInAttendanceRegion, isAlert: $isAlert, text: "출석하기") {
-                           // 출석 범위에 들어왔을 때 action
-                
-                            // 출석 시간인지 확인하는 로직
-                            let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime)
-                            // 출석 시간이면 db로 데이터 보냄
+                        CheckItButton(isActive: checkTimeAndPlaceInAttendance(), isAlert: $isAlert, text: "출석하기") {
                             
-                            //FIXME: db에서 잘못된 시간이 들어오고 있음
-                            if timeCompareResult == "출석" || timeCompareResult == "지각" {
-                                // 출석 상태 변경zr
-                                attendanceStore.updateAttendace(attendanceData: Attendance(id: userStore.user!.id, scheduleId: schedule.id, attendanceStatus: "\(timeCompareResult)", settlementStatus: false), scheduleID: schedule.id, uid: userStore.user!.id)
-                                print(schedule.id)
-                            }
-                           
-                            // 아니면 불가능하다는 알럿 보여주기
-    
+                            
+                            let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime)
+                            attendanceStore.updateAttendace(attendanceData: Attendance(id: userStore.user!.id, scheduleId: schedule.id, attendanceStatus: "\(timeCompareResult)", settlementStatus: false), scheduleID: schedule.id, uid: userStore.user!.id)
                         }
-//                        .frame(width: 338) //수정했습니다 to 혜민님
                         .padding(.horizontal, 20)
                         .padding(.bottom ,10)
                         .offset(y: -50)
@@ -92,10 +69,8 @@ struct CheckMapView: View {
                     }) { QRButtonLabel() }
                 } // - toolbar
             
-            
             // QR 시트
                 .sheet(isPresented: $showQR) {
-
                     if isGroupHost {
                         CameraScanner(schedule: schedule, userID: userStore.user?.id)
                             .environmentObject(userStore)
@@ -105,7 +80,6 @@ struct CheckMapView: View {
                             .environmentObject(userStore)
                             .environmentObject(attendanceStore)
                     }
-                    
                 } // - sheet
 
         } // - VStack
@@ -113,13 +87,45 @@ struct CheckMapView: View {
         .transition(.opacity)
         .toolbarBackground(Material.ultraThinMaterial, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-        .onAppear {
-            print(userStore.user?.id, "유저 아이디")
-        }
     }
     
+    //MARK: - View(guideDirectionButton)
+    private var guideDirectionButton: some View {
+        Button {
+            let url = URL(string: "maps://?daddr=\(coordinate?.latitude ?? 0),\(coordinate?.longitude ?? 0)")
+            if UIApplication.shared.canOpenURL(url!) {
+                UIApplication.shared.open(url!)
+            }
+        } label: {
+            Image(systemName: "location.square.fill")
+                .resizable()
+                .frame(width: 40, height: 40)
+        }
+    } // - guideDirectionButton
     
-
+    
+    func checkTimeAndPlaceInAttendance() -> Binding<Bool> {
+        
+        
+        let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime)
+        if !locationManager.isInAttendanceRegion {
+            DispatchQueue.main.async {
+                alertMode = .place
+            }
+            return .constant(false)
+        }
+        
+        guard let timeCompareResult
+        else {
+            DispatchQueue.main.async {
+                alertMode = .time
+            }
+            return .constant(false)
+        }
+        
+        return .constant(true)
+    }
+    
 }
 
 
