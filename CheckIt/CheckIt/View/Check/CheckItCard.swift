@@ -17,10 +17,7 @@ struct CheckItCard: View {
     var locationManager: LocationManager { LocationManager(toCoordinate: coordinate ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)) }
     
     @State var dDay: String = "D-day"
-    //    @State var groupImage: Image = Image("chocobi")
     @State private var schedules: [Schedule] = []
-    
-    //    @State private var recentSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
     
     var group: Group
     let groupImage: UIImage
@@ -63,7 +60,7 @@ struct CheckItCard: View {
                             Rectangle()
                                 .fill(Color.gray)
                                 .frame(width: 246, height: 186.81)
-                                .clipShape(RoundedRectangle(cornerRadius: 18))
+                                .clipShape(RoundedRectangle(cornerRadius: 24))
                                 .padding(10)
                             
                             Image(uiImage: groupImage)
