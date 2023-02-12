@@ -187,6 +187,8 @@ struct ScheduleDetailView: View {
                         await scheduleStore.removeSchedule(schedule.id)
                         
                         self.scheduleStore.scheduleList.removeAll {$0.id == schedule.id }
+                        self.scheduleStore.recentSchedule.removeAll {$0.id == schedule.id}
+                        
                         
                         print("삭제 성공")
                         

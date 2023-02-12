@@ -213,10 +213,14 @@ struct EditScheduleView: View {
 
                     Task {
                         await scheduleStore.updateSchedule(newSchedule, group: group)
+                        //await scheduleStore.fetchRecentSchedule(groupName: group.name)
                     }
 
-                    let index = self.scheduleStore.scheduleList.firstIndex{ $0.id == schedule.id }
+                    var index = self.scheduleStore.scheduleList.firstIndex{ $0.id == schedule.id }
                     self.scheduleStore.scheduleList[index ?? -1] = newSchedule
+                    
+                    index = self.scheduleStore.recentSchedule.firstIndex{ $0.id == schedule.id }
+                    self.scheduleStore.recentSchedule[index ?? -1] = newSchedule
                     
                     dismiss()
                     print("schedule:",schedule)
