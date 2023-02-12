@@ -304,7 +304,9 @@ class GroupStore: ObservableObject {
 //                } catch {
 //                    print("fetch group image error: \(error.localizedDescription)")
 //                }
-                readImages("group_images/\(id)", groupId: id)
+                // readImages("group_images/\(id)", groupId: id)
+                
+                readImage(id)
                 
                 let group = Group(id: id,
                                   name: name,
@@ -632,4 +634,48 @@ class GroupStore: ObservableObject {
         }
     }
     
+    func readImage(_ groupId: String) {
+        let imagePath = "\(groupId)"
+        let storagePath = "group_images/\(groupId)"
+        
+        let ref = storage.reference().child(storagePath)
+        let cacheKey = NSString(string: imagePath)
+        
+        if let cacheImage = ImageCacheManager.getObject(forKey: cacheKey) {
+            print("\(groupId)그룹의 이미지를 캐시에서 가져옴")
+            self.groupImage[groupId] = cacheImage
+            return
+        }
+        
+        ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("error while downloading image\n\(error.localizedDescription)")
+                self.groupImage[groupId] = UIImage()
+                return
+            } else {
+                guard let imageData = data, let image = UIImage(data: imageData) else {
+                    print("스토리지에서 이미지 읽기 실패")
+                    self.groupImage[groupId] = UIImage()
+                    return
+                }
+                print("이미지 캐시에 저장")
+                self.groupImage[groupId] = image
+                ImageCacheManager.setObject(image: image, forKey: cacheKey)
+            }
+        }
+    }
+    
+//    func readImages(_ path: String, groupId: String) {
+//        let ref = storage.reference().child(path)
+//
+//        ref.getData(maxSize: 1 * 1024 * 1024) { (data, error) in
+//            if let error = error {
+//                print("readImages error: \(error.localizedDescription)")
+//            } else {
+//                guard let data else { return }
+//                print("readImage Success")
+//                self.groupImage[groupId] = UIImage(data: data)
+//            }
+//        }
+//    }
 }
