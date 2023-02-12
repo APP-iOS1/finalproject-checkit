@@ -30,12 +30,6 @@ struct ContentView: View {
                         Image(systemName: "calendar")
                         Text("캘린더")
                     }
-                
-                MyPageView()
-                    .tabItem {
-                        Image(systemName: "person.fill")
-                        Text("마이")
-                    }
             }
             .accentColor(Color.myGreen)
             .onAppear {
