@@ -82,17 +82,6 @@ struct MyPageView: View {
             Spacer()
         }
         .padding(.horizontal, 30)
-        
-        .navigationBarBackButtonHidden()
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.backward")
-                }
-            }
-        }
     }
     
     //MARK: - Logout Test Views
