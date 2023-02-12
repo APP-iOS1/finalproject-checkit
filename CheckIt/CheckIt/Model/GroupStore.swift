@@ -290,20 +290,21 @@ class GroupStore: ObservableObject {
                 let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
                 let memberLimit = data[GroupConstants.memberLimit] as? Int ?? 0
                 
-                do {
-                    let image = try await fetchImages("group_images/\(id)")
-                    
-                    // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
-                    DispatchQueue.main.async {
-                        if image == nil {
-                            //self.groupImage[id] = UIImage()
-                        } else {
-                            self.groupImage[id] = UIImage(data: image!)!
-                        }
-                    }
-                } catch {
-                    print("fetch group image error: \(error.localizedDescription)")
-                }
+//                do {
+//                    let image = try await fetchImages("group_images/\(id)")
+//
+//                    // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
+//                    DispatchQueue.main.async {
+//                        if image == nil {
+//                            //self.groupImage[id] = UIImage()
+//                        } else {
+//                            self.groupImage[id] = UIImage(data: image!)!
+//                        }
+//                    }
+//                } catch {
+//                    print("fetch group image error: \(error.localizedDescription)")
+//                }
+                readImages("group_images/\(id)", groupId: id)
                 
                 let group = Group(id: id,
                                   name: name,

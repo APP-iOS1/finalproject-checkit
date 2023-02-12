@@ -15,6 +15,9 @@ struct EditScheduleAttendanceView: View {
     @State private var attendanceStatus: [Int] = [0, 0, 0, 0]
     @State var schedule: Schedule
     @State var isLoading: Bool = false
+    @State private var changedAttendance: Bool = false
+    @State private var lottieAnimationCompletion: Bool = false
+    @State private var idDismiss: Bool = false
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
@@ -44,6 +47,7 @@ struct EditScheduleAttendanceView: View {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {
                         isLoading = true
+                        changedAttendance = false
                         for index in 0..<attendanceStore.attendanceList.count {
                             //schedule update함수
                                 switch changedAttendancList[index].attendanceStatus {
@@ -76,14 +80,17 @@ struct EditScheduleAttendanceView: View {
                         Task {
                             await scheduleStore.updateScheduleAttendanceCount(schedule: schedule)
                             await scheduleStore.fetchSchedule(groupName: schedule.groupName)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                isLoading = false
-                                dismiss()
-                            }
+                            
+
+                            isLoading = false
+                            dismiss()
+                            print(lottieAnimationCompletion, "컴플리션")
+
                         }
                     } label: {
                         Text("수정완료")
                     }
+                    .disabled(!changedAttendance)
 
                 }
                 
@@ -93,7 +100,10 @@ struct EditScheduleAttendanceView: View {
                     Color(.systemBackground)
                         .ignoresSafeArea()
                         .opacity(0.8)
-                    LottieView(filename: "SecondIndicator")
+                    LottieView(filename: "ThirdIndicator", completion: { value in
+                        lottieAnimationCompletion = value
+                        print(value, "로티애니메이션")
+                    })
                         .frame(width: 150, height: 150)
                     }
 
@@ -105,8 +115,18 @@ struct EditScheduleAttendanceView: View {
             print(changedAttendancList, "생성")
             print(attendanceStore.attendanceList, "원래")
         }
-        .onDisappear {
+        .onChange(of: changedAttendancList) { _ in
+            if changedAttendancList != attendanceStore.attendanceList {
+                changedAttendance = true
+            }
+            else {
+                changedAttendance = false
+            }
         }
+//        .onChange(of: lottieAnimationCompletion) { newValue in
+//            isLoading = false
+//            dismiss()
+//        }
     }
 }
 
@@ -115,3 +135,4 @@ struct EditScheduleAttendanceView: View {
 //        EditScheduleAttendanceView(, schedule: <#Schedule#>)
 //    }
 //}
+
