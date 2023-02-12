@@ -20,15 +20,10 @@ struct LoginView: View {
         VStack {
             Spacer()
             
-            Image("CheckItLogo")
+            Image("checkItLogoRemove")
                 .resizable()
                 .scaledToFit()
             
-            //FIXME: - 수정 예정
-            Text("동아리 관리는 Check - It")
-                .font(.title2)
-            
-            Spacer()
             
             SignInWithAppleButton(onRequest: { request in
                 request.requestedScopes = [.fullName, .email]
