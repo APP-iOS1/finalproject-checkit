@@ -31,6 +31,14 @@ struct ScheduleDetailCellView: View {
                         Text("\(schedule.startTime, format:.dateTime.hour().minute())")
                         Text("~")
                         Text("\(schedule.endTime, format:.dateTime.hour().minute())")
+                        
+                        Spacer()
+                        
+                        Image(systemName: "greaterthan")
+                            .resizable()
+                            .frame(width: 10, height: 15)
+                            .foregroundColor(.gray)
+                            .offset(x:10)
                     }
                     
                     HStack {

@@ -17,6 +17,7 @@ struct CheckMainView: View {
     var card: [Card] {cardGenerate()}
     
     var body: some View {
+ <<<<<<< yeri
         
         NavigationView {
             VStack {
@@ -53,6 +54,18 @@ struct CheckMainView: View {
             .navigationDestination(isPresented: $isShowingMyPage) {
                 MyPageView()
                     .environmentObject(userStore)
+ =======
+        //        NavigationStack {
+        TabView(selection: $page) {
+            ForEach(0..<groupStore.groups.count, id: \.self) { index in
+                let count = scheduleStore.recentSchedule.filter {$0.groupName == groupStore.groups[index].name }
+                    .count
+                if count > 0 {
+                    
+                    CheckItCard(group: groupStore.groups[index], groupImage: groupStore.groupImage[groupStore.groups[index].id] ?? UIImage(), index: index, card: card, recentScheduleList: $scheduleStore.recentSchedule)
+                        .tag(index)
+                }
+ >>>>>>> dev
             }
         }
     }
