@@ -106,7 +106,9 @@ class GroupStore: ObservableObject {
                           scheduleID: scheduleID,
                           memberLimit: memberLimit)
         
-        readImages("group_images/\(id)", groupId: group.id)
+        //readImages("group_images/\(id)", groupId: group.id)
+        
+        readImage(id)
         
         self.groupDetail = group
     }
@@ -152,7 +154,10 @@ class GroupStore: ObservableObject {
                           scheduleID: scheduleID,
                           memberLimit: memberLimit)
         
-        readImages("group_images/\(id)", groupId: group.id)
+        //readImages("group_images/\(id)", groupId: group.id)
+        
+        
+        
         
         self.groupDetail = group
         let updateGroupIndex = self.groups.firstIndex {$0.id == group.id } ?? -1
@@ -191,7 +196,9 @@ class GroupStore: ObservableObject {
             
             await createImages(image, path: group.id)
             
-            readImages("group_images/\(group.id)", groupId: group.id)
+            //readImages("group_images/\(group.id)", groupId: group.id)
+            
+            readImage(group.id)
         } catch {
             print("동아리 생성 에러: \(error.localizedDescription)")
         }
@@ -277,7 +284,7 @@ class GroupStore: ObservableObject {
             let querySnapshot = try await database.collection("Group")
                 .whereField("id", in: groupID)
                 .getDocuments()
-            print("실행22")
+
             for document in querySnapshot.documents {
                 let data = document.data()
                 
@@ -290,21 +297,10 @@ class GroupStore: ObservableObject {
                 let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
                 let memberLimit = data[GroupConstants.memberLimit] as? Int ?? 0
                 
-//                do {
-//                    let image = try await fetchImages("group_images/\(id)")
-//
-//                    // FIXME: - 유저가 동아리 이미지를 저장하지 않을 경우 다른 디폴트 이미지가 필요
-//                    DispatchQueue.main.async {
-//                        if image == nil {
-//                            //self.groupImage[id] = UIImage()
-//                        } else {
-//                            self.groupImage[id] = UIImage(data: image!)!
-//                        }
-//                    }
-//                } catch {
-//                    print("fetch group image error: \(error.localizedDescription)")
-//                }
-                readImages("group_images/\(id)", groupId: id)
+                
+                //readImages("group_images/\(id)", groupId: id)
+                
+                readImage(id)
                 
                 let group = Group(id: id,
                                   name: name,
@@ -365,7 +361,9 @@ class GroupStore: ObservableObject {
                               scheduleID: scheduleID,
                               memberLimit: memberLimit)
             
-            readImages("group_images/\(id)", groupId: newGroup.id)
+            //readImages("group_images/\(id)", groupId: newGroup.id)
+            
+            readImage(id)
             
             return .success(newGroup)
         } catch {
@@ -632,4 +630,69 @@ class GroupStore: ObservableObject {
         }
     }
     
+    
+    func readImage(_ groupId: String) {
+        let imagePath = "\(groupId)"
+        let storagePath = "group_images/\(groupId)"
+        let defaultImage = UIImage()
+        
+        let ref = storage.reference().child(storagePath)
+        let cacheKey = NSString(string: imagePath)
+        
+        if let cacheImage = ImageCacheManager.getObject(forKey: cacheKey, type: .memory) {
+            print("\(groupId)그룹의 이미지를 캐시에서 가져옴")
+            DispatchQueue.main.async {
+                self.groupImage[groupId] = cacheImage
+            }
+            return
+        }
+        
+        guard let cachesDirectory = ImageCacheManager.cachesDirectory else {
+            print("캐시 디렉토리 존재하지 않음")
+            self.groupImage[groupId] = defaultImage
+            return
+        }
+        
+        var filePath = URL(fileURLWithPath: cachesDirectory.path)
+        filePath.appendPathComponent(imagePath)
+        
+        if ImageCacheManager.fileManager.fileExists(atPath: filePath.path) {
+            if let image = ImageCacheManager.getObject(forKey: cacheKey, type: .disk(filePath)) {
+                print("디스크에서 읽음")
+                ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .memory)
+                DispatchQueue.main.async {
+                    self.groupImage[groupId] = image
+                }
+                return
+            }
+        }
+        
+        ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("error while downloading image\n\(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self.groupImage[groupId] = defaultImage
+                }
+                return
+            } else {
+                guard let imageData = data, let image = UIImage(data: imageData) else {
+                    print("스토리지에서 이미지 읽기 실패")
+                    DispatchQueue.main.async {
+                        self.groupImage[groupId] = UIImage()
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.groupImage[groupId] = image
+                }
+                /// 메모리에 이미지 저장
+                ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .memory)
+                
+                /// 디스크에 이미지 저장
+                ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .disk(filePath), data: imageData)
+                
+                //ImageCacheManager.fileManager.createFile(atPath: filePath.path, contents: imageData)
+            }
+        }
+    }
 }
