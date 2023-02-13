@@ -16,7 +16,7 @@ struct GruopCustomButtonModifier : ViewModifier {
             .font(.system(size: 20, weight: .semibold))
             .foregroundColor(.white)
             .background(Color.myGreen)
-            .cornerRadius(15)
+            .cornerRadius(16)
     }
 }
 
