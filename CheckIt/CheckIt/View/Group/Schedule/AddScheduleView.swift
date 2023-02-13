@@ -14,7 +14,8 @@ struct AddScheduleView: View {
     @State private var place: String = ""
     @State private var memo: String = ""
     @State private var placeholderText: String = "메모(선택)"
-    @State private var lateMin: Int = 0
+    @State private var agreeTime: Int = 0
+    @State private var lateTime: Int = 0
     @State private var lateFee: Int = 0
     @State private var absentFee: Int = 0
     
@@ -29,6 +30,9 @@ struct AddScheduleView: View {
     
     @Binding var showToast: Bool
     @Binding var toastMessage: String
+    
+    @State private var showAddressToast: Bool = false
+    @State private var addressToastMessage: String = ""
     
     var group: Group
     
@@ -134,6 +138,7 @@ struct AddScheduleView: View {
                 .padding(5)
                 
                 Divider()
+                    .padding(.bottom)
                 
                 // MARK: - 출석 인정 시간 Section
                 VStack(alignment: .leading, spacing: 25) {
@@ -145,12 +150,28 @@ struct AddScheduleView: View {
                                 .padding(10)
                             
                             // MARK: - 출석 인정 시간 TextField
-                            TextField("", value: $lateMin, format: .number)
+                            TextField("", value: $agreeTime, format: .number)
                                 .frame(width: 68)
                                 .textFieldStyle(.roundedBorder)
                             
                             Text("분 전부터 ~ 5분 후까지")
                         }
+                    
+                    Text("지각 인정 시간")
+                        .font(.system(size: 20, weight: .regular))
+                
+                    HStack {
+                        customSymbols(name: "clock")
+                            .padding(10)
+                        
+                        Text("5분 후부터 ~ ")
+                        // MARK: - 지각 인정 시간 TextField
+                        TextField("", value: $lateTime, format: .number)
+                            .frame(width: 68)
+                            .textFieldStyle(.roundedBorder)
+                        
+                        Text("분 후까지")
+                    }
                     
                     HStack(spacing: 35) {
                         VStack(alignment: .leading, spacing: 20) {
@@ -191,6 +212,11 @@ struct AddScheduleView: View {
                 
                 // MARK: - 일정 만들기 버튼
                 Button {
+                    if viewModel.result == nil {
+                        showAddressToast.toggle()
+                        return
+                    }
+                    
                     showToast.toggle()
                     toastMessage = "일정 생성이 완료 되었습니다."
                     isLoading.toggle()
@@ -204,7 +230,22 @@ struct AddScheduleView: View {
                     
                     guard let location = viewModel.result else { fatalError() }
                     
-                    var schedule = Schedule(id: UUID().uuidString, groupName: group.name, lateFee: lateFee, absenteeFee: absentFee, location: location, startTime: start1, endTime: end1, agreeTime: lateMin, memo: memo, attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
+                    var schedule = Schedule(
+                        id: UUID().uuidString,
+                        groupName: group.name,
+                        lateFee: lateFee,
+                        absenteeFee: absentFee,
+                        location: location,
+                        startTime: start1,
+                        endTime: end1,
+                        agreeTime: agreeTime,
+                        lateTime: lateTime,
+                        memo: memo,
+                        attendanceCount: 0,
+                        lateCount: 0,
+                        absentCount: 0,
+                        officiallyAbsentCount: 0
+                    )
                     
                     Task {
                         schedule.absentCount = memberStore.members.count
@@ -237,10 +278,10 @@ struct AddScheduleView: View {
                             .modifier(GruopCustomButtonModifier())
                     } else {
                         Text("일정 만들기")
-                            .modifier(GruopCustomButtonModifier())
+                            .modifier(ScheduleEditButton(disable: viewModel.result == nil ? true : false))
                     }
                 }
-                .disabled(viewModel.result?.isEmpty ?? true)
+                //.disabled(viewModel.result?.isEmpty ?? true)
             }
             .padding(.horizontal, 30)
             
@@ -248,6 +289,9 @@ struct AddScheduleView: View {
 
         .sheet(isPresented: $viewModel.isPresentedWebView) {
             WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
+        }
+        .toast(isPresenting: $showAddressToast) {
+            AlertToast(displayMode: .banner(.pop), type: .error(.red), title: "일정 장소를 선택해 주세요.")
         }
         
     }

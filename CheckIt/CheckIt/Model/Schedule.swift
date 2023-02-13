@@ -16,11 +16,12 @@ struct Schedule: Identifiable, Hashable {
     var startTime: Date // 2023년 4월 10일 15시 00
     var endTime: Date  // 2023년 4월 10일 18시 00
     var agreeTime: Int
+    var lateTime: Int
     var memo: String
     var attendanceCount: Int
     var lateCount: Int
     var absentCount: Int
     var officiallyAbsentCount: Int
     
-    static var sampleSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
+    static var sampleSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, lateTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
 }
