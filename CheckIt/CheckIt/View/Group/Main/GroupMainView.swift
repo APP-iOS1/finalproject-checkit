@@ -50,6 +50,13 @@ struct GroupMainView: View {
                         .padding(.vertical, 20)
                         .padding(.horizontal, 30)
                     }
+                    .refreshable {
+                        guard let user = userStores.user else { return }
+                        groupStores.groups.removeAll()
+                        Task {
+                            await groupStores.fetchGroups(user)
+                        }
+                    }
                 }
             }
             .navigationTitle("나의 동아리")
