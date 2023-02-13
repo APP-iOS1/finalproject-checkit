@@ -91,6 +91,7 @@ struct CheckMapView: View {
                 } // - sheet
 
         } // - VStack
+        .padding(.bottom, 20)
         .animation(.easeOut(duration: 0.3), value: isAlert)
         .transition(.opacity)
         .toolbarBackground(Material.ultraThinMaterial, for: .navigationBar)
