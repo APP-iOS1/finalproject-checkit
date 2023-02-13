@@ -252,7 +252,9 @@ struct CategoryView: View {
                 Task {
                     await groupStore.updateInvitationCode(group.id, newInvitationCode: Group.randomCode)
                     
-                    toastMessage = "초대 코드가 재생성 되었습니다."
+                    toastObj.type = .competion
+                    toastObj.message = "초대 코드가 재생성 되었습니다."
+                    //toastMessage = "초대 코드가 재생성 되었습니다."
                     showToast.toggle()
                 }
             }
@@ -279,6 +281,7 @@ struct CategoryView: View {
                 }
                 
                 await scheduleStore.fetchSchedule(groupName: group.name)
+                scheduleStore.scheduleList.sort(by: { $0.startTime > $1.startTime})
                 
                 do {
                     try await memberStore.fetchMember(group.id)
