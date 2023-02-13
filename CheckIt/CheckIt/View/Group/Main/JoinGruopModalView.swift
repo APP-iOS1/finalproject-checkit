@@ -19,7 +19,7 @@ struct JoinGruopModalView: View {
     @State private var isLoading: Bool = false
     
     @Binding var showToast: Bool
-    @Binding var toastMessage: String
+    @State private var toastMessage: String = ""
     
     @State private var showFaieldToast: Bool = false
     @Binding var toastObj: ToastMessage

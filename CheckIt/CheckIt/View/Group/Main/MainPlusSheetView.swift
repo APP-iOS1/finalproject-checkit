@@ -11,8 +11,8 @@ import AlertToast
 struct MainPlusSheetView: View {
     @State var isMakingGroup: Bool = false
     @State var isJoiningGroup: Bool = false
+    
     @Binding var showToast: Bool
-    @Binding var toastMessage: String
     @Binding var toastObj: ToastMessage
     
     @Environment(\.presentations) private var presentations
@@ -33,7 +33,7 @@ struct MainPlusSheetView: View {
                     .modifier(MainPlusSheetButtonModifier())
             }
             .sheet(isPresented: $isMakingGroup) {
-                MakeGroupModalView(showToast: $showToast, toastMessage: $toastMessage, toastObj: $toastObj)
+                MakeGroupModalView(showToast: $showToast, toastObj: $toastObj)
                     .environment(\.presentations, presentations + [$isMakingGroup])
                     .presentationDetents([.height(600)])
             }
@@ -49,7 +49,7 @@ struct MainPlusSheetView: View {
                     .modifier(MainPlusSheetButtonModifier())
             }
             .sheet(isPresented: $isJoiningGroup) {
-                JoinGruopModalView(showToast: $showToast, toastMessage: $toastMessage, toastObj: $toastObj)
+                JoinGruopModalView(showToast: $showToast, toastObj: $toastObj)
                     .environment(\.presentations, presentations + [$isJoiningGroup])
                     .presentationDetents([.height(415)])
             }

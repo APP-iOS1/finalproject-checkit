@@ -67,7 +67,7 @@ struct GroupMainView: View {
                             .padding(.trailing, 20)
                     }
                     .sheet(isPresented: $showingPlusSheet) {
-                        MainPlusSheetView(showToast: $showToast, toastMessage: $toastMessage, toastObj: $toastObj)
+                        MainPlusSheetView(showToast: $showToast, toastObj: $toastObj)
                             .environment(\.presentations, presentations + [$showingPlusSheet])
                             .presentationDetents([.height(415)])
                     }

@@ -18,6 +18,8 @@ struct GroupScheduleView: View {
     
     @State private var showToast = false
     @State var toastMessage = ""
+    @State private var toastObj: ToastMessage = ToastMessage(message: "", type: .failed)
+    
     @State private var isAddSheet: Bool = false
     @State private var isCheckScheduleEmpty: Bool = false
     
@@ -63,7 +65,7 @@ struct GroupScheduleView: View {
                 } else {
                     ScrollView {
                         SkeletonForEach(with: scheduleStore.scheduleList.sorted(by: { $0.startTime < $1.startTime}), quantity: 4) { loading, schedule in
-                            NavigationLink(destination: ScheduleDetailView(showToast: $showToast, toastMessage: $toastMessage, group: group, schedule: schedule ?? Schedule.sampleSchedule)) {
+                            NavigationLink(destination: ScheduleDetailView(showToast: $showToast, toastMessage: $toastMessage, toastObj: $toastObj, group: group, schedule: schedule ?? Schedule.sampleSchedule)) {
                                 if schedule != nil {
                                     ScheduleDetailCellView(schedule: schedule ?? Schedule.sampleSchedule)
                                 }
@@ -96,7 +98,7 @@ struct GroupScheduleView: View {
         
         
         .sheet(isPresented: $isAddSheet) {
-            AddScheduleView(showToast: $showToast, toastMessage: $toastMessage, group: group)
+            AddScheduleView(showToast: $showToast, toastObj: $toastObj, group: group)
         }
         
         .onAppear {
@@ -108,19 +110,15 @@ struct GroupScheduleView: View {
         .onDisappear {
             print("GroupScheduleView onDisappear 호출")
         }
-        
+
         .toast(isPresenting: $showToast){
-            
-            // .alert is the default displayMode
-            AlertToast(displayMode: .banner(.slide), type: .complete(Color.myGreen), title: toastMessage)
-            
-            //Choose .hud to toast alert from the top of the screen
-            //AlertToast(displayMode: .hud, type: .regular, title: "Message Sent!")
-            
-            //Choose .banner to slide/pop alert from the bottom of the screen
-            //AlertToast(displayMode: .banner(.slide), type: .regular, title: "Message Sent!")
+            switch toastObj.type {
+            case .competion:
+                return AlertToast(displayMode: .banner(.slide), type: .complete(.myGreen), title: toastObj.message)
+            case .failed:
+                return AlertToast(displayMode: .banner(.slide), type: .error(.red), title: toastObj.message)
+            }
         }
-        
     }
     
 }

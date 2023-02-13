@@ -29,7 +29,7 @@ struct AddScheduleView: View {
     @EnvironmentObject var memberStore: MemberStore
     
     @Binding var showToast: Bool
-    @Binding var toastMessage: String
+    @Binding var toastObj: ToastMessage
     
     @State private var showAddressToast: Bool = false
     @State private var addressToastMessage: String = ""
@@ -225,8 +225,6 @@ struct AddScheduleView: View {
                         return
                     }
                     
-                    showToast.toggle()
-                    toastMessage = "일정 생성이 완료 되었습니다."
                     isLoading.toggle()
                     // 날짜정보와 시간정보를 하나의 문자열로 합침
                     let start = startTime.getDateString() + " " + startTime.getTimeString()
@@ -277,6 +275,10 @@ struct AddScheduleView: View {
                             await attendanceStroe.addAttendance(attendance: attendance)
                         }
                     }
+                    showToast.toggle()
+                    
+                    toastObj.message = "일정 생성이 완료되었습니다."
+                    toastObj.type = .competion
                     
                     dismiss()
                     
@@ -289,7 +291,6 @@ struct AddScheduleView: View {
                             .modifier(ScheduleEditButton(disable: viewModel.result == nil ? true : false))
                     }
                 }
-                //.disabled(viewModel.result?.isEmpty ?? true)
             }
             .padding(.horizontal, 30)
             
@@ -305,10 +306,10 @@ struct AddScheduleView: View {
     }
 }
 
-struct AddScheduleView_Previews: PreviewProvider {
-    @State static private var showToast = false
-
-    static var previews: some View {
-        AddScheduleView(showToast: $showToast, toastMessage: .constant(""), group: Group.sampleGroup)
-    }
-}
+//struct AddScheduleView_Previews: PreviewProvider {
+//    @State static private var showToast = false
+//
+//    static var previews: some View {
+//        AddScheduleView(showToast: $showToast, toastMessage: .constant(""), group: Group.sampleGroup)
+//    }
+//}
