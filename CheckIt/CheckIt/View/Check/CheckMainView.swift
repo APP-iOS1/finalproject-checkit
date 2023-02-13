@@ -13,11 +13,6 @@ struct CheckMainView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @State private var page = 0
     
-    var card: [Card] {
-        print("card")
-        return cardGenerate()
-    }
-    
     let swapIndex: SwapIndex = SwapIndex()
 //    var swapedGroups: [Group] = []
 //
@@ -33,10 +28,11 @@ struct CheckMainView: View {
                         $0.startTime > $1.startTime
                     }
                     let swaped = swapIndex.swapGroups(groups: groupStore.groups, recentSchedules: sortedRecentSchedule)
+                    let cards = cardGenerate(groups: swaped, recentSchedule: scheduleStore.recentSchedule)
                     
                     TabView(selection: $page) {
                         ForEach(0..<swaped.count, id: \.self) { index in
-                            CheckItCard(group: swaped[index], groupImage: groupStore.groupImage[swaped[index].id] ?? UIImage(), index: index, card: card, recentScheduleList: $scheduleStore.recentSchedule)
+                            CheckItCard(group: swaped[index], groupImage: groupStore.groupImage[swaped[index].id] ?? UIImage(), index: index, card: cards, recentScheduleList: $scheduleStore.recentSchedule)
                                 .tag(index)
                         }
                     }
@@ -64,10 +60,11 @@ struct CheckMainView: View {
     }
     
     //MARK: - Method(cardGenerate)
-    func cardGenerate() -> [Card] {
+    func cardGenerate(groups: [Group], recentSchedule: [Schedule]) -> [Card] {
         var tempCard: [Card] = []
-        for (i, group) in groupStore.groups.enumerated() {
-            if let filterSchedule = scheduleStore.recentSchedule.first(where: { schedule in
+        
+        for (i, group) in groups.enumerated() {
+            if let filterSchedule = recentSchedule.first(where: { schedule in
                 return schedule.groupName == group.name
             }) {
                 switch page {
@@ -92,10 +89,12 @@ struct CheckMainView: View {
                 }
             }
         }
+        print("temp : \(tempCard)")
         return tempCard
     } // - cardGenerate
 }
 
+//MARK: - 최신순으로 정렬된 스케줄 리스트 순서에 맞춰서 그룹리스트 재정렬
 class SwapIndex {
     var num: Int = 0
     var copied: [Group] = []
@@ -114,7 +113,7 @@ class SwapIndex {
                 copied.insert(pop, at: 0)
             }
         }
-        print("copied: \(copied)")
+//        print("copied: \(copie)")
         return copied
     }
 }
