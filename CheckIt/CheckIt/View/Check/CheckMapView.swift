@@ -33,6 +33,14 @@ struct CheckMapView: View {
     // 경고창의 모드(장소,시간)를 판단하는 변수
     @State var alertMode: AlertMode = .time
     var coordinate: CLLocationCoordinate2D?
+    
+    init(group: Group, schedule: Schedule, coordinate: CLLocationCoordinate2D?) {
+        self.group = group
+        self.schedule = schedule
+        self.coordinate = coordinate
+        _locationManager = StateObject(wrappedValue: LocationManager(toCoordinate: coordinate ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)))
+    }
+    
     var body: some View {
         VStack {
             // MapView
@@ -41,7 +49,7 @@ struct CheckMapView: View {
                 .overlay(alignment: .bottom) {
                     VStack {
                         // 토스트 알럿
-                        CustomToastAlert(distance: locationManager.distance, isPresented: $isAlert, mode: $alertMode)
+                        CustomToastAlert(distance: $locationManager.distance, isPresented: $isAlert, mode: $alertMode)
                         
                         //Apple Map과 연결
                         HStack {
@@ -54,9 +62,7 @@ struct CheckMapView: View {
                         
                         // 출석하기 버튼, isActive가 false면 자동으로 disable됨
                         CheckItButton(isActive: checkTimeAndPlaceInAttendance(), isAlert: $isAlert, text: "출석하기") {
-                            
-                            
-                            let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime)
+                            guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
                             attendanceStore.updateAttendace(attendanceData: Attendance(id: userStore.user!.id, scheduleId: schedule.id, attendanceStatus: "\(timeCompareResult)", settlementStatus: false), scheduleID: schedule.id, uid: userStore.user!.id)
                         }
                         .padding(.horizontal, 20)
@@ -117,16 +123,7 @@ struct CheckMapView: View {
     
     
     func checkTimeAndPlaceInAttendance() -> Binding<Bool> {
-        
-        
         let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime)
-        if !locationManager.isInAttendanceRegion {
-            DispatchQueue.main.async {
-                alertMode = .place
-            }
-            return .constant(false)
-        }
-        
         guard let timeCompareResult
         else {
             DispatchQueue.main.async {
@@ -135,6 +132,12 @@ struct CheckMapView: View {
             return .constant(false)
         }
         
+        if !locationManager.isInAttendanceRegion {
+            DispatchQueue.main.async {
+                alertMode = .place
+            }
+            return .constant(false)
+        }
         return .constant(true)
     }
     

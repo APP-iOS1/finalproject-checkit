@@ -14,8 +14,6 @@ struct CheckItCard: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var attendanceStore: AttendanceStore
     
-    var locationManager: LocationManager { LocationManager(toCoordinate: coordinate ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)) }
-    
     @State var dDay: String = "D-day"
     @State private var schedules: [Schedule] = []
     
@@ -53,7 +51,7 @@ struct CheckItCard: View {
                             }
                         } // - VStack
                         .padding(.horizontal)
-                         
+                        
                         Spacer()
                         
                         //동아리 사진
@@ -80,12 +78,12 @@ struct CheckItCard: View {
                         if let filterSchedule = recentScheduleList.first(where: { schedule in
                             schedule.groupName == group.name
                         }){
-                            NavigationLink(destination: CheckMapView(locationManager: locationManager, group: group, schedule: filterSchedule, coordinate: coordinate)
+                            NavigationLink(destination: CheckMapView(group: group, schedule: filterSchedule, coordinate: coordinate)
                                 .environmentObject(userStore)
                                 .environmentObject(attendanceStore) ,tag: 0, selection: $action) {}
                         }
                         
-                        CheckItButton(isActive: .constant(card[index].isActiveButton), isAlert: .constant(false)) {
+                        CheckItButton(isActive: .constant(true), isAlert: .constant(false)) {
                             guard let filterSchedule = recentScheduleList.first(where: { schedule in
                                 return schedule.groupName == group.name
                             }) else { return }
@@ -115,15 +113,10 @@ struct CheckItCard: View {
             if let filterSchedule = recentScheduleList.first(where: { schedule in
                 return schedule.groupName == group.name
             }) {
-
                 // 모임 날짜 나타내는 라벨
                 DdayLabel(dDay: D_days().days(to: filterSchedule.startTime))
-                .padding(.top, 10)
-
-                // 모임 날짜 나타내는 라벨  D_days.days(to: filterSchedule.startTime)
-               //DdayLabel(dDay: D_days().days(to: filterSchedule.startTime))
-                //.padding(.top, 10)
-
+                    .padding(.top, 10)
+                
             } // - VStack
             
             // 동아리 이름
@@ -144,27 +137,18 @@ struct CheckItCard: View {
                 // 날짜
                 HStack {
                     customSymbols(name: "calendar")
-
+                    
                     Text("\(filterSchedule.startTime, format: .dateTime.year().day().month())")
                         .foregroundColor(.black)
                 } // - HStack
                 .padding(.bottom, 7)
-
-                    //Text("\(Date().yearMonthDayDateToString(date: filterSchedule.startTime))")
-                  //  .font(.system(size: 15, weight: .regular))                } // - HStack
-                //.padding(.vertical, 3)
-
                 
                 // 시간
                 HStack {
                     customSymbols(name: "clock")
-
+                    
                     Text("\(filterSchedule.startTime, format: .dateTime.hour().minute())")
                         .foregroundColor(.black)
-
-                    //Text("\(Date().hourMinuteDateToString(date: filterSchedule.startTime))")
-                        //.font(.system(size: 15, weight: .regular))
-
                 } // - HStack
                 .padding(.bottom, 7)
                 
@@ -177,9 +161,7 @@ struct CheckItCard: View {
                         }
                     Text("\(filterSchedule.location)")
                         .foregroundColor(.black)
-
-                        //.font(.system(size: 15, weight: .regular))
-
+                    
                 } // - HStack
                 .padding(.bottom, 7)
             } // - VStack
