@@ -279,6 +279,7 @@ struct AddScheduleView: View {
                     
                     toastObj.message = "일정 생성이 완료되었습니다."
                     toastObj.type = .competion
+                    scheduleStore.scheduleList.sort(by: { $0.startTime > $1.startTime})
                     
                     dismiss()
                     
@@ -295,6 +296,12 @@ struct AddScheduleView: View {
             .padding(.horizontal, 30)
             
         }
+        .onAppear {
+            memberStore.members.removeAll()
+            Task {
+                try await memberStore.fetchMember(group.id)
+            }
+        }
 
         .sheet(isPresented: $viewModel.isPresentedWebView) {
             WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
@@ -302,6 +309,7 @@ struct AddScheduleView: View {
         .toast(isPresenting: $showAddressToast) {
             AlertToast(displayMode: .banner(.pop), type: .error(.red), title: "일정 장소를 선택해 주세요.")
         }
+        
         
     }
 }
