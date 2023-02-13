@@ -7,13 +7,30 @@
 
 import SwiftUI
 
+
 struct MyPageView: View {
     @EnvironmentObject var userStore: UserStore
-    @Environment(\.dismiss) private var dismiss
-    
+//    @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
     var userName: String {
         userStore.user?.name ?? "N/A"
     }
+    
+    var loginCenter: String {
+        switch userStore.loginCenter {
+        case .apple:
+            return "Apple"
+        case .kakao:
+            return "Kakao"
+        case .google:
+            return "Google"
+        default:
+            return "N/A"
+        }
+    }
+    
+    @State var isPresentedLogoutAlert: Bool = false
+    @State var isPresentedNotionSheet: Bool = false
     
     @State private var primiumPlansButtonTitle: String = "프리미엄 요금제 알아보기"
     @State private var primiumPlansButtonImage: String = "checkmark.seal"
@@ -36,7 +53,7 @@ struct MyPageView: View {
                     
                     Profile()
                 }
-                Text("Apple 로그인 중")
+                Text("\(loginCenter) 로그인 중")
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(.gray)
             }
@@ -61,12 +78,15 @@ struct MyPageView: View {
             
             // MARK: - 약관 및 정책 페이지
             Section {
-                NavigationLink(destination: TermsAndPolicyView()) {
-                    HStack {
-                        MyPageButton(buttonTitle: $termsAndPolicyButtonTitle, buttonImage: $termsAndPolicyButtonImage)
-                        Spacer()
-                    }
+
+               
+
+                Button(action: {
+                    isPresentedNotionSheet = true
+                }) {
+                    MyPageButton(buttonTitle: $termsAndPolicyButtonTitle, buttonImage: $termsAndPolicyButtonImage)
                 }
+                
             }
             
             // MARK: - 고객문의 페이지
@@ -81,19 +101,37 @@ struct MyPageView: View {
             
             // MARK: - 로그아웃 페이지
             Section {
-                NavigationLink(destination: LogoutView) {
-                    HStack {
-                        MyPageButton(buttonTitle: $logoutButtonTitle, buttonImage: $logoutButtonImage)
-                        Spacer()
-                    }
+               
+
+                Button(action: { isPresentedLogoutAlert = true }) {
+                    MyPageButton(buttonTitle: $logoutButtonTitle, buttonImage: $logoutButtonImage)
                 }
-//                Divider()
-//                    .padding(.bottom)
             }
             
             Spacer()
         }
         .padding(.horizontal, 30)
+        .overlay {
+            if isPresentedLogoutAlert {
+                logoutAlert
+            }
+        }
+        .sheet(isPresented: $isPresentedNotionSheet) {
+            SafariView(mode: .term)
+        }
+        
+    }
+    
+    //MARK: - logoutAlert
+    private var logoutAlert: some View {
+        ZStack {
+            Rectangle()
+                .foregroundColor(.black.opacity(0.4))
+                .ignoresSafeArea()
+            LogoutAlert(cancelButtonTapped: $isPresentedLogoutAlert)
+                .padding(.horizontal, 30)
+        }
+        .transition(AnyTransition.opacity.animation(.easeOut(duration: 0.5)))
     }
     
     //MARK: - Logout Test Views
@@ -108,6 +146,8 @@ struct MyPageView: View {
         }
     }
 }
+
+
 
 
 //struct MyPageView_Previews: PreviewProvider {
