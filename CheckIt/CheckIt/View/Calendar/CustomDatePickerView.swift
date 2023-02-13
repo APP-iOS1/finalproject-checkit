@@ -19,8 +19,8 @@ class ExtraData: ObservableObject {
         formatter.locale = Locale(identifier: "ko")
         formatter.dateFormat = "yyyy MM dd EEE a HH mm"
         
-        formatter.amSymbol = "AM"
-        formatter.pmSymbol = "PM"
+        formatter.amSymbol = "오전"
+        formatter.pmSymbol = "오후"
         
         self.date = formatter.string(from: date)
         return self.date.components(separatedBy: " ")
