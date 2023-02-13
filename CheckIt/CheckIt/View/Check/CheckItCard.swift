@@ -160,14 +160,15 @@ struct CheckItCard: View {
                 // 날짜
                 HStack {
                     customSymbols(name: "calendar")
-                    Text("\(filterSchedule.startTime, format: .dateTime.year().day().month())")
-                } // - HStack
+                    Text("\(Date().yearMonthDayDateToString(date: filterSchedule.startTime))")
+                    .font(.system(size: 15, weight: .regular))                } // - HStack
                 .padding(.vertical, 3)
                 
                 // 시간
                 HStack {
                     customSymbols(name: "clock")
-                    Text("\(filterSchedule.startTime, format: .dateTime.hour().minute())")
+                    Text("\(Date().hourMinuteDateToString(date: filterSchedule.startTime))")
+                        .font(.system(size: 15, weight: .regular))
                 } // - HStack
                 .padding(.vertical, 3)
                 
@@ -179,6 +180,7 @@ struct CheckItCard: View {
                             print("\(group.name)'s recent schedule: \(filterSchedule)")
                         }
                     Text("\(filterSchedule.location)")
+                        .font(.system(size: 15, weight: .regular))
                 } // - HStack
                 .padding(.vertical, 3)
             } // - VStack
