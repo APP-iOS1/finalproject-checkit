@@ -19,14 +19,20 @@ struct TermsAndPolicyView: View {
         VStack(alignment: .leading) {
             
             NavigationLink(destination: TermsConditionsView()) {
-                MyPageButton(buttonTitle: $termsButtonTitle, buttonImage: $termsButtonImage)
+                HStack {
+                    MyPageButton(buttonTitle: $termsButtonTitle, buttonImage: $termsButtonImage)
+                    Spacer()
+                }
             }
             .padding(.top)
             
             Divider()
             
             NavigationLink(destination: LicenseView()) {
-                MyPageButton(buttonTitle: $openSourceLicenseTitle, buttonImage: $openSourceLicenseImage)
+                HStack {
+                    MyPageButton(buttonTitle: $openSourceLicenseTitle, buttonImage: $openSourceLicenseImage)
+                    Spacer()
+                }
             }
             Spacer()
         }

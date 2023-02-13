@@ -41,7 +41,7 @@ struct GroupScheduleView: View {
                             Image(systemName: "plus")
                                 .resizable()
                                 .frame(width:20, height:20)
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .padding(.horizontal, 30)
                             //.padding([.bottom, .trailing], 5)
                         }

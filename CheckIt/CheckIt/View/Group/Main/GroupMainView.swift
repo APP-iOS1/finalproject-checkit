@@ -63,7 +63,7 @@ struct GroupMainView: View {
                             .resizable()
                             .frame(width: 20, height: 20)
                             .fontWeight(.medium)
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .padding(.trailing, 20)
                     }
                     .sheet(isPresented: $showingPlusSheet) {

@@ -89,6 +89,7 @@ struct EditScheduleAttendanceView: View {
                         }
                     } label: {
                         Text("수정완료")
+                            .foregroundColor(Color.myGreen)
                     }
                     .disabled(!changedAttendance)
 
