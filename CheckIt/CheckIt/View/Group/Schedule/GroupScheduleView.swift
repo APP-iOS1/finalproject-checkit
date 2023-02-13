@@ -64,7 +64,7 @@ struct GroupScheduleView: View {
                     Spacer()
                 } else {
                     ScrollView {
-                        SkeletonForEach(with: scheduleStore.scheduleList.sorted(by: { $0.startTime < $1.startTime}), quantity: 4) { loading, schedule in
+                        SkeletonForEach(with: scheduleStore.scheduleList, quantity: 4) { loading, schedule in
                             NavigationLink(destination: ScheduleDetailView(showToast: $showToast, toastMessage: $toastMessage, toastObj: $toastObj, group: group, schedule: schedule ?? Schedule.sampleSchedule)) {
                                 if schedule != nil {
                                     ScheduleDetailCellView(schedule: schedule ?? Schedule.sampleSchedule)
