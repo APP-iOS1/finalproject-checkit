@@ -28,19 +28,24 @@ struct CheckMainView: View {
                 } else {
                     TabView(selection: $page) {
                         ForEach(0..<groupStore.groups.count, id: \.self) { index in
-                            let count = scheduleStore.recentSchedule.filter {$0.groupName == groupStore.groups[index].name
-                            }.count
-                            
-                            if count > 0 {
+//                            let count = scheduleStore.recentSchedule.filter {$0.groupName == groupStore.groups[index].name
+//                            }.count
+//
+//                            if count > 0 {
                                 CheckItCard(group: groupStore.groups[index], groupImage: groupStore.groupImage[groupStore.groups[index].id] ?? UIImage(), index: index, card: card, recentScheduleList: $scheduleStore.recentSchedule)
                                     .tag(index)
-                            }
+//                            }
                         }
                     }
                     .tabViewStyle(.page)
                     .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                     .onChange(of: page) { value in print("selected tab = \(value)")
-                    } 
+                    }
+                    .onTapGesture {
+                        print("group count: \(groupStore.groups.count)")
+                        print("card count: \(card.count)")
+                        print("card 확인: \(card)")
+                    }
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -84,6 +89,8 @@ struct CheckMainView: View {
             } else {
                 if page != i {
                     tempCard.append(Card(isActiveButton: false, show: false))
+                } else {
+                    tempCard.append(Card(isActiveButton: false, show: true))
                 }
             }
         }
