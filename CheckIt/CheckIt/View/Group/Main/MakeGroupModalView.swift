@@ -35,6 +35,8 @@ struct MakeGroupModalView: View {
     @State var showAlert: Bool = false
     @State var alertMessage = "글자수 조건을 확인하세요!"
     
+    @Binding var toastObj: ToastMessage
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             Text("동아리 개설하기")
@@ -110,8 +112,11 @@ struct MakeGroupModalView: View {
                     await groupStores.addGroupsInUser(user, joinedGroupId: group.id)
                     await userStores.fetchUser(user.id)
                     
+                    toastObj.message = "동아리 생성이 완료되었습니다."
+                    toastObj.type = .competion
+                    
                     showToast.toggle()
-                    toastMessage = "동아리 생성이 완료되었습니다."
+                    //toastMessage = "동아리 생성이 완료되었습니다."
                     
                     presentations.forEach {
                                     $0.wrappedValue = false
@@ -170,7 +175,7 @@ struct MakeGroupModalView_Previews: PreviewProvider {
     @State static var toastMessage: String = ""
     
     static var previews: some View {
-        MakeGroupModalView(showToast: $showToast, toastMessage: $toastMessage)
+        MakeGroupModalView(showToast: $showToast, toastMessage: $toastMessage, toastObj: .constant(ToastMessage(message: "", type: .competion)))
             .environmentObject(GroupStore())
     }
 }
