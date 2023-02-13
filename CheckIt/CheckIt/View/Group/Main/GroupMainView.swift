@@ -16,6 +16,8 @@ struct GroupMainView: View {
     @State var showToast: Bool = false
     @State var toastMessage: String = ""
     
+    @State private var toastObj = ToastMessage(message: "", type: .failed)
+    
     @EnvironmentObject var groupStores: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStores: UserStore
@@ -65,14 +67,24 @@ struct GroupMainView: View {
                             .padding(.trailing, 20)
                     }
                     .sheet(isPresented: $showingPlusSheet) {
-                        MainPlusSheetView(showToast: $showToast, toastMessage: $toastMessage)
+                        MainPlusSheetView(showToast: $showToast, toastMessage: $toastMessage, toastObj: $toastObj)
                             .environment(\.presentations, presentations + [$showingPlusSheet])
                             .presentationDetents([.height(415)])
                     }
                 }
             }
+            
+            
             .toast(isPresenting: $showToast){
-                AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
+                switch toastObj.type {
+                case .competion:
+                    return AlertToast(displayMode: .banner(.slide), type: .complete(.myGreen), title: toastObj.message)
+                case .failed:
+                    return AlertToast(displayMode: .banner(.slide), type: .error(.red), title: toastObj.message)
+                }
+                
+//                AlertToast(displayMode: to, type: <#T##AlertToast.AlertType#>)
+//                AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
             }
 
         }
