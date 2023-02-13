@@ -271,6 +271,7 @@ class ScheduleStore: ObservableObject {
             
             let querySnapshot = try await database.collection("Schedule")
                 .whereField("group_name", isEqualTo: groupName)
+                .whereField("start_time", isGreaterThanOrEqualTo: Date())
                 .order(by: "start_time", descending: true)
                 .getDocuments()
             if querySnapshot.isEmpty {
