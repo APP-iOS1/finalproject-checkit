@@ -43,6 +43,7 @@ struct QRSheetView: View {
             attendanceStore.responseAttendanceListner(schedule: schedule, uid: userId) { result in
                 if result {
 //                    dismiss()
+                    print(result, "큐알")
                 }
             }
         }
