@@ -279,7 +279,7 @@ struct AddScheduleView: View {
                     
                     toastObj.message = "일정 생성이 완료되었습니다."
                     toastObj.type = .competion
-                    scheduleStore.scheduleList.sort(by: { $0.startTime < $1.startTime})
+                    scheduleStore.scheduleList.sort(by: { $0.startTime > $1.startTime})
                     
                     dismiss()
                     
