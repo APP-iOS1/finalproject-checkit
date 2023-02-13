@@ -270,7 +270,7 @@ struct AddScheduleView: View {
                             .modifier(GruopCustomButtonModifier())
                     } else {
                         Text("일정 만들기")
-                            .modifier(GruopCustomButtonModifier())
+                            .modifier(ScheduleEditButton(disable: viewModel.result == nil ? true : false))
                     }
                 }
                 .disabled(viewModel.result?.isEmpty ?? true)

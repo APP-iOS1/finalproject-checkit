@@ -32,7 +32,7 @@ struct ScheduleDetailView: View {
     }
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
+        ScrollView(showsIndicators: true) {
             VStack(alignment:.leading) {
                 Text("일정 정보")
                     .font(.system(size: 20, weight: .regular))
