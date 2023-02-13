@@ -34,12 +34,30 @@ struct AddScheduleView: View {
     @State private var showAddressToast: Bool = false
     @State private var addressToastMessage: String = ""
     
-    var group: Group
+    @State private var number = 0
     
+    enum Field: Hashable {
+        case first
+        case second
+        case third
+        case fourth
+        case last
+    }
+    
+    @State private var first: String = ""
+    @State private var second: String = ""
+    @State private var third: String = ""
+    @State private var fourth: String = ""
+    @State private var last: String = ""
+    @FocusState private var focusedField: Field?
+    @FocusState private var keyboardFocused: Bool
+    
+    var group: Group
     
     var body: some View {
         ScrollView {
             VStack(alignment:.leading) {
+                
                 Text("일정 추가하기")
                     .font(.system(size: 24, weight: .semibold))
                     .padding(.top)
@@ -89,12 +107,21 @@ struct AddScheduleView: View {
                             } label: {
                                 ZStack(alignment: .leading) {
                                     Text("\(viewModel.result ?? "장소를 입력해주세요.")")
+                                        .fontWeight(.semibold)
                                         .foregroundColor(.primary)
                                         .offset(x:2)
                                 }
                             }
                         }
+                        
+                        Spacer()
+                        Button {
+                            self.viewModel.isPresentedWebView = true
+                        } label: {
+                            Image(systemName: "chevron.right")
+                        }
                     }
+                    .padding(.top, 5)
                     
                     Spacer(minLength: 1)
                     
@@ -123,6 +150,7 @@ struct AddScheduleView: View {
                             .lineSpacing(10)
                             .multilineTextAlignment(.leading)
                             .opacity(self.memo.isEmpty ? 0.25 : 1)
+                            .focused($focusedField, equals: .first)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(Color.myGray, lineWidth: 2)
@@ -138,28 +166,30 @@ struct AddScheduleView: View {
                 
                 // MARK: - 출석 인정 시간 Section
                 VStack(alignment: .leading, spacing: 25) {
-                        Text("출석 인정 시간")
-                            .font(.system(size: 20, weight: .regular))
+                    Text("출석 인정 시간")
+                        .font(.system(size: 20, weight: .regular))
                     
-                        HStack {
-                            customSymbols(name: "clock")
-                                .padding(10)
-                            
-                            // MARK: - 출석 인정 시간 TextField
-                            TextField("", value: $agreeTime, format: .number)
-                                .frame(width: 68)
-                                .textFieldStyle(.roundedBorder)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .stroke(Color.secondary, lineWidth: 0.5)
-                                )
-                            
-                            Text("분 전부터 ~ 5분 후까지")
-                        }
+                    HStack {
+                        customSymbols(name: "clock")
+                            .padding(10)
+                        
+                        // MARK: - 출석 인정 시간 TextField
+                        TextField("0", value: $agreeTime, format: .number)
+                            .frame(width: 68)
+                            .textFieldStyle(.roundedBorder)
+                            .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .second)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .stroke(Color.secondary, lineWidth: 0.5)
+                            )
+                        
+                        Text("분 전부터 ~ 5분 후까지")
+                    }
                     
                     Text("지각 인정 시간")
                         .font(.system(size: 20, weight: .regular))
-                
+                    
                     HStack {
                         customSymbols(name: "clock")
                             .padding(10)
@@ -169,6 +199,8 @@ struct AddScheduleView: View {
                         TextField("", value: $lateTime, format: .number)
                             .frame(width: 68)
                             .textFieldStyle(.roundedBorder)
+                            .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .third)
                         
                         Text("분 후까지")
                     }
@@ -185,6 +217,8 @@ struct AddScheduleView: View {
                                 TextField("", value: $lateFee, format: .number)
                                     .frame(width: 68)
                                     .textFieldStyle(.roundedBorder)
+                                    .keyboardType(.numberPad)
+                                    .focused($focusedField, equals: .fourth)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 6)
                                             .stroke(Color.secondary, lineWidth: 0.5)
@@ -204,6 +238,8 @@ struct AddScheduleView: View {
                                 TextField("", value: $absentFee, format: .number)
                                     .frame(width: 68)
                                     .textFieldStyle(.roundedBorder)
+                                    .keyboardType(.numberPad)
+                                    .focused($focusedField, equals: .last)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 6)
                                             .stroke(Color.secondary, lineWidth: 0.5)
@@ -256,9 +292,9 @@ struct AddScheduleView: View {
                     Task {
                         schedule.absentCount = memberStore.members.count
                         await scheduleStore.addSchedule(schedule, group: group)
-//                        var recent = scheduleStore.recentSchedule.filter({ recent in
-//                            return recent.groupName == schedule.groupName
-//                        })
+                        //                        var recent = scheduleStore.recentSchedule.filter({ recent in
+                        //                            return recent.groupName == schedule.groupName
+                        //                        })
                         let scheduleIdx = scheduleStore.recentSchedule.firstIndex { recent in
                             return recent.groupName == schedule.groupName
                         }
@@ -294,7 +330,50 @@ struct AddScheduleView: View {
                 }
             }
             .padding(.horizontal, 30)
-            
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .toolbar {
+//                if focusedField == .second {
+//                    print("1")
+//                    ToolbarItemGroup(placement: .keyboard, content: {
+//                        Button {
+//                            focusedField = .third
+//                        } label: {
+//                            Text("다음")
+//                        }
+//
+//                    })
+//                } else if focusedField == .third {
+//                    print("2")
+//                    ToolbarItemGroup(placement: .keyboard, content: {
+//                        Button {
+//                            focusedField = .fourth
+//                        } label: {
+//                            Text("다음")
+//                        }
+//
+//                    })
+//                } else if focusedField == .last {
+//                    print("3")
+//                    ToolbarItemGroup(placement: .keyboard, content: {
+//                        Button {
+//                            focusedField = nil
+//                        } label: {
+//                            Text("다음")
+//                        }
+//
+//                    })
+//                } else {
+//                    print("4")
+//                    ToolbarItemGroup(placement: .keyboard, content: {
+//                        Button {
+//                            focusedField = nil
+//                        } label: {
+//                            Text("다음")
+//                        }
+//
+//                    })
+//                }
+            }
         }
         .onAppear {
             memberStore.members.removeAll()
@@ -302,6 +381,7 @@ struct AddScheduleView: View {
                 try await memberStore.fetchMember(group.id)
             }
         }
+
 
         .sheet(isPresented: $viewModel.isPresentedWebView) {
             WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
