@@ -22,6 +22,9 @@ private let onBoardingSteps = [
 
 struct OnBoardingView: View {
     @State private var currentStep = 0
+    @State private var onBoardingView = false
+    
+    @AppStorage("onboarding") var isOnboardingViewActive : Bool = true
     
     init() {
         UIScrollView.appearance().bounces = false
@@ -33,7 +36,7 @@ struct OnBoardingView: View {
             HStack {
                 Spacer()
                 Button {
-                    self.currentStep = onBoardingSteps.count - 1
+                    isOnboardingViewActive = false
                 } label: {
                     Text("건너뛰기")
                         .font(.system(size: 18, weight: .medium))
@@ -87,7 +90,7 @@ struct OnBoardingView: View {
                 if self.currentStep < onBoardingSteps.count - 1 {
                     self.currentStep += 1
                 } else {
-                    
+                    isOnboardingViewActive = false
                 }
             } label: {
                 Text(currentStep < onBoardingSteps.count - 1 ? "다음" : "시작하기")
