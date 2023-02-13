@@ -39,7 +39,7 @@ struct GroupMainView: View {
                             
                             ForEach(groupStores.groups) { group in
                                 // MARK: - 동아리 리스트
-                                NavigationLink(destination: CategoryView(showToast: $showToast, toastMessage: $toastMessage, group: group)) {
+                                NavigationLink(destination: CategoryView(showToast: $showToast, toastMessage: $toastMessage, toastObj: $toastObj, group: group)) {
                                     GroupMainDetailView(group: group, groupImage: groupStores.groupImage[group.id] ?? UIImage())
                                         .frame(height: 130)
                                         .background(Color.myLightGray)
