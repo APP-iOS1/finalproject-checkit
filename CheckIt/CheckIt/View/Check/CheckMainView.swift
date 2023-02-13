@@ -13,7 +13,10 @@ struct CheckMainView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @State private var page = 0
     
-    var card: [Card] {cardGenerate()}
+    var card: [Card] {
+        print("card")
+        return cardGenerate()
+    }
     
     var body: some View {
         NavigationView {
@@ -37,8 +40,7 @@ struct CheckMainView: View {
                     .tabViewStyle(.page)
                     .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                     .onChange(of: page) { value in print("selected tab = \(value)")
-                    }
-                    
+                    } 
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -78,6 +80,10 @@ struct CheckMainView: View {
                     } else {
                         tempCard.append(Card(isActiveButton: true, show: false))
                     }
+                }
+            } else {
+                if page != i {
+                    tempCard.append(Card(isActiveButton: false, show: false))
                 }
             }
         }
