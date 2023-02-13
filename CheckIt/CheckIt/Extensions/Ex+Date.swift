@@ -48,6 +48,13 @@ extension Date {
         let dateString = dateFormatter.string(from: date)
         return dateString
     }
+    func dotHourMinuteDateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "a h:mm"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateString = dateFormatter.string(from: date)
+        return dateString
+    }
     func yearMonthDayHourMinuteToString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy년 MM월 dd일 a hh:mm"

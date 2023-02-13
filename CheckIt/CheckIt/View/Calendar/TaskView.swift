@@ -61,7 +61,7 @@ struct TaskView: View {
                                     }
                                     
                                     VStack(alignment: .leading, spacing: 5) {
-                                        Text("\(extraData.selectedDate(date: schedule.startTime)[5]):\(extraData.selectedDate(date: schedule.startTime)[6]) \(extraData.selectedDate(date: schedule.startTime)[4])")
+                                        Text("\(extraData.selectedDate(date: schedule.startTime)[4]) \(extraData.selectedDate(date: schedule.startTime)[5]):\(extraData.selectedDate(date: schedule.startTime)[6])")
                                             .font(.body)
                                         Text(schedule.groupName)
                                             .font(.body.bold())
