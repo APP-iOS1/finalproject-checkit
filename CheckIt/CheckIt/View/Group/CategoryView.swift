@@ -281,7 +281,7 @@ struct CategoryView: View {
                 }
                 
                 await scheduleStore.fetchSchedule(groupName: group.name)
-                scheduleStore.scheduleList.sort(by: { $0.startTime < $1.startTime})
+                scheduleStore.scheduleList.sort(by: { $0.startTime > $1.startTime})
                 
                 do {
                     try await memberStore.fetchMember(group.id)
