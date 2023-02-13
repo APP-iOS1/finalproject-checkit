@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import AlertToast
 
 struct CameraScanner: View {
     var schedule: Schedule
@@ -14,8 +14,11 @@ struct CameraScanner: View {
     @State private var startScanning: Bool = false
     @State private var notCapacityScannerState: Bool = false
     @State var userID : String? = nil
+    @State var showAlert: Bool = false
+    @Binding var showToast: Bool
+    @Binding var toastMessage: String
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var userStore: UserStore
+//    @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var attendanceStore: AttendanceStore
 
     var body: some View {
@@ -29,7 +32,6 @@ struct CameraScanner: View {
                         self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text("닫기")
-                            .foregroundColor(Color.myGray)
                         
                     }
                 }
@@ -41,8 +43,6 @@ struct CameraScanner: View {
                             }
                         } label: {
                             Text("권한 설정하기")
-                                .foregroundColor(Color.myGray)
-                            
                         }
                     }
                 }
@@ -60,24 +60,41 @@ struct CameraScanner: View {
                 print(userID, "userID")
                 print(schedule, "Schedule")
                 print(attendanceStore, "attendanceStore")
-                //                    print(seminarID)
-//                                    if let test1 = test1 {
-//                                        attendanceStore.addAttendance(
-//                                            seminarID: seminarID,
-//                                            attendance: Attendance(id: scanIdResult, uid: scanUid ?? "", userNickname: scanUserNickname ?? ""))
-//                                    } else { return }
+                showAlert.toggle()
                 if let userID = userID {
                     //출첵하는 함수
                     print(userID, "userID")
-                    print(schedule, "Schedule")
                     let attendanceStatus = Date.dateCompare(compareDate: schedule.startTime)
-//                    let attendance = Attendance(id: userID, scheduleId: schedule.id, attendanceStatus: attendanceStatus, settlementStatus: false)
-                    print(attendanceStatus, "출석이냐 지갹이냐 결석이냐")
+                    guard let attendanceStatus = attendanceStatus else { return }
+                    print(attendanceStatus, "어텐던스 스테이터스")
                     
-//                    attendanceStore.updateAttendace(attendanceData: attendance, scheduleID: schedule.id, uid: userID)
+                    
+                    if attendanceStatus == "이전" {
+                        //이전 토스트 메시지
+                        showToast.toggle()
+                        toastMessage = "아직 출석체크 시간이 아닙니다."
+                    }
+                    else if attendanceStatus == "지각" || attendanceStatus == "출석" {
+                        Task {
+                            let attendance = Attendance(id: userID, scheduleId: schedule.id, attendanceStatus: attendanceStatus, settlementStatus: false)
+                            await                         attendanceStore.asyncUpdateAttendance(attendanceData: attendance, scheduleID: schedule.id, uid: userID)
+                            //큐알 토스트 메세지
+                            showToast.toggle()
+                            toastMessage = "출석체크를 완료했습니다."
+                        }
+                    }
+                    else if attendanceStore == nil {
+                        //결석 토스트 메시지
+                        showToast.toggle()
+                        toastMessage = "결석처리 되었습니다."
+                    }
+
                 } else { return }
             }
         }
+//        .toast(isPresented: $showAlert) {
+//            AlertToast(displayMode: .alert, type: .error(.red), title: alert)
+//        }
         .task {
             await cameraScannerViewModel.requestDataScannerAccessStatus()
             print(cameraScannerViewModel.dataScannerAccessStatus)

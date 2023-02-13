@@ -114,6 +114,17 @@ class AttendanceStore: ObservableObject {
             
         }
     }
+    func asyncUpdateAttendance(attendanceData: Attendance, scheduleID: String, uid : String) async {
+        do {
+            let querySnapshot = try await database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: attendanceData.scheduleId).whereField("id", isEqualTo: attendanceData.id).getDocuments()
+            if querySnapshot.isEmpty { return }
+            
+            try await querySnapshot.documents.first!.reference.updateData([AttendanceConstants.attendanceStatus : attendanceData.attendanceStatus])
+        }
+        catch {
+            print("updateAttendace: \(error.localizedDescription)")
+        }
+    }
     //출석부 지각, 결석비 지불 상태 update
     func updateSettlementStatus(attendanceData: Attendance) {
         database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: attendanceData.scheduleId).whereField("id", isEqualTo: attendanceData.id).getDocuments { snapshot, error in
