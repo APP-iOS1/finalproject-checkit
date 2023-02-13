@@ -195,7 +195,7 @@ class AttendanceStore: ObservableObject {
         return false
     }
     
-    /// 일정에 해당하는 스케줄의 id를 얻는 메소드 입니다.
+    /// 출석에 해당하는 스케줄의 id를 얻는 메소드 입니다.
     /// - Parameter scheduleId: 가져올 출석이랑 연관된 일정
     /// - Returns: 출석의 id
     func getAttendanceId(_ scheduleId: String) async -> String {
@@ -249,5 +249,24 @@ class AttendanceStore: ObservableObject {
             })
         })
     }
+    
+    //MARK: - Method(isCompleteAttendance)
+    func isCompleteAttendance(schedule: Schedule, uid: String) async -> Bool {
+        do {
+            let snapshot = try await database.collection("Schedule").document(schedule.id)
+                .collection("Attendance").whereField(AttendanceConstants.id, isEqualTo: uid)
+                .getDocuments()
+            
+            if snapshot.documents.isEmpty { return false }
+            let document = snapshot.documents.first!
+            let attendance = document["attendance_status"] as? String ?? "N/A"
+            if attendance  == "출석" || attendance == "지각" {
+                return true
+            }
+        } catch {
+            print("\(error.localizedDescription)")
+        }
+        return false
+    } // - isCompleteAttendance
 
 }
