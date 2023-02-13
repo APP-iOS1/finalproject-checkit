@@ -58,7 +58,7 @@ struct CheckItCard: View {
                         //groupImage
                         ZStack {
                             Rectangle()
-                                .fill(Color.gray)
+                                .fill(Color.myGray)
                                 .frame(width: UIScreen.screenWidth * 0.7 , height: UIScreen.screenHeight / 5)
                                 .clipShape(RoundedRectangle(cornerRadius: 24))
                             
