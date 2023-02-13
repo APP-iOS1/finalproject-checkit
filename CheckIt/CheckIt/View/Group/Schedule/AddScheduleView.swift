@@ -57,6 +57,7 @@ struct AddScheduleView: View {
     var body: some View {
         ScrollView {
             VStack(alignment:.leading) {
+                
                 Text("일정 추가하기")
                     .font(.system(size: 24, weight: .semibold))
                     .padding(.top)
