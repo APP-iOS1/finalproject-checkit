@@ -103,6 +103,15 @@ struct MakeGroupModalView: View {
                     if isClicked {
                         return
                     }
+                    let result = await groupStores.canUseGroupsName(groupName: groupName)
+                    if !result {
+                        print("여기로 이동")
+                        self.alertMessage = "동아리 이름이 중복됩니다.!"
+                        showAlert.toggle()
+                        return
+                    }
+                    
+                    
                     guard let user = userStores.user else { return }
                     isLoading.toggle()
                     isClicked.toggle()

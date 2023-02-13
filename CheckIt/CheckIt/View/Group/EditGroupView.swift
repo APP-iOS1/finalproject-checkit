@@ -108,22 +108,37 @@ struct EditGroupView: View {
                 isClicked.toggle()
                 isLoading.toggle()
                 
-                // 이미지가 변경됨
-                if !selectedPhotoData.isEmpty {
-                    print("이미지가 변경됨")
-                    imageChanged()
-                }
-                
-                let newGroup = Group(id: group.id,
-                                     name: group.name,
-                                     invitationCode: group.invitationCode,
-                                     image: group.image,
-                                     hostID: group.hostID,
-                                     description: group.description,
-                                     scheduleID: group.scheduleID,
-                                     memberLimit: group.memberLimit)
-
                 Task {
+                    let result = await groupStores.canUseGroupsName(groupName: group.name)
+                    print("result: \(result)")
+                    
+                    if !result {
+                        print("여기로 이동")
+                        self.alertMessage = "동아리 이름이 중복됩니다.!"
+                        
+                        showAlert.toggle()
+                        isClicked.toggle()
+                        isLoading.toggle()
+                        return
+                    }
+                    
+                    // 이미지가 변경됨
+                    if !selectedPhotoData.isEmpty {
+                        print("이미지가 변경됨")
+                        imageChanged()
+                    }
+                    
+                    print("여기가1")
+                    
+                    let newGroup = Group(id: group.id,
+                                         name: group.name,
+                                         invitationCode: group.invitationCode,
+                                         image: group.image,
+                                         hostID: group.hostID,
+                                         description: group.description,
+                                         scheduleID: group.scheduleID,
+                                         memberLimit: group.memberLimit)
+                    
                     await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.id] ?? UIImage())
                     
                     if oldGroupName != newGroup.name { // 스케줄내 모든 동아리 이름 변경
@@ -144,9 +159,10 @@ struct EditGroupView: View {
                         self.groupStores.groupImage[group.id] = selectedPhotoData.first!
                     }
                     
+                    isClicked.toggle()
+                    
                     dismiss()
                 }
-                
             } label: {
                 if isLoading {
                     ProgressView()
@@ -160,10 +176,13 @@ struct EditGroupView: View {
             .onTapGesture{
                 showAlert.toggle()
             }
-            
         }
         .padding(40)
         .presentationDragIndicator(.visible)
+        
+        .toast(isPresenting: $showAlert){
+            AlertToast(displayMode: .alert, type: .error(.red), title: alertMessage)
+        }
     }
     
     private func imageChanged() {
