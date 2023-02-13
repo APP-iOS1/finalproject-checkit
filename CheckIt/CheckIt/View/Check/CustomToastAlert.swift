@@ -17,7 +17,7 @@ enum AlertMode: String {
 //MARK: - View(CustomToastAlert)
 struct CustomToastAlert: View {
     
-    @State var distance: Double = 0.0
+    @Binding var distance: Double
     @Binding var isPresented: Bool
     @Binding var mode: AlertMode
     
@@ -45,7 +45,7 @@ struct CustomToastAlert: View {
             return AnyView(
             VStack {
             Text("모임 장소로 이동해주세요.")
-            Text("모임 위치까지") + Text(" \(distance)m ").bold() + Text("남았습니다.")
+            Text("모임 위치까지 ") + Text(convertMeterToKiloMeter(meter: distance)).bold() + Text(" 남았습니다.")
             })
         case .complete:
             return AnyView(Text("출석이 이미 완료되었습니다."))
@@ -57,11 +57,17 @@ struct CustomToastAlert: View {
     
     
     
+    
     //MARK: - toastAlertLabel
     private var toastAlertLabel: some View {
         RoundedRectangle(cornerRadius: 20)
             .foregroundColor(.toastAlertGray)
             .frame(width: 280, height: 80)
     } // - toastAlertLabel
+    
+    func convertMeterToKiloMeter(meter: Double) -> String {
+        let meter = Int(meter)
+        return meter < 1000 ? "\(meter)m": "\(meter / 1000)km"
+    }
 }
 
