@@ -64,8 +64,9 @@ struct AttendanceStatusView: View {
             print("호출 테스트--------------------------")
             //            print(userStore.user?.id ?? "", "유저 id")
             //            print(hostId, "호스트 id")
+            scheduleStore.scheduleList.sort(by: { $0.startTime < $1.startTime})
             if isGroupManager {
-                
+
             }
             else {
                 scheduleStore.fetchUserScheduleList(scheduleList: scheduleStore.scheduleList, userID: userStore.user?.id ?? "", attendanceStore: attendanceStore)
