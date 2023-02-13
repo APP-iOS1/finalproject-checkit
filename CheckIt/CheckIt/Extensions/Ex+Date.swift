@@ -11,6 +11,7 @@ enum Status: String {
     case attendance = "출석"
     case late = "지각"
     case absent = "결석"
+    case prev = "이전"
 }
 
 extension Date {
@@ -71,7 +72,10 @@ extension Date {
         let startTime = compareDate.addingTimeInterval(-300)
         let lateTime = compareDate.addingTimeInterval(300)
         let absentTime = compareDate.addingTimeInterval(600) //5분 지나면
-        if now >= startTime && now < lateTime {
+        if now < startTime {
+            return Status.prev.rawValue
+        }
+        else if now >= startTime && now < lateTime {
             return Status.attendance.rawValue
         }
         else if lateTime < now && now <= absentTime {
