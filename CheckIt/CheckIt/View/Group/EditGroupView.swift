@@ -158,8 +158,7 @@ struct EditGroupView: View {
                     if !selectedPhotoData.isEmpty {
                         self.groupStores.groupImage[group.id] = selectedPhotoData.first!
                     }
-                    print("555")
-                    print("여기가2")
+                    
                     isClicked.toggle()
                     
                     dismiss()
@@ -197,27 +196,27 @@ struct EditGroupView: View {
         /// 이미지 수정시 해야할일
         /// 캐시 비우기
         /// 디스크 비우기
-        var filePath = URL(fileURLWithPath: directory.path)
-        filePath.appendPathComponent(group.id)
-        
-        print("filePath: \(filePath)")
-        
-        do {
-            try ImageCacheManager.fileManager.removeItem(atPath: filePath.path)
-            print("원래 이미지 삭제 성공")
-        } catch {
-            print("이미지 삭제 실패: \(error.localizedDescription)")
-            toastObj.message = "디바이스에 존재하는 이미지를 삭제하는데 실패하였습니다."
-            toastObj.type = .failed
-            dismiss()
-            return
-        }
+//        var filePath = URL(fileURLWithPath: directory.path)
+//        filePath.appendPathComponent(group.id)
+//
+//        print("filePath: \(filePath)")
+//
+//        do {
+//            try ImageCacheManager.fileManager.removeItem(atPath: filePath.path)
+//            print("원래 이미지 삭제 성공")
+//        } catch {
+//            print("이미지 삭제 실패: \(error.localizedDescription)")
+//            toastObj.message = "디바이스에 존재하는 이미지를 삭제하는데 실패하였습니다."
+//            toastObj.type = .failed
+//            dismiss()
+//            return
+//        }
         
         // 메모리 캐시도 새로운 이미지로 갈아치우기
         // 메모리를 다 비우고 새로 끼워넣기
         ImageCacheManager.shared.removeAllObjects()
-        //let cacheKey = NSString(string: group.id)
-        //ImageCacheManager.setObject(image: selectedPhotoData.first!, forKey: cacheKey, type: .memory)
+        let cacheKey = NSString(string: group.id)
+        ImageCacheManager.setObject(image: selectedPhotoData.first!, forKey: cacheKey, type: .memory)
         
         //디스크에 쓰기
         //ImageCacheManager.setObject(image: UIImage(), forKey: cacheKey, type: .disk(filePath), data: selectedData!)
