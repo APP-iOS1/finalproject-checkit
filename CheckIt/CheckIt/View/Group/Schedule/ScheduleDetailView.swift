@@ -22,6 +22,8 @@ struct ScheduleDetailView: View {
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     
+    @Binding var toastObj: ToastMessage
+    
     @State private var editSchedule: Schedule = Schedule.sampleSchedule
     
     var group: Group
@@ -180,18 +182,23 @@ struct ScheduleDetailView: View {
                 }
             }
             .toast(isPresenting: $showToast){
-                AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
+                switch toastObj.type {
+                case .competion:
+                    return AlertToast(displayMode: .banner(.slide), type: .complete(.myGreen), title: toastObj.message)
+                case .failed:
+                    return AlertToast(displayMode: .banner(.slide), type: .error(.red), title: toastObj.message)
+                }
             }
             
             .sheet(isPresented: $isEditSchedule) {
-                EditScheduleView(schedule: $editSchedule, showToast: $showToast, toastMessage: $toastMessage, group: group)
+                EditScheduleView(schedule: $editSchedule, showToast: $showToast, toastObj: $toastObj, group: group)
             }
             .alert("해당 일정을 삭제하시겠습니까?", isPresented: $isRemoveSchedule, actions: {
                 Button("취소하기", role: .cancel) { }
                 Button("삭제하기", role: .destructive) {
                     Task {
                         print("==scheduleStore.scheduleList==: \(scheduleStore.scheduleList)")
-                        toastMessage = "일정 삭제가 완료 되었습니다."
+                        
                         async let attendanceId = await attendanceStore.getAttendanceId(schedule.id)
                         await attendanceStore.removeAttendance(schedule.id, attendanceId: attendanceId) // 1.
                         await groupStore.removeScheduleInGroup(group.id, scheduleList: scheduleStore.scheduleList, scheduleId: schedule.id) // 2.
@@ -200,7 +207,8 @@ struct ScheduleDetailView: View {
                         self.scheduleStore.scheduleList.removeAll {$0.id == schedule.id }
                         self.scheduleStore.recentSchedule.removeAll {$0.id == schedule.id}
                         
-                        
+                        toastObj.message = "일정 삭제가 완료 되었습니다."
+                        toastObj.type = .competion
                         print("삭제 성공")
                         
                         showToast.toggle()

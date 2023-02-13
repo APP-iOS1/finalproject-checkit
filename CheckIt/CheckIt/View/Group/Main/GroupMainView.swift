@@ -50,6 +50,13 @@ struct GroupMainView: View {
                         .padding(.vertical, 20)
                         .padding(.horizontal, 30)
                     }
+                    .refreshable {
+                        guard let user = userStores.user else { return }
+                        groupStores.groups.removeAll()
+                        Task {
+                            await groupStores.fetchGroups(user)
+                        }
+                    }
                 }
             }
             .navigationTitle("나의 동아리")
@@ -67,7 +74,7 @@ struct GroupMainView: View {
                             .padding(.trailing, 20)
                     }
                     .sheet(isPresented: $showingPlusSheet) {
-                        MainPlusSheetView(showToast: $showToast, toastMessage: $toastMessage, toastObj: $toastObj)
+                        MainPlusSheetView(showToast: $showToast, toastObj: $toastObj)
                             .environment(\.presentations, presentations + [$showingPlusSheet])
                             .presentationDetents([.height(415)])
                     }
