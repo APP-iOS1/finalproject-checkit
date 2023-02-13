@@ -31,6 +31,9 @@ struct AddScheduleView: View {
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     
+    @State private var showAddressToast: Bool = false
+    @State private var addressToastMessage: String = ""
+    
     var group: Group
     
     
@@ -209,6 +212,11 @@ struct AddScheduleView: View {
                 
                 // MARK: - 일정 만들기 버튼
                 Button {
+                    if viewModel.result == nil {
+                        showAddressToast.toggle()
+                        return
+                    }
+                    
                     showToast.toggle()
                     toastMessage = "일정 생성이 완료 되었습니다."
                     isLoading.toggle()
@@ -273,7 +281,7 @@ struct AddScheduleView: View {
                             .modifier(ScheduleEditButton(disable: viewModel.result == nil ? true : false))
                     }
                 }
-                .disabled(viewModel.result?.isEmpty ?? true)
+                //.disabled(viewModel.result?.isEmpty ?? true)
             }
             .padding(.horizontal, 30)
             
@@ -281,6 +289,9 @@ struct AddScheduleView: View {
 
         .sheet(isPresented: $viewModel.isPresentedWebView) {
             WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
+        }
+        .toast(isPresenting: $showAddressToast) {
+            AlertToast(displayMode: .banner(.pop), type: .error(.red), title: "일정 장소를 선택해 주세요.")
         }
         
     }
