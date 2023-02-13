@@ -21,8 +21,7 @@ class UserStore: ObservableObject {
     @Published var loginCenter: LoginCenter? = nil
     @Published var isPresentedLoginView: Bool = true
     @Published var isFirstLogin: Bool = false
-    @Published var isProcessing: Bool = false
-
+    
     @Published var userDictionaryList: [String : String] = [:] //key uid, value nickname
 
     var userData: FirebaseAuth.User? = nil
@@ -44,44 +43,41 @@ class UserStore: ObservableObject {
     
     //MARK: - Method(deleteUser)
     /// 회원탈퇴
-    func deleteUser() -> Bool {
+    func deleteUser() async -> Bool {
         // 파이어베이스 유저 삭제
-        var isError: Bool = false
         guard let user = Auth.auth().currentUser else { return false }
         
-        user.delete { error in
-          if let error {
-              print("\(error.localizedDescription)")
-              isError = true
-              return
-          }
+        do {
+            try await user.delete()
         }
-        
-        if isError {
+        catch {
+            print("\(error.localizedDescription)")
             return false
         }
+        
         
         // 로그인 센터별 연결 끊기
         switch loginCenter {
         case .apple:
-            break
+            return false
         case .kakao:
             // 카카오 연결끊기
             UserApi.shared.unlink { error in
-                if let error {
+                if let error = error {
                     print("\(error.localizedDescription)")
-                    isError = true
                     return
                 }
             }
-        case .google:
             break
+        case .google:
+            return false
+            
         default:
             return false
         }
         
         // 파이어베이스 DB에서 회원 정보 삭제
-        return isError ? false : true
+        return true
         
     } // - deleteUser
     
@@ -137,15 +133,13 @@ class UserStore: ObservableObject {
         self.user = User(id: id, email: email, name: name, groupID: groupId)
     } // - userUpdate
     
-    
-    
-    
     //MARK: - Method(loginWithKakao)
     /// 카카오로 로그인
     func loginWithKakao() {
         KakaoLoginStore().returnFirebaseToken { firebaseToken in
-            guard let firebaseToken else { return }
             
+            guard let firebaseToken else { return }
+            print(type(of:firebaseToken))
             
             Auth.auth().signIn(withCustomToken: firebaseToken) { user, error in
                 if let error {
@@ -155,6 +149,7 @@ class UserStore: ObservableObject {
                 
                 self.userData = user?.user
                 self.isUserInDatabaseWithKakao(uid: "\(String(describing: user?.user.uid ?? ""))", completion: { result in
+                    print("isFirstLoginWithKakao:",result)
                     Task {
                         await self.fetchUser(user?.user.uid ?? "")
                     }
@@ -168,10 +163,9 @@ class UserStore: ObservableObject {
                     self.toggleLoginState()
                     
                 })
+                print("로그인 성공")
             }
         }
-        
-        
     } // - loginWithKakao
     
     //MARK: - Method(loginWithCredential)
