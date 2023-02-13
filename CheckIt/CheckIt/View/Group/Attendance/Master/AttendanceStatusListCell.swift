@@ -20,6 +20,7 @@ struct AttendanceStatusListCell: View {
             VStack(alignment: .leading) {
                 HStack {
                     Text(Date().yearMonthDayDateToString(date: schedule?.startTime ?? Date()))
+                        .foregroundColor(.black)
                         .font(.headline)
                         .bold()
                     
@@ -40,10 +41,12 @@ struct AttendanceStatusListCell: View {
                 
                 HStack {
                     Text("\(Date().hourMinuteDateToString(date: schedule?.startTime ?? Date())) ~ \(Date().hourMinuteDateToString(date: schedule?.endTime ?? Date()))")
+                        .foregroundColor(.black)
                         .font(.subheadline)
                     Spacer()
                     
                     Text(String("\(schedule?.lateFee ?? 0) 원" ?? "0 원"))
+                        .foregroundColor(.black)
                         .bold()
                 }
             }
