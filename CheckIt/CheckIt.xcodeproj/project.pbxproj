@@ -38,6 +38,7 @@
 		2822CE282988DE3300316139 /* MemberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE272988DE3300316139 /* MemberStore.swift */; };
 		283B27B32989F20E00E4D400 /* GroupMainDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B27B22989F20E00E4D400 /* GroupMainDetailView.swift */; };
 		283B70B7298C98EF003782C3 /* GroupEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B70B6298C98EF003782C3 /* GroupEmptyView.swift */; };
+		2840FC962999F4F400F24499 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840FC952999F4F400F24499 /* ToastMessage.swift */; };
 		2845444D298A26F1001B2EED /* Ex+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845444C298A26F1001B2EED /* Ex+Date.swift */; };
 		2845444F298A2DAC001B2EED /* Ex+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845444E298A2DAC001B2EED /* Ex+String.swift */; };
 		285437C22993753A00E29CE1 /* ScheduleDetailCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285437C12993753A00E29CE1 /* ScheduleDetailCellView.swift */; };
@@ -196,6 +197,7 @@
 		2822CE272988DE3300316139 /* MemberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MemberStore.swift; path = CheckIt/Model/MemberStore.swift; sourceTree = SOURCE_ROOT; };
 		283B27B22989F20E00E4D400 /* GroupMainDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMainDetailView.swift; sourceTree = "<group>"; };
 		283B70B6298C98EF003782C3 /* GroupEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEmptyView.swift; sourceTree = "<group>"; };
+		2840FC952999F4F400F24499 /* ToastMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		2845444C298A26F1001B2EED /* Ex+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Date.swift"; sourceTree = "<group>"; };
 		2845444E298A2DAC001B2EED /* Ex+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+String.swift"; sourceTree = "<group>"; };
 		285437C12993753A00E29CE1 /* ScheduleDetailCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetailCellView.swift; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 				2822CE192988B14400316139 /* Member.swift */,
 				2822CE1B2988B3E500316139 /* Schedule.swift */,
 				2822CE1D2988B61900316139 /* Attendance.swift */,
+				2840FC952999F4F400F24499 /* ToastMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -851,6 +854,7 @@
 				2BDA61F12977C6CE00FDD307 /* MakeGroupModalView.swift in Sources */,
 				1A3CB2652990D04C00EA5E84 /* TermsConditionsView.swift in Sources */,
 				2BDA61F9297E939500FDD307 /* MainPlusSheetView.swift in Sources */,
+				2840FC962999F4F400F24499 /* ToastMessage.swift in Sources */,
 				2822CE262988DE1400316139 /* AttendanceStore.swift in Sources */,
 				A5FF27A42977AEF80059C312 /* MyPageButton.swift in Sources */,
 				A5FF27A82977C3F30059C312 /* PremiumRateView.swift in Sources */,
