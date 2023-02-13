@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "checkItLogo.jpeg",
+      "filename" : "checkItLogoRemove.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "checkItLogoRemove@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "checkItLogoRemove@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
