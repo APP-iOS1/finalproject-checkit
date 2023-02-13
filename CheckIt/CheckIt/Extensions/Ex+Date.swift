@@ -69,6 +69,10 @@ extension Date {
     static func dateCompare(compareDate: Date) -> String? {
         let now = Date.now
         // 출석 인정 시작 시각입니다.
+        // 40분 스케줄이면
+        // 35분 이전은 "이전
+        // 35 ~ 45 "출석"
+        // 45 ~ 50 "지각"
         let startTime = compareDate.addingTimeInterval(-300)
         let lateTime = compareDate.addingTimeInterval(300)
         let absentTime = compareDate.addingTimeInterval(600) //5분 지나면

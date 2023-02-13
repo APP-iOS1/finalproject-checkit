@@ -20,6 +20,7 @@ struct CameraScanner: View {
     @Environment(\.presentationMode) var presentationMode
 //    @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var attendanceStore: AttendanceStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
 
     var body: some View {
         NavigationView {
@@ -65,7 +66,11 @@ struct CameraScanner: View {
                     //출첵하는 함수
                     print(userID, "userID")
                     let attendanceStatus = Date.dateCompare(compareDate: schedule.startTime)
-                    guard let attendanceStatus = attendanceStatus else { return }
+                    guard let attendanceStatus = attendanceStatus else {
+                        showToast.toggle()
+                        toastMessage = "결석처리 되었습니다."
+                        return 
+                    }
                     print(attendanceStatus, "어텐던스 스테이터스")
                     
                     
@@ -76,18 +81,35 @@ struct CameraScanner: View {
                     }
                     else if attendanceStatus == "지각" || attendanceStatus == "출석" {
                         Task {
+                            //스케줄 패치로 카운트 가져오기 -> 스케줄 업데이트
                             let attendance = Attendance(id: userID, scheduleId: schedule.id, attendanceStatus: attendanceStatus, settlementStatus: false)
+                            await scheduleStore.asyncFetchScheduleCountWithScheduleID(scheduleID: schedule.id)
+                            if attendanceStatus == "지각" {
+                                scheduleStore.publishedAbsentCount -= 1
+                                scheduleStore.publishedLateCount += 1
+                            }
+                            else { //출석
+                                scheduleStore.publishedAbsentCount -= 1
+                                scheduleStore.publishedAttendanceCount += 1
+                            }
+                            var scheduleValue = schedule
+                            scheduleValue.attendanceCount = scheduleStore.publishedAttendanceCount
+                            scheduleValue.lateCount = scheduleStore.publishedLateCount
+                            scheduleValue.absentCount = scheduleStore.publishedAbsentCount
+                            scheduleValue.officiallyAbsentCount = scheduleStore.publishedOfficiallyAbsentCount
+                            await scheduleStore.updateScheduleAttendanceCount(schedule: scheduleValue)
                             await                         attendanceStore.asyncUpdateAttendance(attendanceData: attendance, scheduleID: schedule.id, uid: userID)
+                            
                             //큐알 토스트 메세지
                             showToast.toggle()
                             toastMessage = "출석체크를 완료했습니다."
                         }
                     }
-                    else if attendanceStore == nil {
-                        //결석 토스트 메시지
-                        showToast.toggle()
-                        toastMessage = "결석처리 되었습니다."
-                    }
+//                    else if attendanceStore == nil {
+//                        //결석 토스트 메시지
+//                        showToast.toggle()
+//                        toastMessage = "결석처리 되었습니다."
+//                    }
 
                 } else { return }
             }
