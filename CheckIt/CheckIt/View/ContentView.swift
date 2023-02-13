@@ -60,6 +60,16 @@ struct ContentView: View {
                     }
                     userStore.startUserListener(user.id)
                     print("groups : \(groupStore.groups)")
+
+          //  }
+           // .accentColor(Color.myGreen)
+           // .onAppear {
+//                UITabBar.appearance().backgroundColor = .lightGray
+
+               // guard let user = userStore.user else { return }
+               // if userStore.isLogined {
+                    //return
+
                 }
                 .onDisappear {
                     groupStore.detachListener()
