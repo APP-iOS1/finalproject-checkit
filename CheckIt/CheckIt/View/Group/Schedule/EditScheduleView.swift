@@ -23,7 +23,7 @@ struct EditScheduleView: View {
     @EnvironmentObject var memberStore: MemberStore
     
     @Binding var showToast: Bool
-    @Binding var toastMessage: String
+    @Binding var toastObj: ToastMessage
     
     var group: Group
     
@@ -201,7 +201,6 @@ struct EditScheduleView: View {
                 // MARK: - 일정 만들기 버튼
                 Button {
                     isLoading.toggle()
-                    toastMessage = "일정 수정이 완료 되었습니다."
                     // 날짜정보와 시간정보를 하나의 문자열로 합침
                     let start = schedule.startTime.getDateString() + " " + schedule.startTime.getTimeString()
                     let end = schedule.startTime.getDateString() + " " + schedule.endTime.getTimeString()
@@ -238,6 +237,8 @@ struct EditScheduleView: View {
                     if let recentIndex = self.scheduleStore.recentSchedule.firstIndex{ $0.id == schedule.id } {
                         self.scheduleStore.recentSchedule[recentIndex] = newSchedule
                     }
+                    toastObj.message = "일정 수정이 완료되었습니다."
+                    toastObj.type = .competion
                     
                     dismiss()
                     showToast.toggle()
