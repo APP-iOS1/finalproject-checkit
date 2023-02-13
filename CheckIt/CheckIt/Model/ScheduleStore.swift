@@ -63,16 +63,66 @@ class ScheduleStore: ObservableObject {
             
         }
     }
+    
+    //비동기 스케줄 id 패치
+    func asyncFetchScheduleCountWithScheduleID(scheduleID: String) async {
+        do {
+            DispatchQueue.main.async {
+                self.publishedAttendanceCount = 0
+                self.publishedLateCount = 0
+                self.publishedAbsentCount = 0
+                self.publishedOfficiallyAbsentCount = 0
+            }
+            let querySnapshot = try await database.collection("Schedule").whereField(ScheduleConstants.id, isEqualTo: scheduleID).getDocuments()
+            
+            for document in querySnapshot.documents {
+                let id: String = document.documentID
+                let docData = document.data()
+                
+                let groupName: String = docData[ScheduleConstants.groupName] as? String ?? ""
+                let lateFee: Int = docData[ScheduleConstants.lateFee] as? Int ?? 0
+                let absenteeFee: Int = docData[ScheduleConstants.absenteeFee] as? Int ?? 0
+                let location: String = docData[ScheduleConstants.location] as? String ?? ""
+                let agreeTime: Int = docData[ScheduleConstants.agreeTime] as? Int ?? 0
+                let lateTime: Int = docData[ScheduleConstants.lateTime] as? Int ?? 0
+                let memo: String = docData[ScheduleConstants.memo] as? String ?? ""
+                let attendanceCount: Int = docData[ScheduleConstants.attendanceCount] as? Int ?? 0
+                let lateCount: Int = docData[ScheduleConstants.lateCount] as? Int ?? 0
+                let absentCount: Int = docData[ScheduleConstants.absentCount] as? Int ?? 0
+                let officiallyAbsentCount: Int = docData[ScheduleConstants.officiallyAbsentCount] as? Int ?? 0
+                
+                let startTime: Timestamp = docData["start_time"] as? Timestamp ?? Timestamp()
+                let startTimestamp: Date = startTime.dateValue()
+                
+                let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
+                let endTimestamp: Date = endTime.dateValue()
+                
+                let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime,memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
+                
+                DispatchQueue.main.async {
+                    self.publishedAttendanceCount = schedule.attendanceCount
+                    self.publishedLateCount = schedule.lateCount
+                    self.publishedAbsentCount = schedule.absentCount
+                    self.publishedOfficiallyAbsentCount = schedule.officiallyAbsentCount
+                }
+            }
+        }
+        catch {
+            
+        }
+    }
 
     //스케줄 id를 가지고 패치
     func fetchScheduleWithScheudleID(scheduleID: String) {
 
         database.collection("Schedule").whereField(ScheduleConstants.id, isEqualTo: scheduleID)
             .getDocuments { [self] (snapshot, error) in
-                self.publishedAttendanceCount = 0
-                self.publishedLateCount = 0
-                self.publishedAbsentCount = 0
-                self.publishedOfficiallyAbsentCount = 0
+                DispatchQueue.main.async {
+                    self.publishedAttendanceCount = 0
+                    self.publishedLateCount = 0
+                    self.publishedAbsentCount = 0
+                    self.publishedOfficiallyAbsentCount = 0
+                }
                 if let snapshot {
                     for document in snapshot.documents {
                         let id: String = document.documentID
@@ -100,10 +150,12 @@ class ScheduleStore: ObservableObject {
                         
                         print(schedule, "반영이 되나")
                         
-                        self.publishedAttendanceCount = schedule.attendanceCount
-                        self.publishedLateCount = schedule.lateCount
-                        self.publishedAbsentCount = schedule.absentCount
-                        self.publishedOfficiallyAbsentCount = schedule.officiallyAbsentCount
+                        DispatchQueue.main.async {
+                            self.publishedAttendanceCount = schedule.attendanceCount
+                            self.publishedLateCount = schedule.lateCount
+                            self.publishedAbsentCount = schedule.absentCount
+                            self.publishedOfficiallyAbsentCount = schedule.officiallyAbsentCount
+                        }
                                     
                     }
                 }
