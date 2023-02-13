@@ -145,6 +145,22 @@ struct EditScheduleView: View {
                             Text("분 전부터 ~ 5분 후까지")
                         }
                     
+                    Text("지각 인정 시간")
+                        .font(.system(size: 20, weight: .regular))
+                    
+                    HStack {
+                        customSymbols(name: "clock")
+                            .padding(10)
+                        
+                        Text("5분 후부터 ~ ")
+                        // MARK: - 지각 인정 시간 TextField
+                        TextField("", value: $schedule.lateTime, format: .number)
+                            .frame(width: 68)
+                            .textFieldStyle(.roundedBorder)
+                        
+                        Text("분 후까지")
+                    }
+                    
                     HStack(spacing: 35) {
                         VStack(alignment: .leading, spacing: 20) {
                             HStack {
@@ -185,7 +201,6 @@ struct EditScheduleView: View {
                 // MARK: - 일정 만들기 버튼
                 Button {
                     isLoading.toggle()
-                    showToast.toggle()
                     toastMessage = "일정 수정이 완료 되었습니다."
                     // 날짜정보와 시간정보를 하나의 문자열로 합침
                     let start = schedule.startTime.getDateString() + " " + schedule.startTime.getTimeString()
@@ -204,6 +219,7 @@ struct EditScheduleView: View {
                         startTime: start1,
                         endTime: end1,
                         agreeTime: schedule.agreeTime,
+                        lateTime: schedule.lateTime,
                         memo: schedule.memo,
                         attendanceCount: schedule.attendanceCount,
                         lateCount: schedule.lateCount,
@@ -223,6 +239,7 @@ struct EditScheduleView: View {
                     self.scheduleStore.recentSchedule[index ?? -1] = newSchedule
                     
                     dismiss()
+                    showToast.toggle()
                     print("schedule:",schedule)
                     
                 } label: {
