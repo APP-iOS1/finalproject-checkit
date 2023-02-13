@@ -43,8 +43,10 @@ struct JoinGruopModalView: View {
                 .font(.system(size: 16, weight: .regular))
                 .padding()
                 .frame(height: 65)
-                .background(Color.myLightGray)
-                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.primary, lineWidth: 1)
+                )
             
             // MARK: - 동아리 참가하기 버튼
             Button {

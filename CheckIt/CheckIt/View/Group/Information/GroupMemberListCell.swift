@@ -29,6 +29,7 @@ struct GroupMemberListCell: View {
                     .padding(.leading, 17)
                 
                 Text(nameDict[member.uid] ?? "N/A")
+                    .foregroundColor(.black)
                     .font(.system(size: 15, weight: .regular))
                     .lineLimit(1)
                     .padding(.leading, 7)

@@ -46,11 +46,11 @@ struct CheckMainView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(
                         destination: MyPageView()
-                                    .environmentObject(userStore),
+                            .environmentObject(userStore),
                         label: {
                             Label("MyPage", systemImage: "person.circle")
                                 .font(.title2)
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .padding([.top,.leading,.trailing])
                         })
                 }

@@ -38,7 +38,8 @@ struct AttendanceDetailStatusView: View {
                     Spacer()
                     Text("출석현황")
                 }
-                .font(.system(size: 16, weight: .bold))                .padding(.horizontal, 40)
+                .font(.system(size: 16, weight: .bold))
+                .padding(.horizontal, 40)
             case .absented:
                 HStack {
                     Spacer()
@@ -119,7 +120,7 @@ struct AttendanceDetailStatusView: View {
                     ForEach(changedAbsentStatusList.indices, id: \.self) { index in
                         PenaltyCostCellView(data: $changedAbsentStatusList[index], category: category)
                             .padding(.top)
-                            .padding(.horizontal, 30)
+                            .padding(.horizontal, 35)
 
                         Divider()
                             .frame(minWidth: UIScreen.main.bounds.width)

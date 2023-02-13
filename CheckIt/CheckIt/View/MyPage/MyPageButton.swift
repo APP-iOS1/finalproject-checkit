@@ -18,7 +18,7 @@ struct MyPageButton: View {
             Text(buttonTitle)
                 .font(.system(size: 20, weight: .semibold))
         }
-        .foregroundColor(.black)
+        .foregroundColor(.primary)
         .frame(minHeight: 30, maxHeight: 58)
     }
 }

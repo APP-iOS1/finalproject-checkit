@@ -21,29 +21,39 @@ struct AttendanceCellView: View {
                     .padding(.leading, 21)
                 
                 HStack {
-                    Text("출석")
-                    Text("\(schedule.attendanceCount)")   //출석 횟수
-                        .foregroundColor(.myGreen)
-                        .bold()
+                    HStack {
+                        Text("출석")
+                        Text("\(schedule.attendanceCount)")   //출석 횟수
+                            .foregroundColor(.myGreen)
+                            .bold()
+                    }
                     
                     Divider().frame(height:20)
                     
-                    Text("지각")
-                    Text("\(schedule.lateCount)")   //지각 횟수
-                        .foregroundColor(.myOrange)
-                        .bold()
+                    HStack {
+                        Text("지각")
+                        Text("\(schedule.lateCount)")   //지각 횟수
+                            .foregroundColor(.myOrange)
+                            .bold()
+                    }
                     
                     Divider().frame(height:20)
                     
-                    Text("결석")
-                    Text("\(schedule.absentCount)")   //결석 횟수
-                        .foregroundColor(.myRed)
-                        .bold()
+                    HStack {
+                        Text("결석")
+                        Text("\(schedule.absentCount)")   //결석 횟수
+                            .foregroundColor(.myRed)
+                            .bold()
+                    }
                     
-                    Text("공결")
-                    Text("\(schedule.officiallyAbsentCount)")   //공결 횟수
-                        .foregroundColor(.myBlack)
-                        .bold()
+                    Divider().frame(height:20)
+                    
+                    HStack {
+                        Text("공결")
+                        Text("\(schedule.officiallyAbsentCount)")   //공결 횟수
+                            .foregroundColor(.myBlack)
+                            .bold()
+                    }
                 }
                 .foregroundColor(.black)
                 .font(.system(size: 16, weight: .medium))

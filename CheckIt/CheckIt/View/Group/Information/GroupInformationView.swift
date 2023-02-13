@@ -73,6 +73,7 @@ struct GroupInformationView: View {
                         VStack {
                             HStack {
                                 Text("동아리 멤버 리스트")
+                                    .foregroundColor(.black)
                                     .font(.system(size: 16, weight: .semibold))
                                     .padding(.leading, 28)
                                     .padding(.trailing, 0)
@@ -81,6 +82,7 @@ struct GroupInformationView: View {
                                 
                                 HStack {
                                     Text("\(memberStore.members.count) / \(Constants.notPremiumGroupSize) 명")
+                                        .foregroundColor(.black)
                                         .font(.system(size: 16, weight: .semibold))
                                     
                                     if isHost {

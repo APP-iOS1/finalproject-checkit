@@ -93,7 +93,6 @@ struct ScheduleDetailView: View {
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.leading)
                             .frame(height: 100)
-                            .background(Color.white)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(Color.gray, lineWidth: 2)
