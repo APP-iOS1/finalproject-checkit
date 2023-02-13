@@ -29,7 +29,7 @@ struct CheckItCard: View {
     let calendar = Calendar.current
     @State var coordinate: CLLocationCoordinate2D?
     
-    @State private var filterSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
+    @State private var filterSchedule: Schedule = Schedule.sampleSchedule
     
     var body: some View {
         VStack {
