@@ -10,6 +10,9 @@ import SwiftUI
 struct QuestionView: View {
     @Environment(\.dismiss) private var dismiss
     
+    @State var isPresentedNotionSheet: Bool = false
+    @State var isPresentedWithdrawalAlert: Bool = false
+   
     @State private var frequentlyQeustionsTitle: String = "자주하는 질문"
     @State private var frequentlyQeustionsImage: String = "person.fill.questionmark"
     @State private var customServiceTitle: String = "문의하기"
@@ -19,13 +22,11 @@ struct QuestionView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            NavigationLink(destination: FrequentlyAskedQuestionsView()) {
-                HStack {
-                    MyPageButton(buttonTitle: $frequentlyQeustionsTitle, buttonImage: $frequentlyQeustionsImage)
-                    Spacer()
-                }
+            Button(action: { isPresentedNotionSheet = true }) {
+                MyPageButton(buttonTitle: $frequentlyQeustionsTitle, buttonImage: $frequentlyQeustionsImage)
             }
             .padding(.top)
+            
             
             Divider()
                 .background(Color.white)
@@ -40,12 +41,16 @@ struct QuestionView: View {
             Divider()
                 .background(Color.white)
             
-            NavigationLink(destination: Text("회원 탈퇴")) {
-                HStack {
-                    MyPageButton(buttonTitle: $unregisterTitle, buttonImage: $unregisterImage)
-                    Spacer()
-                }
+
+            
+
+            // 회원탈퇴
+            Button(action: {
+                isPresentedWithdrawalAlert = true
+            }) {
+                MyPageButton(buttonTitle: $unregisterTitle, buttonImage: $unregisterImage)
             }
+            .foregroundColor(.myGray)
             
             Spacer()
         }
@@ -60,11 +65,24 @@ struct QuestionView: View {
                 }
             }
         }
+        .overlay {
+            if isPresentedWithdrawalAlert {
+                withdrawalAlert
+            }
+        }
     }
+    
+    //MARK: - View
+    private var withdrawalAlert: some View {
+        ZStack {
+            Rectangle()
+                .foregroundColor(.black.opacity(0.4))
+                .ignoresSafeArea()
+            WithdrawalAlert(cancelButtonTapped: $isPresentedWithdrawalAlert)
+                .padding(.horizontal, 30)
+        }
+        .transition(AnyTransition.opacity.animation(.easeOut(duration: 0.5)))
+    }
+    
 }
 
-struct QuestionView_Previews: PreviewProvider {
-    static var previews: some View {
-        QuestionView()
-    }
-}
