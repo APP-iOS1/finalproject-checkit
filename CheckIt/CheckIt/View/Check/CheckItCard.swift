@@ -82,12 +82,13 @@ struct CheckItCard: View {
                                 .environmentObject(userStore)
                                 .environmentObject(attendanceStore) ,tag: 0, selection: $action) {}
                         }
-                        
-                        CheckItButton(isActive: .constant(true), isAlert: .constant(false)) {
+                      
+                        CheckItButton(isActive: .constant(card[index].isActiveButton), isAlert: .constant(false)) {
 //                            guard let filterSchedule = recentScheduleList.first(where: { schedule in
 //                                return schedule.groupName == group.name
 //                            }) else { return }
                             locationToCoordinate()
+
                         }
                         .frame(width: UIScreen.screenWidth * 0.7)
                         
