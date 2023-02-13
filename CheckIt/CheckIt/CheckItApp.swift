@@ -45,7 +45,7 @@ struct CheckItApp: App {
     
     init() {
         // Kakao SDK 초기화
-        KakaoSDK.initSDK(appKey: "\(Bundle.main.object(forInfoDictionaryKey: "KAKAO_SDK_KEY") as? String ?? "")")
+        KakaoSDK.initSDK(appKey: "\(Bundle.main.object(forInfoDictionaryKey: "NAVER_API_KEY_ID") as? String ?? "")") 
     }
     
     var body: some Scene {
