@@ -13,11 +13,9 @@ struct CheckMainView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @State private var page = 0
     
-    var card: [Card] {
-        print("card")
-        return cardGenerate()
-    }
-    
+    let swapIndex: SwapIndex = SwapIndex()
+//    var swapedGroups: [Group] = []
+//
     var body: some View {
         NavigationView {
             VStack {
@@ -26,25 +24,21 @@ struct CheckMainView: View {
                     CheckEmptyView()
                     Spacer()
                 } else {
+                    let sortedRecentSchedule = scheduleStore.recentSchedule.sorted {
+                        $0.startTime > $1.startTime
+                    }
+                    let swaped = swapIndex.swapGroups(groups: groupStore.groups, recentSchedules: sortedRecentSchedule)
+                    let cards = cardGenerate(groups: swaped, recentSchedule: scheduleStore.recentSchedule)
+                    
                     TabView(selection: $page) {
-                        ForEach(0..<groupStore.groups.count, id: \.self) { index in
-//                            let count = scheduleStore.recentSchedule.filter {$0.groupName == groupStore.groups[index].name
-//                            }.count
-//
-//                            if count > 0 {
-                                CheckItCard(group: groupStore.groups[index], groupImage: groupStore.groupImage[groupStore.groups[index].id] ?? UIImage(), index: index, card: card, recentScheduleList: $scheduleStore.recentSchedule)
-                                    .tag(index)
-//                            }
+                        ForEach(0..<swaped.count, id: \.self) { index in
+                            CheckItCard(group: swaped[index], groupImage: groupStore.groupImage[swaped[index].id] ?? UIImage(), index: index, card: cards, recentScheduleList: $scheduleStore.recentSchedule)
+                                .tag(index)
                         }
                     }
                     .tabViewStyle(.page)
                     .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                     .onChange(of: page) { value in print("selected tab = \(value)")
-                    }
-                    .onTapGesture {
-                        print("group count: \(groupStore.groups.count)")
-                        print("card count: \(card.count)")
-                        print("card 확인: \(card)")
                     }
                 }
             }
@@ -66,10 +60,11 @@ struct CheckMainView: View {
     }
     
     //MARK: - Method(cardGenerate)
-    func cardGenerate() -> [Card] {
+    func cardGenerate(groups: [Group], recentSchedule: [Schedule]) -> [Card] {
         var tempCard: [Card] = []
-        for (i, group) in groupStore.groups.enumerated() {
-            if let filterSchedule = scheduleStore.recentSchedule.first(where: { schedule in
+        
+        for (i, group) in groups.enumerated() {
+            if let filterSchedule = recentSchedule.first(where: { schedule in
                 return schedule.groupName == group.name
             }) {
                 switch page {
@@ -94,8 +89,33 @@ struct CheckMainView: View {
                 }
             }
         }
+        print("temp : \(tempCard)")
         return tempCard
     } // - cardGenerate
+}
+
+//MARK: - 최신순으로 정렬된 스케줄 리스트 순서에 맞춰서 그룹리스트 재정렬
+class SwapIndex {
+    var num: Int = 0
+    var copied: [Group] = []
+    
+    func swapGroups(groups: [Group], recentSchedules: [Schedule]) -> [Group] {
+        self.copied = groups
+        
+        for index in 0..<recentSchedules.count {
+            if let i = copied.firstIndex(where: { $0.scheduleID.contains(recentSchedules[index].id)
+            }) {
+                print("i: \(i)")
+                print("num : \(num)")
+                print("--------------------")
+                
+                let pop = copied.remove(at: i)
+                copied.insert(pop, at: 0)
+            }
+        }
+//        print("copied: \(copie)")
+        return copied
+    }
 }
 
 //MARK: - 일정 디데이 계산해주는 함수
