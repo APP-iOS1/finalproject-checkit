@@ -219,11 +219,14 @@ struct EditScheduleView: View {
                     var index = self.scheduleStore.scheduleList.firstIndex{ $0.id == schedule.id }
                     self.scheduleStore.scheduleList[index ?? -1] = newSchedule
                     
-                    index = self.scheduleStore.recentSchedule.firstIndex{ $0.id == schedule.id }
-                    self.scheduleStore.recentSchedule[index ?? -1] = newSchedule
+                    if let recentIndex = self.scheduleStore.recentSchedule.firstIndex{ $0.id == schedule.id } {
+                        self.scheduleStore.recentSchedule[recentIndex] = newSchedule
+                    }
                     
                     dismiss()
                     print("schedule:",schedule)
+//                    print("recentSchedule \(scheduleStore.recentSchedule)")
+//                    print("index \(index)")
                     
                 } label: {
                     if isLoading {
