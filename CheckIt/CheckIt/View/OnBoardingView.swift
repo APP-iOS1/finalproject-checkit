@@ -54,16 +54,18 @@ struct OnBoardingView: View {
                             .frame(width: UIScreen.screenWidth * 0.4, height: UIScreen.screenHeight * 0.25)
                         
                         Text(onBoardingSteps[it].title)
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.system(size: 22, weight: .bold))
                         
-                        Text(onBoardingSteps[it].subTitle)
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(Color.myGreen)
-                            .padding(.top, 10)
-                        
-                        Text(onBoardingSteps[it].description)
-                            .font(.system(size: 16, weight: .regular))
-                            .multilineTextAlignment(.center)
+                        VStack(spacing: 5) {
+                            Text(onBoardingSteps[it].subTitle)
+                                .font(.system(size: 17, weight: .medium))
+                                .foregroundColor(Color.myGreen)
+                                .padding(.top, 10)
+                            
+                            Text(onBoardingSteps[it].description)
+                                .font(.system(size: 16, weight: .regular))
+                                .multilineTextAlignment(.center)
+                        }
                     }
                     .tag(it)
                 }
@@ -95,8 +97,8 @@ struct OnBoardingView: View {
             } label: {
                 Text(currentStep < onBoardingSteps.count - 1 ? "다음" : "시작하기")
                     .modifier(GruopCustomButtonModifier())
+                    .padding(.bottom, 20)
             }
-            
         }
         .padding(.horizontal, 30)
     }
