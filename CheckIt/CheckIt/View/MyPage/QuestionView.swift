@@ -23,7 +23,10 @@ struct QuestionView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Button(action: { isPresentedNotionSheet = true }) {
-                MyPageButton(buttonTitle: $frequentlyQeustionsTitle, buttonImage: $frequentlyQeustionsImage)
+                HStack {
+                    MyPageButton(buttonTitle: $frequentlyQeustionsTitle, buttonImage: $frequentlyQeustionsImage)
+                    Spacer()
+                }
             }
             .padding(.top)
             
@@ -48,7 +51,10 @@ struct QuestionView: View {
             Button(action: {
                 isPresentedWithdrawalAlert = true
             }) {
-                MyPageButton(buttonTitle: $unregisterTitle, buttonImage: $unregisterImage)
+                HStack {
+                    MyPageButton(buttonTitle: $unregisterTitle, buttonImage: $unregisterImage)
+                    Spacer()
+                }
             }
             .foregroundColor(.myGray)
             

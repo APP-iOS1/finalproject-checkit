@@ -84,7 +84,10 @@ struct MyPageView: View {
                 Button(action: {
                     isPresentedNotionSheet = true
                 }) {
-                    MyPageButton(buttonTitle: $termsAndPolicyButtonTitle, buttonImage: $termsAndPolicyButtonImage)
+                    HStack {
+                        MyPageButton(buttonTitle: $termsAndPolicyButtonTitle, buttonImage: $termsAndPolicyButtonImage)
+                        Spacer()
+                    }
                 }
                 
             }
@@ -101,10 +104,11 @@ struct MyPageView: View {
             
             // MARK: - 로그아웃 페이지
             Section {
-               
-
-                Button(action: { isPresentedLogoutAlert = true }) {
-                    MyPageButton(buttonTitle: $logoutButtonTitle, buttonImage: $logoutButtonImage)
+                HStack {
+                    Button(action: { isPresentedLogoutAlert = true }) {
+                        MyPageButton(buttonTitle: $logoutButtonTitle, buttonImage: $logoutButtonImage)
+                        Spacer()
+                    }
                 }
             }
             
