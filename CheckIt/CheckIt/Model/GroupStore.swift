@@ -632,7 +632,7 @@ class GroupStore: ObservableObject {
         }
     }
     
-    
+    // FIXME: - 현재 디스크 캐시 미지원
     func readImage(_ groupId: String) {
         let imagePath = "\(groupId)"
         let storagePath = "group_images/\(groupId)"
@@ -649,25 +649,25 @@ class GroupStore: ObservableObject {
             return
         }
         
-        guard let cachesDirectory = ImageCacheManager.cachesDirectory else {
-            print("캐시 디렉토리 존재하지 않음")
-            self.groupImage[groupId] = defaultImage
-            return
-        }
+//        guard let cachesDirectory = ImageCacheManager.cachesDirectory else {
+//            print("캐시 디렉토리 존재하지 않음")
+//            self.groupImage[groupId] = defaultImage
+//            return
+//        }
         
-        var filePath = URL(fileURLWithPath: cachesDirectory.path)
-        filePath.appendPathComponent(imagePath)
-        
-        if ImageCacheManager.fileManager.fileExists(atPath: filePath.path) {
-            if let image = ImageCacheManager.getObject(forKey: cacheKey, type: .disk(filePath)) {
-                print("디스크에서 읽음")
-                ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .memory)
-                DispatchQueue.main.async {
-                    self.groupImage[groupId] = image
-                }
-                return
-            }
-        }
+//        var filePath = URL(fileURLWithPath: cachesDirectory.path)
+//        filePath.appendPathComponent(imagePath)
+//
+//        if ImageCacheManager.fileManager.fileExists(atPath: filePath.path) {
+//            if let image = ImageCacheManager.getObject(forKey: cacheKey, type: .disk(filePath)) {
+//                print("디스크에서 읽음")
+//                ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .memory)
+//                DispatchQueue.main.async {
+//                    self.groupImage[groupId] = image
+//                }
+//                return
+//            }
+//        }
         
         ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
@@ -691,7 +691,7 @@ class GroupStore: ObservableObject {
                 ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .memory)
                 
                 /// 디스크에 이미지 저장
-                ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .disk(filePath), data: imageData)
+                // ImageCacheManager.setObject(image: image, forKey: cacheKey, type: .disk(filePath), data: imageData)
                 
                 //ImageCacheManager.fileManager.createFile(atPath: filePath.path, contents: imageData)
             }
