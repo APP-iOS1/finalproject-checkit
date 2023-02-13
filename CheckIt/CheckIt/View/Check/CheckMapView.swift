@@ -82,12 +82,9 @@ struct CheckMapView: View {
             // QR 시트
                 .sheet(isPresented: $showQR) {
                     if isGroupHost {
-//                        CameraScanner(schedule: schedule, userID: userStore.user?.id)
-//                        CameraScanner(schedule: schedule, showToast: $showToast, toastMessage: $toastMessage, userStore: userStore.user?.id)
-//                            .environmentObject(userStore)
-//                            .environmentObject(attendanceStore)
                         CameraScanner(schedule: schedule, showToast: $showToast, toastMessage: $toastMessage)
                             .environmentObject(attendanceStore)
+                            .environmentObject(scheduleStore)
                     } else {
                         QRSheetView(schedule: schedule)
                             .presentationDetents([.medium])
