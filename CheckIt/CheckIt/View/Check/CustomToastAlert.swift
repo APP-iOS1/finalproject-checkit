@@ -27,7 +27,6 @@ struct CustomToastAlert: View {
                 .overlay {
                    displayText
                 }
-                .padding(.vertical, 80)
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         self.isPresented = false
