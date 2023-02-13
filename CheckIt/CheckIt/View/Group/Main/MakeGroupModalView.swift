@@ -27,7 +27,6 @@ struct MakeGroupModalView: View {
     @State private var isClicked: Bool = false
     
     @Binding var showToast: Bool
-    @Binding var toastMessage: String
     
     var maxGroupNameCount: Int = 15
     var maxGroupDescriptionCount: Int = 40
@@ -116,7 +115,6 @@ struct MakeGroupModalView: View {
                     toastObj.type = .competion
                     
                     showToast.toggle()
-                    //toastMessage = "동아리 생성이 완료되었습니다."
                     
                     presentations.forEach {
                                     $0.wrappedValue = false
@@ -170,12 +168,12 @@ struct MakeGroupModalView: View {
     } // - isCountValid
 }
 
-struct MakeGroupModalView_Previews: PreviewProvider {
-    @State static var showToast: Bool = false
-    @State static var toastMessage: String = ""
-    
-    static var previews: some View {
-        MakeGroupModalView(showToast: $showToast, toastMessage: $toastMessage, toastObj: .constant(ToastMessage(message: "", type: .competion)))
-            .environmentObject(GroupStore())
-    }
-}
+//struct MakeGroupModalView_Previews: PreviewProvider {
+//    @State static var showToast: Bool = false
+//    @State static var toastMessage: String = ""
+//    
+//    static var previews: some View {
+//        MakeGroupModalView(showToast: $showToast, toastMessage: $toastMessage, toastObj: .constant(ToastMessage(message: "", type: .competion)))
+//            .environmentObject(GroupStore())
+//    }
+//}
