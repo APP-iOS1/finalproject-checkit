@@ -117,7 +117,7 @@ struct CheckItCard: View {
             }) {
 
                 // 모임 날짜 나타내는 라벨
-                DdayLabel(dDay: days(to: filterSchedule.startTime))
+                DdayLabel(dDay: D_days().days(to: filterSchedule.startTime))
                 .padding(.top, 10)
 
                 // 모임 날짜 나타내는 라벨  D_days.days(to: filterSchedule.startTime)
