@@ -16,7 +16,30 @@ struct GruopCustomButtonModifier : ViewModifier {
             .font(.system(size: 20, weight: .semibold))
             .foregroundColor(.white)
             .background(Color.myGreen)
-            .cornerRadius(15)
+            .cornerRadius(16)
+    }
+}
+
+struct ScheduleEditButton : ViewModifier {
+    var disable: Bool
+    func body(content: Content) -> some View {
+        if disable {
+            content
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .frame(height: 60)
+                .font(.system(size: 20, weight: .semibold))
+                .foregroundColor(.white)
+                .background(Color.gradientLightGreen)
+                .cornerRadius(15)
+        } else {
+            content
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .frame(height: 60)
+                .font(.system(size: 20, weight: .semibold))
+                .foregroundColor(.white)
+                .background(Color.myGreen)
+                .cornerRadius(15)
+        }
     }
 }
 

@@ -22,15 +22,19 @@ struct ScheduleDetailCellView: View {
                     HStack {
                         customSymbols(name: "calendar")
                         // MARK: - 동아리 일정 날짜
-                        Text("\(schedule.startTime, format:.dateTime.year().day().month())")
+                        Text("\(Date().yearMonthDayDateToString(date: schedule.startTime))")
+                        .font(.system(size: 15, weight: .regular))
                     }
                     
                     HStack {
                         customSymbols(name: "clock")
                         // MARK: - 동아리 일정 시간
-                        Text("\(schedule.startTime, format:.dateTime.hour().minute())")
+                        Text("\(Date().dotHourMinuteDateToString(date: schedule.startTime))")
+                            .font(.system(size: 15, weight: .regular))
+
                         Text("~")
-                        Text("\(schedule.endTime, format:.dateTime.hour().minute())")
+                        Text("\(Date().dotHourMinuteDateToString(date: schedule.endTime))")
+                            .font(.system(size: 15, weight: .regular))
                         
                         Spacer()
                         
