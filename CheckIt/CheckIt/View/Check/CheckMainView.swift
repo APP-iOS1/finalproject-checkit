@@ -50,7 +50,7 @@ struct CheckMainView: View {
                         label: {
                             Label("MyPage", systemImage: "person.circle")
                                 .font(.title2)
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .padding([.top,.leading,.trailing])
                         })
                 }

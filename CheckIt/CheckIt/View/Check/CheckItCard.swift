@@ -34,43 +34,47 @@ struct CheckItCard: View {
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 10)
-                .frame(width: UIScreen.screenWidth * 0.8, height: UIScreen.screenHeight * 0.65)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .foregroundColor(.myLightGray)
                 .overlay {
                     VStack(alignment: .center) {
+                        Spacer()
+                        
                         VStack(alignment: .leading) {
                             HStack {
                                 TopSection
                                 Spacer()
                             }
+                            .padding(.bottom)
+                            
                             HStack {
                                 InformationSection
                                 Spacer()
                             }
                         } // - VStack
-                        //.frame(width: 280)
-                        .padding([.leading, .trailing, .bottom])
+                        .padding(.horizontal)
+                         
+                        Spacer()
                         
                         //동아리 사진
-                        //                        groupImage
+                        //groupImage
                         ZStack {
                             Rectangle()
                                 .fill(Color.gray)
-                                .frame(width: UIScreen.screenWidth / 2, height: UIScreen.screenHeight / 5)
+                                .frame(width: UIScreen.screenWidth * 0.7 , height: UIScreen.screenHeight / 5)
                                 .clipShape(RoundedRectangle(cornerRadius: 24))
-                                .padding(10)
                             
                             Image(uiImage: groupImage)
                                 .resizable()
-                                .frame(width: UIScreen.screenWidth / 2, height: UIScreen.screenHeight / 5)
+                                .frame(width: UIScreen.screenWidth * 0.7 , height: UIScreen.screenHeight / 5)
                                 .clipShape(RoundedRectangle(cornerRadius: 24))
-                                .padding(10)
                                 .onTapGesture {
                                     print("일정 전달 확인 \(recentScheduleList)")
                                     print("그룹 확인 \(groupStore.groups)")
                                 }
                         }
                         
+                        Spacer()
                         
                         // Check It 버튼
                         if let filterSchedule = recentScheduleList.first(where: { schedule in
@@ -80,8 +84,6 @@ struct CheckItCard: View {
                                 .environmentObject(userStore)
                                 .environmentObject(attendanceStore) ,tag: 0, selection: $action) {}
                         }
-                        
-                        
                         
                         CheckItButton(isActive: .constant(card[index].isActiveButton), isAlert: .constant(false)) {
                             guard let filterSchedule = recentScheduleList.first(where: { schedule in
@@ -98,51 +100,36 @@ struct CheckItCard: View {
                             }
                             
                         }
-                        //.frame(width: 200)
                         .frame(width: UIScreen.screenWidth * 0.7)
-                        .padding(.top)
                         
-                        
+                        Spacer()
                     } // - VStack
-                } // - overlay
-            //        .onAppear {
-            //            if let temp = recentScheduleList.first(where: { schedule in
-            //                return schedule.groupName == group.name
-            //            }) {
-            //                self.filterSchedule = temp
-            //            }
-            //            print("filter: \(self.filterSchedule)")
-            //        }
+                }
+                .padding(.horizontal, 30)
+                .padding(.vertical, 50)
         }
         
-        
-    }
-    //        .onAppear {
-    //            Task {
-    //                print("그룹명: \(group.name)")
-    //                let temp = await scheduleStore.fetchRecentSchedule(groupName: group.name)
-    //
-    //                self.recentSchedule = temp
-    //                print("recentSchedule: \(recentSchedule)")
-    //            }
-    //        }
-    
-    //}
-    
-    //    MARK: - View(TopSection)
+    }    //    MARK: - View(TopSection)
     private var TopSection: some View {
         VStack(alignment: .leading) {
             if let filterSchedule = recentScheduleList.first(where: { schedule in
                 return schedule.groupName == group.name
             }) {
+
+                // 모임 날짜 나타내는 라벨
+                DdayLabel(dDay: days(to: filterSchedule.startTime))
+                .padding(.top, 10)
+
                 // 모임 날짜 나타내는 라벨  D_days.days(to: filterSchedule.startTime)
-                DdayLabel(dDay: D_days().days(to: filterSchedule.startTime))
+               //DdayLabel(dDay: D_days().days(to: filterSchedule.startTime))
                 //.padding(.top, 10)
+
             } // - VStack
             
             // 동아리 이름
             Text("\(group.name)")
                 .font(.title.bold())
+                .foregroundColor(.black)
             //        }
         } // - TopSection
     }
@@ -157,17 +144,29 @@ struct CheckItCard: View {
                 // 날짜
                 HStack {
                     customSymbols(name: "calendar")
-                    Text("\(Date().yearMonthDayDateToString(date: filterSchedule.startTime))")
-                    .font(.system(size: 15, weight: .regular))                } // - HStack
-                .padding(.vertical, 3)
+
+                    Text("\(filterSchedule.startTime, format: .dateTime.year().day().month())")
+                        .foregroundColor(.black)
+                } // - HStack
+                .padding(.bottom, 7)
+
+                    //Text("\(Date().yearMonthDayDateToString(date: filterSchedule.startTime))")
+                  //  .font(.system(size: 15, weight: .regular))                } // - HStack
+                //.padding(.vertical, 3)
+
                 
                 // 시간
                 HStack {
                     customSymbols(name: "clock")
-                    Text("\(Date().hourMinuteDateToString(date: filterSchedule.startTime))")
-                        .font(.system(size: 15, weight: .regular))
+
+                    Text("\(filterSchedule.startTime, format: .dateTime.hour().minute())")
+                        .foregroundColor(.black)
+
+                    //Text("\(Date().hourMinuteDateToString(date: filterSchedule.startTime))")
+                        //.font(.system(size: 15, weight: .regular))
+
                 } // - HStack
-                .padding(.vertical, 3)
+                .padding(.bottom, 7)
                 
                 // 장소
                 HStack {
@@ -177,9 +176,12 @@ struct CheckItCard: View {
                             print("\(group.name)'s recent schedule: \(filterSchedule)")
                         }
                     Text("\(filterSchedule.location)")
-                        .font(.system(size: 15, weight: .regular))
+                        .foregroundColor(.black)
+
+                        //.font(.system(size: 15, weight: .regular))
+
                 } // - HStack
-                .padding(.vertical, 3)
+                .padding(.bottom, 7)
             } // - VStack
             //        }
         } // - InformationSection

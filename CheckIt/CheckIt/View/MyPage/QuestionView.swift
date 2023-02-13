@@ -20,7 +20,10 @@ struct QuestionView: View {
     var body: some View {
         VStack(alignment: .leading) {
             NavigationLink(destination: FrequentlyAskedQuestionsView()) {
-                MyPageButton(buttonTitle: $frequentlyQeustionsTitle, buttonImage: $frequentlyQeustionsImage)
+                HStack {
+                    MyPageButton(buttonTitle: $frequentlyQeustionsTitle, buttonImage: $frequentlyQeustionsImage)
+                    Spacer()
+                }
             }
             .padding(.top)
             
@@ -28,14 +31,20 @@ struct QuestionView: View {
                 .background(Color.white)
             
             NavigationLink(destination: Text("문의하기")) {
-                MyPageButton(buttonTitle: $customServiceTitle, buttonImage: $customServiceImage)
+                HStack {
+                    MyPageButton(buttonTitle: $customServiceTitle, buttonImage: $customServiceImage)
+                    Spacer()
+                }
             }
             
             Divider()
                 .background(Color.white)
             
             NavigationLink(destination: Text("회원 탈퇴")) {
-                MyPageButton(buttonTitle: $unregisterTitle, buttonImage: $unregisterImage)
+                HStack {
+                    MyPageButton(buttonTitle: $unregisterTitle, buttonImage: $unregisterImage)
+                    Spacer()
+                }
             }
             
             Spacer()

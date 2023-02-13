@@ -19,7 +19,7 @@ struct Profile: View {
                 Image(systemName: "pencil.line")
                     .resizable()
                     .frame(width: 20,height: 20)
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
             }
             
         }
