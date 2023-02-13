@@ -46,7 +46,7 @@ struct CheckMainView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(
                         destination: MyPageView()
-                                    .environmentObject(userStore),
+                            .environmentObject(userStore),
                         label: {
                             Label("MyPage", systemImage: "person.circle")
                                 .font(.title2)
@@ -61,19 +61,23 @@ struct CheckMainView: View {
     //MARK: - Method(cardGenerate)
     func cardGenerate() -> [Card] {
         var tempCard: [Card] = []
-        for i in 0..<groupStore.groups.count {
-            switch page {
-            case i:
-                if i != 0 {
-                    tempCard.append(Card(isActiveButton: false, show: true))
-                } else {
-                    tempCard.append(Card(isActiveButton: true, show: true))
-                }
-            default:
-                if i != 0 {
-                    tempCard.append(Card(isActiveButton: false, show: false))
-                } else {
-                    tempCard.append(Card(isActiveButton: true, show: false))
+        for (i, group) in groupStore.groups.enumerated() {
+            if let filterSchedule = scheduleStore.recentSchedule.first(where: { schedule in
+                return schedule.groupName == group.name
+            }) {
+                switch page {
+                case i:
+                    if D_days().days(to: filterSchedule.startTime) != 0 {
+                        tempCard.append(Card(isActiveButton: false, show: true))
+                    } else {
+                        tempCard.append(Card(isActiveButton: true, show: true))
+                    }
+                default:
+                    if D_days().days(to: filterSchedule.startTime) != 0 {
+                        tempCard.append(Card(isActiveButton: false, show: false))
+                    } else {
+                        tempCard.append(Card(isActiveButton: true, show: false))
+                    }
                 }
             }
         }
@@ -81,7 +85,31 @@ struct CheckMainView: View {
     } // - cardGenerate
 }
 
-
+//MARK: - 일정 디데이 계산해주는 함수
+struct D_days {
+    let calendar = Calendar.current
+    
+    func days(to date: Date) -> Int {
+        //지금 날짜
+        var nowComponents = DateComponents()
+        nowComponents.day = calendar.dateComponents([.day], from: Date()).day
+        nowComponents.month = calendar.dateComponents([.month], from: Date()).month
+        nowComponents.year = calendar.dateComponents([.year], from: Date()).year
+        
+        let fromDate = calendar.date(from: nowComponents)
+        
+        //일정 날짜
+        var components = DateComponents()
+        components.day = calendar.dateComponents([.day], from: date).day
+        components.month = calendar.dateComponents([.month], from: date).month
+        components.year = calendar.dateComponents([.year], from: date).year
+        
+        let toDate = calendar.date(from: components)
+        
+        // 00시 00분을 기준으로 계산
+        return (calendar.dateComponents([.day], from: fromDate!, to: toDate!).day ?? 0)
+    }
+}
 ////MARK: - Previews
 //struct CheckMainView_Previews: PreviewProvider {
 //    static var previews: some View {
