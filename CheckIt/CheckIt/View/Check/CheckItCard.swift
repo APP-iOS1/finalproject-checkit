@@ -26,16 +26,13 @@ struct CheckItCard: View {
     @Binding var recentScheduleList: [Schedule]
     @State var action: Int?
     
-    let calendar = Calendar.current
+    
     @State var coordinate: CLLocationCoordinate2D?
     
     @State private var filterSchedule: Schedule = Schedule.sampleSchedule
     
     var body: some View {
         VStack {
-            //            if let filterSchedule = recentScheduleList.first(where: { schedule in
-            //                            return schedule.groupName == group.name
-            //            }) {
             RoundedRectangle(cornerRadius: 10)
                 .frame(width: UIScreen.screenWidth * 0.8, height: UIScreen.screenHeight * 0.65)
                 .foregroundColor(.myLightGray)
@@ -138,8 +135,8 @@ struct CheckItCard: View {
             if let filterSchedule = recentScheduleList.first(where: { schedule in
                 return schedule.groupName == group.name
             }) {
-                // 모임 날짜 나타내는 라벨
-                DdayLabel(dDay: days(to: filterSchedule.startTime))
+                // 모임 날짜 나타내는 라벨  D_days.days(to: filterSchedule.startTime)
+                DdayLabel(dDay: D_days().days(to: filterSchedule.startTime))
                 //.padding(.top, 10)
             } // - VStack
             
@@ -186,28 +183,6 @@ struct CheckItCard: View {
             } // - VStack
             //        }
         } // - InformationSection
-    }
-    
-    //MARK: - 일정 디데이 계산해주는 함수
-    func days(to date: Date) -> Int {
-        //지금 날짜
-        var nowComponents = DateComponents()
-        nowComponents.day = calendar.dateComponents([.day], from: Date()).day
-        nowComponents.month = calendar.dateComponents([.month], from: Date()).month
-        nowComponents.year = calendar.dateComponents([.year], from: Date()).year
-        
-        let fromDate = calendar.date(from: nowComponents)
-        
-        //일정 날짜
-        var components = DateComponents()
-        components.day = calendar.dateComponents([.day], from: date).day
-        components.month = calendar.dateComponents([.month], from: date).month
-        components.year = calendar.dateComponents([.year], from: date).year
-        
-        let toDate = calendar.date(from: components)
-        
-        // 00시 00분을 기준으로 계산
-        return (calendar.dateComponents([.day], from: fromDate!, to: toDate!).day ?? 0)
     }
 }
 
