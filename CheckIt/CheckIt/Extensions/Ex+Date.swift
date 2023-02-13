@@ -11,6 +11,7 @@ enum Status: String {
     case attendance = "출석"
     case late = "지각"
     case absent = "결석"
+    case prev = "이전"
 }
 
 extension Date {
@@ -48,6 +49,13 @@ extension Date {
         let dateString = dateFormatter.string(from: date)
         return dateString
     }
+    func dotHourMinuteDateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "a h:mm"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateString = dateFormatter.string(from: date)
+        return dateString
+    }
     func yearMonthDayHourMinuteToString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy년 MM월 dd일 a hh:mm"
@@ -64,7 +72,10 @@ extension Date {
         let startTime = compareDate.addingTimeInterval(-300)
         let lateTime = compareDate.addingTimeInterval(300)
         let absentTime = compareDate.addingTimeInterval(600) //5분 지나면
-        if now >= startTime && now < lateTime {
+        if now < startTime {
+            return Status.prev.rawValue
+        }
+        else if now >= startTime && now < lateTime {
             return Status.attendance.rawValue
         }
         else if lateTime < now && now <= absentTime {

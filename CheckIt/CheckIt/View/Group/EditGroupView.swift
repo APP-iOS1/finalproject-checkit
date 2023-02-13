@@ -20,10 +20,13 @@ struct EditGroupView: View {
     @State private var isLoading: Bool = false
     
     @State private var selectedItems: [PhotosPickerItem] = []
+    @State private var selectedData: Data?
     @State private var selectedPhotoData: [UIImage] = []
     
     @Binding var showToast: Bool
     @Binding var toastMessage: String
+    
+    @Binding var toastObj: ToastMessage
     
     @Binding var group: Group
     var oldGroupName: String
@@ -71,6 +74,8 @@ struct EditGroupView: View {
                     Task {
                         if let data = try? await photo.loadTransferable(type: Data.self),
                            let image = UIImage(data: data){
+                            let data = try! await photo.loadTransferable(type: Data.self)
+                            selectedData = data
                             selectedPhotoData.append(image)
                         }
                     }
@@ -103,19 +108,10 @@ struct EditGroupView: View {
                 isClicked.toggle()
                 isLoading.toggle()
                 
-                // 동아리 수정시 디스크에 있는 이미지 삭제
-                guard let directory = ImageCacheManager.cachesDirectory else {
-                    print("이미지 수정 실패")
-                    return
-                }
-                let imagePath = "\(group.id)"
-                var filePath = URL(fileURLWithPath: directory.path)
-                filePath.appendPathComponent(group.id)
-                
-                do {
-                    try ImageCacheManager.fileManager.removeItem(atPath: filePath.path)
-                } catch {
-                    print("이미지 수정 실패: \(error.localizedDescription)")
+                // 이미지가 변경됨
+                if !selectedPhotoData.isEmpty {
+                    print("이미지가 변경됨")
+                    imageChanged()
                 }
                 
                 let newGroup = Group(id: group.id,
@@ -139,12 +135,18 @@ struct EditGroupView: View {
                     let index = self.groupStores.groups.firstIndex{ $0.id == group.id }
                     self.groupStores.groups[index ?? -1] = newGroup
                     
+                    toastObj.message = "동아리 수정이 완료되었습니다."
+                    toastObj.type = .competion
                     showToast.toggle()
-                    toastMessage = "동아리 수정이 완료되었습니다."
+//                    toastObj.message = "동아리 수정이 완료되었습니다."
+//                    toastObj.type = .competion
+//                    toastMessage = "동아리 수정이 완료되었습니다."
+                    
                     self.groupStores.groupDetail = newGroup
                     if !selectedPhotoData.isEmpty {
                         self.groupStores.groupImage[group.id] = selectedPhotoData.first!
                     }
+                    print("555")
                     
                     dismiss()
                 }
@@ -166,6 +168,45 @@ struct EditGroupView: View {
         }
         .padding(40)
         .presentationDragIndicator(.visible)
+    }
+    
+    private func imageChanged() {
+        // 동아리 수정시 디스크에 있는 이미지 삭제
+        guard let directory = ImageCacheManager.cachesDirectory else {
+            print("디스크에 있는 이미지 경로 읽기 실패")
+            toastObj.message = "알수 없는 오류입니다."
+            toastObj.type = .failed
+            return
+        }
+        /// 이미지 수정시 해야할일
+        /// 캐시 비우기
+        /// 디스크 비우기
+        var filePath = URL(fileURLWithPath: directory.path)
+        filePath.appendPathComponent(group.id)
+        
+        print("filePath: \(filePath)")
+        
+        do {
+            try ImageCacheManager.fileManager.removeItem(atPath: filePath.path)
+            print("원래 이미지 삭제 성공")
+        } catch {
+            print("이미지 삭제 실패: \(error.localizedDescription)")
+            toastObj.message = "디바이스에 존재하는 이미지를 삭제하는데 실패하였습니다."
+            toastObj.type = .failed
+            dismiss()
+            return
+        }
+        
+        // 메모리 캐시도 새로운 이미지로 갈아치우기
+        // 메모리를 다 비우고 새로 끼워넣기
+        ImageCacheManager.shared.removeAllObjects()
+        //let cacheKey = NSString(string: group.id)
+        //ImageCacheManager.setObject(image: selectedPhotoData.first!, forKey: cacheKey, type: .memory)
+        
+        //디스크에 쓰기
+        //ImageCacheManager.setObject(image: UIImage(), forKey: cacheKey, type: .disk(filePath), data: selectedData!)
+        
+        //groupStores.readImage(group.id)
     }
     
     //MARK: - isCountValid

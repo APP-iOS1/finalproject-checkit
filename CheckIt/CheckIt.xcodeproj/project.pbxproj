@@ -38,6 +38,7 @@
 		2822CE282988DE3300316139 /* MemberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2822CE272988DE3300316139 /* MemberStore.swift */; };
 		283B27B32989F20E00E4D400 /* GroupMainDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B27B22989F20E00E4D400 /* GroupMainDetailView.swift */; };
 		283B70B7298C98EF003782C3 /* GroupEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283B70B6298C98EF003782C3 /* GroupEmptyView.swift */; };
+		2840FC962999F4F400F24499 /* ToastMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840FC952999F4F400F24499 /* ToastMessage.swift */; };
 		2845444D298A26F1001B2EED /* Ex+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845444C298A26F1001B2EED /* Ex+Date.swift */; };
 		2845444F298A2DAC001B2EED /* Ex+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2845444E298A2DAC001B2EED /* Ex+String.swift */; };
 		285437C22993753A00E29CE1 /* ScheduleDetailCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285437C12993753A00E29CE1 /* ScheduleDetailCellView.swift */; };
@@ -51,6 +52,7 @@
 		2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */; };
 		2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */; };
 		28D63A9C2996375E002BF5F4 /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 28D63A9B2996375E002BF5F4 /* SkeletonUI */; };
+		2B0A72582999CFEB0039C855 /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0A72572999CFEB0039C855 /* OnBoardingView.swift */; };
 		2B52E0342997D68100A4A1FD /* TermsAndPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B52E0332997D68100A4A1FD /* TermsAndPolicyView.swift */; };
 		2B661EBB29948F2D00CAE64D /* EditGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBA29948F2D00CAE64D /* EditGroupView.swift */; };
 		2B661EBD2994D44900CAE64D /* Ex+UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B661EBC2994D44900CAE64D /* Ex+UIScreen.swift */; };
@@ -196,6 +198,7 @@
 		2822CE272988DE3300316139 /* MemberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MemberStore.swift; path = CheckIt/Model/MemberStore.swift; sourceTree = SOURCE_ROOT; };
 		283B27B22989F20E00E4D400 /* GroupMainDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMainDetailView.swift; sourceTree = "<group>"; };
 		283B70B6298C98EF003782C3 /* GroupEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEmptyView.swift; sourceTree = "<group>"; };
+		2840FC952999F4F400F24499 /* ToastMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastMessage.swift; sourceTree = "<group>"; };
 		2845444C298A26F1001B2EED /* Ex+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Date.swift"; sourceTree = "<group>"; };
 		2845444E298A2DAC001B2EED /* Ex+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+String.swift"; sourceTree = "<group>"; };
 		285437C12993753A00E29CE1 /* ScheduleDetailCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetailCellView.swift; sourceTree = "<group>"; };
@@ -206,6 +209,7 @@
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
 		2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceDetailView.swift; sourceTree = "<group>"; };
 		2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltyCostCellView.swift; sourceTree = "<group>"; };
+		2B0A72572999CFEB0039C855 /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
 		2B52E0332997D68100A4A1FD /* TermsAndPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPolicyView.swift; sourceTree = "<group>"; };
 		2B661EBA29948F2D00CAE64D /* EditGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGroupView.swift; sourceTree = "<group>"; };
 		2B661EBC2994D44900CAE64D /* Ex+UIScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIScreen.swift"; sourceTree = "<group>"; };
@@ -478,6 +482,7 @@
 				FD4E25CE2977842A00F6F875 /* MyPage */,
 				FD4E25CB2977840F00F6F875 /* Login */,
 				A58CF9CF29952D480032E004 /* LottieView.swift */,
+				2B0A72572999CFEB0039C855 /* OnBoardingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -493,6 +498,7 @@
 				2822CE192988B14400316139 /* Member.swift */,
 				2822CE1B2988B3E500316139 /* Schedule.swift */,
 				2822CE1D2988B61900316139 /* Attendance.swift */,
+				2840FC952999F4F400F24499 /* ToastMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -843,6 +849,7 @@
 				A58CF9D029952D480032E004 /* LottieView.swift in Sources */,
 				1A3CB25E298A614E00EA5E84 /* Card.swift in Sources */,
 				A5FF27A02977AD3F0059C312 /* MyPageView.swift in Sources */,
+				2B0A72582999CFEB0039C855 /* OnBoardingView.swift in Sources */,
 				FDEE4904298D4D92009DF195 /* GoogleStore.swift in Sources */,
 				A5FF27A62977BD130059C312 /* Profile.swift in Sources */,
 				FDEE491A298EAB04009DF195 /* SignUpView.swift in Sources */,
@@ -851,6 +858,7 @@
 				2BDA61F12977C6CE00FDD307 /* MakeGroupModalView.swift in Sources */,
 				1A3CB2652990D04C00EA5E84 /* TermsConditionsView.swift in Sources */,
 				2BDA61F9297E939500FDD307 /* MainPlusSheetView.swift in Sources */,
+				2840FC962999F4F400F24499 /* ToastMessage.swift in Sources */,
 				2822CE262988DE1400316139 /* AttendanceStore.swift in Sources */,
 				A5FF27A42977AEF80059C312 /* MyPageButton.swift in Sources */,
 				A5FF27A82977C3F30059C312 /* PremiumRateView.swift in Sources */,
@@ -1084,7 +1092,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4N97P5J52N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckIt/Info.plist;
@@ -1123,7 +1131,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CheckIt/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4N97P5J52N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckIt/Info.plist;

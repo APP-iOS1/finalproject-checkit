@@ -22,7 +22,7 @@ struct ScheduleDetailView: View {
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     
-    @State private var editSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
+    @State private var editSchedule: Schedule = Schedule.sampleSchedule
     
     var group: Group
     var schedule: Schedule
@@ -32,7 +32,7 @@ struct ScheduleDetailView: View {
     }
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
+        ScrollView(showsIndicators: true) {
             VStack(alignment:.leading) {
                 Text("일정 정보")
                     .font(.system(size: 20, weight: .regular))
@@ -116,6 +116,18 @@ struct ScheduleDetailView: View {
                             .padding(10)
                         
                         Text("\(schedule.agreeTime)분 전부터 ~ 5분 후까지")
+                    }
+                    
+                    Text("지각 인정 시간")
+                        .font(.system(size: 20, weight: .regular))
+                    
+                    HStack {
+                        customSymbols(name: "clock")
+                            .padding(10)
+                        
+                        Text("5분 후부터 ~ ")
+                        
+                        Text("\(schedule.lateTime)분 후 까지")
                     }
                     
                     HStack(spacing: 35) {
@@ -225,6 +237,7 @@ struct ScheduleDetailView: View {
                 startTime: schedule.startTime,
                 endTime: schedule.endTime,
                 agreeTime: schedule.agreeTime,
+                lateTime: schedule.lateTime,
                 memo: schedule.memo,
                 attendanceCount: schedule.attendanceCount,
                 lateCount: schedule.lateCount,

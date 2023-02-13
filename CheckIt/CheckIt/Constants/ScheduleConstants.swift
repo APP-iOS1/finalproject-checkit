@@ -14,6 +14,7 @@ enum ScheduleConstants {
     static let absenteeFee = "absentee_fee"
     static let location = "location"
     static let agreeTime = "agree_time"
+    static let lateTime = "late_time"
     static let memo = "memo"
     static let startTime = "start_time"
     static let endTime = "end_time"

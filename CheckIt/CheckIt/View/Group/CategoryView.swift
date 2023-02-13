@@ -30,6 +30,8 @@ struct CategoryView: View {
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     
+    @Binding var toastObj: ToastMessage
+    
     let categories: [String] = ["동아리 일정", "출석부", "동아리 정보"]
     
     var group: Group
@@ -173,20 +175,35 @@ struct CategoryView: View {
             }
         }
         .sheet(isPresented: $isEditGroup) {
-            EditGroupView(showToast: $showToast, toastMessage: $toastMessage, group: $changedGroup, oldGroupName: group.name)
+            EditGroupView(showToast: $showToast, toastMessage: $toastMessage, toastObj: $toastObj, group: $changedGroup, oldGroupName: group.name)
                 .presentationDetents([.height(600)])
         }
         .toast(isPresenting: $showToast){
-            AlertToast(displayMode: .banner(.slide), type: .complete(.myGreen), title: toastMessage)
+            switch toastObj.type {
+            case .competion:
+                return AlertToast(displayMode: .banner(.slide), type: .complete(.myGreen), title: toastObj.message)
+            case .failed:
+                return AlertToast(displayMode: .banner(.slide), type: .error(.red), title: toastObj.message)
+            }
+            
+            //AlertToast(displayMode: .banner(.slide), type: .complete(.myGreen), title: toastMessage)
         }
         
         .alert("해당 동아리를 나가시겠습니까?", isPresented: $isCheckExsit, actions: {
             Button("취소하기", role: .cancel) { }
             Button("나가기", role: .destructive) {
                 Task {
-                    await groupStore.removeMember(userStore.user?.id ?? "ExitGroupError", groupdId: group.id)
-                    self.groupStore.groups.removeAll { $0.id == group.id}
-                    toastMessage = "동아리 탈퇴가 완료되었습니다."
+                    let result = await groupStore.removeMember(userStore.user?.id ?? "ExitGroupError", groupdId: group.id)
+                    switch result {
+                    case .success(let success):
+                        toastObj.message = success
+                        toastObj.type = .competion
+                        self.groupStore.groups.removeAll { $0.id == group.id}
+                    case .failure(let failure):
+                        toastObj.message = "서버 문제로 동아리 탈퇴가 실패했습니다."
+                        toastObj.type = .failed
+                        print("error: \(failure)")
+                    }
                     
                     showToast.toggle()
                     dismiss()
@@ -202,6 +219,7 @@ struct CategoryView: View {
             Button("삭제하기", role: .destructive) {
                 Task {
                     isLoading = true //로티 애니메이션 시작
+                    
 
                     // 동아리 내의 일정 및 연관된 출석부 컬렉션 삭제
                     for scheduleId in group.scheduleID {
@@ -214,7 +232,10 @@ struct CategoryView: View {
                     await groupStore.removeGroup(groupId: group.id ,uidList: uidList)
                     self.groupStore.groups.removeAll { $0.id == group.id}
                     
-                    toastMessage = "동아리 삭제가 완료되었습니다."
+                    toastObj.message = "동아리 삭제가 완료되었습니다."
+                    toastObj.type = .competion
+                    
+                    // toastMessage = "동아리 삭제가 완료되었습니다."
                     isLoading = false //로티 애니메이션 종료
                     showToast.toggle()
                     dismiss()
@@ -293,7 +314,7 @@ struct NoAnimation: ButtonStyle {
 
 struct CategoryView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryView(showToast: .constant(true), toastMessage: .constant("dd"), group: Group.sampleGroup)
+        CategoryView(showToast: .constant(true), toastMessage: .constant("dd"), toastObj: .constant(ToastMessage(message: " ", type: .competion)),group: Group.sampleGroup)
             .environmentObject(ScheduleStore())
             .environmentObject(MemberStore())
             .environmentObject(GroupStore())
