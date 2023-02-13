@@ -13,6 +13,10 @@ struct CheckMapView: View {
     @StateObject var locationManager: LocationManager
     @State var showQR: Bool = false
     
+    
+    @State var showToast: Bool = false
+    @State var toastMessage: String = ""
+    
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var attendanceStore: AttendanceStore
@@ -72,12 +76,16 @@ struct CheckMapView: View {
             // QR 시트
                 .sheet(isPresented: $showQR) {
                     if isGroupHost {
-                        CameraScanner(schedule: schedule, userID: userStore.user?.id)
-                            .environmentObject(userStore)
+//                        CameraScanner(schedule: schedule, userID: userStore.user?.id)
+//                        CameraScanner(schedule: schedule, showToast: $showToast, toastMessage: $toastMessage, userStore: userStore.user?.id)
+//                            .environmentObject(userStore)
+//                            .environmentObject(attendanceStore)
+                        CameraScanner(schedule: schedule, showToast: $showToast, toastMessage: $toastMessage)
+                            .environmentObject(attendanceStore)
                     } else {
                         QRSheetView(schedule: schedule)
                             .presentationDetents([.medium])
-                            .environmentObject(userStore)
+//                            .environmentObject(userStore)
                             .environmentObject(attendanceStore)
                     }
                 } // - sheet
@@ -87,6 +95,9 @@ struct CheckMapView: View {
         .transition(.opacity)
         .toolbarBackground(Material.ultraThinMaterial, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
+        .toast(isPresenting: $showToast) {
+            AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
+        }
     }
     
     //MARK: - View(guideDirectionButton)
