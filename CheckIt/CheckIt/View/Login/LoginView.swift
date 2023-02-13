@@ -37,6 +37,7 @@ struct LoginView: View {
             }
             .frame(width: 280, height: 50)
             
+            
             // 카카오 로그인
             kakaoLoginButton
             
@@ -95,6 +96,7 @@ struct LoginView: View {
                         
                         //FIXME: Robot 글꼴 적용해야함
                         Text("Sign in with Google")
+                            .foregroundColor(.primary)
                         Spacer()
                     }
                 }

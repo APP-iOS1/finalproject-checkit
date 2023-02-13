@@ -52,31 +52,31 @@ struct CategoryView: View {
                         }, label: {
                             if i == 1 {
                                 Text(categories[i])
-                                    .foregroundColor(i == clickedIndex ? .black : .gray)
+                                    .foregroundColor(i == clickedIndex ? .primary : .gray)
                                     .background(i == clickedIndex ?
-                                                Color.black
+                                                Color.primary
                                         .frame(
                                             width: 60,
                                             height: 2)
                                             .offset(y: 17)
                                                 :
                                                     Color.white
-                                        .frame(height: 2)
+                                        .frame(height: 0)
                                         .offset(y: 15)
                                     )
                                     .font(i == clickedIndex ? .system(size: 16).bold(): .system(size: 16))
                             } else {
                                 Text(categories[i])
-                                    .foregroundColor(i == clickedIndex ? .black : .gray)
+                                    .foregroundColor(i == clickedIndex ? .primary : .gray)
                                     .background(i == clickedIndex ?
-                                                Color.black
+                                                Color.primary
                                         .frame(
                                             width: 85,
                                             height: 2)
                                             .offset(y: 17)
                                                 :
                                                     Color.white
-                                        .frame(height: 2)
+                                        .frame(height: 0)
                                         .offset(y: 15)
                                     )
                                     .font(i == clickedIndex ? .system(size: 16).bold(): .system(size: 16))

@@ -50,7 +50,10 @@ struct MyPageView: View {
                 Button {
                     premiumButtonToggle.toggle()
                 } label: {
-                    MyPageButton(buttonTitle: $primiumPlansButtonTitle, buttonImage: $primiumPlansButtonImage)
+                    HStack{
+                        MyPageButton(buttonTitle: $primiumPlansButtonTitle, buttonImage: $primiumPlansButtonImage)
+                        Spacer()
+                    }
                 }.sheet(isPresented: $premiumButtonToggle) {
                     premiumRateView()
                 }
@@ -59,21 +62,30 @@ struct MyPageView: View {
             // MARK: - 약관 및 정책 페이지
             Section {
                 NavigationLink(destination: TermsAndPolicyView()) {
-                    MyPageButton(buttonTitle: $termsAndPolicyButtonTitle, buttonImage: $termsAndPolicyButtonImage)
+                    HStack {
+                        MyPageButton(buttonTitle: $termsAndPolicyButtonTitle, buttonImage: $termsAndPolicyButtonImage)
+                        Spacer()
+                    }
                 }
             }
             
             // MARK: - 고객문의 페이지
             Section {
                 NavigationLink(destination: QuestionView()) {
-                    MyPageButton(buttonTitle: $contackUsButtonTitle, buttonImage: $contackUsButtonImage)
+                    HStack {
+                        MyPageButton(buttonTitle: $contackUsButtonTitle, buttonImage: $contackUsButtonImage)
+                        Spacer()
+                    }
                 }
             }
             
             // MARK: - 로그아웃 페이지
             Section {
                 NavigationLink(destination: LogoutView) {
-                    MyPageButton(buttonTitle: $logoutButtonTitle, buttonImage: $logoutButtonImage)
+                    HStack {
+                        MyPageButton(buttonTitle: $logoutButtonTitle, buttonImage: $logoutButtonImage)
+                        Spacer()
+                    }
                 }
 //                Divider()
 //                    .padding(.bottom)

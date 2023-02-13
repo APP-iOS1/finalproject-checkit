@@ -18,7 +18,7 @@ struct AttendancePickerView: View {
             VStack(spacing: 8) {
                 HStack(spacing: 3) {
                     Text(AttendanceCategory.attendanced.rawValue)
-                        .foregroundColor(.myBlack)
+                        .foregroundColor(.primary)
                     Text("\(scheduleStore.publishedAttendanceCount)")
                         .foregroundColor(.myGreen)
                 }
@@ -28,13 +28,13 @@ struct AttendancePickerView: View {
                 .font(.system(size: 18, weight: selectedTap == .attendanced ? .semibold : .medium))
                 if selectedTap == .attendanced {
                     Capsule()
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .frame(height: 2)
                 }
                 else {
                     Capsule()
                         .foregroundColor(.white)
-                        .frame(height: 2)
+                        .frame(height: 0)
                 }
                 
             }
@@ -43,7 +43,7 @@ struct AttendancePickerView: View {
             VStack(spacing: 8) {
                 HStack(spacing: 3) {
                     Text(AttendanceCategory.lated.rawValue)
-                        .foregroundColor(.myBlack)
+                        .foregroundColor(.primary)
                     Text("\(scheduleStore.publishedLateCount)")
                         .foregroundColor(.myOrange)
                 }
@@ -53,13 +53,13 @@ struct AttendancePickerView: View {
                 }
                 if selectedTap == .lated {
                     Capsule()
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .frame(height: 2)
                 }
                 else {
                     Capsule()
                         .foregroundColor(.white)
-                        .frame(height: 2)
+                        .frame(height: 0)
                 }
                 
             }
@@ -69,7 +69,7 @@ struct AttendancePickerView: View {
             VStack(spacing: 8) {
                 HStack(spacing: 3) {
                     Text(AttendanceCategory.absented.rawValue)
-                        .foregroundColor(.myBlack)
+                        .foregroundColor(.primary)
                     Text("\(scheduleStore.publishedAbsentCount)")
                         .foregroundColor(.myRed)
                 }
@@ -79,13 +79,13 @@ struct AttendancePickerView: View {
                 }
                 if selectedTap == .absented {
                     Capsule()
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .frame(height: 2)
                 }
                 else {
                     Capsule()
                         .foregroundColor(.white)
-                        .frame(height: 2)
+                        .frame(height: 0)
                 }
                 
             }
@@ -94,9 +94,9 @@ struct AttendancePickerView: View {
             VStack(spacing: 8) {
                 HStack(spacing: 3) {
                     Text(AttendanceCategory.officiallyAbsented.rawValue)
-                        .foregroundColor(.myBlack)
+                        .foregroundColor(.primary)
                     Text("\(scheduleStore.publishedOfficiallyAbsentCount)")
-                        .foregroundColor(.myBlack)
+                        .foregroundColor(.primary)
                 }
                 .font(.system(size: 18, weight: selectedTap == .officiallyAbsented ? .semibold : .medium))
                 .onTapGesture {
@@ -104,13 +104,13 @@ struct AttendancePickerView: View {
                 }
                 if selectedTap == .officiallyAbsented {
                     Capsule()
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                         .frame(height: 2)
                 }
                 else {
                     Capsule()
                         .foregroundColor(.white)
-                        .frame(height: 2)
+                        .frame(height: 0)
                 }
                 
             }

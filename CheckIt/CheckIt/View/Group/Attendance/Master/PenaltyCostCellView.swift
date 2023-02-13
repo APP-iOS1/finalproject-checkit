@@ -38,7 +38,7 @@ struct PenaltyCostCellView: View {
                     Image(systemName: data.settlementStatus ? "checkmark.square" : "square")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                 }
                 .frame(width: 70)
                 Text(" \(userName)")

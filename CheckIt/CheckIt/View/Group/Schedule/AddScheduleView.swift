@@ -84,12 +84,9 @@ struct AddScheduleView: View {
                                 
                             } label: {
                                 ZStack(alignment: .leading) {
-                                    Rectangle()
-                                        .frame(width: 250)
-                                        .foregroundColor(Color.white)
-                                    
                                     Text("\(viewModel.result ?? "장소를 입력해주세요.")")
-                                        .foregroundColor(Color.black)
+                                        .foregroundColor(.primary)
+                                        .offset(x:2)
                                 }
                             }
                         }
@@ -107,7 +104,6 @@ struct AddScheduleView: View {
                                 .foregroundColor(.gray)
                                 .multilineTextAlignment(.leading)
                                 .frame(height: 100)
-                                .background(Color.white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 10)
                                         .stroke(Color.gray, lineWidth: 2)
@@ -148,6 +144,10 @@ struct AddScheduleView: View {
                             TextField("", value: $lateMin, format: .number)
                                 .frame(width: 68)
                                 .textFieldStyle(.roundedBorder)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .stroke(Color.secondary, lineWidth: 0.5)
+                                )
                             
                             Text("분 전부터 ~ 5분 후까지")
                         }
@@ -164,6 +164,10 @@ struct AddScheduleView: View {
                                 TextField("", value: $lateFee, format: .number)
                                     .frame(width: 68)
                                     .textFieldStyle(.roundedBorder)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .stroke(Color.secondary, lineWidth: 0.5)
+                                    )
                                 Text("원")
                             }
                         }
@@ -179,6 +183,10 @@ struct AddScheduleView: View {
                                 TextField("", value: $absentFee, format: .number)
                                     .frame(width: 68)
                                     .textFieldStyle(.roundedBorder)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .stroke(Color.secondary, lineWidth: 0.5)
+                                    )
                                 Text("원")
                             }
                         }
