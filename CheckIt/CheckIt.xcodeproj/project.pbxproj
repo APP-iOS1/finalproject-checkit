@@ -104,6 +104,9 @@
 		FD2D07FB297BFDEC00CC010E /* GeoCodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */; };
 		FD2D07FE297BFE3000CC010E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FD2D07FD297BFE3000CC010E /* Alamofire */; };
 		FD2D0800297C0FB100CC010E /* CustomSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D07FF297C0FB100CC010E /* CustomSymbols.swift */; };
+		FD4971D1299A3E6A0012E9F5 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4971D0299A3E6A0012E9F5 /* SafariView.swift */; };
+		FD4971D3299A3E770012E9F5 /* WithdrawalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4971D2299A3E770012E9F5 /* WithdrawalAlert.swift */; };
+		FD4971D5299A3E870012E9F5 /* LogoutAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4971D4299A3E870012E9F5 /* LogoutAlert.swift */; };
 		FD4E259D297783CC00F6F875 /* CheckItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E259C297783CC00F6F875 /* CheckItApp.swift */; };
 		FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4E259E297783CC00F6F875 /* ContentView.swift */; };
 		FD4E25A1297783CC00F6F875 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD4E25A0297783CC00F6F875 /* Assets.xcassets */; };
@@ -256,6 +259,9 @@
 		FD2D07F6297BFCB900CC010E /* GeoCodingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCodingResponse.swift; sourceTree = "<group>"; };
 		FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCodingService.swift; sourceTree = "<group>"; };
 		FD2D07FF297C0FB100CC010E /* CustomSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSymbols.swift; sourceTree = "<group>"; };
+		FD4971D0299A3E6A0012E9F5 /* SafariView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
+		FD4971D2299A3E770012E9F5 /* WithdrawalAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawalAlert.swift; sourceTree = "<group>"; };
+		FD4971D4299A3E870012E9F5 /* LogoutAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutAlert.swift; sourceTree = "<group>"; };
 		FD4E2599297783CC00F6F875 /* CheckIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD4E259C297783CC00F6F875 /* CheckItApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckItApp.swift; sourceTree = "<group>"; };
 		FD4E259E297783CC00F6F875 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -567,11 +573,14 @@
 		FD4E25CE2977842A00F6F875 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				FD4971D4299A3E870012E9F5 /* LogoutAlert.swift */,
 				A5FF279F2977AD3E0059C312 /* MyPageView.swift */,
 				A5FF27A12977AD630059C312 /* QuestionView.swift */,
 				A5FF27A32977AEF80059C312 /* MyPageButton.swift */,
 				A5FF27A52977BD130059C312 /* Profile.swift */,
+				FD4971D0299A3E6A0012E9F5 /* SafariView.swift */,
 				A5FF27A72977C3F30059C312 /* PremiumRateView.swift */,
+				FD4971D2299A3E770012E9F5 /* WithdrawalAlert.swift */,
 				1A3CB2642990D04C00EA5E84 /* TermsConditionsView.swift */,
 				1A3CB2662990D6F600EA5E84 /* LicenseView.swift */,
 				1A3CB2682990D97900EA5E84 /* FrequentlyAskedQuestionsView.swift */,
@@ -836,6 +845,7 @@
 				283B27B32989F20E00E4D400 /* GroupMainDetailView.swift in Sources */,
 				A5775BD6298A275A000DFC3F /* AttendanceStatusListCell.swift in Sources */,
 				2807AAA1297A5FEE00B1676C /* AttendanceDetailStatusView.swift in Sources */,
+				FD4971D5299A3E870012E9F5 /* LogoutAlert.swift in Sources */,
 				1A3CB2612990B8D200EA5E84 /* WebViewModel.swift in Sources */,
 				2BDA61F32977C72B00FDD307 /* JoinGruopModalView.swift in Sources */,
 				285437C42993BD6C00E29CE1 /* ScheduleDetailView.swift in Sources */,
@@ -856,6 +866,7 @@
 				2822CE182988B06400316139 /* Group.swift in Sources */,
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
 				2BDA61F12977C6CE00FDD307 /* MakeGroupModalView.swift in Sources */,
+				FD4971D3299A3E770012E9F5 /* WithdrawalAlert.swift in Sources */,
 				1A3CB2652990D04C00EA5E84 /* TermsConditionsView.swift in Sources */,
 				2BDA61F9297E939500FDD307 /* MainPlusSheetView.swift in Sources */,
 				2840FC962999F4F400F24499 /* ToastMessage.swift in Sources */,
@@ -863,6 +874,7 @@
 				A5FF27A42977AEF80059C312 /* MyPageButton.swift in Sources */,
 				A5FF27A82977C3F30059C312 /* PremiumRateView.swift in Sources */,
 				2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */,
+				FD4971D1299A3E6A0012E9F5 /* SafariView.swift in Sources */,
 				FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */,
 				2B52E0342997D68100A4A1FD /* TermsAndPolicyView.swift in Sources */,
 				FD4E25F22977AF8B00F6F875 /* CheckItButton.swift in Sources */,
