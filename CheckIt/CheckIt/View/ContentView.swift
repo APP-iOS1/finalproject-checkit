@@ -12,7 +12,8 @@ struct ContentView: View {
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
     var body: some View {
-        //NavigationStack {
+//        OnBoardingView()
+        
             TabView {
                 
                 CheckMainView()
@@ -57,7 +58,6 @@ struct ContentView: View {
             .onDisappear {
                 groupStore.detachListener()
             }
-        //}
     }
 }
 
