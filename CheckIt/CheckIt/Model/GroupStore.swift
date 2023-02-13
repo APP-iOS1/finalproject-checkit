@@ -532,7 +532,7 @@ class GroupStore: ObservableObject {
     /// 1. group의 member collection에서 나간 동아리원 다큐먼트 삭제
     /// 2. 나간 동아리원의 groupId에서 필드 제거
     /// 3. 동아리를 나갔다는 애니메이션 + 뒤로가기
-    func removeMember(_ uid: String, groupdId: String) async {
+    func removeMember(_ uid: String, groupdId: String) async -> Result<String, Error>{
         do {
             // 1.
            try await database.collection("Group").document(groupdId)
@@ -541,8 +541,10 @@ class GroupStore: ObservableObject {
                 .delete()
             // 2.
             await removeGroupId(groupdId, uid: uid)
+            return .success("동아리 탈퇴가 완료되었습니다.")
         } catch {
             print("GroupStore removeMember error: \(error.localizedDescription)")
+            return .failure(error)
         }
     }
     
