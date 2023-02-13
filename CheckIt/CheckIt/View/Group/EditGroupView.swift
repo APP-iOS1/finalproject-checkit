@@ -108,22 +108,37 @@ struct EditGroupView: View {
                 isClicked.toggle()
                 isLoading.toggle()
                 
-                // 이미지가 변경됨
-                if !selectedPhotoData.isEmpty {
-                    print("이미지가 변경됨")
-                    imageChanged()
-                }
-                
-                let newGroup = Group(id: group.id,
-                                     name: group.name,
-                                     invitationCode: group.invitationCode,
-                                     image: group.image,
-                                     hostID: group.hostID,
-                                     description: group.description,
-                                     scheduleID: group.scheduleID,
-                                     memberLimit: group.memberLimit)
-
                 Task {
+                    let result = await groupStores.canUseGroupsName(groupName: group.name)
+                    print("result: \(result)")
+                    
+                    if !result {
+                        print("여기로 이동")
+                        self.alertMessage = "동아리 이름이 중복됩니다.!"
+                        
+                        showAlert.toggle()
+                        isClicked.toggle()
+                        isLoading.toggle()
+                        return
+                    }
+                    
+                    // 이미지가 변경됨
+                    if !selectedPhotoData.isEmpty {
+                        print("이미지가 변경됨")
+                        imageChanged()
+                    }
+                    
+                    print("여기가1")
+                    
+                    let newGroup = Group(id: group.id,
+                                         name: group.name,
+                                         invitationCode: group.invitationCode,
+                                         image: group.image,
+                                         hostID: group.hostID,
+                                         description: group.description,
+                                         scheduleID: group.scheduleID,
+                                         memberLimit: group.memberLimit)
+                    
                     await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.id] ?? UIImage())
                     
                     if oldGroupName != newGroup.name { // 스케줄내 모든 동아리 이름 변경
@@ -138,19 +153,16 @@ struct EditGroupView: View {
                     toastObj.message = "동아리 수정이 완료되었습니다."
                     toastObj.type = .competion
                     showToast.toggle()
-//                    toastObj.message = "동아리 수정이 완료되었습니다."
-//                    toastObj.type = .competion
-//                    toastMessage = "동아리 수정이 완료되었습니다."
                     
                     self.groupStores.groupDetail = newGroup
                     if !selectedPhotoData.isEmpty {
                         self.groupStores.groupImage[group.id] = selectedPhotoData.first!
                     }
-                    print("555")
+                    
+                    isClicked.toggle()
                     
                     dismiss()
                 }
-                
             } label: {
                 if isLoading {
                     ProgressView()
@@ -164,10 +176,13 @@ struct EditGroupView: View {
             .onTapGesture{
                 showAlert.toggle()
             }
-            
         }
         .padding(40)
         .presentationDragIndicator(.visible)
+        
+        .toast(isPresenting: $showAlert){
+            AlertToast(displayMode: .alert, type: .error(.red), title: alertMessage)
+        }
     }
     
     private func imageChanged() {
@@ -181,27 +196,27 @@ struct EditGroupView: View {
         /// 이미지 수정시 해야할일
         /// 캐시 비우기
         /// 디스크 비우기
-        var filePath = URL(fileURLWithPath: directory.path)
-        filePath.appendPathComponent(group.id)
-        
-        print("filePath: \(filePath)")
-        
-        do {
-            try ImageCacheManager.fileManager.removeItem(atPath: filePath.path)
-            print("원래 이미지 삭제 성공")
-        } catch {
-            print("이미지 삭제 실패: \(error.localizedDescription)")
-            toastObj.message = "디바이스에 존재하는 이미지를 삭제하는데 실패하였습니다."
-            toastObj.type = .failed
-            dismiss()
-            return
-        }
+//        var filePath = URL(fileURLWithPath: directory.path)
+//        filePath.appendPathComponent(group.id)
+//
+//        print("filePath: \(filePath)")
+//
+//        do {
+//            try ImageCacheManager.fileManager.removeItem(atPath: filePath.path)
+//            print("원래 이미지 삭제 성공")
+//        } catch {
+//            print("이미지 삭제 실패: \(error.localizedDescription)")
+//            toastObj.message = "디바이스에 존재하는 이미지를 삭제하는데 실패하였습니다."
+//            toastObj.type = .failed
+//            dismiss()
+//            return
+//        }
         
         // 메모리 캐시도 새로운 이미지로 갈아치우기
         // 메모리를 다 비우고 새로 끼워넣기
         ImageCacheManager.shared.removeAllObjects()
-        //let cacheKey = NSString(string: group.id)
-        //ImageCacheManager.setObject(image: selectedPhotoData.first!, forKey: cacheKey, type: .memory)
+        let cacheKey = NSString(string: group.id)
+        ImageCacheManager.setObject(image: selectedPhotoData.first!, forKey: cacheKey, type: .memory)
         
         //디스크에 쓰기
         //ImageCacheManager.setObject(image: UIImage(), forKey: cacheKey, type: .disk(filePath), data: selectedData!)

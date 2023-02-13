@@ -14,7 +14,7 @@ struct MapViewWithUserLocation: View {
     @StateObject var locationManager: LocationManager
     @State var userTrackingMode: MapUserTrackingMode = .none
     var mapMarkers: [Marker] {
-        [Marker(location: MapMarker(coordinate: locationManager.toCoordinate, tint: .green))]
+        [Marker(location: locationManager.toCoordinate)]
     }
     
     var region: Binding<MKCoordinateRegion>? {
@@ -30,20 +30,29 @@ struct MapViewWithUserLocation: View {
     var body: some View {
         if let region = region {
             Map(coordinateRegion: region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $userTrackingMode, annotationItems: mapMarkers) { marker in
-                marker.location
+                MapAnnotation(coordinate: marker.location) {
+                    
+                    Circle().stroke(Color.red)
+                        .frame(width: 100, height: 100)
+                }
             }
             .ignoresSafeArea()
+            
             
         }
     }
 }
 
+
+//MARK: - Marker
 struct Marker: Identifiable {
-    var id = UUID()
-    var location: MapMarker
+    let id = UUID()
+    let location: CLLocationCoordinate2D
 }
 
 
+
+//MARK: - ViewModel(LocationManager)
 final class LocationManager: NSObject, ObservableObject {
     @Published var location: CLLocation?
     @Published var distance: Double = -1.0
@@ -59,6 +68,7 @@ final class LocationManager: NSObject, ObservableObject {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         locationManager.delegate = self
+        
     }
     
     
@@ -68,6 +78,7 @@ final class LocationManager: NSObject, ObservableObject {
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
+        
         DispatchQueue.main.async {
             self.location = location
             self.distance = CLLocationCoordinate2D.distance(from: location.coordinate, to: self.toCoordinate)
@@ -79,6 +90,7 @@ extension LocationManager: CLLocationManagerDelegate {
             }
         }
     }
+    
 }
 
 extension MKCoordinateRegion {
