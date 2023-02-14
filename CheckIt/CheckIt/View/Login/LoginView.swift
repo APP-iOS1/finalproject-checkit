@@ -37,13 +37,15 @@ struct LoginView: View {
                 }
             }
             .frame(width: 280, height: 50)
-            
+            .disabled(isProcessing)
             
             // 카카오 로그인
             kakaoLoginButton
+                .disabled(isProcessing)
             
             // 구글 로그인
             googleLoginButton
+                .disabled(isProcessing)
             
             Spacer()
         } // - VStack
@@ -77,6 +79,7 @@ struct LoginView: View {
             .cornerRadius(12)
         })
         .foregroundColor(.black)
+        
     } // - kakaoLoginButton
     
     //MARK: - (Button)googleLoginButton
