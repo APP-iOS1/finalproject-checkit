@@ -74,7 +74,8 @@
 ## 사용자 흐름도 및 아키텍쳐
 |<img src="https://user-images.githubusercontent.com/114602459/218664674-71695d53-bc57-4502-b29f-623f1613ac05.png" width="500"></img>|<img src="https://user-images.githubusercontent.com/114602459/218670095-ef797fff-a1e2-4445-85e3-b0def6bbacbb.png" width="500"></img>|<img src="https://user-images.githubusercontent.com/114602459/218669916-fb598978-0029-4466-b97a-86805dc97333.png" width="500"></img>|
 |:-:|:-:|:-:|
-|`User Flow`|`UI, UX Design (Login && Check Tap)`|`UI, UX Design (Group Tap)`|
+|`User Flow`|`UI, UX Design`|`UI, UX Design`|
+||`(Login && Check Tap)`|`(Group Tap)`|
 
 <br/>
 
