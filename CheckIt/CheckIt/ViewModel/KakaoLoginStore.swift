@@ -163,7 +163,7 @@ class KakaoLoginStore {
     
     
     private func requestKakaoCompletionHandler(accessToken: String, completion: @escaping (String?) -> ()) {
-        let url = URL(string: "https://verify-token.herokuapp.com/verifyToken")
+        let url = URL(string: "\(Bundle.main.object(forInfoDictionaryKey: "KAKAO_AUTHENTICATION_SERVER_URL") as? String ?? "")")
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
