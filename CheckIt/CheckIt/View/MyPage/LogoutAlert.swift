@@ -9,6 +9,11 @@ import SwiftUI
 
 struct LogoutAlert: View {
     @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var groupStore: GroupStore
+    @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
+    @EnvironmentObject var memberStore: MemberStore
+    
     @Binding var cancelButtonTapped: Bool
     var body: some View {
         
@@ -25,6 +30,8 @@ struct LogoutAlert: View {
                 HStack {
                     Button {
                         cancelButtonTapped = false
+                        
+                        
                     } label: {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(width: 100, height: 50)
@@ -40,6 +47,8 @@ struct LogoutAlert: View {
                     
                     Button {
                         userStore.signOut()
+                        resetStoresData()
+                        
                     } label: {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(width: 100, height: 50)
@@ -58,6 +67,14 @@ struct LogoutAlert: View {
             }
         } // - ZStack
         .frame(height: 200)
+    }
+    
+    func resetStoresData() {
+        userStore.resetData()
+        groupStore.resetData()
+        scheduleStore.resetData()
+        attendanceStore.resetData()
+        memberStore.resetData()
     }
     
 }
