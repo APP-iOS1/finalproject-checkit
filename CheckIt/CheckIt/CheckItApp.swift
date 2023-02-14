@@ -79,6 +79,10 @@ struct CheckItApp: App {
                             print("groups: \(groupStore.groups)")
                             for group in groupStore.groups {
                                 await scheduleStore.fetchRecentSchedule(groupName: group.name)
+                                await scheduleStore.fetchCalendarSchedule(groupName: group.name)
+                            }
+                            for schedule in scheduleStore.calendarSchedule {
+                                await attendanceStore.checkUserAttendance(scheduleID: schedule.id, id: user.uid)
                             }
                         }
                     }

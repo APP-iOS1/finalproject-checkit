@@ -10,6 +10,7 @@ import FirebaseFirestore
 
 class ScheduleStore: ObservableObject {
     @Published var scheduleList: [Schedule] = []
+    @Published var calendarSchedule: [Schedule] = []
     @Published var recentSchedule: [Schedule] = []
     @Published var userScheduleList: [Schedule] = [] ///유저가 속해있는 스케줄 리스트
     
@@ -364,17 +365,23 @@ class ScheduleStore: ObservableObject {
     }
     
     // TODO: - 삭제 예정
-    func fetchCalendarSchedule(groupName: String) async -> [Schedule]{
-        var temp: [Schedule] = []
+    func fetchCalendarSchedule(groupName: String) async {
+//        var temp: [Schedule] = []
         
         do {
 //            DispatchQueue.main.async {
-//                self.scheduleList.removeAll()
+//                self.calendarSchedule.removeAll()
 //            }
             
             let querySnapshot = try await database.collection("Schedule")
                 .whereField("group_name", isEqualTo: groupName)
+                .order(by: "start_time", descending: true)
                 .getDocuments()
+            
+            if querySnapshot.isEmpty {
+                print("fetchSchedule 실패(일정없음)")
+                return
+            }
             
             for document in querySnapshot.documents {
                 let id: String = document.documentID
@@ -400,17 +407,17 @@ class ScheduleStore: ObservableObject {
                 
                 let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime,memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
                 
-//                DispatchQueue.main.async {
-                    temp.append(schedule)
-                    
-//                }
+                DispatchQueue.main.async {
+//                    temp.append(schedule)
+                    self.calendarSchedule.append(schedule)
+                }
             }
-            return temp
+//            return temp
         }
         catch {
             print("fetch group image error: \(error.localizedDescription)")
             
-            return []
+//            return []
         }
     }
     
