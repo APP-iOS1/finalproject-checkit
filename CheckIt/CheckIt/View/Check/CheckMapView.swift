@@ -14,8 +14,8 @@ struct CheckMapView: View {
     @StateObject var locationManager: LocationManager
     @State var showQR: Bool = false
     
-    
     @State var showToast: Bool = false
+    @State var showAttendanceCompleteToast: Bool = false
     @State var toastMessage: String = ""
     @State var isCompleteAttendance: Bool = false
     
@@ -60,12 +60,11 @@ struct CheckMapView: View {
                             Spacer()
                             guideDirectionButton
                         }
-                        
                         .padding(.trailing, 20)
                         
                         
                         // 출석하기 버튼, isActive가 false면 자동으로 disable됨
-                        CheckItButton(isActive: checkTimeAndPlaceInAttendance(attendanceStore: attendanceStore, userStore: userStore), isAlert: $isAlert, text: "출석하기") {
+                        CheckItButton(isActive: checkTimeAndPlaceInAttendance(), isAlert: $isAlert, text: "출석하기") {
                             Task {
                                 guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
                                 // 이미 출석이 완료 되었으면
@@ -88,9 +87,14 @@ struct CheckMapView: View {
                                 scheduleValue.absentCount = scheduleStore.publishedAbsentCount
                                 scheduleValue.officiallyAbsentCount = scheduleStore.publishedOfficiallyAbsentCount
                                 await scheduleStore.updateScheduleAttendanceCount(schedule: scheduleValue)
-                                
+                                guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
+                                isCompleteAttendance = true
+                                // 출석 상태를 변경
                                 attendanceStore.updateAttendace(attendanceData: Attendance(id: userStore.user!.id, scheduleId: schedule.id, attendanceStatus: "\(timeCompareResult)", settlementStatus: false), scheduleID: schedule.id, uid: userStore.user!.id)
+                                toastMessage = "출석하기 완료"
+                                showAttendanceCompleteToast = true
                             }
+
                         }
                         .padding(.horizontal, 20)
                         .padding(.bottom, 25)
@@ -129,6 +133,9 @@ struct CheckMapView: View {
         .toast(isPresenting: $showToast) {
             AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
         }
+        .toast(isPresenting: $showAttendanceCompleteToast) {
+            AlertToast(displayMode: .alert, type: .complete(.green), title: toastMessage)
+        }
         .task {
             self.isCompleteAttendance = await attendanceStore.isCompleteAttendance(schedule: schedule, uid: userStore.user?.id ?? "N/A")
         }
@@ -141,6 +148,7 @@ struct CheckMapView: View {
     }
     
     //MARK: - View(guideDirectionButton)
+    /// 길찾기 버튼입니다.
     private var guideDirectionButton: some View {
         Button {
             let url = URL(string: "maps://?daddr=\(coordinate?.latitude ?? 0),\(coordinate?.longitude ?? 0)")
@@ -156,9 +164,9 @@ struct CheckMapView: View {
         .padding(.bottom, 15)
     } // - guideDirectionButton
     
-    
+    //MARK: - Method(checkTimeAndPlaceInAttendance)
     /// 출석하기 버튼을 활성화 시키는 메서드입니다.
-    func checkTimeAndPlaceInAttendance(attendanceStore: AttendanceStore, userStore: UserStore) -> Binding<Bool> {
+    func checkTimeAndPlaceInAttendance() -> Binding<Bool> {
         if isCompleteAttendance {
             DispatchQueue.main.async {
                 alertMode = .complete
@@ -180,7 +188,7 @@ struct CheckMapView: View {
             return .constant(false)
         }
         return .constant(true)
-    }
+    } // - checkTimeAndPlaceInAttendance
     
 }
 

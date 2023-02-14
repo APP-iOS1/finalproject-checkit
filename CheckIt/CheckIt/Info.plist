@@ -50,6 +50,8 @@
 	</array>
 	<key>NAVER_API_KEY</key>
 	<string>sBaVUUJ5WEjPX7Q4WpStsfmBurzUvCulee2s39on</string>
+	<key>KAKAO_AUTHENTICATION_SERVER_URL</key>
+	<string>https://verify-token.herokuapp.com/verifyToken</string>
 	<key>NAVER_API_KEY_ID</key>
 	<string>653hfg2t7w</string>
 </dict>

@@ -16,11 +16,12 @@ struct LoginView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var groupStore: GroupStore
     @State var isProcessing: Bool = false
+    
     var body: some View {
         VStack {
             Spacer()
             
-            Image("checkItLogoRemove")
+            Image("checkItLogo")
                 .resizable()
                 .scaledToFit()
             
@@ -36,18 +37,23 @@ struct LoginView: View {
                 }
             }
             .frame(width: 280, height: 50)
-            
+            .disabled(isProcessing)
             
             // 카카오 로그인
             kakaoLoginButton
+                .disabled(isProcessing)
             
             // 구글 로그인
             googleLoginButton
+                .disabled(isProcessing)
             
             Spacer()
         } // - VStack
         .toast(isPresenting: $isProcessing) {
             AlertToast(displayMode: .alert, type: .loading)
+        }
+        .toast(isPresenting: $userStore.isLoginError) {
+            AlertToast(displayMode: .alert, type: .error(.red), title: "로그인 중 에러가 발생했습니다! 다시 시도하세요.")
         }
     }
     
@@ -58,7 +64,10 @@ struct LoginView: View {
         Button(action: {
             userStore.loginCenter = .kakao
             isProcessing = true
-            userStore.loginWithKakao()
+            Task {
+                await userStore.loginWithKakao()
+                isProcessing = false
+            }
         }, label: {
             HStack {
                 Image(systemName: "message.fill")
@@ -70,6 +79,7 @@ struct LoginView: View {
             .cornerRadius(12)
         })
         .foregroundColor(.black)
+        
     } // - kakaoLoginButton
     
     //MARK: - (Button)googleLoginButton
