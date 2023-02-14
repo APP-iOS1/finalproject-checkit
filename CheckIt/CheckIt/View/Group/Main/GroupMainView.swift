@@ -44,6 +44,12 @@ struct GroupMainView: View {
                                         .frame(height: 130)
                                         .background(Color.myLightGray)
                                         .cornerRadius(18)
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 18)
+                                                .stroke(Color.myGray)
+                                                .frame(height: 130)
+//                                                
+                                        }
                                 }
                             }
                         }

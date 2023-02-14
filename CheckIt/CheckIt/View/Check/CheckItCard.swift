@@ -171,26 +171,12 @@ struct CheckItCard: View {
                 HStack {
                     Spacer()
                     Text("예정된 일정이 없습니다.")
-<<<<<<< Updated upstream
                         .font(.headline)
                         //.frame(width: 300, height: 150, alignment: .center)
                     
                     Spacer()
+                
                 }
-
-=======
-<<<<<<< Updated upstream
-                        .font(.title3)
-                    Spacer()
-                }
-//                        .frame(width: 300, height: 150, alignment: .center)
-=======
-                        .font(.headline)
-                        //.frame(width: 300, height: 150, alignment: .center)
-                    Spacer()
-                }
->>>>>>> Stashed changes
->>>>>>> Stashed changes
             }
         } // - InformationSection
     }
