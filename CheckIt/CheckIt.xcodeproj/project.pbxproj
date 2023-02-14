@@ -20,6 +20,8 @@
 		1A41F4462977AA820051F464 /* LateFeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4452977AA820051F464 /* LateFeeView.swift */; };
 		1A41F4482977AE3C0051F464 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4472977AE3C0051F464 /* CategoryView.swift */; };
 		1AC25B8529953AF500BFBF12 /* ScheduleEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC25B8429953AF500BFBF12 /* ScheduleEmptyView.swift */; };
+		28029D49299B43C600587944 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 28029D48299B43C600587944 /* GoogleMobileAds */; };
+		28029D4C299B489700587944 /* GoogleAdMobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28029D4B299B489700587944 /* GoogleAdMobView.swift */; };
 		2807AA99297A514D00B1676C /* AttendanceCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AA98297A514D00B1676C /* AttendanceCategory.swift */; };
 		2807AA9B297A536300B1676C /* AttendanceCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AA9A297A536300B1676C /* AttendanceCategoryView.swift */; };
 		2807AA9D297A5E0500B1676C /* AttendancePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2807AA9C297A5E0500B1676C /* AttendancePickerView.swift */; };
@@ -186,6 +188,7 @@
 		1A41F4452977AA820051F464 /* LateFeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LateFeeView.swift; sourceTree = "<group>"; };
 		1A41F4472977AE3C0051F464 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		1AC25B8429953AF500BFBF12 /* ScheduleEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEmptyView.swift; sourceTree = "<group>"; };
+		28029D4B299B489700587944 /* GoogleAdMobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdMobView.swift; sourceTree = "<group>"; };
 		2807AA98297A514D00B1676C /* AttendanceCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCategory.swift; sourceTree = "<group>"; };
 		2807AA9A297A536300B1676C /* AttendanceCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCategoryView.swift; sourceTree = "<group>"; };
 		2807AA9C297A5E0500B1676C /* AttendancePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendancePickerView.swift; sourceTree = "<group>"; };
@@ -326,6 +329,7 @@
 				FD4E25E2297785E800F6F875 /* FirebaseDatabase in Frameworks */,
 				FDEE4914298E3AEA009DF195 /* KakaoSDKShare in Frameworks */,
 				FD03F4D2298B3F7A005B355D /* FirebaseFirestoreUI in Frameworks */,
+				28029D49299B43C600587944 /* GoogleMobileAds in Frameworks */,
 				FDEE4918298E3AEA009DF195 /* KakaoSDKUser in Frameworks */,
 				FDEE491F298EEE67009DF195 /* SwiftyJSON in Frameworks */,
 				FD4E25DC297785E800F6F875 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
@@ -358,6 +362,14 @@
 				1A3CB2602990B8D200EA5E84 /* WebViewModel.swift */,
 			);
 			path = WebView;
+			sourceTree = "<group>";
+		};
+		28029D4A299B487900587944 /* AdMob */ = {
+			isa = PBXGroup;
+			children = (
+				28029D4B299B489700587944 /* GoogleAdMobView.swift */,
+			);
+			path = AdMob;
 			sourceTree = "<group>";
 		};
 		2807AA97297A4AFC00B1676C /* Master */ = {
@@ -484,6 +496,7 @@
 		FD4E25C6297783D000F6F875 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				28029D4A299B487900587944 /* AdMob */,
 				FD4E259E297783CC00F6F875 /* ContentView.swift */,
 				FD4E25CF2977845E00F6F875 /* Check */,
 				FD4E25CC2977841900F6F875 /* Group */,
@@ -709,6 +722,7 @@
 				28122E952994DBDC0091F23E /* SkeletonView */,
 				28122E982994DC930091F23E /* Lottie */,
 				28D63A9B2996375E002BF5F4 /* SkeletonUI */,
+				28029D48299B43C600587944 /* GoogleMobileAds */,
 			);
 			productName = CheckIt;
 			productReference = FD4E2599297783CC00F6F875 /* CheckIt.app */;
@@ -794,6 +808,7 @@
 				28122E942994DBDC0091F23E /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				28122E972994DC920091F23E /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				28D63A9A2996375E002BF5F4 /* XCRemoteSwiftPackageReference "SkeletonUI" */,
+				28029D47299B43C500587944 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = FD4E259A297783CC00F6F875 /* Products */;
 			projectDirPath = "";
@@ -881,6 +896,7 @@
 				FD4E25FA2977BA6600F6F875 /* QRSheetView.swift in Sources */,
 				2B52E0342997D68100A4A1FD /* TermsAndPolicyView.swift in Sources */,
 				FD4E25F22977AF8B00F6F875 /* CheckItButton.swift in Sources */,
+				28029D4C299B489700587944 /* GoogleAdMobView.swift in Sources */,
 				A5C48C11297A606D007D49DF /* GroupMemberListCell.swift in Sources */,
 				A529BD47298CA8FC00AE232B /* ScheduleConstants.swift in Sources */,
 				2B661EBF299587D600CAE64D /* AttendanceEmptyView.swift in Sources */,
@@ -1295,6 +1311,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		28029D47299B43C500587944 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		28122E942994DBDC0091F23E /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Juanpe/SkeletonView";
@@ -1386,6 +1410,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		28029D48299B43C600587944 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28029D47299B43C500587944 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
 		28122E952994DBDC0091F23E /* SkeletonView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 28122E942994DBDC0091F23E /* XCRemoteSwiftPackageReference "SkeletonView" */;

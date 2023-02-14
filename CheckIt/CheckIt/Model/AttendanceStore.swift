@@ -239,7 +239,6 @@ class AttendanceStore: ObservableObject {
                 switch diff.type {
                 case .added:
                     print("New Attendance Data")
-                    completion(true)
                 case .modified:
                     print("Modify Attendance Data")
                     completion(true)
@@ -268,5 +267,14 @@ class AttendanceStore: ObservableObject {
         }
         return false
     } // - isCompleteAttendance
-
+    
+    func resetData() {
+        attendanceList.removeAll()
+        entireAttendanceList.removeAll()
+        
+        attendanceStatusList.removeAll()
+        latedStatusList.removeAll()
+        absentedStatusList.removeAll()
+        officiallyAbsentedStatusList.removeAll()
+    }
 }

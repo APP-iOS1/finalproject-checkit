@@ -45,18 +45,21 @@ struct ContentView: View {
                 .accentColor(Color.myGreen)
                 .onAppear {
 //                    UITabBar.appearance().backgroundColor = .lightGray
-                    
-                    guard let user = userStore.user else { return }
+                    print("contentview onappear 호출")
+                    guard let user = userStore.user else {
+                        print("user가 nill")
+                        return
+                        
+                    }
                     if userStore.isLogined {
                         return
                     }
-                    //UITabBar.appearance().backgroundColor = .black
                     
+                    print("여기로 이동")
                     userStore.isLogined.toggle()
                     
                     Task {
                         await groupStore.fetchGroups(user)
-                        print("groups: \(groupStore.groups)")
                         for group in groupStore.groups {
                             await scheduleStore.fetchRecentSchedule(groupName: group.name)
                             await scheduleStore.fetchSchedule(groupName: group.name)
@@ -68,6 +71,7 @@ struct ContentView: View {
                     userStore.startUserListener(user.id)
                 }
                 .onDisappear {
+                    print("contentview disappear 호출")
                     groupStore.detachListener()
                 }
             }
