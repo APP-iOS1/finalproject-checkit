@@ -31,10 +31,12 @@ struct CheckItCard: View {
     
     var body: some View {
         VStack {
+            // 카드 프레임
             RoundedRectangle(cornerRadius: 10)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .foregroundColor(.myLightGray)
                 .overlay {
+                    // 테두리 선
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.myGray)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -58,12 +60,11 @@ struct CheckItCard: View {
                             .padding(.leading, 2)
                             
                         } // - VStack
-//                        .padding(.horizontal)
-                        .padding(.leading, 10)
+                        .padding(.leading, 30)
                         Spacer()
                         
+                        
                         //동아리 사진
-                        //groupImage
                         ZStack {
                             // 플레이스 홀더
                             Rectangle()
@@ -84,7 +85,7 @@ struct CheckItCard: View {
                                     print("일정 전달 확인 \(recentScheduleList)")
                                     print("그룹 확인 \(groupStore.groups)")
                                 }
-                        }
+                        } // - ZStack
                         
                         Spacer()
                         
@@ -158,10 +159,7 @@ struct CheckItCard: View {
                     // 장소
                     HStack {
                         customSymbols(name: "mapPin")
-                            .onTapGesture {
-                                print("schedule: \(recentScheduleList)")
-                                print("\(group.name)'s recent schedule: \(filterSchedule)")
-                            }
+                            
                         Text("\(filterSchedule.location)")
                             .foregroundColor(.black)
                         
@@ -173,14 +171,27 @@ struct CheckItCard: View {
                 HStack {
                     Spacer()
                     Text("예정된 일정이 없습니다.")
+<<<<<<< Updated upstream
                         .font(.headline)
                         //.frame(width: 300, height: 150, alignment: .center)
                     
                     Spacer()
                 }
 
+=======
+<<<<<<< Updated upstream
+                        .font(.title3)
+                    Spacer()
+                }
+//                        .frame(width: 300, height: 150, alignment: .center)
+=======
+                        .font(.headline)
+                        //.frame(width: 300, height: 150, alignment: .center)
+                    Spacer()
+                }
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
             }
-            //        }
         } // - InformationSection
     }
     
