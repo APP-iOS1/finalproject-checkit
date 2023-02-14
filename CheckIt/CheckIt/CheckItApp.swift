@@ -12,6 +12,8 @@ import GoogleSignIn
 import FirebaseCore
 import KakaoSDKCommon
 import KakaoSDKAuth
+import GoogleMobileAds
+import AppTrackingTransparency
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -46,6 +48,13 @@ struct CheckItApp: App {
     init() {
         // Kakao SDK 초기화
         KakaoSDK.initSDK(appKey: "\(Bundle.main.object(forInfoDictionaryKey: "KAKAO_SDK_KEY") as? String ?? "")")
+        // admob 초기화
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
+        // DispatchQueue 이용
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            ATTrackingManager.requestTrackingAuthorization(completionHandler: { _ in })
+        }
     }
     
     var body: some Scene {
@@ -68,6 +77,7 @@ struct CheckItApp: App {
                             if userStore.isLogined {
                                 return
                             }
+                            userStore.loginState = .login
                             
                             userStore.isLogined.toggle()
                             userStore.isPresentedLoginView = false

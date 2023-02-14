@@ -7,6 +7,7 @@
 import CoreLocation
 import SwiftUI
 import MapKit
+import GoogleMobileAds
 import AlertToast
 
 struct CheckMapView: View {
@@ -44,6 +45,8 @@ struct CheckMapView: View {
     
     var body: some View {
         VStack {
+            // AD
+            admob()
             // MapView
             MapViewWithUserLocation(locationManager: locationManager)
             
@@ -63,11 +66,31 @@ struct CheckMapView: View {
                         
                         // 출석하기 버튼, isActive가 false면 자동으로 disable됨
                         CheckItButton(isActive: checkTimeAndPlaceInAttendance(attendanceStore: attendanceStore, userStore: userStore), isAlert: $isAlert, text: "출석하기") {
-                            guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
-                            // 이미 출석이 완료 되었으면
-                            isCompleteAttendance = true
-                            // 출석 상태를 변경
-                            attendanceStore.updateAttendace(attendanceData: Attendance(id: userStore.user!.id, scheduleId: schedule.id, attendanceStatus: "\(timeCompareResult)", settlementStatus: false), scheduleID: schedule.id, uid: userStore.user!.id)
+                            Task {
+                                guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
+                                // 이미 출석이 완료 되었으면
+                                isCompleteAttendance = true
+                                // 출석 상태를 변경
+                                //스케줄 패치로 카운트 가져옥 -> 스케줄 업데이트
+                                let attendance = Attendance(id: userStore.user?.id ?? "", scheduleId: schedule.id, attendanceStatus: timeCompareResult, settlementStatus: false)
+                                await scheduleStore.asyncFetchScheduleCountWithScheduleID(scheduleID: schedule.id)
+                                if timeCompareResult == "지각" {
+                                    scheduleStore.publishedAbsentCount -= 1
+                                    scheduleStore.publishedLateCount += 1
+                                }
+                                else { //출석
+                                    scheduleStore.publishedAbsentCount -= 1
+                                    scheduleStore.publishedAttendanceCount += 1
+                                }
+                                var scheduleValue = schedule
+                                scheduleValue.attendanceCount = scheduleStore.publishedAttendanceCount
+                                scheduleValue.lateCount = scheduleStore.publishedLateCount
+                                scheduleValue.absentCount = scheduleStore.publishedAbsentCount
+                                scheduleValue.officiallyAbsentCount = scheduleStore.publishedOfficiallyAbsentCount
+                                await scheduleStore.updateScheduleAttendanceCount(schedule: scheduleValue)
+                                
+                                attendanceStore.updateAttendace(attendanceData: Attendance(id: userStore.user!.id, scheduleId: schedule.id, attendanceStatus: "\(timeCompareResult)", settlementStatus: false), scheduleID: schedule.id, uid: userStore.user!.id)
+                            }
                         }
                         .padding(.horizontal, 20)
                         .padding(.bottom, 25)
@@ -90,7 +113,7 @@ struct CheckMapView: View {
                             .environmentObject(attendanceStore)
                             .environmentObject(scheduleStore)
                     } else {
-                        QRSheetView(schedule: schedule)
+                        QRSheetView(schedule: schedule, isCompleteAttendance: $isCompleteAttendance, showToast: $showToast, toastMessage: $toastMessage)
                             .presentationDetents([.medium])
 //                            .environmentObject(userStore)
                             .environmentObject(attendanceStore)
@@ -109,6 +132,12 @@ struct CheckMapView: View {
         .task {
             self.isCompleteAttendance = await attendanceStore.isCompleteAttendance(schedule: schedule, uid: userStore.user?.id ?? "N/A")
         }
+    }
+    
+    @ViewBuilder func admob() -> some View {
+        // admob
+        GoogleAdMobView()
+            .frame(width: UIScreen.main.bounds.width, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
     }
     
     //MARK: - View(guideDirectionButton)
