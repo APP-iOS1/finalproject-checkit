@@ -14,7 +14,7 @@ struct CameraScanner: View {
     @State private var startScanning: Bool = false
     @State private var notCapacityScannerState: Bool = false
     @State var userID : String? = nil
-    @State var showAlert: Bool = false
+    
     @Binding var showToast: Bool
     @Binding var toastMessage: String
     @Environment(\.presentationMode) var presentationMode
@@ -61,7 +61,6 @@ struct CameraScanner: View {
                 print(userID, "userID")
                 print(schedule, "Schedule")
                 print(attendanceStore, "attendanceStore")
-                showAlert.toggle()
                 if let userID = userID {
                     //출첵하는 함수
                     print(userID, "userID")
@@ -105,18 +104,10 @@ struct CameraScanner: View {
                             toastMessage = "출석체크를 완료했습니다."
                         }
                     }
-//                    else if attendanceStore == nil {
-//                        //결석 토스트 메시지
-//                        showToast.toggle()
-//                        toastMessage = "결석처리 되었습니다."
-//                    }
 
                 } else { return }
             }
         }
-//        .toast(isPresented: $showAlert) {
-//            AlertToast(displayMode: .alert, type: .error(.red), title: alert)
-//        }
         .task {
             await cameraScannerViewModel.requestDataScannerAccessStatus()
             print(cameraScannerViewModel.dataScannerAccessStatus)
