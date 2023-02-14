@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import GoogleMobileAds
 
 struct GroupMainView: View {
     @State var showingPlusSheet: Bool = false
@@ -26,7 +27,6 @@ struct GroupMainView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                
                 if groupStores.groups.isEmpty {
                     Spacer()
                     GroupEmptyView()
@@ -34,9 +34,9 @@ struct GroupMainView: View {
                 } else {
                     ScrollView {
                         VStack(spacing: 20) {
-                            
+
                             // FIXME: - 동아리 리스트 데이터 연결하기
-                            
+
                             ForEach(groupStores.groups) { group in
                                 // MARK: - 동아리 리스트
                                 NavigationLink(destination: CategoryView(showToast: $showToast, toastMessage: $toastMessage, toastObj: $toastObj, group: group)) {
@@ -58,6 +58,9 @@ struct GroupMainView: View {
                         }
                     }
                 }
+                
+                Spacer()
+                admob()
             }
             .navigationTitle("나의 동아리")
             .toolbar {
@@ -109,6 +112,12 @@ struct GroupMainView: View {
             
             userStores.fetchUserDictionaryList()
         }
+    }
+    
+    @ViewBuilder func admob() -> some View {
+        // admob
+        GoogleAdMobView()
+            .frame(width: UIScreen.main.bounds.width, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
     }
 }
 
