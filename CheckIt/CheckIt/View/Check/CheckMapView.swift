@@ -7,6 +7,7 @@
 import CoreLocation
 import SwiftUI
 import MapKit
+import GoogleMobileAds
 import AlertToast
 
 struct CheckMapView: View {
@@ -44,6 +45,8 @@ struct CheckMapView: View {
     
     var body: some View {
         VStack {
+            // AD
+            admob()
             // MapView
             MapViewWithUserLocation(locationManager: locationManager)
             
@@ -109,6 +112,12 @@ struct CheckMapView: View {
         .task {
             self.isCompleteAttendance = await attendanceStore.isCompleteAttendance(schedule: schedule, uid: userStore.user?.id ?? "N/A")
         }
+    }
+    
+    @ViewBuilder func admob() -> some View {
+        // admob
+        GoogleAdMobView()
+            .frame(width: UIScreen.main.bounds.width, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
     }
     
     //MARK: - View(guideDirectionButton)
