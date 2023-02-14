@@ -58,9 +58,6 @@ struct GroupMainView: View {
                         }
                     }
                 }
-                
-                Spacer()
-                admob()
             }
             .navigationTitle("나의 동아리")
             .toolbar {
