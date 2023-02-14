@@ -96,7 +96,7 @@ struct AttendancePickerView: View {
                     Text(AttendanceCategory.officiallyAbsented.rawValue)
                         .foregroundColor(.primary)
                     Text("\(scheduleStore.publishedOfficiallyAbsentCount)")
-                        .foregroundColor(.primary)
+                        .foregroundColor(.myBlack)
                 }
                 .font(.system(size: 18, weight: selectedTap == .officiallyAbsented ? .semibold : .medium))
                 .onTapGesture {

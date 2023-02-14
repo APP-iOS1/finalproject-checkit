@@ -16,6 +16,11 @@ struct ScheduleDetailCellView: View {
                 RoundedRectangle(cornerRadius: 18)
                     .foregroundColor(Color.myLightGray)
                     .frame(height: UIScreen.screenHeight / 5.5)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 18)
+                            .stroke(Color.myGray)
+                            .frame(height: UIScreen.screenHeight / 5.5)
+                    }
                 
                 VStack(alignment: .leading) {
                     
@@ -55,6 +60,7 @@ struct ScheduleDetailCellView: View {
                 .foregroundColor(.black)
             }
         }
+        .offset(y:1)
     }
 }
 
