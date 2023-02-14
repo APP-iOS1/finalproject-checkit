@@ -236,6 +236,7 @@ class ScheduleStore: ObservableObject {
             
             DispatchQueue.main.async {
                 self.scheduleList.append(schedule)
+                self.calendarSchedule.append(schedule)
             }
             
         } catch {

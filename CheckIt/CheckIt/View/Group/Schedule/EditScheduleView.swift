@@ -231,12 +231,19 @@ struct EditScheduleView: View {
                         //await scheduleStore.fetchRecentSchedule(groupName: group.name)
                     }
 
-                    var index = self.scheduleStore.scheduleList.firstIndex{ $0.id == schedule.id }
+                    let index = self.scheduleStore.scheduleList.firstIndex{ $0.id == schedule.id }
                     self.scheduleStore.scheduleList[index ?? -1] = newSchedule
+                    // MARK: - 일정 수정 시 캘린더 실시간 연동을 위한 코드
+                    if let calendarIndex = self.scheduleStore.calendarSchedule.firstIndex(where: { $0.id == schedule.id }) {
+                        self.scheduleStore.calendarSchedule[calendarIndex] = newSchedule
+                    }
                     
-                    if let recentIndex = self.scheduleStore.recentSchedule.firstIndex{ $0.id == schedule.id } {
+                    // MARK: - 일정 수정 시 출석체크뷰 카드 내용 업데이트를 위한 코드
+                    if let recentIndex = self.scheduleStore.recentSchedule.firstIndex(where: { $0.id == schedule.id }) {
                         self.scheduleStore.recentSchedule[recentIndex] = newSchedule
                     }
+                    
+                    
                     toastObj.message = "일정 수정이 완료되었습니다."
                     toastObj.type = .competion
                     

@@ -13,6 +13,10 @@ struct CheckMainView: View {
     @EnvironmentObject var scheduleStore: ScheduleStore
     @State private var page = 0
     
+//    var recentScheduleList: [Schedule] {
+//        $0.startTime >= Date()
+//    }
+//
     let swapIndex: SwapIndex = SwapIndex()
 //    var swapedGroups: [Group] = []
 //

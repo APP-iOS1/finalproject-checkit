@@ -206,6 +206,7 @@ struct ScheduleDetailView: View {
                         
                         self.scheduleStore.scheduleList.removeAll {$0.id == schedule.id }
                         self.scheduleStore.recentSchedule.removeAll {$0.id == schedule.id}
+                        self.scheduleStore.calendarSchedule.removeAll {$0.id == schedule.id}
                         
                         toastObj.message = "일정 삭제가 완료 되었습니다."
                         toastObj.type = .competion
