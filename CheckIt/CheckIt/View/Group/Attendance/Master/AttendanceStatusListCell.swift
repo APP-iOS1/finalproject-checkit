@@ -13,9 +13,14 @@ struct AttendanceStatusListCell: View {
     var body: some View {
         ZStack {
             VStack {
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: 18)
                     .foregroundColor(Color.myLightGray)
                     .frame(height:100)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 18)
+                            .stroke(Color.myGray)
+                            .frame(height:100)
+                    }
             }
             VStack(alignment: .leading) {
                 HStack {
@@ -52,6 +57,7 @@ struct AttendanceStatusListCell: View {
             }
             .padding(.horizontal, 20)
         }
+        .offset(y:1)
         //.padding(.horizontal, 20)
     }
 }

@@ -40,7 +40,8 @@ struct NotPenaltyCostCellView: View {
                             .stroke(attendanceColor, lineWidth: 1)
                         Text(data.attendanceStatus)
                             .foregroundColor(attendanceColor)
-                            .font(.system(size: 16, weight: .bold))
+                            .font(.caption)
+                            .bold()
                     }
                     .offset(x:-10)
             }

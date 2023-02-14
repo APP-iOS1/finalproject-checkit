@@ -145,9 +145,8 @@ struct AttendanceDetailStatusView: View {
 
                         Divider()
                     }
-                    .padding(.vertical, 5)
-                    
                 }
+                
             }
         }
         .padding(.top, 20)
