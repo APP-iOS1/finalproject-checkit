@@ -12,8 +12,12 @@ struct QRSheetView: View {
     var schedule: Schedule
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var attendanceStore: AttendanceStore
+    @Binding var isCompleteAttendance: Bool
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
+
+    @Binding var showToast: Bool
+    @Binding var toastMessage: String
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -42,7 +46,11 @@ struct QRSheetView: View {
             guard let userId = userStore.user?.id else { return }
             attendanceStore.responseAttendanceListner(schedule: schedule, uid: userId) { result in
                 if result {
-//                    dismiss()
+                    dismiss()
+                    isCompleteAttendance = true
+                    //toastAlert toggle
+                    showToast.toggle()
+                    toastMessage = "출석체크가 완료되었습니다."
                     print(result, "큐알")
                 }
             }

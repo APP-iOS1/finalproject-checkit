@@ -19,6 +19,8 @@ struct QuestionView: View {
     @State private var customServiceImage: String = "person.crop.circle.badge.questionmark"
     @State private var unregisterTitle: String = "회원탈퇴"
     @State private var unregisterImage: String = "x.circle"
+    @State private var openSourceLicenseTitle: String = "오픈소스 라이선스"
+    @State private var openSourceLicenseImage: String = "globe.central.south.asia"
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -44,8 +46,17 @@ struct QuestionView: View {
             Divider()
                 .background(Color.white)
             
-
+            // 오픈소스 라이선스
             
+            NavigationLink(destination: LicenseView()) {
+                HStack {
+                    MyPageButton(buttonTitle: $openSourceLicenseTitle, buttonImage: $openSourceLicenseImage)
+                    Spacer()
+                }
+            }
+            
+            Divider()
+                .background(Color.white)
 
             // 회원탈퇴
             Button(action: {
