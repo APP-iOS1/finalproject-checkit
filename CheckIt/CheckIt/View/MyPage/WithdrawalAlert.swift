@@ -43,8 +43,10 @@ struct WithdrawalAlert: View {
                     
                     
                     Button {
-                        let resultDeleteUser = userStore.deleteUser()
-                        userStore.isPresentedLoginView = true
+                        Task {
+                            let resultDeleteUser = await userStore.deleteUser()
+                            userStore.signOut()
+                        }
                     } label: {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(width: 100, height: 50)

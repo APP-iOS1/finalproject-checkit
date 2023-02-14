@@ -77,12 +77,13 @@ struct CheckItApp: App {
                             if userStore.isLogined {
                                 return
                             }
-                            userStore.loginState = .login
+                            
                             
                             userStore.isLogined.toggle()
                             userStore.isPresentedLoginView = false
                             userStore.userData = user
                             await userStore.fetchUser(user.uid)
+                            userStore.toggleLoginState()
                             //groupStore.startGroupListener(userStore)
                             await groupStore.fetchGroups(userStore.user!)
                             userStore.startUserListener(user.uid)

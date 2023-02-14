@@ -48,8 +48,8 @@ struct ContentView: View {
                     print("contentview onappear 호출")
                     guard let user = userStore.user else {
                         print("user가 nill")
+                        userStore.isPresentedLoginView = true
                         return
-                        
                     }
                     if userStore.isLogined {
                         return
