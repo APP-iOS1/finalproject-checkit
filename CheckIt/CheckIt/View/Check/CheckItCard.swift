@@ -173,14 +173,11 @@ struct CheckItCard: View {
                 HStack {
                     Spacer()
                     Text("예정된 일정이 없습니다.")
-
-                        //.font(.headline)
+                        .font(.headline)
                         //.frame(width: 300, height: 150, alignment: .center)
-
-                        .font(.title3)
+                    
                     Spacer()
                 }
-//                        .frame(width: 300, height: 150, alignment: .center)
 
             }
             //        }
