@@ -352,6 +352,7 @@ class UserStore: ObservableObject {
             self.toggleLoginState()
             self.userData = nil
             
+            
             // 제3자 로그아웃
             switch loginCenter {
             case .apple:
@@ -459,7 +460,7 @@ class UserStore: ObservableObject {
     
     func resetData() {
         user = nil
-        loginState = .logout
+        //loginState = .logout
         loginCenter = nil
         isPresentedLoginView = true
         isFirstLogin = false

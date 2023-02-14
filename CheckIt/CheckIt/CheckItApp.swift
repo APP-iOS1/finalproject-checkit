@@ -68,6 +68,7 @@ struct CheckItApp: App {
                             if userStore.isLogined {
                                 return
                             }
+                            userStore.loginState = .login
                             
                             userStore.isLogined.toggle()
                             userStore.isPresentedLoginView = false
