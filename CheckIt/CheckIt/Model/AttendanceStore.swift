@@ -268,5 +268,14 @@ class AttendanceStore: ObservableObject {
         }
         return false
     } // - isCompleteAttendance
-
+    
+    func resetData() {
+        attendanceList.removeAll()
+        entireAttendanceList.removeAll()
+        
+        attendanceStatusList.removeAll()
+        latedStatusList.removeAll()
+        absentedStatusList.removeAll()
+        officiallyAbsentedStatusList.removeAll()
+    }
 }
