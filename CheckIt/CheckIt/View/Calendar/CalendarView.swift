@@ -32,6 +32,9 @@ struct CalendarView: View {
             Spacer()
         }
         .padding(.vertical)
+        .onAppear {
+            
+        }
     }
 }
 
