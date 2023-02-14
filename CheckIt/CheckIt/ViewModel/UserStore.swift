@@ -456,6 +456,18 @@ class UserStore: ObservableObject {
         self.user?.name = name
         updateUser(user: self.user!)
     } // - changeUserName
+    
+    func resetData() {
+        user = nil
+        loginState = .logout
+        loginCenter = nil
+        isPresentedLoginView = true
+        isFirstLogin = false
+        isProcessing = false
+        
+        userData = nil
+        isLogined = false
+    }
 }
 
 
