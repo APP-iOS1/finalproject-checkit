@@ -32,8 +32,6 @@ struct CategoryView: View {
     
     @Binding var toastObj: ToastMessage
     
-    let categories: [String] = ["동아리 일정", "출석부", "동아리 정보"]
-    
     var group: Group
     @State private var changedGroup: Group = Group.sampleGroup
     
@@ -47,57 +45,78 @@ struct CategoryView: View {
     var body: some View {
         ZStack {
             VStack {
-                HStack {
-                    ForEach(categories.indices, id: \.self) { i in
-                        Button(action: {
-                            clickedIndex = i
-                        }, label: {
-                            if i == 1 {
-                                Text(categories[i])
-                                    .foregroundColor(i == clickedIndex ? .primary : .gray)
-                                    .background(i == clickedIndex ?
-                                                Color.primary
-                                        .frame(
-                                            width: 60,
-                                            height: 2)
-                                            .offset(y: 17)
-                                                :
-                                                    Color.white
-                                        .frame(height: 0)
-                                        .offset(y: 15)
-                                    )
-                                    .font(i == clickedIndex ? .system(size: 16).bold(): .system(size: 16))
-                            } else {
-                                Text(categories[i])
-                                    .foregroundColor(i == clickedIndex ? .primary : .gray)
-                                    .background(i == clickedIndex ?
-                                                Color.primary
-                                        .frame(
-                                            width: 85,
-                                            height: 2)
-                                            .offset(y: 17)
-                                                :
-                                                    Color.white
-                                        .frame(height: 0)
-                                        .offset(y: 15)
-                                    )
-                                    .font(i == clickedIndex ? .system(size: 16).bold(): .system(size: 16))
-                            }
-                        })
-                        .padding(.top, 10)
-                        .padding(.horizontal)
-                        .buttonStyle(NoAnimation())
+                HStack(spacing: 20) {
+                    VStack(spacing: 5) {
+                        //동아리 일정
+                        VStack {
+                            Text("동아리 일정")
+                        }
+                        .onTapGesture {
+                            clickedIndex = 0
+                        }
+                        .foregroundColor(clickedIndex == 0 ? .primary : .gray)
+                        .font(clickedIndex == 0 ? .system(size: 16).bold(): .system(size: 16))
+                        if clickedIndex == 0 {
+                            Capsule()
+                                .foregroundColor(.primary)
+                                .frame(width: 90, height: 2)
+                        } else {
+                            Capsule()
+                                .foregroundColor(.white)
+                                .frame(width: 90, height: 2)
+                        }
                     }
-                } // - HStack
-                .padding(.bottom, 20)
+                    
+                    VStack(spacing: 5) {
+                        //출석부
+                        VStack {
+                            Text("출석부")
+                        }
+                        .onTapGesture {
+                            clickedIndex = 1
+                        }
+                        .foregroundColor(clickedIndex == 1 ? .primary : .gray)
+                        .font(clickedIndex == 1 ? .system(size: 16).bold(): .system(size: 16))
+                        if clickedIndex == 1 {
+                            Capsule()
+                                .foregroundColor(.primary)
+                                .frame(width: 60, height: 2)
+                        } else {
+                            Capsule()
+                                .foregroundColor(.white)
+                                .frame(width: 60, height: 2)
+                        }
+                    }
+                    
+                    VStack(spacing: 5) {
+                        //동아리 정보
+                        VStack {
+                            Text("동아리 정보")
+                        }
+                        .onTapGesture {
+                            clickedIndex = 2
+                        }
+                        .foregroundColor(clickedIndex == 2 ? .primary : .gray)
+                        .font(clickedIndex == 2 ? .system(size: 16).bold(): .system(size: 16))
+                        if clickedIndex == 2 {
+                            Capsule()
+                                .foregroundColor(.primary)
+                                .frame(width: 90, height: 2)
+                        } else {
+                            Capsule()
+                                .foregroundColor(.white)
+                                .frame(width: 90, height: 2)
+                        }
+                    }
+                }
+                .padding(.vertical, 20)
+                
                 
                 if clickedIndex == 0 {
                     GroupScheduleView(group: groupStore.groupDetail, isGroupManager: $isGroupManager, isScheduleLoading: $isScheduleLoading)
-                }
-                if clickedIndex == 1 {
+                } else if clickedIndex == 1 {
                     AttendanceStatusView(isGroupManager: $isGroupManager, scheduleIDList: group.scheduleID, hostId: group.hostID)
-                }
-                if clickedIndex == 2 {
+                } else if clickedIndex == 2 {
                     GroupInformationView(group: groupStore.groupDetail)
                 }
                 
@@ -112,8 +131,8 @@ struct CategoryView: View {
                     LottieView(filename: "ThirdIndicator", completion: { value in
                         print(value, "로티애니메이션")
                     })
-                        .frame(width: 150, height: 150)
-                    }
+                    .frame(width: 150, height: 150)
+                }
             }
             
         }
@@ -220,7 +239,7 @@ struct CategoryView: View {
                 Task {
                     isLoading = true //로티 애니메이션 시작
                     
-
+                    
                     // 동아리 내의 일정 및 연관된 출석부 컬렉션 삭제
                     for scheduleId in group.scheduleID {
                         async let attendanceId = await attendanceStore.getAttendanceId(scheduleId)
