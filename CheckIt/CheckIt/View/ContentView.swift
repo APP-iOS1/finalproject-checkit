@@ -11,6 +11,9 @@ struct ContentView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
+    
+    @State private var totalSchedule: [Schedule] = []
     
     @AppStorage("onboarding") var isOnboarindViewActive: Bool = true
     
@@ -56,20 +59,13 @@ struct ContentView: View {
                         print("groups: \(groupStore.groups)")
                         for group in groupStore.groups {
                             await scheduleStore.fetchRecentSchedule(groupName: group.name)
+                            await scheduleStore.fetchSchedule(groupName: group.name)
+                        }
+                        for schedule in scheduleStore.calendarSchedule {
+                            await attendanceStore.checkUserAttendance(scheduleID: schedule.id, id: user.id)
                         }
                     }
                     userStore.startUserListener(user.id)
-                    print("groups : \(groupStore.groups)")
-
-          //  }
-           // .accentColor(Color.myGreen)
-           // .onAppear {
-//                UITabBar.appearance().backgroundColor = .lightGray
-
-               // guard let user = userStore.user else { return }
-               // if userStore.isLogined {
-                    //return
-
                 }
                 .onDisappear {
                     groupStore.detachListener()

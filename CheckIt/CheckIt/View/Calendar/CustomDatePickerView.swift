@@ -124,6 +124,7 @@ struct CustomDatePickerView: View {
                         )
                         .onTapGesture {
                             currentDate = value.date
+                            print("일정 \(totalSchedule)")
                         }
                 }
             }
@@ -176,7 +177,7 @@ struct CustomDatePickerView: View {
                                 switch Date().dateCompare(fromDate: schedule.startTime) {
                                 case "Future":
                                     Circle()
-                                        .fill(Color.myGray)
+                                        .fill(Color.gray)
                                         .frame(width: 7, height: 7)
                                 default:
                                     // MARK: - 일정에 맞는 출석상태를 필터링
