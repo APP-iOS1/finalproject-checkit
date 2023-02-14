@@ -156,7 +156,11 @@ struct CheckItCard: View {
                     
                 } // - HStack
                 .padding(.bottom, 7)
-            } // - VStack
+            } else {
+                    Text("예정된 일정이 없습니다.")
+                        .font(.title3)
+                        .frame(width: 300, height: 150, alignment: .center)
+            }
             //        }
         } // - InformationSection
     }

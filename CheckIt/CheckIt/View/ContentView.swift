@@ -11,6 +11,9 @@ struct ContentView: View {
     @EnvironmentObject var userStore: UserStore
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
+    
+    @State private var totalSchedule: [Schedule] = []
     
     @AppStorage("onboarding") var isOnboarindViewActive: Bool = true
     
@@ -59,6 +62,10 @@ struct ContentView: View {
                         await groupStore.fetchGroups(user)
                         for group in groupStore.groups {
                             await scheduleStore.fetchRecentSchedule(groupName: group.name)
+                            await scheduleStore.fetchSchedule(groupName: group.name)
+                        }
+                        for schedule in scheduleStore.calendarSchedule {
+                            await attendanceStore.checkUserAttendance(scheduleID: schedule.id, id: user.id)
                         }
                     }
                     userStore.startUserListener(user.id)
