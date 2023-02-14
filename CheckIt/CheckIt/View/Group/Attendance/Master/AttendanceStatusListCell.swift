@@ -10,6 +10,45 @@ import SwiftUI
 struct AttendanceStatusListCell: View {
     var schedule: Schedule?
     var attendance: Attendance?
+    
+    var attendanceColor: Color {
+        switch attendance?.attendanceStatus {
+        case "출석":
+            return Color.myGreen
+        case "지각":
+            return Color.myOrange
+        case "결석":
+            return Color.myRed
+        case "공결":
+            return Color.myBlack
+        default:
+            return Color.myBlack
+        }
+    }
+    var userCost: String {
+        switch attendance?.attendanceStatus {
+        case "출석":
+            return ""
+        case "지각":
+            if attendance?.settlementStatus == true {
+                return ""
+            }
+            else {
+                return "\(String(schedule?.lateFee ?? 0).insertComma) 원"
+            }
+        case "결석":
+            if attendance?.settlementStatus == true {
+                return ""
+            }
+            else {
+                return "\(String(schedule?.absenteeFee ?? 0).insertComma) 원"
+            }
+        case "공결":
+            return ""
+        default:
+            return ""
+        }
+    }
     var body: some View {
         ZStack {
             VStack {
@@ -31,9 +70,9 @@ struct AttendanceStatusListCell: View {
                         .foregroundColor(.white)
                         .overlay{
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.myBlack, lineWidth: 1)
+                                .stroke(attendanceColor, lineWidth: 1)
                             Text(attendance?.attendanceStatus ?? "")
-                                .foregroundColor(Color.myBlack)
+                                .foregroundColor(attendanceColor)
                                 .font(.caption)
                                 .bold()
                         }
@@ -45,7 +84,8 @@ struct AttendanceStatusListCell: View {
                         .font(.subheadline)
                     Spacer()
                     
-                    Text(String("\(schedule?.lateFee ?? 0) 원" ?? "0 원"))
+                    //수정 필요
+                    Text(userCost)
                         .foregroundColor(.black)
                         .bold()
                 }
