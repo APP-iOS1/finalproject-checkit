@@ -29,6 +29,9 @@ struct GroupMainDetailView: View {
                         Circle()
                             .foregroundColor(Color.myGray)
                             .frame(width: 90, height: 90)
+                                
+                        Image(systemName: "person.3")
+                            .foregroundColor(Color.myLightGray)
                         Image(uiImage: groupImage)
                             .resizable()
                             .frame(width: 90, height: 90)
