@@ -60,6 +60,13 @@ struct CheckMainView: View {
                         })
                 }
             }
+            .onAppear {
+                Task {
+                    for group in groupStore.groups {
+                        await scheduleStore.fetchRecentSchedule(groupName: group.name)
+                    }
+                }
+            }
         } // - NavigationView
     }
     

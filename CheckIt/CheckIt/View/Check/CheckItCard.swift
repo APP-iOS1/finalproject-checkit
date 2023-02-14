@@ -49,9 +49,12 @@ struct CheckItCard: View {
                                 InformationSection
                                 Spacer()
                             }
+                            .frame(width: 300, height: 100, alignment: .leading)
+                            .padding(.leading, 2)
+                            
                         } // - VStack
-                        .padding(.horizontal)
-                        
+//                        .padding(.horizontal)
+                        .padding(.leading, 10)
                         Spacer()
                         
                         //동아리 사진
@@ -64,6 +67,7 @@ struct CheckItCard: View {
                             
                             Image(uiImage: groupImage)
                                 .resizable()
+                                .aspectRatio(contentMode: .fill)
                                 .frame(width: UIScreen.screenWidth * 0.7 , height: UIScreen.screenHeight / 5)
                                 .clipShape(RoundedRectangle(cornerRadius: 24))
                                 .onTapGesture {
@@ -109,12 +113,16 @@ struct CheckItCard: View {
                 DdayLabel(dDay: D_days().days(to: filterSchedule.startTime))
                     .padding(.top, 10)
                 
-            } // - VStack
+            } else {
+                nonDdayLabel()
+                    .padding(.top, 10)
+            }
             
             // 동아리 이름
             Text("\(group.name)")
-                .font(.title.bold())
+                .font(.title2.bold())
                 .foregroundColor(.black)
+                .padding(.leading, 1)
             //        }
         } // - TopSection
     }
@@ -126,40 +134,43 @@ struct CheckItCard: View {
                 return schedule.groupName == group.name
             })
             {
-                // 날짜
-                HStack {
-                    customSymbols(name: "calendar")
-                    
-                    Text("\(filterSchedule.startTime, format: .dateTime.year().day().month())")
-                        .foregroundColor(.black)
-                } // - HStack
-                .padding(.bottom, 7)
-                
-                // 시간
-                HStack {
-                    customSymbols(name: "clock")
-                    
-                    Text("\(filterSchedule.startTime, format: .dateTime.hour().minute())")
-                        .foregroundColor(.black)
-                } // - HStack
-                .padding(.bottom, 7)
-                
-                // 장소
-                HStack {
-                    customSymbols(name: "mapPin")
-                        .onTapGesture {
-                            print("schedule: \(recentScheduleList)")
-                            print("\(group.name)'s recent schedule: \(filterSchedule)")
-                        }
-                    Text("\(filterSchedule.location)")
-                        .foregroundColor(.black)
-                    
-                } // - HStack
+                VStack(alignment: .leading) {
+                    // 날짜
+                    HStack {
+                        customSymbols(name: "calendar")
+                        
+                        Text("\(filterSchedule.startTime, format: .dateTime.year().day().month())")
+                            .foregroundColor(.black)
+                    } // - HStack
+                    // 시간
+                    HStack {
+                        customSymbols(name: "clock")
+                        
+                        Text("\(filterSchedule.startTime, format: .dateTime.hour().minute())")
+                            .foregroundColor(.black)
+                    } // - HStack
+                    // 장소
+                    HStack {
+                        customSymbols(name: "mapPin")
+                            .onTapGesture {
+                                print("schedule: \(recentScheduleList)")
+                                print("\(group.name)'s recent schedule: \(filterSchedule)")
+                            }
+                        Text("\(filterSchedule.location)")
+                            .foregroundColor(.black)
+                        
+                    } // - HStack
+                }
+                .font(.body)
                 .padding(.bottom, 7)
             } else {
+                HStack {
+                    Spacer()
                     Text("예정된 일정이 없습니다.")
                         .font(.title3)
-                        .frame(width: 300, height: 150, alignment: .center)
+                    Spacer()
+                }
+//                        .frame(width: 300, height: 150, alignment: .center)
             }
             //        }
         } // - InformationSection
