@@ -21,34 +21,17 @@ struct CalendarView: View {
     
     var body: some View {
         VStack {
-            CustomDatePickerView(currentDate: $currentDate, selectedGroup: $selectedGroup, totalSchedule: $totalSchedule, totalAttendance: $totalAttendance, currentMonth: $currentMonth)
+            CustomDatePickerView(currentDate: $currentDate, selectedGroup: $selectedGroup, totalSchedule: $scheduleStore.calendarSchedule, totalAttendance: $attendanceStore.attendanceList, currentMonth: $currentMonth)
                 .padding(.horizontal)
             
             Divider()
             
             //일정섹션
-            TaskView(currentDate: $currentDate, totalSchedule: $totalSchedule, totalAttendance: $totalAttendance, selectedGroup: $selectedGroup)
+            TaskView(currentDate: $currentDate, totalSchedule: $scheduleStore.calendarSchedule, totalAttendance: $attendanceStore.attendanceList, selectedGroup: $selectedGroup)
             //                .padding(.top, -8)
             Spacer()
         }
         .padding(.vertical)
-        .onAppear {
-            Task {
-                var tempSchedule: [Schedule] = []
-                for group in groupStore.groups {
-                    async let temp = await scheduleStore.fetchCalendarSchedule(groupName: group.name)
-                    await tempSchedule.append(contentsOf: temp)
-                }
-                totalSchedule = tempSchedule
-                guard let uid = userStore.user?.id else {return}
-                
-                for schedule in tempSchedule {
-                    await attendanceStore.checkUserAttendance(scheduleID: schedule.id, id: uid)
-                }
-                
-                totalAttendance = attendanceStore.attendanceList
-            }
-        }
     }
 }
 
