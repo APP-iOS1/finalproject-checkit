@@ -10,6 +10,7 @@ import SwiftUI
 struct AttendanceStatusListCell: View {
     var schedule: Schedule?
     var attendance: Attendance?
+    
     var body: some View {
         ZStack {
             VStack {
@@ -31,18 +32,64 @@ struct AttendanceStatusListCell: View {
                     
                     Spacer()
                     
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(width: 45, height: 25)
-                        .foregroundColor(.white)
-                        .overlay{
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.myBlack, lineWidth: 1)
-                            Text(attendance?.attendanceStatus ?? "")
-                                .foregroundColor(Color.myBlack)
-                                .font(.caption)
-                                .bold()
-                        }
+                    if attendance?.attendanceStatus == "출석" {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(width: 45, height: 25)
+                            .foregroundColor(.white)
+                            .overlay{
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.myGreen, lineWidth: 1)
+                                Text(attendance?.attendanceStatus ?? "")
+                                    .foregroundColor(Color.myGreen)
+                                    .font(.caption)
+                                    .bold()
+                            }
+                    }
+                    
+                    if attendance?.attendanceStatus == "지각" {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(width: 45, height: 25)
+                            .foregroundColor(.white)
+                            .overlay{
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.myOrange, lineWidth: 1)
+                                Text(attendance?.attendanceStatus ?? "")
+                                    .foregroundColor(Color.myOrange)
+                                    .font(.caption)
+                                    .bold()
+                            }
+                    }
+                    
+                    if attendance?.attendanceStatus == "결석" {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(width: 45, height: 25)
+                            .foregroundColor(.white)
+                            .overlay{
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.myRed, lineWidth: 1)
+                                Text(attendance?.attendanceStatus ?? "")
+                                    .foregroundColor(Color.myRed)
+                                    .font(.caption)
+                                    .bold()
+                            }
+                    }
+                    
+                    if attendance?.attendanceStatus == "공결" {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(width: 45, height: 25)
+                            .foregroundColor(.white)
+                            .overlay{
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.myBlack, lineWidth: 1)
+                                Text(attendance?.attendanceStatus ?? "")
+                                    .foregroundColor(Color.myBlack)
+                                    .font(.caption)
+                                    .bold()
+                            }
+                    }
                 }
+                
+                Spacer()
                 
                 HStack {
                     Text("\(Date().hourMinuteDateToString(date: schedule?.startTime ?? Date())) ~ \(Date().hourMinuteDateToString(date: schedule?.endTime ?? Date()))")
@@ -55,7 +102,7 @@ struct AttendanceStatusListCell: View {
                         .bold()
                 }
             }
-            .padding(.horizontal, 20)
+            .padding(20)
         }
         .offset(y:1)
         //.padding(.horizontal, 20)
