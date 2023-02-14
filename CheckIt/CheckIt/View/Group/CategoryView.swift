@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleMobileAds
 import AlertToast
 
 struct CategoryView: View {
@@ -45,7 +46,10 @@ struct CategoryView: View {
     var body: some View {
         ZStack {
             VStack {
+              admob()
                 HStack(spacing: 20) {
+              
+     
                     VStack(spacing: 5) {
                         //동아리 일정
                         VStack {
@@ -325,6 +329,12 @@ struct CategoryView: View {
             //groupStore.detachListener()
             print(group.scheduleID, "---------")
         }
+    }
+    
+    @ViewBuilder func admob() -> some View {
+        // admob
+        GoogleAdMobView()
+            .frame(width: UIScreen.main.bounds.width, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
     }
 }
 
