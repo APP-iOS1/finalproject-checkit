@@ -12,33 +12,24 @@ import SwiftUI
 
 struct MapViewWithUserLocation: View {
     @StateObject var locationManager: LocationManager
-    @State var userTrackingMode: MapUserTrackingMode = .none
+    @Binding var userTrackingMode: MKUserTrackingMode
     var mapMarkers: [Marker] {
         [Marker(location: locationManager.toCoordinate)]
     }
     
-    var region: Binding<MKCoordinateRegion>? {
+    var region: Binding<CLLocationCoordinate2D>? {
         guard let location = locationManager.location else {
-            return MKCoordinateRegion.noneRegion().getBinding()
+            return CLLocationCoordinate2D.noneRegion().getBinding()
         }
         
-        let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
+        let region = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
         
         return region.getBinding()
     }
     
     var body: some View {
         if let region = region {
-            Map(coordinateRegion: region, interactionModes: MapInteractionModes(), showsUserLocation: true, annotationItems: mapMarkers) { marker in
-                MapAnnotation(coordinate: marker.location) {
-                
-                    Circle().stroke(Color.red)
-                        .frame(width: 100, height: 100)
-                }
-            }
-            .ignoresSafeArea()
-            
-            
+            MapView(radius: 50, circleCenter: locationManager.toCoordinate, userLocation: region, userTrackingMode: $userTrackingMode)
         }
     }
 }
@@ -93,13 +84,13 @@ extension LocationManager: CLLocationManagerDelegate {
     
 }
 
-extension MKCoordinateRegion {
-    static func noneRegion() -> MKCoordinateRegion {
-        MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 0, longitude:  0), latitudinalMeters: 500, longitudinalMeters: 500)
+extension CLLocationCoordinate2D {
+    static func noneRegion() -> CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: 0, longitude:  0)
     }
     
-    func getBinding() -> Binding<MKCoordinateRegion>? {
-        return Binding<MKCoordinateRegion>(.constant(self))
+    func getBinding() -> Binding<CLLocationCoordinate2D>? {
+        return Binding<CLLocationCoordinate2D>(.constant(self))
     }
 }
 
@@ -119,5 +110,84 @@ extension CLLocationCoordinate2D {
         // meter 단위로 계산
         let distance = CLLocationCoordinate2D.distance(from: from, to: to)
         return distance <= 50 ? true : false
+    }
+}
+
+class MapPin: NSObject, MKAnnotation {
+    let title: String?
+    let coordinate: CLLocationCoordinate2D
+    
+    init(title: String, coordinate: CLLocationCoordinate2D) {
+        self.title = title
+        self.coordinate = coordinate
+    }
+}
+
+
+//MARK: - OverlayCircleClass
+class CustomCircleRenderer: MKCircleRenderer {
+    override var fillColor: UIColor? {
+        get {
+            return UIColor.red.withAlphaComponent(0.4)
+        }
+        set {
+            super.fillColor = newValue
+        }
+    }
+}
+
+struct MapView: UIViewRepresentable {
+    var radius: Double
+    var circleCenter: CLLocationCoordinate2D
+    @Binding var userLocation: CLLocationCoordinate2D
+    @Binding var userTrackingMode: MKUserTrackingMode
+    
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.showsUserLocation = true
+        mapView.userTrackingMode = .follow
+        mapView.delegate = context.coordinator
+        
+        
+        let center = CLLocationCoordinate2D(latitude: circleCenter.latitude, longitude: circleCenter.longitude)
+        let region = MKCoordinateRegion(center: userLocation, latitudinalMeters: 500, longitudinalMeters: 500)
+        mapView.setRegion(region, animated: true)
+
+        let pin = MKPointAnnotation()
+        pin.coordinate = circleCenter
+        pin.title = "모임 장소"
+        mapView.addAnnotation(pin)
+
+        let circle = MKCircle(center: center, radius: radius)
+        mapView.addOverlay(circle)
+        
+        
+        
+        
+        return mapView
+    }
+
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+        if userTrackingMode == .follow {
+            let region = MKCoordinateRegion(center: userLocation, latitudinalMeters: 500, longitudinalMeters: 500)
+            uiView.setRegion(region, animated: true)
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, MKMapViewDelegate {
+        var parent: MapView
+
+        init(_ parent: MapView) {
+            self.parent = parent
+        }
+
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+            let renderer = CustomCircleRenderer(overlay: overlay)
+            return renderer
+        }
     }
 }
