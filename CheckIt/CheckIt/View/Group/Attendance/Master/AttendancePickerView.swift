@@ -34,7 +34,7 @@ struct AttendancePickerView: View {
                 else {
                     Capsule()
                         .foregroundColor(.white)
-                        .frame(height: 0)
+                        .frame(height: 2)
                 }
                 
             }
@@ -59,7 +59,7 @@ struct AttendancePickerView: View {
                 else {
                     Capsule()
                         .foregroundColor(.white)
-                        .frame(height: 0)
+                        .frame(height: 2)
                 }
                 
             }
@@ -85,7 +85,7 @@ struct AttendancePickerView: View {
                 else {
                     Capsule()
                         .foregroundColor(.white)
-                        .frame(height: 0)
+                        .frame(height: 2)
                 }
                 
             }
@@ -110,7 +110,7 @@ struct AttendancePickerView: View {
                 else {
                     Capsule()
                         .foregroundColor(.white)
-                        .frame(height: 0)
+                        .frame(height: 2)
                 }
                 
             }
