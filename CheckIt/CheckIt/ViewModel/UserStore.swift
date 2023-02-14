@@ -22,6 +22,7 @@ class UserStore: ObservableObject {
     @Published var isPresentedLoginView: Bool = true
     @Published var isFirstLogin: Bool = false
     @Published var isProcessing: Bool = false
+    @Published var isLoginError: Bool = false
 
     @Published var userDictionaryList: [String : String] = [:] //key uid, value nickname
 
@@ -42,24 +43,34 @@ class UserStore: ObservableObject {
         case google = "google"
     }
     
+    
+    func firebaseUserDelete(user: FirebaseAuth.User) async -> Error? {
+        return await withCheckedContinuation { continuation in
+            user.delete { error in
+                continuation.resume(returning: error)
+            }
+        }
+    }
+    
+    func unlinkKakaoAccount() async -> Error? {
+        return await withCheckedContinuation { continuation in
+            UserApi.shared.unlink { error in
+                continuation.resume(returning: error)
+            }
+        }
+    }
+    
+    
     //MARK: - Method(deleteUser)
     /// 회원탈퇴
-    func deleteUser() -> Bool {
+    func deleteUser() async -> Bool {
         // 파이어베이스 유저 삭제
-        var isError: Bool = false
         guard let user = Auth.auth().currentUser else { return false }
-        
-        user.delete { error in
-          if let error {
-              print("\(error.localizedDescription)")
-              isError = true
-              return
-          }
-        }
-        
-        if isError {
+        await deleteAllUserData(id: user.uid)
+        if let error = await firebaseUserDelete(user: user) {
             return false
         }
+        
         
         // 로그인 센터별 연결 끊기
         switch loginCenter {
@@ -67,12 +78,8 @@ class UserStore: ObservableObject {
             break
         case .kakao:
             // 카카오 연결끊기
-            UserApi.shared.unlink { error in
-                if let error {
-                    print("\(error.localizedDescription)")
-                    isError = true
-                    return
-                }
+            if let error = await unlinkKakaoAccount() {
+                return false
             }
         case .google:
             break
@@ -80,9 +87,7 @@ class UserStore: ObservableObject {
             return false
         }
         
-        // 파이어베이스 DB에서 회원 정보 삭제
-        return isError ? false : true
-        
+        return true
     } // - deleteUser
     
     
@@ -140,37 +145,69 @@ class UserStore: ObservableObject {
     
     
     
-    //MARK: - Method(loginWithKakao)
-    /// 카카오로 로그인
-    func loginWithKakao() {
-        KakaoLoginStore().returnFirebaseToken { firebaseToken in
-            guard let firebaseToken else { return }
-            
-            
-            Auth.auth().signIn(withCustomToken: firebaseToken) { user, error in
-                if let error {
-                    print("\(error.localizedDescription)")
-                    return
-                }
+    
+    func isUserInDatabaseWithKakao(uid: String) async -> Bool{
+        return await withCheckedContinuation { continuation in
+            isUserInDatabaseWithKakaoCompletionHandler(uid: uid) { result in
+                continuation.resume(returning: result)
                 
-                self.userData = user?.user
-                self.isUserInDatabaseWithKakao(uid: "\(String(describing: user?.user.uid ?? ""))", completion: { result in
-                    Task {
-                        await self.fetchUser(user?.user.uid ?? "")
-                    }
-                    if !result {
-                        self.addUser(userData: self.userData)
-                        DispatchQueue.main.async {
-                            self.isFirstLogin = true
-                        }
-                        return
-                    }
-                    self.toggleLoginState()
-                    
-                })
             }
         }
-        
+    }
+    
+    
+    
+    //MARK: - Method(loginWithKakao)
+    /// 카카오로 로그인
+    func loginWithKakao() async {
+        guard let firebaseToken = await KakaoLoginStore().returnFirebaseToken() else { return }
+        do {
+            try await Auth.auth().signIn(withCustomToken: firebaseToken)
+            guard let user = Auth.auth().currentUser else { return }
+
+            self.userData = user
+            let result = await isUserInDatabaseWithKakao(uid: "\(String(describing: user.uid))")
+
+            if !result {
+                DispatchQueue.main.async {
+                    self.isFirstLogin = true
+                }
+                self.addUser(userData: self.userData)
+                await self.fetchUser(user.uid)
+                self.toggleLoginState()
+                return
+            }
+            await self.fetchUser(user.uid)
+            self.toggleLoginState()
+        } catch {
+            DispatchQueue.main.async {
+                self.isLoginError = true
+            }
+            print("\(error.localizedDescription)")
+            return
+        }
+//            Auth.auth().signIn(withCustomToken: firebaseToken) { user, error in
+//                if let error {
+//                    print("\(error.localizedDescription)")
+//                    return
+//                }
+//
+//                self.userData = user?.user
+//                self.isUserInDatabaseWithKakao(uid: "\(String(describing: user?.user.uid ?? ""))", completion: { result in
+//                    Task {
+//                        await self.fetchUser(user?.user.uid ?? "")
+//                    }
+//                    if !result {
+//                        self.addUser(userData: self.userData)
+//                        DispatchQueue.main.async {
+//                            self.isFirstLogin = true
+//                        }
+//                        return
+//                    }
+//                    self.toggleLoginState()
+//
+//                })
+//            }
         
     } // - loginWithKakao
     
@@ -214,7 +251,7 @@ class UserStore: ObservableObject {
     } // - isUserInDatabaseCompletionHandler
     
     //MARK: - Method(isUserInDatabaseWithKakao)
-    func isUserInDatabaseWithKakao(uid: String, completion: @escaping (Bool) -> ()) {
+    func isUserInDatabaseWithKakaoCompletionHandler(uid: String, completion: @escaping (Bool) -> ()) {
         database.collection("User").whereField("id", isEqualTo: "\(uid)")
             .getDocuments { snapshot, error in
                 if let error {
@@ -241,6 +278,9 @@ class UserStore: ObservableObject {
         guard let credential = credential else { return false }
         let (authResult, error) = await firebaseSignIn(credential: credential)
         if let error {
+            DispatchQueue.main.async {
+                self.isLoginError = true
+            }
             print("\(error.localizedDescription)")
             return false
         }
@@ -303,6 +343,9 @@ class UserStore: ObservableObject {
                 self.loginCenter = LoginCenter(rawValue: loginCenter)
             }
         } catch {
+            DispatchQueue.main.async {
+                self.isLoginError = true
+            }
             print("fetchUser error: \(error.localizedDescription)")
         }
     } // - fetchUser
@@ -414,33 +457,32 @@ class UserStore: ObservableObject {
     /// Parameter id - 삭제할 user의 id입니다.
     func deleteAllUserData(id: String) async {
         do {
-            // 유저의 출석부를 모두 삭제합니다.
-            let snapshot = try await database.collectionGroup("Attendance")
-                .order(by: "schedule_id")
-                .whereField("id", isEqualTo: "\(id)")
-                .getDocuments()
-            
-            
-            for document in snapshot.documents {
-                try await database.document("\(document.documentID)")
-                    .delete()
-            }
+//            // 유저의 출석부를 모두 삭제합니다.
+//            let snapshot = try await database.collectionGroup("Attendance")
+//                .order(by: "schedule_id")
+//                .whereField("id", isEqualTo: "\(id)")
+//                .getDocuments()
+//
+//
+//            for document in snapshot.documents {
+//                try await database.document("\(document.documentID)")
+//                    .delete()
+//            }
             
             // 유저의 사용자 정보를 삭제합니다.
-            let userSnapshot = try await database.collection("User").whereField("id", isEqualTo: "\(id)").getDocuments()
-            for document in userSnapshot.documents {
-                try await database.document("\(document.documentID)").delete()
-            }
+            let userSnapshot = try await database.collection("User")
+                .document("\(id)").delete()
             
-            // 유저가 방장인 그룹을 모두 삭제합니다.
-            let groupSnapshot = try await database.collection("Group").whereField("host_id", isEqualTo: "\(id)").getDocuments()
-            for document in groupSnapshot.documents {
-                try await database.document("\(document.documentID)")
-                    .delete()
-            }
             
-            // 유저가 속한 모든 그룹을 삭제합니다. (멤버리스트 삭제)
-            
+//            // 유저가 방장인 그룹을 모두 삭제합니다.
+//            let groupSnapshot = try await database.collection("Group").whereField("host_id", isEqualTo: "\(id)").getDocuments()
+//            for document in groupSnapshot.documents {
+//                try await database.document("\(document.documentID)")
+//                    .delete()
+//            }
+//
+//            // 유저가 속한 모든 그룹을 삭제합니다. (멤버리스트 삭제)
+//
             
         }
         catch { print("catch Error: \(error.localizedDescription)"); return }
