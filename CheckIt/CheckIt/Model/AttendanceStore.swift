@@ -239,7 +239,6 @@ class AttendanceStore: ObservableObject {
                 switch diff.type {
                 case .added:
                     print("New Attendance Data")
-                    completion(true)
                 case .modified:
                     print("Modify Attendance Data")
                     completion(true)
