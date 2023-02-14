@@ -29,9 +29,9 @@ struct MapViewWithUserLocation: View {
     
     var body: some View {
         if let region = region {
-            Map(coordinateRegion: region, interactionModes: .all, showsUserLocation: true, userTrackingMode: $userTrackingMode, annotationItems: mapMarkers) { marker in
+            Map(coordinateRegion: region, interactionModes: MapInteractionModes(), showsUserLocation: true, annotationItems: mapMarkers) { marker in
                 MapAnnotation(coordinate: marker.location) {
-                    
+                
                     Circle().stroke(Color.red)
                         .frame(width: 100, height: 100)
                 }
@@ -114,7 +114,7 @@ extension CLLocationCoordinate2D {
         let to = CLLocation(latitude: to.latitude, longitude: to.longitude)
         return from.distance(from: to)
     }
-    
+    /// 두 점 사이의 거리를 계산하는 메서드입니다. (미터 단위)
     static func isInAttendanceRegion(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> Bool {
         // meter 단위로 계산
         let distance = CLLocationCoordinate2D.distance(from: from, to: to)
