@@ -35,6 +35,11 @@ struct CheckItCard: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .foregroundColor(.myLightGray)
                 .overlay {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.myGray)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+                .overlay {
                     VStack(alignment: .center) {
                         Spacer()
                         
@@ -60,10 +65,15 @@ struct CheckItCard: View {
                         //동아리 사진
                         //groupImage
                         ZStack {
+                            // 플레이스 홀더
                             Rectangle()
                                 .fill(Color.myGray)
                                 .frame(width: UIScreen.screenWidth * 0.7 , height: UIScreen.screenHeight / 5)
                                 .clipShape(RoundedRectangle(cornerRadius: 24))
+                                .overlay {
+                                    Image(systemName: "photo.on.rectangle.angled")
+                                        .foregroundColor(.myLightGray)
+                                }
                             
                             Image(uiImage: groupImage)
                                 .resizable()
@@ -88,11 +98,7 @@ struct CheckItCard: View {
                         }
                       
                         CheckItButton(isActive: .constant(card[index].isActiveButton), isAlert: .constant(false)) {
-//                            guard let filterSchedule = recentScheduleList.first(where: { schedule in
-//                                return schedule.groupName == group.name
-//                            }) else { return }
                             locationToCoordinate()
-
                         }
                         .frame(width: UIScreen.screenWidth * 0.7)
                         
@@ -167,10 +173,12 @@ struct CheckItCard: View {
                 HStack {
                     Spacer()
                     Text("예정된 일정이 없습니다.")
-                        .font(.title3)
+                        .font(.headline)
+                        //.frame(width: 300, height: 150, alignment: .center)
+                    
                     Spacer()
                 }
-//                        .frame(width: 300, height: 150, alignment: .center)
+
             }
             //        }
         } // - InformationSection

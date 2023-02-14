@@ -11,16 +11,22 @@ struct CheckEmptyView: View {
     @EnvironmentObject var userStore: UserStore
     
     var userName: String {
-        userStore.user?.name ?? "N/A"
+        "\(userStore.user?.name ?? " ")"
+    }
+    
+    var isUserLogin: String {
+        if let user = userStore.user {
+            return "님"
+        } else { return ""}
     }
     
     var body: some View {
         VStack(alignment: .center, spacing: UIScreen.screenHeight * 0.02) {
-            Text("환영합니다. \(userName) 님 🙌🏻")
+            Text("환영합니다. \(userName) \(isUserLogin) 🙌🏻")
                 .font(.system(size: 22, weight: .semibold))
 
             HStack(spacing: 2) {
-                Text("Check It")
+                Text("Check It!")
                     .font(.system(size: 18, weight: .medium))
                     .foregroundColor(Color.myGreen)
                 
