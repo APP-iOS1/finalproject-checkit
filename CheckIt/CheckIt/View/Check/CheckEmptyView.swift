@@ -26,7 +26,7 @@ struct CheckEmptyView: View {
                 .font(.system(size: 22, weight: .semibold))
 
             HStack(spacing: 2) {
-                Text("Check It")
+                Text("Check It!")
                     .font(.system(size: 18, weight: .medium))
                     .foregroundColor(Color.myGreen)
                 
