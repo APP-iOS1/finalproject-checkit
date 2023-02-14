@@ -6,6 +6,7 @@
 //
 import CoreLocation
 import SwiftUI
+import UIKit
 import MapKit
 import GoogleMobileAds
 import AlertToast
@@ -18,6 +19,8 @@ struct CheckMapView: View {
     @State var showAttendanceCompleteToast: Bool = false
     @State var toastMessage: String = ""
     @State var isCompleteAttendance: Bool = false
+    @State var userTrackingMode: MKUserTrackingMode = .none
+    
     
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStore: UserStore
@@ -48,12 +51,20 @@ struct CheckMapView: View {
             // AD
             admob()
             // MapView
-            MapViewWithUserLocation(locationManager: locationManager)
+            MapViewWithUserLocation(locationManager: locationManager, userTrackingMode: $userTrackingMode)
+//            MapViewWithUserLocation(locationManager: locationManager)
             
                 .overlay(alignment: .bottom) {
                     VStack {
                         // 토스트 알럿
                         CustomToastAlert(distance: $locationManager.distance, isPresented: $isAlert, mode: $alertMode)
+                        
+                        // 유저 포커싱 모드
+                        HStack {
+                            Spacer()
+                            userFocusModeButton
+                        }
+                        .padding(.trailing, 20)
                         
                         //Apple Map과 연결
                         HStack {
@@ -96,8 +107,13 @@ struct CheckMapView: View {
                             }
 
                         }
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 18)
+                                .stroke(Color.white, lineWidth: 1.5)
+                        }
                         .padding(.horizontal, 20)
                         .padding(.bottom, 25)
+                        
                         
                     } // - VStack
                 } // - overlay
@@ -147,6 +163,38 @@ struct CheckMapView: View {
             .frame(width: UIScreen.main.bounds.width, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
     }
     
+    private var userFocusModeButton: some View {
+        Button(action: {
+            switch userTrackingMode {
+            case .none:
+                userTrackingMode = .follow
+            case .follow:
+                userTrackingMode = .none
+            default:
+                return
+            }
+        }) {
+            switch userTrackingMode {
+            case .none:
+                Image(systemName: "viewfinder.circle.fill")
+                    .resizable()
+                    .foregroundColor(.myGray)
+                    .frame(width: 40, height: 40)
+            case .follow:
+                Image(systemName: "viewfinder.circle.fill")
+                    .resizable()
+                    .foregroundColor(.myBlack)
+                    .frame(width: 40, height: 40)
+            case .followWithHeading:
+                Image(systemName: "viewfinder.circle.fill")
+                    .resizable()
+                    .foregroundColor(.myBlack)
+                    .frame(width: 40, height: 40)
+            }
+        }
+    }
+
+    
     //MARK: - View(guideDirectionButton)
     /// 길찾기 버튼입니다.
     private var guideDirectionButton: some View {
@@ -191,5 +239,6 @@ struct CheckMapView: View {
     } // - checkTimeAndPlaceInAttendance
     
 }
+
 
 
