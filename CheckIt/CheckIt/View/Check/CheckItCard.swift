@@ -94,13 +94,13 @@ struct CheckItCard: View {
                         if let filterSchedule = recentScheduleList.first(where: { schedule in
                             schedule.groupName == group.name
                         }){
-                            NavigationLink(destination: CheckMapView(group: group, schedule: filterSchedule, coordinate: coordinate)
+                            NavigationLink(destination: CheckMapView(group: group, schedule: filterSchedule, coordinate: filterSchedule.coordinate)
                                 .environmentObject(userStore)
                                 .environmentObject(attendanceStore) ,tag: 0, selection: $action) {}
                         }
                       
                         CheckItButton(isActive: .constant(card[index].isActiveButton), isAlert: .constant(false)) {
-                            locationToCoordinate()
+                            action = 0
                         }
                         .frame(width: UIScreen.screenWidth * 0.7)
                         
@@ -181,18 +181,5 @@ struct CheckItCard: View {
             }
         } // - InformationSection
     }
-    
-    //MARK: - locationToCoordinate
-    func locationToCoordinate() {
-        Task {
-            if let filterSchedule = recentScheduleList.first(where: { schedule in
-                schedule.groupName == group.name
-            }) {
-                guard let coordinateString = await GeoCodingService.getCoordinateFromAddress(address: filterSchedule.location) else { return }
-                self.coordinate = CLLocationCoordinate2D(latitude: Double(coordinateString[0]) ?? 0.0, longitude: Double(coordinateString[1]) ?? 0.0)
-                action = 0
-            }
-        }
-    } // - locationToCoordinate
 }
 
