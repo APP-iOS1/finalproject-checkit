@@ -45,6 +45,7 @@ struct GroupScheduleView: View {
                                 .frame(width:20, height:20)
                                 .foregroundColor(.primary)
                                 .padding(.horizontal, 30)
+                                .offset(y:-10)
                             //.padding([.bottom, .trailing], 5)
                         }
                     }
@@ -73,6 +74,7 @@ struct GroupScheduleView: View {
                             }
                             .skeleton(with: isScheduleLoading)
                             .shape(type: .rectangle)
+                            .cornerRadius(18)
                             .frame(height: UIScreen.screenHeight / 5.5)
                             .padding(.bottom, 8)
                         }

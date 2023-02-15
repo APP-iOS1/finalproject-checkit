@@ -50,7 +50,7 @@ struct CheckItCard: View {
                                 TopSection
                                 Spacer()
                             }
-                            .padding(.bottom)
+//                            .padding(.bottom)
                             
                             HStack {
                                 InformationSection
@@ -58,6 +58,7 @@ struct CheckItCard: View {
                             }
                             .frame(width: 300, height: 100, alignment: .leading)
                             .padding(.leading, 2)
+//                            .padding(.top, -10)
                             
                         } // - VStack
                         .padding(.leading, 30)
@@ -112,7 +113,7 @@ struct CheckItCard: View {
     }
     //    MARK: - View(TopSection)
     private var TopSection: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 15) {
             if let filterSchedule = recentScheduleList.first(where: { schedule in
                 return schedule.groupName == group.name
             }) {

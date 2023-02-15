@@ -72,8 +72,14 @@ struct AttendanceCellView: View {
             RoundedRectangle(cornerRadius: 18)
                 .foregroundColor(.myLightGray)
                 .frame(height: 90)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 18)
+                        .stroke(Color.myGray)
+                        .frame(height: 90)
+                }
             
         }
+        .offset(y:1)
         .frame(height: 90)
         .onAppear {
             print(attendanceStore.entireAttendanceList, "dd")
