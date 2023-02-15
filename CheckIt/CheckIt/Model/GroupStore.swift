@@ -487,8 +487,8 @@ class GroupStore: ObservableObject {
     /// 4. 동아리 컬렉션 document 삭제
     /// 5. 방장 및 가입한 모든 유저의 필드에서 groupId제거
     /// 6. 스토리지내 이미지 삭제
-    func removeGroup(groupId: String, uidList: [String]) async {
-        let docRef = database.collection("Group").document(groupId)
+    func removeGroup(group: Group, uidList: [String]) async {
+        let docRef = database.collection("Group").document(group.id)
         
         await removeMemberCollection(ref: docRef, uidList: uidList) // 1.
         
@@ -497,8 +497,8 @@ class GroupStore: ObservableObject {
         } catch {
             print("Groupstore removeGroup error: \(error.localizedDescription)")
         }
-        await removeGroupIdAllMember(groupId: groupId, uidList: uidList) // 5.
-        await removeGroupImage(groupId) // 6.
+        await removeGroupIdAllMember(groupId: group.id, uidList: uidList) // 5.
+        await removeGroupImage(group.image) // 6.
     }
     /// 동아리의 MemberCollection을 삭제하는 메소드
     /// - Parameter ref: 삭제할 동아리의 reference
