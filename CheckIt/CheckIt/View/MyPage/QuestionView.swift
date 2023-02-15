@@ -24,27 +24,27 @@ struct QuestionView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Button(action: { isPresentedNotionSheet = true }) {
-                HStack {
-                    MyPageButton(buttonTitle: $frequentlyQeustionsTitle, buttonImage: $frequentlyQeustionsImage)
-                    Spacer()
-                }
-            }
-            .padding(.top)
-            
-            
-            Divider()
-                .background(Color.white)
-            
-            NavigationLink(destination: Text("문의하기")) {
-                HStack {
-                    MyPageButton(buttonTitle: $customServiceTitle, buttonImage: $customServiceImage)
-                    Spacer()
-                }
-            }
-            
-            Divider()
-                .background(Color.white)
+//            Button(action: { isPresentedNotionSheet = true }) {
+//                HStack {
+//                    MyPageButton(buttonTitle: $frequentlyQeustionsTitle, buttonImage: $frequentlyQeustionsImage)
+//                    Spacer()
+//                }
+//            }
+//            .padding(.top)
+//
+//
+//            Divider()
+//                .background(Color.white)
+//
+//            NavigationLink(destination: Text("문의하기")) {
+//                HStack {
+//                    MyPageButton(buttonTitle: $customServiceTitle, buttonImage: $customServiceImage)
+//                    Spacer()
+//                }
+//            }
+//
+//            Divider()
+//                .background(Color.white)
             
             // 오픈소스 라이선스
             
