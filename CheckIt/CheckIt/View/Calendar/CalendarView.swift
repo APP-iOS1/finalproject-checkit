@@ -32,8 +32,20 @@ struct CalendarView: View {
             Spacer()
         }
         .padding(.vertical)
-        .onAppear {
-            
+        .refreshable {
+            Task {
+                scheduleStore.calendarSchedule.removeAll()
+                attendanceStore.attendanceList.removeAll()
+                
+                guard let user = userStore.user else { return }
+                
+                for group in groupStore.groups {
+                    await scheduleStore.fetchCalendarSchedule(groupName: group.name)
+                }
+                for schedule in scheduleStore.calendarSchedule {
+                    await attendanceStore.checkUserAttendance(scheduleID: schedule.id, id: user.id)
+                }
+            }
         }
     }
 }
