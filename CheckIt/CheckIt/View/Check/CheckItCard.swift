@@ -57,11 +57,11 @@ struct CheckItCard: View {
                                 Spacer()
                             }
                             .frame(width: 300, height: 100, alignment: .leading)
-                            .padding(.leading, 2)
+                            .padding(.horizontal, 2)
 //                            .padding(.top, -10)
                             
                         } // - VStack
-                        .padding(.leading, 30)
+                        .padding(.horizontal, 40)
                         Spacer()
                         
                         

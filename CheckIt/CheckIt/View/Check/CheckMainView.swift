@@ -80,13 +80,13 @@ struct CheckMainView: View {
             }) {
                 switch page {
                 case i:
-                    if D_days().days(to: filterSchedule.startTime) != 0 {
+                    if D_days().days(to: filterSchedule.endTime) != 0 {
                         tempCard.append(Card(isActiveButton: false, show: true))
                     } else {
                         tempCard.append(Card(isActiveButton: true, show: true))
                     }
                 default:
-                    if D_days().days(to: filterSchedule.startTime) != 0 {
+                    if D_days().days(to: filterSchedule.endTime) != 0 {
                         tempCard.append(Card(isActiveButton: false, show: false))
                     } else {
                         tempCard.append(Card(isActiveButton: true, show: false))
