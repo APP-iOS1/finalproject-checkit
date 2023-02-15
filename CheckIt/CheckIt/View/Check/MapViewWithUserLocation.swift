@@ -19,7 +19,7 @@ struct MapViewWithUserLocation: View {
     
     var region: Binding<CLLocationCoordinate2D>? {
         guard let location = locationManager.location else {
-            return CLLocationCoordinate2D.noneRegion().getBinding()
+            return CLLocationCoordinate2D.noneRegion(locationManager: locationManager).getBinding()
         }
         
         let region = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
@@ -85,8 +85,8 @@ extension LocationManager: CLLocationManagerDelegate {
 }
 
 extension CLLocationCoordinate2D {
-    static func noneRegion() -> CLLocationCoordinate2D {
-        CLLocationCoordinate2D(latitude: 0, longitude:  0)
+    static func noneRegion(locationManager: LocationManager) -> CLLocationCoordinate2D {
+        CLLocationCoordinate2D(latitude: 0, longitude: 0)
     }
     
     func getBinding() -> Binding<CLLocationCoordinate2D>? {
@@ -160,8 +160,6 @@ struct MapView: UIViewRepresentable {
 
         let circle = MKCircle(center: center, radius: radius)
         mapView.addOverlay(circle)
-        
-        
         
         
         return mapView
