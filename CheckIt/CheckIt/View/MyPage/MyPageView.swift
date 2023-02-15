@@ -63,18 +63,18 @@ struct MyPageView: View {
                 .padding(.vertical)
             
             // MARK: - 프리미엄 요금제 페이지
-            Section {
-                Button {
-                    premiumButtonToggle.toggle()
-                } label: {
-                    HStack{
-                        MyPageButton(buttonTitle: $primiumPlansButtonTitle, buttonImage: $primiumPlansButtonImage)
-                        Spacer()
-                    }
-                }.sheet(isPresented: $premiumButtonToggle) {
-                    premiumRateView()
-                }
-            }
+//            Section {
+//                Button {
+//                    premiumButtonToggle.toggle()
+//                } label: {
+//                    HStack{
+//                        MyPageButton(buttonTitle: $primiumPlansButtonTitle, buttonImage: $primiumPlansButtonImage)
+//                        Spacer()
+//                    }
+//                }.sheet(isPresented: $premiumButtonToggle) {
+//                    premiumRateView()
+//                }
+//            }
             
             // MARK: - 약관 및 정책 페이지
             Section {

@@ -36,7 +36,7 @@ struct CheckMainView: View {
                     
                     TabView(selection: $page) {
                         ForEach(0..<swaped.count, id: \.self) { index in
-                            CheckItCard(group: swaped[index], groupImage: groupStore.groupImage[swaped[index].id] ?? UIImage(), index: index, card: cards, recentScheduleList: $scheduleStore.recentSchedule)
+                            CheckItCard(group: swaped[index], groupImage: groupStore.groupImage[swaped[index].image] ?? UIImage(), index: index, card: cards, recentScheduleList: $scheduleStore.recentSchedule)
                                 .tag(index)
                         }
                     }
@@ -100,7 +100,7 @@ struct CheckMainView: View {
                 }
             }
         }
-        print("temp : \(tempCard)")
+        //print("temp : \(tempCard)")
         return tempCard
     } // - cardGenerate
 }

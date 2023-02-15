@@ -18,10 +18,10 @@ struct SafariView:  UIViewControllerRepresentable {
     var url: URL {
         switch mode {
         case .term:
-            return URL(string: "https://oval-cucumber-62e.notion.site/f596a8cc8d2d4d71aecefd39a670bf2b")!
+            return URL(string: "https://check-it.notion.site/cddd689f39aa4dd38bebc3e8d9b6f3cd")!
             
         case .QA:
-            return URL(string: "https://oval-cucumber-62e.notion.site/74df9a9658e149efa132df132d1174d5")!
+            return URL(string: "https://check-it.notion.site/cddd689f39aa4dd38bebc3e8d9b6f3cd")!
         
         default:
             return URL(string: "https://www.google.co.kr/")!
