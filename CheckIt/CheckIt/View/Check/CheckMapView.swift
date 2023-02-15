@@ -86,7 +86,7 @@ struct CheckMapView: View {
                             isProcessing = true
                             Task {
 
-                                guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
+                                guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime, agreeTime: schedule.agreeTime, lateTime: schedule.lateTime) else { return }
                                 
                                 //스케줄 패치로 카운트 가져오고 -> 스케줄 업데이트
                                 await attendanceListUpdateInSchedule(schedule: schedule, timeCompareResult: timeCompareResult)
