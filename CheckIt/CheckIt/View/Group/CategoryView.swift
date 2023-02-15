@@ -252,7 +252,7 @@ struct CategoryView: View {
                     }
                     
                     let uidList = memberStore.members.map { $0.uid }
-                    await groupStore.removeGroup(groupId: group.id ,uidList: uidList)
+                    await groupStore.removeGroup(group: group ,uidList: uidList)
                     self.groupStore.groups.removeAll { $0.id == group.id}
                     
                     toastObj.message = "동아리 삭제가 완료되었습니다."
