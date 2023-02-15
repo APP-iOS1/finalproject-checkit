@@ -100,7 +100,7 @@ struct CheckMainView: View {
                 }
             }
         }
-        print("temp : \(tempCard)")
+        //print("temp : \(tempCard)")
         return tempCard
     } // - cardGenerate
 }
