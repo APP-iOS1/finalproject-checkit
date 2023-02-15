@@ -7,8 +7,11 @@
 import CoreLocation
 import AlertToast
 import SwiftUI
+import Contacts
 
 struct AddScheduleView: View {
+   
+    
     @State private var startTime: Date = Date()
     @State private var endTime: Date = Date()
     @State private var place: String = ""
@@ -21,7 +24,7 @@ struct AddScheduleView: View {
     
     @State private var isLoading: Bool = false
     
-    @ObservedObject var viewModel = WebViewModel()
+    @StateObject var viewModel: WebViewModel = .init()
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var scheduleStore: ScheduleStore
@@ -44,7 +47,7 @@ struct AddScheduleView: View {
         case absentCost
     }
     @FocusState private var focusedField: Field?
-    
+    @State var address: String?
     @State var coordinate: [Double] = [0,0]
     @State var showAddressSheet: Bool = false
     var group: Group
@@ -103,7 +106,7 @@ struct AddScheduleView: View {
                                 } label: {
                                     ZStack(alignment: .leading) {
                                         Button(action: {showAddressSheet = true}){
-                                            Text("\(viewModel.result ?? "장소를 입력해주세요.")")
+                                            Text("\(address ?? "장소를 입력해주세요.")")
                                                 .fontWeight(.semibold)
                                                 .foregroundColor(.primary)
                                                 .offset(x:2)
@@ -253,7 +256,7 @@ struct AddScheduleView: View {
                     
                     // MARK: - 일정 만들기 버튼
                     Button {
-                        if viewModel.result == nil {
+                        if self.address == nil {
                             showAddressToast.toggle()
                             return
                         }
@@ -268,7 +271,7 @@ struct AddScheduleView: View {
                         let end1 = end.getAllTimeInfo()
                         
                         Task {
-                            guard let location = viewModel.result else { fatalError() }
+                            guard let location = self.address else { fatalError() }
                             
                             
                             var schedule = Schedule(
@@ -325,7 +328,7 @@ struct AddScheduleView: View {
                                 .modifier(GruopCustomButtonModifier())
                         } else {
                             Text("일정 만들기")
-                                .modifier(ScheduleEditButton(disable: viewModel.result == nil ? true : false))
+                                .modifier(ScheduleEditButton(disable: address == nil ? true : false))
                         }
                     }
                 }
@@ -366,7 +369,7 @@ struct AddScheduleView: View {
         
         
         .sheet(isPresented: $showAddressSheet) {
-            PickAddressMapView(webViewModel: viewModel, coordinateList: $coordinate, isPresented: $showAddressSheet, address: $viewModel.result)
+            PickAddressMapView(coordinateList: $coordinate, isPresented: $showAddressSheet, address: $address)
                 .interactiveDismissDisabled(true)
         }
         .toast(isPresenting: $showAddressToast) {
@@ -376,81 +379,87 @@ struct AddScheduleView: View {
         
     }
     
-    //MARK: - addressToCoordinate
-    func addressToCoordinate(address: String) async -> [Double] {
-        guard let coordinateString = await GeoCodingService.getCoordinateFromAddress(address: address)
-        else { return [0.0, 0.0] }
-        return [Double(coordinateString[0]) ?? 0.0, Double(coordinateString[1]) ?? 0.0]
-        
-    } // - addressToCoordinate
 }
 
 
 struct PickAddressMapView: View {
-    @StateObject var webViewModel: WebViewModel
-    @State var coordinate: CLLocationCoordinate2D?
-    @State var action: Int? = 0
+    @StateObject var webViewModel: WebViewModel = .init()
+    @StateObject var locationManager: LocationManager1 = .init()
+    
     @Binding var coordinateList: [Double]
     @Binding var isPresented: Bool
+    @State var coordinate: CLLocationCoordinate2D?
+    @State var action: Int?
     @Binding var address: String?
     @Environment(\.dismiss) var dismiss
     var body: some View {
         
-        
         VStack {
+            HStack {
+                Spacer()
+                Button(action: {
+                    address = nil
+                    dismiss()
+                }) {
+                    Text("창닫기")
+                        
+                }
+                .padding(20)
+            }
             if webViewModel.result == nil {
                 WebView(url: "https://soletree.github.io/postNum/", viewModel: webViewModel)
-            }
-            
-            else {
-                if let coordinate {
-                    NavigationView {
-                        NavigationLink(destination: AddressPresentedView(coordinate: coordinate, coordinateList: $coordinateList, isPresented: $isPresented, address: $address), tag: 1, selection: $action) {}
-                        
+                    .onDisappear {
+                        locationManager.address = webViewModel.jibunAddress
+                        Task {
+                            guard let address = locationManager.address else { return }
+                            self.address = locationManager.address
+                            let coordinate = await addressToCoordinate(address: address)
+                            self.coordinateList = coordinate
+                            self.coordinate = CLLocationCoordinate2DMake(coordinate[0], coordinate[1])
+                            action = 1
+                        }
                     }
+            }
+            else {
+                NavigationView {
+                    NavigationLink(destination: MapViewSelection(locationManager: locationManager, coordinate: coordinate ?? CLLocationCoordinate2DMake(0, 0)), tag: 1, selection: $action) {}
+                        
                 }
+                .navigationBarBackButtonHidden(true)
+                
                 
                 Spacer()
-                
-                Text("핀을 눌러 위치를 이동시킬 수 있습니다.")
+                Text("핀을 꾹 눌러 위치를 이동시킬 수 있습니다.")
                     .foregroundColor(.gray)
                     .padding(.bottom)
                 
-                Text(webViewModel.result)
-                
+                if locationManager.pickedPlacemark == nil {
+                    Text(locationManager.address ?? "")
+                } else { Text(returnPostalAddress(placemark: locationManager.pickedPlacemark!))}
                 VStack {
-                    Button(action: {
-                        Task {
-                            guard let result = webViewModel.result else { return }
-                            let geocodingResult = await addressToCoordinate(address: result)
-                            self.coordinate = CLLocationCoordinate2D(latitude: geocodingResult[0], longitude: geocodingResult[1])
-
-                            action = 1
-                        }
-                    }) {
-                        Text("지도에서 확인하기 ")
-                            .modifier(GruopCustomButtonModifier())
-                    }
+//                    Button(action: {
+//                        webViewModel.result = nil
+//                        webViewModel.jibunAddress = nil
+//                        locationManager.address = nil
+//                        address = nil
+//                        dismiss()}
+//                    ) {
+//                        Text("주소 다시 검색하기")
+//                            .modifier(GruopCustomButtonModifier())
+//                    }
                     
                     Button(action: {
-                        webViewModel.result = nil
-                        dismiss()}
-                    ) {
-                        Text("주소 다시 검색하기")
-                            .modifier(GruopCustomButtonModifier())
-                    }
-                    
-                    Button(action: {
-                        Task {
-                            guard let result = webViewModel.result else { return }
-                            let geocodingResult = await addressToCoordinate(address: result)
-                            self.coordinate = CLLocationCoordinate2D(latitude: geocodingResult[0], longitude: geocodingResult[1])
-                            dismiss()
-                        }
+                        guard let placemark = locationManager.pickedPlacemark else { return }
+                        let latitude = placemark.location?.coordinate.latitude as? Double ?? 0
+                        let longitude = placemark.location?.coordinate.longitude as? Double ?? 0
                         
+                        self.coordinateList = [latitude, longitude]
                         
+                        self.locationManager.address = returnPostalAddress(placemark: placemark)
+                        self.address = self.locationManager.address
+                        dismiss()
                     }) {
-                        Text("주소 입력")
+                        Text("입력 완료")
                             .modifier(GruopCustomButtonModifier())
                     }
                 }
@@ -460,49 +469,15 @@ struct PickAddressMapView: View {
         }
     }
     
-    func addressToCoordinate(address: String) async -> [Double] {
-        guard let coordinateString = await GeoCodingService.getCoordinateFromAddress(address: address)
-        else { return [0.0, 0.0] }
-        return [Double(coordinateString[0]) ?? 0.0, Double(coordinateString[1]) ?? 0.0]
-        
-    } // - addressToCoordinate
+    func returnPostalAddress(placemark: CLPlacemark) -> String {
+        let formatter = CNPostalAddressFormatter()
+        let addressString = formatter.string(from: placemark.postalAddress!)
+        return addressString.replacingOccurrences(of: "\n", with: " ")
+    }
+
 }
 
-struct AddressPresentedView: View {
-    var coordinate: CLLocationCoordinate2D
-    @StateObject var locationManager = LocationManager1()
-    @Binding var coordinateList: [Double]
-    @Binding var isPresented: Bool
-    @Binding var address: String?
-    var body: some View {
-        
-        VStack {
-            MapViewSelection(locationManager: locationManager, coordinate: coordinate)
-            Button(action: {
-                guard let result = locationManager.pickedLocation else { return }
-                self.coordinateList = [result.coordinate.latitude, result.coordinate.longitude]
-                isPresented = false
-                Task {
-                    do {
-                        guard let reverseResult = try await reverseLocationCoordinates(location: CLLocation(latitude: result.coordinate.latitude, longitude: result.coordinate.longitude)) else { return }
-                        self.address = "\(reverseResult.administrativeArea ?? "") \(reverseResult.subAdministrativeArea ?? "") \(reverseResult.locality ?? "") \(reverseResult.subLocality ?? "") \(reverseResult.thoroughfare ?? "") \(reverseResult.subThoroughfare ?? "")  "
-                    } catch {}
-                }
-            }) {
-                Text("확인")
-            }
-        }
-        
-        
-    }
-    //Displaying new Location Data
-    func reverseLocationCoordinates(location: CLLocation) async throws -> CLPlacemark? {
-        let place = try await CLGeocoder().reverseGeocodeLocation(location).first
-        
-        return place
-    }
-}
-
+ 
 
 //struct AddScheduleView_Previews: PreviewProvider {
 //    @State static private var showToast = false

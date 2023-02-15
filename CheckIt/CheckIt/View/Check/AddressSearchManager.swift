@@ -24,6 +24,8 @@ class LocationManager1: NSObject, ObservableObject, MKMapViewDelegate, CLLocatio
     @Published var pickedLocation: CLLocation?
     @Published var pickedPlacemark: CLPlacemark?
     
+    @Published var address: String?
+    
     
     override init() {
         super.init()
@@ -74,19 +76,23 @@ class LocationManager1: NSObject, ObservableObject, MKMapViewDelegate, CLLocatio
         mapView.addAnnotation(annotation)
     }
     
+    
+    
     //MARK: Enable Dragging
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let marker = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "PIN")
         marker.isDraggable = true
         marker.canShowCallout = false
         
-        
         return marker
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
         guard let newLocation = view.annotation?.coordinate else { return }
-        self.pickedLocation = .init(latitude: newLocation.latitude, longitude: newLocation.longitude)
+        DispatchQueue.main.async {
+            self.pickedLocation = .init(latitude: newLocation.latitude, longitude: newLocation.longitude)
+        }
+        
         
         updatePlacemark(location: .init(latitude: newLocation.latitude, longitude: newLocation.longitude))
     }
@@ -118,12 +124,6 @@ class LocationManager1: NSObject, ObservableObject, MKMapViewDelegate, CLLocatio
     
 }
 
-//func geoCodingWithMapkit() {
-//    var geocoder = new mapkit.Geocoder({
-//        language: "en-GB",
-//        getsUserLocation: true
-//    });
-//}
 
 //MARK: MapView Live Selection
 struct MapViewSelection: View {
@@ -131,10 +131,11 @@ struct MapViewSelection: View {
     var coordinate: CLLocationCoordinate2D
     var body: some View {
         VStack {
-            MapViewHelper(coordinate: coordinate)
-                .environmentObject(locationManager)
-        }
+            MapViewHelper(locationManager: locationManager, coordinate: coordinate)
+        }.navigationBarBackButtonHidden(true)
+        
         .onDisappear{
+            if locationManager.mapView.annotations.isEmpty { return }
             locationManager.pickedLocation = nil
             locationManager.pickedPlacemark = nil
             locationManager.mapView.removeAnnotation(locationManager.mapView.annotations.first!)
@@ -146,15 +147,19 @@ struct MapViewSelection: View {
 
 //MARK: UIKit MapView
 struct MapViewHelper: UIViewRepresentable {
-    @EnvironmentObject var locationManager: LocationManager1
+    @StateObject var locationManager: LocationManager1
     var coordinate: CLLocationCoordinate2D
     func makeUIView(context: Context) -> MKMapView {
         locationManager.manager.requestWhenInUseAuthorization()
         locationManager.addDraggablePin(coordinate: coordinate)
+        locationManager.updatePlacemark(location: .init(latitude: coordinate.latitude, longitude: coordinate.longitude))
+        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
+        locationManager.mapView.setRegion(region, animated: true)
+        
         return locationManager.mapView
     }
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        
+    
     }
 }
 
