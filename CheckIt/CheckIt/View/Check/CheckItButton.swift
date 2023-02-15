@@ -37,10 +37,6 @@ struct CheckItButton: View {
         get {
             RoundedRectangle(cornerRadius: 15)
                 .foregroundColor(.myGray)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 18)
-                        .stroke(Color.white, lineWidth: 1.5)
-                }
         }
     }
     

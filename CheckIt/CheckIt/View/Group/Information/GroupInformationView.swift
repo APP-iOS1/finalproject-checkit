@@ -70,6 +70,10 @@ struct GroupInformationView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 18)
                             .foregroundColor(.myLightGray)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 18)
+                                    .stroke(Color.myGray)
+                            }
                         VStack {
                             HStack {
                                 Text("동아리 멤버 리스트")

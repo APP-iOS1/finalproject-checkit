@@ -17,7 +17,6 @@
 		1A41F4402977A8D40051F464 /* GroupScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */; };
 		1A41F4422977A8F70051F464 /* AddScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4412977A8F70051F464 /* AddScheduleView.swift */; };
 		1A41F4442977AA600051F464 /* AttendanceStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4432977AA600051F464 /* AttendanceStatusView.swift */; };
-		1A41F4462977AA820051F464 /* LateFeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4452977AA820051F464 /* LateFeeView.swift */; };
 		1A41F4482977AE3C0051F464 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A41F4472977AE3C0051F464 /* CategoryView.swift */; };
 		1AC25B8529953AF500BFBF12 /* ScheduleEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC25B8429953AF500BFBF12 /* ScheduleEmptyView.swift */; };
 		28029D49299B43C600587944 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 28029D48299B43C600587944 /* GoogleMobileAds */; };
@@ -185,7 +184,6 @@
 		1A41F43F2977A8D40051F464 /* GroupScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupScheduleView.swift; sourceTree = "<group>"; };
 		1A41F4412977A8F70051F464 /* AddScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleView.swift; sourceTree = "<group>"; };
 		1A41F4432977AA600051F464 /* AttendanceStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceStatusView.swift; sourceTree = "<group>"; };
-		1A41F4452977AA820051F464 /* LateFeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LateFeeView.swift; sourceTree = "<group>"; };
 		1A41F4472977AE3C0051F464 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		1AC25B8429953AF500BFBF12 /* ScheduleEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEmptyView.swift; sourceTree = "<group>"; };
 		28029D4B299B489700587944 /* GoogleAdMobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAdMobView.swift; sourceTree = "<group>"; };
@@ -640,7 +638,6 @@
 			children = (
 				2807AA97297A4AFC00B1676C /* Master */,
 				1A41F4432977AA600051F464 /* AttendanceStatusView.swift */,
-				1A41F4452977AA820051F464 /* LateFeeView.swift */,
 				2B661EBE299587D600CAE64D /* AttendanceEmptyView.swift */,
 			);
 			path = Attendance;
@@ -952,7 +949,6 @@
 				2822CE242988DDF000316139 /* ScheduleStore.swift in Sources */,
 				A54737B2299164E6002F64F7 /* NotPenaltyCostCellView.swift in Sources */,
 				2859C002299925B200CB6062 /* ImageCacheManager.swift in Sources */,
-				1A41F4462977AA820051F464 /* LateFeeView.swift in Sources */,
 				1A41F4402977A8D40051F464 /* GroupScheduleView.swift in Sources */,
 				FD2D07FB297BFDEC00CC010E /* GeoCodingService.swift in Sources */,
 				A5C48C0D297A506D007D49DF /* GroupInformationView.swift in Sources */,
