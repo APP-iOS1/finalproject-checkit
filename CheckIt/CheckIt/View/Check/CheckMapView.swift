@@ -85,12 +85,13 @@ struct CheckMapView: View {
                         CheckItButton(isActive: checkTimeAndPlaceInAttendance(), isAlert: $isAlert, text: "출석하기") {
                             isProcessing = true
                             Task {
+
                                 guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
                                 
                                 //스케줄 패치로 카운트 가져오고 -> 스케줄 업데이트
                                 await attendanceListUpdateInSchedule(schedule: schedule, timeCompareResult: timeCompareResult)
                                
-                                // 출석 상태를 변경
+                                // 출석 상태를 변경                           
                                 isCompleteAttendance = true
                                 attendanceStore.updateAttendace(attendanceData: Attendance(id: userStore.user!.id, scheduleId: schedule.id, attendanceStatus: "\(timeCompareResult)", settlementStatus: false), scheduleID: schedule.id, uid: userStore.user!.id)
                                 
@@ -222,7 +223,8 @@ struct CheckMapView: View {
             }
             return .constant(false)
         }
-        guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime)
+//        guard let timeCompareResult = Date.dateCompare(schedule.startTime)
+        guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime, agreeTime: schedule.agreeTime, lateTime: schedule.lateTime)
         else {
             DispatchQueue.main.async {
                 alertMode = .time

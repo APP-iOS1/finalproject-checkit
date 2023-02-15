@@ -113,6 +113,13 @@ struct GroupInformationView: View {
                                     }
                                 }
                             }
+                            .refreshable {
+                                memberStore.members.removeAll()
+                                Task {
+                                    try await memberStore.fetchMember(group.id)
+                                    self.memberStore.members = await memberStore.sortedMember(nameDict)
+                                }
+                            }
                         }
                     }
                 }
