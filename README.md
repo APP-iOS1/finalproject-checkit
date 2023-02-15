@@ -82,7 +82,7 @@
 ## 개발 환경
 
 - Xcode Version 14.2
-- SwiftUI, iOS 15.0
+- SwiftUI, iOS 16.0
 - Auto layoout
 - Dark mode, Horizontal mode not supported
 
