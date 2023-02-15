@@ -53,7 +53,9 @@ class ScheduleStore: ObservableObject {
                 let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
                 let endTimestamp: Date = endTime.dateValue()
                 
-                let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
+                let coordinate: [Double] = docData["coordinate"] as? [Double] ?? []
+                
+                let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount, coordinate: coordinate)
                 
                 DispatchQueue.main.async {
                     self.scheduleList.append(schedule)
@@ -98,7 +100,9 @@ class ScheduleStore: ObservableObject {
                 let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
                 let endTimestamp: Date = endTime.dateValue()
                 
-                let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime,memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
+                let coordinate: [Double] = docData["coordinate"] as? [Double] ?? []
+                
+                let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime,memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount, coordinate: coordinate)
                 
                 DispatchQueue.main.async {
                     self.publishedAttendanceCount = schedule.attendanceCount
@@ -147,7 +151,9 @@ class ScheduleStore: ObservableObject {
                         let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
                         let endTimestamp: Date = endTime.dateValue()
                         
-                        let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime,memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
+                        let coordinate: [Double] = docData["coordinate"] as? [Double] ?? []
+                        
+                        let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime,memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount, coordinate: coordinate)
                         
                         print(schedule, "반영이 되나")
                         
@@ -230,7 +236,8 @@ class ScheduleStore: ObservableObject {
                     ScheduleConstants.attendanceCount: schedule.attendanceCount,
                     ScheduleConstants.lateCount: schedule.lateCount,
                     ScheduleConstants.absentCount: schedule.absentCount,
-                    ScheduleConstants.officiallyAbsentCount: schedule.officiallyAbsentCount
+                    ScheduleConstants.officiallyAbsentCount: schedule.officiallyAbsentCount,
+                    "coordinate": schedule.coordinate
                 ])
             print("추가된 일정: \(schedule)")
             
@@ -270,7 +277,8 @@ class ScheduleStore: ObservableObject {
                     ScheduleConstants.attendanceCount: schedule.attendanceCount,
                     ScheduleConstants.lateCount: schedule.lateCount,
                     ScheduleConstants.absentCount: schedule.absentCount,
-                    ScheduleConstants.officiallyAbsentCount: schedule.officiallyAbsentCount
+                    ScheduleConstants.officiallyAbsentCount: schedule.officiallyAbsentCount,
+                    "coordinate": schedule.coordinate
                 ])
             print("수정된 일정: \(schedule)")
             
@@ -354,7 +362,9 @@ class ScheduleStore: ObservableObject {
             let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
             let endTimestamp: Date = endTime.dateValue()
             
-            let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
+            let coordinate: [Double] = docData["coordinate"] as? [Double] ?? []
+            
+            let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime, memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount, coordinate: coordinate)
             
             DispatchQueue.main.async {
                 self.recentSchedule.append(schedule)
@@ -406,7 +416,9 @@ class ScheduleStore: ObservableObject {
                 let endTime: Timestamp = docData["end_time"] as? Timestamp ?? Timestamp()
                 let endTimestamp: Date = endTime.dateValue()
                 
-                let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime,memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount)
+                let coordinate: [Double] = docData["coordinate"] as? [Double] ?? []
+                
+                let schedule: Schedule = Schedule(id: id, groupName: groupName, lateFee: lateFee, absenteeFee: absenteeFee, location: location, startTime: startTimestamp, endTime: endTimestamp, agreeTime: agreeTime, lateTime: lateTime,memo: memo, attendanceCount: attendanceCount, lateCount: lateCount, absentCount: absentCount, officiallyAbsentCount: officiallyAbsentCount, coordinate: coordinate)
                 
                 DispatchQueue.main.async {
 //                    temp.append(schedule)

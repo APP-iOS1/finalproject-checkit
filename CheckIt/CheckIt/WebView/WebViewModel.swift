@@ -13,5 +13,6 @@ class WebViewModel: ObservableObject {
     var foo = PassthroughSubject<Bool, Never>()
     var bar = PassthroughSubject<Bool, Never>()
     @Published var result: String?
-    @Published var isPresentedWebView: Bool = false
+    @Published var jibunAddress: String?
+    @Published var isPresentedMapView: Bool = false
 }

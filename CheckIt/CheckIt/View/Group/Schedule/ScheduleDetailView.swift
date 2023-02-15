@@ -251,7 +251,8 @@ struct ScheduleDetailView: View {
                 attendanceCount: schedule.attendanceCount,
                 lateCount: schedule.lateCount,
                 absentCount: schedule.absentCount,
-                officiallyAbsentCount: schedule.officiallyAbsentCount
+                officiallyAbsentCount: schedule.officiallyAbsentCount,
+                coordinate: []
             )
             print("editSchedule:",editSchedule)
         }

@@ -19,8 +19,8 @@ struct CheckMapView: View {
     @State var showAttendanceCompleteToast: Bool = false
     @State var toastMessage: String = ""
     @State var isCompleteAttendance: Bool = false
-    @State var userTrackingMode: MKUserTrackingMode = .none
-    
+    @State var userTrackingMode: MKUserTrackingMode = .follow
+    @State var isProcessing: Bool = false
     
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStore: UserStore
@@ -37,13 +37,19 @@ struct CheckMapView: View {
     @State var isAlert: Bool = false
     // 경고창의 모드(장소,시간)를 판단하는 변수
     @State var alertMode: AlertMode = .time
-    var coordinate: CLLocationCoordinate2D?
+    var coordinate: [Double]
     
-    init(group: Group, schedule: Schedule, coordinate: CLLocationCoordinate2D?) {
+    init(group: Group, schedule: Schedule, coordinate: [Double]) {
         self.group = group
         self.schedule = schedule
-        self.coordinate = coordinate
-        _locationManager = StateObject(wrappedValue: LocationManager(toCoordinate: coordinate ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)))
+        if coordinate.isEmpty { self.coordinate = [0,0]
+            _locationManager = StateObject(wrappedValue: LocationManager(toCoordinate: CLLocationCoordinate2D(latitude: 0, longitude: 0)))
+        }
+        else {
+            self.coordinate = coordinate
+            _locationManager = StateObject(wrappedValue: LocationManager(toCoordinate: CLLocationCoordinate2D(latitude: coordinate[0], longitude: coordinate[1])))
+            
+        }
     }
     
     var body: some View {
@@ -56,17 +62,18 @@ struct CheckMapView: View {
             
                 .overlay(alignment: .bottom) {
                     VStack {
-                        // 토스트 알럿
+                        //MARK: - 토스트 알럿
                         CustomToastAlert(distance: $locationManager.distance, isPresented: $isAlert, mode: $alertMode)
                         
-                        // 유저 포커싱 모드
+                        //MARK: - 유저 포커싱 모드
                         HStack {
                             Spacer()
                             userFocusModeButton
                         }
                         .padding(.trailing, 20)
                         
-                        //Apple Map과 연결
+                        
+                        //MARK: - Apple Map과 연결(길찾기)
                         HStack {
                             Spacer()
                             guideDirectionButton
@@ -74,39 +81,28 @@ struct CheckMapView: View {
                         .padding(.trailing, 20)
                         
                         
-                        // 출석하기 버튼, isActive가 false면 자동으로 disable됨
+                        //MARK: - 출석하기 버튼, isActive가 false면 자동으로 disable됨
                         CheckItButton(isActive: checkTimeAndPlaceInAttendance(), isAlert: $isAlert, text: "출석하기") {
+                            isProcessing = true
                             Task {
                                 guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
-                                // 이미 출석이 완료 되었으면
-                                isCompleteAttendance = true
+                                
+                                //스케줄 패치로 카운트 가져오고 -> 스케줄 업데이트
+                                await attendanceListUpdateInSchedule(schedule: schedule, timeCompareResult: timeCompareResult)
+                               
                                 // 출석 상태를 변경
-                                //스케줄 패치로 카운트 가져옥 -> 스케줄 업데이트
-                                let attendance = Attendance(id: userStore.user?.id ?? "", scheduleId: schedule.id, attendanceStatus: timeCompareResult, settlementStatus: false)
-                                await scheduleStore.asyncFetchScheduleCountWithScheduleID(scheduleID: schedule.id)
-                                if timeCompareResult == "지각" {
-                                    scheduleStore.publishedAbsentCount -= 1
-                                    scheduleStore.publishedLateCount += 1
-                                }
-                                else { //출석
-                                    scheduleStore.publishedAbsentCount -= 1
-                                    scheduleStore.publishedAttendanceCount += 1
-                                }
-                                var scheduleValue = schedule
-                                scheduleValue.attendanceCount = scheduleStore.publishedAttendanceCount
-                                scheduleValue.lateCount = scheduleStore.publishedLateCount
-                                scheduleValue.absentCount = scheduleStore.publishedAbsentCount
-                                scheduleValue.officiallyAbsentCount = scheduleStore.publishedOfficiallyAbsentCount
-                                await scheduleStore.updateScheduleAttendanceCount(schedule: scheduleValue)
-                                guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
                                 isCompleteAttendance = true
-                                // 출석 상태를 변경
                                 attendanceStore.updateAttendace(attendanceData: Attendance(id: userStore.user!.id, scheduleId: schedule.id, attendanceStatus: "\(timeCompareResult)", settlementStatus: false), scheduleID: schedule.id, uid: userStore.user!.id)
+                                
+                                // 출석완료 토스트 알럿 띄우기
                                 toastMessage = "출석하기 완료"
                                 showAttendanceCompleteToast = true
+                                DispatchQueue.main.async {
+                                    isProcessing = false
+                                }
                             }
-
                         }
+                        // 출석하기 버튼에 흰 테두리 추가
                         .overlay {
                             RoundedRectangle(cornerRadius: 18)
                                 .stroke(Color.white, lineWidth: 1.5)
@@ -118,15 +114,14 @@ struct CheckMapView: View {
                     } // - VStack
                 } // - overlay
             
-            
-            // QR 시트 버튼
+            //MARK: - QR 시트 버튼
                 .toolbar {
                     Button (action: {
                         showQR.toggle()
                     }) { QRButtonLabel() }
                 } // - toolbar
             
-            // QR 시트
+            //MARK: - QR 시트
                 .sheet(isPresented: $showQR) {
                     if isGroupHost {
                         CameraScanner(schedule: schedule, showToast: $showToast, toastMessage: $toastMessage)
@@ -157,12 +152,14 @@ struct CheckMapView: View {
         }
     }
     
+    //MARK: - View(admob)
     @ViewBuilder func admob() -> some View {
         // admob
         GoogleAdMobView()
             .frame(width: UIScreen.main.bounds.width, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
-    }
+    } // - admob
     
+    //MARK: - Button(userFocusModeButton)
     private var userFocusModeButton: some View {
         Button(action: {
             switch userTrackingMode {
@@ -192,14 +189,14 @@ struct CheckMapView: View {
                     .frame(width: 40, height: 40)
             }
         }
-    }
+    } // - userFocusModeButton
 
     
     //MARK: - View(guideDirectionButton)
     /// 길찾기 버튼입니다.
     private var guideDirectionButton: some View {
         Button {
-            let url = URL(string: "maps://?daddr=\(coordinate?.latitude ?? 0),\(coordinate?.longitude ?? 0)")
+            let url = URL(string: "maps://?daddr=\(coordinate[0] ?? 0),\(coordinate[1] ?? 0)")
             if UIApplication.shared.canOpenURL(url!) {
                 UIApplication.shared.open(url!)
             }
@@ -215,6 +212,10 @@ struct CheckMapView: View {
     //MARK: - Method(checkTimeAndPlaceInAttendance)
     /// 출석하기 버튼을 활성화 시키는 메서드입니다.
     func checkTimeAndPlaceInAttendance() -> Binding<Bool> {
+        if self.isProcessing {
+            return .constant(false)
+        }
+        
         if isCompleteAttendance {
             DispatchQueue.main.async {
                 alertMode = .complete
@@ -237,6 +238,26 @@ struct CheckMapView: View {
         }
         return .constant(true)
     } // - checkTimeAndPlaceInAttendance
+    
+    
+    //MARK: - Method(attendanceListUpdateInSchedule)
+    func attendanceListUpdateInSchedule(schedule: Schedule, timeCompareResult: String) async {
+        await scheduleStore.asyncFetchScheduleCountWithScheduleID(scheduleID: schedule.id)
+        if timeCompareResult == "지각" {
+            scheduleStore.publishedAbsentCount -= 1
+            scheduleStore.publishedLateCount += 1
+        }
+        else { //출석
+            scheduleStore.publishedAbsentCount -= 1
+            scheduleStore.publishedAttendanceCount += 1
+        }
+        var scheduleValue = schedule
+        scheduleValue.attendanceCount = scheduleStore.publishedAttendanceCount
+        scheduleValue.lateCount = scheduleStore.publishedLateCount
+        scheduleValue.absentCount = scheduleStore.publishedAbsentCount
+        scheduleValue.officiallyAbsentCount = scheduleStore.publishedOfficiallyAbsentCount
+        await scheduleStore.updateScheduleAttendanceCount(schedule: scheduleValue)
+    } // - attendanceListUpdateInSchedule
     
 }
 
