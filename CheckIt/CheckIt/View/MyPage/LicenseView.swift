@@ -36,6 +36,17 @@ FirebaseUI
 AlertToast
 - https://github.com/elai950/AlertToast
 
+Lottie
+- https://github.com/airbnb/lottie-ios
+
+GoogleMobileAds
+- https://github.com/google/GoogleAppMeasurement.git
+
+SkeletonUI
+- https://github.com/CSolanaM/SkeletonUI
+
+SkeletonView
+- https://github.com/Juanpe/SkeletonView
 """
                 )
             }
