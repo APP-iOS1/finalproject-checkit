@@ -27,11 +27,10 @@ struct TaskView: View {
                 if !filterSchedules.isEmpty {
                     VStack(alignment: .leading, spacing: 9) {
                         //MARK: - 일정 날짜
-                        Text("예정된 일정")
-                            .font(.title3)
-                            .padding(.top, 25)
-                            .bold()
-                        
+                            Text("예정된 일정")
+                                .font(.title3)
+                                .padding(.top, 25)
+                                .bold()
                         ScrollView(showsIndicators: true) {
                             // MARK: - selectedGroup에 맞춰 필터된 스케줄을 시간순으로 정렬(과거순)
                             let sortedSchedules = filterSchedules.sorted {
