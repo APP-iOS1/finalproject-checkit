@@ -95,17 +95,7 @@ struct WebView: UIViewRepresentable, WebViewHandlerDelegate {
 //                   return decisionHandler(.cancel)
 //               }
             }
-            
-//            // bar에 값을 send 해보자!
-//            DispatchQueue.main.async {
-//                self.parent.viewModel.bar.send(false)
-//
-//                // foo로 값이 receive 되면 출력해보자!
-//                self.foo = self.parent.viewModel.foo.receive(on: RunLoop.main)
-//                    .sink(receiveValue: { value in
-//                        print(value)
-//                    })
-//            }
+           
             return decisionHandler(.allow)
         }
          
@@ -157,10 +147,11 @@ extension WebView.Coordinator: WKScriptMessageHandler {
                                didReceive message: WKScriptMessage) {
         if message.name == "callBackHandler" {
             delegate?.receivedJsonValueFromWebView(value: message.body as? [String : Any?] ?? [:])
-            let a = JSON(message.body)
-            self.parent.viewModel.result = "\(a["roadAddress"])"
-            self.parent.viewModel.isPresentedWebView = false
-            
+            let result = JSON(message.body)
+            self.parent.viewModel.result = "\(result["roadAddress"])"
+            self.parent.viewModel.jibunAddress = "\(result["jibunAddress"])"
+//            self.isPresentedMapView = true
+           
         } else if let body = message.body as? String {
             delegate?.receivedStringValueFromWebView(value: body)
         }
