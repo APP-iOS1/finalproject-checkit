@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EditScheduleView: View {
+   
     @State private var placeholderText: String = "메모(선택)"
     
     @Binding var schedule: Schedule
@@ -15,7 +16,7 @@ struct EditScheduleView: View {
     @State var isShowingWebView: Bool = false
     @State var bar = true
     @State private var isLoading: Bool = false
-    @ObservedObject var viewModel = WebViewModel()
+    
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var scheduleStore: ScheduleStore
@@ -24,7 +25,7 @@ struct EditScheduleView: View {
     
     @Binding var showToast: Bool
     @Binding var toastObj: ToastMessage
-    
+    @State var address: String?
     var group: Group
     enum Field: Hashable {
         case memo
@@ -93,7 +94,7 @@ struct EditScheduleView: View {
                                             .frame(width: 250)
                                             .foregroundColor(Color.white)
                                         
-                                        Text(viewModel.result ?? schedule.location)
+                                        Text(address ?? schedule.location)
                                             .foregroundColor(Color.black)
                                     }
                                 }
@@ -229,7 +230,7 @@ struct EditScheduleView: View {
                         let end1 = end.getAllTimeInfo()
                         
                         
-                        let coordinateResult = viewModel.result == nil ?
+                        let coordinateResult = (address == nil) ?
                         schedule.coordinate : coordinate
                        
                             let newSchedule = Schedule(
@@ -237,7 +238,7 @@ struct EditScheduleView: View {
                                 groupName: group.name,
                                 lateFee: schedule.lateFee,
                                 absenteeFee: schedule.absenteeFee,
-                                location: viewModel.result ?? schedule.location,
+                                location: address ?? schedule.location,
                                 startTime: start1,
                                 endTime: end1,
                                 agreeTime: schedule.agreeTime,
@@ -319,22 +320,22 @@ struct EditScheduleView: View {
             }
         }
         .sheet(isPresented: $showAddressSheet) {
-            PickAddressMapView(webViewModel: viewModel, coordinateList: $coordinate, isPresented: $showAddressSheet, address: $viewModel.result)
+            PickAddressMapView(coordinateList: $coordinate, isPresented: $showAddressSheet, address: $address)
             
         }
-        .onReceive(self.viewModel.bar.receive(on: RunLoop.main)) { value in
-            self.bar = value
-        }
+        
     }
     
-    //MARK: - addressToCoordinate
-    func addressToCoordinate(address: String) async -> [Double] {
-        guard let coordinateString = await GeoCodingService.getCoordinateFromAddress(address: address)
-        else { return [0.0, 0.0] }
-        return [Double(coordinateString[0]) ?? 0.0, Double(coordinateString[1]) ?? 0.0]
-        
-    } // - addressToCoordinate
+   
 }
+
+//MARK: - addressToCoordinate
+func addressToCoordinate(address: String) async -> [Double] {
+    guard let coordinateString = await GeoCodingService.getCoordinateFromAddress(address: address)
+    else { return [0.0, 0.0] }
+    return [Double(coordinateString[0]) ?? 0.0, Double(coordinateString[1]) ?? 0.0]
+    
+} // - addressToCoordinate
 
 //struct EditScheduleView_Previews: PreviewProvider {
 //    static var previews: some View {
