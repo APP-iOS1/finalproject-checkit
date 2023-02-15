@@ -82,7 +82,7 @@ struct CheckMapView: View {
                         
                         
                         //MARK: - 출석하기 버튼, isActive가 false면 자동으로 disable됨
-                        CheckItButton(isActive: checkTimeAndPlaceInAttendance(), isAlert: $isAlert, text: "출석하기") {
+                        CheckItButton(isActive: checkTimeAndPlaceInAttendance(schedule: schedule), isAlert: $isAlert, text: "출석하기") {
                             isProcessing = true
                             Task {
 
@@ -103,6 +103,7 @@ struct CheckMapView: View {
                                 }
                             }
                         }
+//                        .disabled(checkTimeAndPlaceInAttendance(schedule: schedule))
                         // 출석하기 버튼에 흰 테두리 추가
                         .overlay {
                             RoundedRectangle(cornerRadius: 18)
@@ -212,7 +213,7 @@ struct CheckMapView: View {
     
     //MARK: - Method(checkTimeAndPlaceInAttendance)
     /// 출석하기 버튼을 활성화 시키는 메서드입니다.
-    func checkTimeAndPlaceInAttendance() -> Binding<Bool> {
+    func checkTimeAndPlaceInAttendance(schedule: Schedule) -> Binding<Bool> {
         if self.isProcessing {
             return .constant(false)
         }
@@ -223,7 +224,6 @@ struct CheckMapView: View {
             }
             return .constant(false)
         }
-//        guard let timeCompareResult = Date.dateCompare(schedule.startTime)
         guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime, agreeTime: schedule.agreeTime, lateTime: schedule.lateTime)
         else {
             DispatchQueue.main.async {
