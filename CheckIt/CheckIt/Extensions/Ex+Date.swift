@@ -66,16 +66,20 @@ extension Date {
     }
     
     //FIXME: 사용자 설정 시간에 따라 메서드가 바뀌어야 함
-    static func dateCompare(compareDate: Date) -> String? {
+    static func dateCompare(compareDate: Date, agreeTime: Int, lateTime: Int) -> String? {
         let now = Date.now
         // 출석 인정 시작 시각입니다.
         // 40분 스케줄이면
         // 35분 이전은 "이전
         // 35 ~ 45 "출석"
         // 45 ~ 50 "지각"
-        let startTime = compareDate.addingTimeInterval(-300)
+        
+        let start = -(agreeTime * 60)
+        let absent = 300 + (lateTime * 60)
+        
+        let startTime = compareDate.addingTimeInterval(TimeInterval(start))
         let lateTime = compareDate.addingTimeInterval(300)
-        let absentTime = compareDate.addingTimeInterval(600) //5분 지나면
+        let absentTime = compareDate.addingTimeInterval(TimeInterval(absent)) //5분 지나면
         if now < startTime {
             return Status.prev.rawValue
         }
