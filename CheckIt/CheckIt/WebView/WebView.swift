@@ -10,6 +10,7 @@ import SwiftUI
 import Combine
 import WebKit
 import SwiftyJSON
+import CoreLocation
 
 
 
@@ -150,7 +151,8 @@ extension WebView.Coordinator: WKScriptMessageHandler {
             let result = JSON(message.body)
             self.parent.viewModel.result = "\(result["roadAddress"])"
             self.parent.viewModel.jibunAddress = "\(result["jibunAddress"])"
-//            self.isPresentedMapView = true
+            self.parent.viewModel.isPresentedMapView = true
+             
            
         } else if let body = message.body as? String {
             delegate?.receivedStringValueFromWebView(value: body)

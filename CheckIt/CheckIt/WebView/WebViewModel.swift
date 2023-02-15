@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 import Combine
 
 @MainActor
@@ -15,4 +16,5 @@ class WebViewModel: ObservableObject {
     @Published var result: String?
     @Published var jibunAddress: String?
     @Published var isPresentedMapView: Bool = false
+  
 }
