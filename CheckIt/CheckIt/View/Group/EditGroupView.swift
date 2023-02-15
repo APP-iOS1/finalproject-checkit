@@ -47,15 +47,16 @@ struct EditGroupView: View {
                 // 사진첩, 고른 사진은 selectedItems, selectedPhotoData에 할당
                 PhotosPicker(selection: $selectedItems, maxSelectionCount: 1, matching: .images) {
                     ZStack {
-                        if groupStores.groupImage[group.id] == nil && selectedPhotoData.isEmpty {
-                            Circle()
-                                .foregroundColor(Color.myGray)
+                        if groupStores.groupImage[group.image] == nil && selectedPhotoData.isEmpty {
+                            Circle().fill(Color.myLightGray)
                                 .scaledToFit()
                                 .frame(width: 120, height: 120)
-                            
+                            Image(systemName: "plus")
+                                .resizable()
+                                .frame(width: 20, height: 20)
                         } else {
                             if selectedPhotoData.isEmpty {
-                                Image(uiImage: groupStores.groupImage[group.id]!)
+                                Image(uiImage: groupStores.groupImage[group.image]!)
                                     .resizable()
                                     .clipShape(Circle())
                                     .frame(width: 120, height: 120)
@@ -110,17 +111,20 @@ struct EditGroupView: View {
                     isLoading.toggle()
                     
                     Task {
-                        let result = await groupStores.canUseGroupsName(groupName: group.name)
-                        print("result: \(result)")
-                        
-                        if !result {
-                            print("여기로 이동")
-                            self.alertMessage = "동아리 이름이 중복됩니다.!"
+                        if oldGroupName != group.name {
                             
-                            showAlert.toggle()
-                            isClicked.toggle()
-                            isLoading.toggle()
-                            return
+                            let result = await groupStores.canUseGroupsName(groupName: group.name)
+                            print("result: \(result)")
+                            
+                            if !result {
+                                print("여기로 이동")
+                                self.alertMessage = "동아리 이름이 중복됩니다.!"
+                                
+                                showAlert.toggle()
+                                isClicked.toggle()
+                                isLoading.toggle()
+                                return
+                            }
                         }
                         
                         // 이미지가 변경됨
@@ -134,13 +138,13 @@ struct EditGroupView: View {
                         let newGroup = Group(id: group.id,
                                              name: group.name,
                                              invitationCode: group.invitationCode,
-                                             image: group.image,
+                                             image: UUID().uuidString,
                                              hostID: group.hostID,
                                              description: group.description,
                                              scheduleID: group.scheduleID,
                                              memberLimit: group.memberLimit)
                         
-                        await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.id] ?? UIImage())
+                        await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.image] ?? UIImage())
                         
                         if oldGroupName != newGroup.name { // 스케줄내 모든 동아리 이름 변경
                             print("여기 호출: \(newGroup.name)")
@@ -157,7 +161,9 @@ struct EditGroupView: View {
                         
                         self.groupStores.groupDetail = newGroup
                         if !selectedPhotoData.isEmpty {
-                            self.groupStores.groupImage[group.id] = selectedPhotoData.first!
+                            DispatchQueue.main.async {
+                                self.groupStores.groupImage[group.image] = selectedPhotoData.first!
+                            }
                         }
                         
                         isClicked.toggle()
@@ -197,26 +203,27 @@ struct EditGroupView: View {
         /// 이미지 수정시 해야할일
         /// 캐시 비우기
         /// 디스크 비우기
-//        var filePath = URL(fileURLWithPath: directory.path)
-//        filePath.appendPathComponent(group.id)
-//
-//        print("filePath: \(filePath)")
-//
-//        do {
-//            try ImageCacheManager.fileManager.removeItem(atPath: filePath.path)
-//            print("원래 이미지 삭제 성공")
-//        } catch {
-//            print("이미지 삭제 실패: \(error.localizedDescription)")
-//            toastObj.message = "디바이스에 존재하는 이미지를 삭제하는데 실패하였습니다."
-//            toastObj.type = .failed
-//            dismiss()
-//            return
-//        }
+        var filePath = URL(fileURLWithPath: directory.path)
+        filePath.appendPathComponent(group.image)
+        print("filePath: \(filePath)")
+
+        print("filePath: \(filePath)")
+
+        do {
+            try ImageCacheManager.fileManager.removeItem(atPath: filePath.path)
+            print("원래 이미지 삭제 성공")
+        } catch {
+            print("이미지 삭제 실패: \(error.localizedDescription)")
+            toastObj.message = "디바이스에 존재하는 이미지를 삭제하는데 실패하였습니다."
+            toastObj.type = .failed
+            dismiss()
+            return
+        }
         
         // 메모리 캐시도 새로운 이미지로 갈아치우기
         // 메모리를 다 비우고 새로 끼워넣기
         ImageCacheManager.shared.removeAllObjects()
-        let cacheKey = NSString(string: group.id)
+        let cacheKey = NSString(string: group.image)
         ImageCacheManager.setObject(image: selectedPhotoData.first!, forKey: cacheKey, type: .memory)
         
         //디스크에 쓰기

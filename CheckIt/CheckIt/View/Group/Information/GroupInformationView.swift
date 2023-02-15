@@ -33,7 +33,7 @@ struct GroupInformationView: View {
     }
     
     var groupImage: UIImage {
-        guard let image = groupStore.groupImage[group.id] else { return UIImage() }
+        guard let image = groupStore.groupImage[group.image] else { return UIImage() }
         return image
     }
     
