@@ -368,7 +368,6 @@ struct AddScheduleView: View {
         .sheet(isPresented: $showAddressSheet) {
             PickAddressMapView(webViewModel: viewModel, coordinateList: $coordinate, isPresented: $showAddressSheet, address: $viewModel.result)
                 .interactiveDismissDisabled(true)
-            
         }
         .toast(isPresenting: $showAddressToast) {
             AlertToast(displayMode: .banner(.pop), type: .error(.red), title: "일정 장소를 선택해 주세요.")
@@ -410,8 +409,11 @@ struct PickAddressMapView: View {
                         
                     }
                 }
+                
+                Spacer()
+                
                 Text("핀을 눌러 위치를 이동시킬 수 있습니다.")
-                    .foregroundColor(Color.myLightGray)
+                    .foregroundColor(.gray)
                     .padding(.bottom)
                 
                 Text(webViewModel.result)
@@ -422,21 +424,7 @@ struct PickAddressMapView: View {
                             guard let result = webViewModel.result else { return }
                             let geocodingResult = await addressToCoordinate(address: result)
                             self.coordinate = CLLocationCoordinate2D(latitude: geocodingResult[0], longitude: geocodingResult[1])
-                            dismiss()
-                        }
-                        
-                        
-                    }) {
-                        Text("주소 입력")
-                            .modifier(GruopCustomButtonModifier())
-                    }
-                    
-                    Button(action: {
-                        Task {
-                            guard let result = webViewModel.result else { return }
-                            let geocodingResult = await addressToCoordinate(address: result)
-                            self.coordinate = CLLocationCoordinate2D(latitude: geocodingResult[0], longitude: geocodingResult[1])
-                            
+
                             action = 1
                         }
                     }) {
@@ -449,6 +437,20 @@ struct PickAddressMapView: View {
                         dismiss()}
                     ) {
                         Text("주소 다시 검색하기")
+                            .modifier(GruopCustomButtonModifier())
+                    }
+                    
+                    Button(action: {
+                        Task {
+                            guard let result = webViewModel.result else { return }
+                            let geocodingResult = await addressToCoordinate(address: result)
+                            self.coordinate = CLLocationCoordinate2D(latitude: geocodingResult[0], longitude: geocodingResult[1])
+                            dismiss()
+                        }
+                        
+                        
+                    }) {
+                        Text("주소 입력")
                             .modifier(GruopCustomButtonModifier())
                     }
                 }
