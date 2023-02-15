@@ -141,6 +141,7 @@
 		FD909F9C299388900002F55F /* MapViewWithUserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD909F9B299388900002F55F /* MapViewWithUserLocation.swift */; };
 		FD909F9E299558E40002F55F /* SecondIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = FD909F9D299558E40002F55F /* SecondIndicator.json */; };
 		FDE58061297A53A600B7AC28 /* CustomToastAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE58060297A53A500B7AC28 /* CustomToastAlert.swift */; };
+		FDEA39A5299C718500D18282 /* AddressSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEA39A4299C718500D18282 /* AddressSearchManager.swift */; };
 		FDEE4904298D4D92009DF195 /* GoogleLoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4903298D4D92009DF195 /* GoogleLoginStore.swift */; };
 		FDEE4906298D5883009DF195 /* AppleLoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4905298D5883009DF195 /* AppleLoginStore.swift */; };
 		FDEE4909298D7DAD009DF195 /* KakaoLoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4908298D7DAD009DF195 /* KakaoLoginStore.swift */; };
@@ -287,6 +288,7 @@
 		FD909F9B299388900002F55F /* MapViewWithUserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewWithUserLocation.swift; sourceTree = "<group>"; };
 		FD909F9D299558E40002F55F /* SecondIndicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SecondIndicator.json; sourceTree = "<group>"; };
 		FDE58060297A53A500B7AC28 /* CustomToastAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToastAlert.swift; sourceTree = "<group>"; };
+		FDEA39A4299C718500D18282 /* AddressSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSearchManager.swift; sourceTree = "<group>"; };
 		FDEE4903298D4D92009DF195 /* GoogleLoginStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginStore.swift; sourceTree = "<group>"; };
 		FDEE4905298D5883009DF195 /* AppleLoginStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginStore.swift; sourceTree = "<group>"; };
 		FDEE4907298D606B009DF195 /* CheckIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CheckIt.entitlements; sourceTree = "<group>"; };
@@ -608,6 +610,7 @@
 			children = (
 				FD4E25EF2977AC8500F6F875 /* CheckItCard.swift */,
 				FD4E25F72977B9E900F6F875 /* CheckMapView.swift */,
+				FDEA39A4299C718500D18282 /* AddressSearchManager.swift */,
 				FD909F9B299388900002F55F /* MapViewWithUserLocation.swift */,
 				FD4E25FD2977C44C00F6F875 /* QRButtonLabel.swift */,
 				FD4E25F92977BA6600F6F875 /* QRSheetView.swift */,
@@ -956,6 +959,7 @@
 				1A41F4422977A8F70051F464 /* AddScheduleView.swift in Sources */,
 				2845444D298A26F1001B2EED /* Ex+Date.swift in Sources */,
 				864DC48F2977B962005DB201 /* DateValue.swift in Sources */,
+				FDEA39A5299C718500D18282 /* AddressSearchManager.swift in Sources */,
 				2822CE202988DDC600316139 /* UserStore.swift in Sources */,
 				864DC4892977B2F9005DB201 /* CustomDatePickerView.swift in Sources */,
 				2822CE1C2988B3E500316139 /* Schedule.swift in Sources */,
