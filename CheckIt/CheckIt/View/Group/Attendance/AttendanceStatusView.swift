@@ -13,6 +13,7 @@ struct AttendanceStatusView: View {
     @EnvironmentObject var userStore: UserStore
     
     @Binding var isGroupManager: Bool
+    var group: Group
     var scheduleIDList: [String]?
     var hostId: String
     
@@ -37,6 +38,11 @@ struct AttendanceStatusView: View {
                                 }
                             }
                         }
+                        .refreshable {
+                            Task {
+                                await scheduleStore.fetchSchedule(groupName: group.name)
+                            }
+                        }
                     }
                 }
                 else { //구성원
@@ -56,6 +62,9 @@ struct AttendanceStatusView: View {
                                     .padding(.horizontal, 30)
                                     .padding(.bottom, 8)
                             }
+                        }
+                        .refreshable {
+                            scheduleStore.fetchUserScheduleList(scheduleList: scheduleStore.scheduleList, userID: userStore.user?.id ?? "", attendanceStore: attendanceStore)
                         }
                     }
                 }
