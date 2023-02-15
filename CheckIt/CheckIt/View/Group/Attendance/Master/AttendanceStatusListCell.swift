@@ -72,7 +72,7 @@ struct AttendanceStatusListCell: View {
                     
                     Spacer()
                     
- <<<<<<< 230214_AttendanceCell
+ 
                     RoundedRectangle(cornerRadius: 10)
                         .frame(width: 45, height: 25)
                         .foregroundColor(.white)
@@ -84,63 +84,63 @@ struct AttendanceStatusListCell: View {
                                 .font(.caption)
                                 .bold()
                         }
- =======
-                    if attendance?.attendanceStatus == "출석" {
-                        RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 45, height: 25)
-                            .foregroundColor(.white)
-                            .overlay{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.myGreen, lineWidth: 1)
-                                Text(attendance?.attendanceStatus ?? "")
-                                    .foregroundColor(Color.myGreen)
-                                    .font(.caption)
-                                    .bold()
-                            }
-                    }
-                    
-                    if attendance?.attendanceStatus == "지각" {
-                        RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 45, height: 25)
-                            .foregroundColor(.white)
-                            .overlay{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.myOrange, lineWidth: 1)
-                                Text(attendance?.attendanceStatus ?? "")
-                                    .foregroundColor(Color.myOrange)
-                                    .font(.caption)
-                                    .bold()
-                            }
-                    }
-                    
-                    if attendance?.attendanceStatus == "결석" {
-                        RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 45, height: 25)
-                            .foregroundColor(.white)
-                            .overlay{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.myRed, lineWidth: 1)
-                                Text(attendance?.attendanceStatus ?? "")
-                                    .foregroundColor(Color.myRed)
-                                    .font(.caption)
-                                    .bold()
-                            }
-                    }
-                    
-                    if attendance?.attendanceStatus == "공결" {
-                        RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 45, height: 25)
-                            .foregroundColor(.white)
-                            .overlay{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.myBlack, lineWidth: 1)
-                                Text(attendance?.attendanceStatus ?? "")
-                                    .foregroundColor(Color.myBlack)
-                                    .font(.caption)
-                                    .bold()
-                            }
-                    }
- >>>>>>> dev
+ 
+//                    if attendance?.attendanceStatus == "출석" {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .frame(width: 45, height: 25)
+//                            .foregroundColor(.white)
+//                            .overlay{
+//                                RoundedRectangle(cornerRadius: 10)
+//                                    .stroke(Color.myGreen, lineWidth: 1)
+//                                Text(attendance?.attendanceStatus ?? "")
+//                                    .foregroundColor(Color.myGreen)
+//                                    .font(.caption)
+//                                    .bold()
+//                            }
+//                    }
+//
+//                    if attendance?.attendanceStatus == "지각" {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .frame(width: 45, height: 25)
+//                            .foregroundColor(.white)
+//                            .overlay{
+//                                RoundedRectangle(cornerRadius: 10)
+//                                    .stroke(Color.myOrange, lineWidth: 1)
+//                                Text(attendance?.attendanceStatus ?? "")
+//                                    .foregroundColor(Color.myOrange)
+//                                    .font(.caption)
+//                                    .bold()
+//                            }
+//                    }
+//
+//                    if attendance?.attendanceStatus == "결석" {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .frame(width: 45, height: 25)
+//                            .foregroundColor(.white)
+//                            .overlay{
+//                                RoundedRectangle(cornerRadius: 10)
+//                                    .stroke(Color.myRed, lineWidth: 1)
+//                                Text(attendance?.attendanceStatus ?? "")
+//                                    .foregroundColor(Color.myRed)
+//                                    .font(.caption)
+//                                    .bold()
+//                            }
+//                    }
+//
+//                    if attendance?.attendanceStatus == "공결" {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .frame(width: 45, height: 25)
+//                            .foregroundColor(.white)
+//                            .overlay{
+//                                RoundedRectangle(cornerRadius: 10)
+//                                    .stroke(Color.myBlack, lineWidth: 1)
+//                                Text(attendance?.attendanceStatus ?? "")
+//                                    .foregroundColor(Color.myBlack)
+//                                    .font(.caption)
+//                                    .bold()
+//                            }
+//                    }
+
                 }
                 
                 Spacer()
