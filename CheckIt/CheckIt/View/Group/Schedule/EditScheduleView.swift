@@ -35,6 +35,9 @@ struct EditScheduleView: View {
     }
     @FocusState private var focusedField: Field?
     
+    @State var coordinate: [Double] = [0,0]
+    @State var showAddressSheet: Bool = false
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -83,7 +86,7 @@ struct EditScheduleView: View {
                             
                             ZStack {
                                 Button {
-                                    isShowingWebView.toggle()
+                                    showAddressSheet = true
                                 } label: {
                                     ZStack(alignment: .leading) {
                                         Rectangle()
@@ -220,55 +223,60 @@ struct EditScheduleView: View {
                         // 날짜정보와 시간정보를 하나의 문자열로 합침
                         let start = schedule.startTime.getDateString() + " " + schedule.startTime.getTimeString()
                         let end = schedule.startTime.getDateString() + " " + schedule.endTime.getTimeString()
-
+                        
                         // 문자열을 기반으로 Date 인스턴스생성
                         let start1 = start.getAllTimeInfo()
                         let end1 = end.getAllTimeInfo()
                         
-                        let newSchedule = Schedule(
-                            id: schedule.id,
-                            groupName: group.name,
-                            lateFee: schedule.lateFee,
-                            absenteeFee: schedule.absenteeFee,
-                            location: viewModel.result ?? schedule.location,
-                            startTime: start1,
-                            endTime: end1,
-                            agreeTime: schedule.agreeTime,
-                            lateTime: schedule.lateTime,
-                            memo: schedule.memo,
-                            attendanceCount: schedule.attendanceCount,
-                            lateCount: schedule.lateCount,
-                            absentCount: schedule.absentCount,
-                            officiallyAbsentCount: schedule.officiallyAbsentCount
-                        )
-
-                   
+                        
+                        let coordinateResult = viewModel.result == nil ?
+                        schedule.coordinate : coordinate
+                       
+                            let newSchedule = Schedule(
+                                id: schedule.id,
+                                groupName: group.name,
+                                lateFee: schedule.lateFee,
+                                absenteeFee: schedule.absenteeFee,
+                                location: viewModel.result ?? schedule.location,
+                                startTime: start1,
+                                endTime: end1,
+                                agreeTime: schedule.agreeTime,
+                                lateTime: schedule.lateTime,
+                                memo: schedule.memo,
+                                attendanceCount: schedule.attendanceCount,
+                                lateCount: schedule.lateCount,
+                                absentCount: schedule.absentCount,
+                                officiallyAbsentCount: schedule.officiallyAbsentCount,
+                                coordinate: coordinateResult
+                            )
+                            
+                            
                         Task {
                             await scheduleStore.updateSchedule(newSchedule, group: group)
                             //await scheduleStore.fetchRecentSchedule(groupName: group.name)
-                        }
-
+                        
+                        
                         var index = self.scheduleStore.scheduleList.firstIndex{ $0.id == schedule.id }
                         self.scheduleStore.scheduleList[index ?? -1] = newSchedule
                         
                         // MARK: - 일정 수정 시 캘린더 실시간 연동을 위한 코드
-                    if let calendarIndex = self.scheduleStore.calendarSchedule.firstIndex(where: { $0.id == schedule.id }) {
-                        self.scheduleStore.calendarSchedule[calendarIndex] = newSchedule
-                    }
+                        if let calendarIndex = self.scheduleStore.calendarSchedule.firstIndex(where: { $0.id == schedule.id }) {
+                            self.scheduleStore.calendarSchedule[calendarIndex] = newSchedule
+                        }
                         
                         // MARK: - 일정 수정 시 출석체크뷰 카드 내용 업데이트를 위한 코드
-                    if let recentIndex = self.scheduleStore.recentSchedule.firstIndex(where: { $0.id == schedule.id }) {
-                        self.scheduleStore.recentSchedule[recentIndex] = newSchedule
-                    }
+                        if let recentIndex = self.scheduleStore.recentSchedule.firstIndex(where: { $0.id == schedule.id }) {
+                            self.scheduleStore.recentSchedule[recentIndex] = newSchedule
+                        }
                         toastObj.message = "일정 수정이 완료되었습니다."
                         toastObj.type = .competion
                         
                         dismiss()
                         showToast.toggle()
                         print("schedule:",schedule)
-    //                    print("recentSchedule \(scheduleStore.recentSchedule)")
-    //                    print("index \(index)")
-                        
+                        //                    print("recentSchedule \(scheduleStore.recentSchedule)")
+                        //                    print("index \(index)")
+                    }
                     } label: {
                         if isLoading {
                             ProgressView()
@@ -310,13 +318,22 @@ struct EditScheduleView: View {
                                 }
             }
         }
-        .sheet(isPresented: $isShowingWebView) {
-            WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
+        .sheet(isPresented: $showAddressSheet) {
+            PickAddressMapView(webViewModel: viewModel, coordinateList: $coordinate, isPresented: $showAddressSheet, address: $viewModel.result)
+            
         }
         .onReceive(self.viewModel.bar.receive(on: RunLoop.main)) { value in
             self.bar = value
         }
     }
+    
+    //MARK: - addressToCoordinate
+    func addressToCoordinate(address: String) async -> [Double] {
+        guard let coordinateString = await GeoCodingService.getCoordinateFromAddress(address: address)
+        else { return [0.0, 0.0] }
+        return [Double(coordinateString[0]) ?? 0.0, Double(coordinateString[1]) ?? 0.0]
+        
+    } // - addressToCoordinate
 }
 
 //struct EditScheduleView_Previews: PreviewProvider {
