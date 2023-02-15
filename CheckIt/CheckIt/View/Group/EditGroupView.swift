@@ -48,11 +48,12 @@ struct EditGroupView: View {
                 PhotosPicker(selection: $selectedItems, maxSelectionCount: 1, matching: .images) {
                     ZStack {
                         if groupStores.groupImage[group.image] == nil && selectedPhotoData.isEmpty {
-                            Circle()
-                                .foregroundColor(Color.myGray)
+                            Circle().fill(Color.myLightGray)
                                 .scaledToFit()
                                 .frame(width: 120, height: 120)
-                            
+                            Image(systemName: "plus")
+                                .resizable()
+                                .frame(width: 20, height: 20)
                         } else {
                             if selectedPhotoData.isEmpty {
                                 Image(uiImage: groupStores.groupImage[group.image]!)
@@ -110,17 +111,20 @@ struct EditGroupView: View {
                     isLoading.toggle()
                     
                     Task {
-                        let result = await groupStores.canUseGroupsName(groupName: group.name)
-                        print("result: \(result)")
-                        
-                        if !result {
-                            print("여기로 이동")
-                            self.alertMessage = "동아리 이름이 중복됩니다.!"
+                        if oldGroupName != group.name {
                             
-                            showAlert.toggle()
-                            isClicked.toggle()
-                            isLoading.toggle()
-                            return
+                            let result = await groupStores.canUseGroupsName(groupName: group.name)
+                            print("result: \(result)")
+                            
+                            if !result {
+                                print("여기로 이동")
+                                self.alertMessage = "동아리 이름이 중복됩니다.!"
+                                
+                                showAlert.toggle()
+                                isClicked.toggle()
+                                isLoading.toggle()
+                                return
+                            }
                         }
                         
                         // 이미지가 변경됨
@@ -157,7 +161,9 @@ struct EditGroupView: View {
                         
                         self.groupStores.groupDetail = newGroup
                         if !selectedPhotoData.isEmpty {
-                            self.groupStores.groupImage[group.image] = selectedPhotoData.first!
+                            DispatchQueue.main.async {
+                                self.groupStores.groupImage[group.image] = selectedPhotoData.first!
+                            }
                         }
                         
                         isClicked.toggle()

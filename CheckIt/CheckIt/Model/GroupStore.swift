@@ -657,6 +657,8 @@ class GroupStore: ObservableObject {
         
         var filePath = URL(fileURLWithPath: cachesDirectory.path)
         filePath.appendPathComponent(imagePath)
+        
+        print("filePath: \(filePath)")
 
         if ImageCacheManager.fileManager.fileExists(atPath: filePath.path) {
             if let image = ImageCacheManager.getObject(forKey: cacheKey, type: .disk(filePath)) {
@@ -673,14 +675,14 @@ class GroupStore: ObservableObject {
             if let error = error {
                 print("error while downloading image\n\(error.localizedDescription)")
                 DispatchQueue.main.async {
-                    self.groupImage[imageId] = defaultImage
+                    //self.groupImage[imageId] = defaultImage
                 }
                 return
             } else {
                 guard let imageData = data, let image = UIImage(data: imageData) else {
                     print("스토리지에서 이미지 읽기 실패")
                     DispatchQueue.main.async {
-                        self.groupImage[imageId] = UIImage()
+                        //self.groupImage[imageId] = UIImage()
                     }
                     return
                 }
