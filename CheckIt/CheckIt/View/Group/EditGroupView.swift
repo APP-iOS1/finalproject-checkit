@@ -39,146 +39,147 @@ struct EditGroupView: View {
     @State private var isClicked: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 30) {
-            Text("동아리 정보 수정하기")
-                .font(.system(size: 24, weight: .bold))
-            
-            // 사진첩, 고른 사진은 selectedItems, selectedPhotoData에 할당
-            PhotosPicker(selection: $selectedItems, maxSelectionCount: 1, matching: .images) {
-                ZStack {
-                    if groupStores.groupImage[group.id] == nil && selectedPhotoData.isEmpty {
-                        Circle()
-                            .foregroundColor(Color.myGray)
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
-                        
-                    } else {
-                        if selectedPhotoData.isEmpty {
-                            Image(uiImage: groupStores.groupImage[group.id]!)
-                                .resizable()
-                                .clipShape(Circle())
+        ScrollView {
+            VStack(alignment: .leading, spacing: 30) {
+                Text("동아리 정보 수정하기")
+                    .font(.system(size: 24, weight: .bold))
+                
+                // 사진첩, 고른 사진은 selectedItems, selectedPhotoData에 할당
+                PhotosPicker(selection: $selectedItems, maxSelectionCount: 1, matching: .images) {
+                    ZStack {
+                        if groupStores.groupImage[group.id] == nil && selectedPhotoData.isEmpty {
+                            Circle()
+                                .foregroundColor(Color.myGray)
+                                .scaledToFit()
                                 .frame(width: 120, height: 120)
+                            
                         } else {
-                            Image(uiImage: selectedPhotoData.first!) // 하나밖에 없으니깐 first
-                                .resizable()
-                                .clipShape(Circle())
-                                .frame(width: 120, height: 120)
+                            if selectedPhotoData.isEmpty {
+                                Image(uiImage: groupStores.groupImage[group.id]!)
+                                    .resizable()
+                                    .clipShape(Circle())
+                                    .frame(width: 120, height: 120)
+                            } else {
+                                Image(uiImage: selectedPhotoData.first!) // 하나밖에 없으니깐 first
+                                    .resizable()
+                                    .clipShape(Circle())
+                                    .frame(width: 120, height: 120)
+                            }
                         }
                     }
                 }
-            }
-            // 변화가 있는걸 감지하는 onChange, 변화가 있음 고른거 잔뜩 소매에 집어넣겠다.
-            .onChange(of: selectedItems) { newPhotos in
-                selectedPhotoData.removeAll()
-                for photo in newPhotos {
-                    Task {
-                        if let data = try? await photo.loadTransferable(type: Data.self),
-                           let image = UIImage(data: data){
-                            let data = try! await photo.loadTransferable(type: Data.self)
-                            selectedData = data
-                            selectedPhotoData.append(image)
+                // 변화가 있는걸 감지하는 onChange, 변화가 있음 고른거 잔뜩 소매에 집어넣겠다.
+                .onChange(of: selectedItems) { newPhotos in
+                    selectedPhotoData.removeAll()
+                    for photo in newPhotos {
+                        Task {
+                            if let data = try? await photo.loadTransferable(type: Data.self),
+                               let image = UIImage(data: data){
+                                let data = try! await photo.loadTransferable(type: Data.self)
+                                selectedData = data
+                                selectedPhotoData.append(image)
+                            }
                         }
                     }
                 }
-            }
-            
-            Text("동아리 기본정보")
-                .font(.system(size: 18, weight: .medium))
-            
-            // MARK: - 동아리 이름 텍스트필드
-            CustomTextField(
-                text: $group.name,
-                placeholder: "\(group.name)",
-                maximumCount: maxGroupNameCount)
-            .font(.system(size: 14, weight: .regular))
-            
-            // MARK: - 동아리 상세 내용 텍스트필드
-            CustomTextField(
-                text: $group.description,
-                placeholder: "\(group.description)",
-                maximumCount: maxGroupDescriptionCount)
-            .font(.system(size: 14, weight: .regular))
-            
-            // MARK: - 동아리 편집하기 버튼
-            Button {
-                if isClicked {
-                    return
-                }
                 
-                isClicked.toggle()
-                isLoading.toggle()
+                Text("동아리 기본정보")
+                    .font(.system(size: 18, weight: .medium))
                 
-                Task {
-                    let result = await groupStores.canUseGroupsName(groupName: group.name)
-                    print("result: \(result)")
-                    
-                    if !result {
-                        print("여기로 이동")
-                        self.alertMessage = "동아리 이름이 중복됩니다.!"
-                        
-                        showAlert.toggle()
-                        isClicked.toggle()
-                        isLoading.toggle()
+                // MARK: - 동아리 이름 텍스트필드
+                CustomTextField(
+                    text: $group.name,
+                    placeholder: "\(group.name)",
+                    maximumCount: maxGroupNameCount)
+                .font(.system(size: 14, weight: .regular))
+                
+                // MARK: - 동아리 상세 내용 텍스트필드
+                CustomTextField(
+                    text: $group.description,
+                    placeholder: "\(group.description)",
+                    maximumCount: maxGroupDescriptionCount)
+                .font(.system(size: 14, weight: .regular))
+                
+                // MARK: - 동아리 편집하기 버튼
+                Button {
+                    if isClicked {
                         return
                     }
                     
-                    // 이미지가 변경됨
-                    if !selectedPhotoData.isEmpty {
-                        print("이미지가 변경됨")
-                        imageChanged()
-                    }
-                    
-                    print("여기가1")
-                    
-                    let newGroup = Group(id: group.id,
-                                         name: group.name,
-                                         invitationCode: group.invitationCode,
-                                         image: group.image,
-                                         hostID: group.hostID,
-                                         description: group.description,
-                                         scheduleID: group.scheduleID,
-                                         memberLimit: group.memberLimit)
-                    
-                    await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.id] ?? UIImage())
-                    
-                    if oldGroupName != newGroup.name { // 스케줄내 모든 동아리 이름 변경
-                        print("여기 호출: \(newGroup.name)")
-                        await scheduleStores.updateScheduleGroupName(newGroup.name, scheduleIdList: group.scheduleID)
-                        await scheduleStores.fetchRecentSchedule(groupName: newGroup.name)
-                    }
-                    
-                    let index = self.groupStores.groups.firstIndex{ $0.id == group.id }
-                    self.groupStores.groups[index ?? -1] = newGroup
-                    
-                    toastObj.message = "동아리 수정이 완료되었습니다."
-                    toastObj.type = .competion
-                    showToast.toggle()
-                    
-                    self.groupStores.groupDetail = newGroup
-                    if !selectedPhotoData.isEmpty {
-                        self.groupStores.groupImage[group.id] = selectedPhotoData.first!
-                    }
-                    
                     isClicked.toggle()
+                    isLoading.toggle()
                     
-                    dismiss()
+                    Task {
+                        let result = await groupStores.canUseGroupsName(groupName: group.name)
+                        print("result: \(result)")
+                        
+                        if !result {
+                            print("여기로 이동")
+                            self.alertMessage = "동아리 이름이 중복됩니다.!"
+                            
+                            showAlert.toggle()
+                            isClicked.toggle()
+                            isLoading.toggle()
+                            return
+                        }
+                        
+                        // 이미지가 변경됨
+                        if !selectedPhotoData.isEmpty {
+                            print("이미지가 변경됨")
+                            imageChanged()
+                        }
+                        
+                        print("여기가1")
+                        
+                        let newGroup = Group(id: group.id,
+                                             name: group.name,
+                                             invitationCode: group.invitationCode,
+                                             image: group.image,
+                                             hostID: group.hostID,
+                                             description: group.description,
+                                             scheduleID: group.scheduleID,
+                                             memberLimit: group.memberLimit)
+                        
+                        await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.id] ?? UIImage())
+                        
+                        if oldGroupName != newGroup.name { // 스케줄내 모든 동아리 이름 변경
+                            print("여기 호출: \(newGroup.name)")
+                            await scheduleStores.updateScheduleGroupName(newGroup.name, scheduleIdList: group.scheduleID)
+                            await scheduleStores.fetchRecentSchedule(groupName: newGroup.name)
+                        }
+                        
+                        let index = self.groupStores.groups.firstIndex{ $0.id == group.id }
+                        self.groupStores.groups[index ?? -1] = newGroup
+                        
+                        toastObj.message = "동아리 수정이 완료되었습니다."
+                        toastObj.type = .competion
+                        showToast.toggle()
+                        
+                        self.groupStores.groupDetail = newGroup
+                        if !selectedPhotoData.isEmpty {
+                            self.groupStores.groupImage[group.id] = selectedPhotoData.first!
+                        }
+                        
+                        isClicked.toggle()
+                        
+                        dismiss()
+                    }
+                } label: {
+                    if isLoading {
+                        ProgressView()
+                            .modifier(GruopCustomButtonModifier())
+                    } else {
+                        Text("저장 하기")
+                            .modifier(GruopCustomButtonModifier())
+                    }
                 }
-            } label: {
-                if isLoading {
-                    ProgressView()
-                        .modifier(GruopCustomButtonModifier())
-                } else {
-                    Text("저장 하기")
-                        .modifier(GruopCustomButtonModifier())
+                .disabled(!isCountValid())
+                .onTapGesture{
+                    showAlert.toggle()
                 }
             }
-            .disabled(!isCountValid())
-            .onTapGesture{
-                showAlert.toggle()
-            }
+            .padding(40)
         }
-        .padding(40)
-        .presentationDragIndicator(.visible)
         
         .toast(isPresenting: $showAlert){
             AlertToast(displayMode: .alert, type: .error(.red), title: alertMessage)

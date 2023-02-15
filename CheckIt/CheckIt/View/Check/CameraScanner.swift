@@ -64,7 +64,8 @@ struct CameraScanner: View {
                 if let userID = userID {
                     //출첵하는 함수
                     print(userID, "userID")
-                    let attendanceStatus = Date.dateCompare(compareDate: schedule.startTime)
+//                    let attendanceStatus = Date.dateCompare(schedule.startTime)
+                    let attendanceStatus = Date.dateCompare(compareDate: schedule.startTime, agreeTime: schedule.agreeTime, lateTime: schedule.lateTime)
                     guard let attendanceStatus = attendanceStatus else {
                         showToast.toggle()
                         toastMessage = "결석처리 되었습니다."
