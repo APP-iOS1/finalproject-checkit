@@ -77,7 +77,7 @@ struct CheckMapView: View {
                         // 출석하기 버튼, isActive가 false면 자동으로 disable됨
                         CheckItButton(isActive: checkTimeAndPlaceInAttendance(), isAlert: $isAlert, text: "출석하기") {
                             Task {
-                                guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
+                                guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime, agreeTime: schedule.agreeTime, lateTime: schedule.lateTime) else { return }
                                 // 이미 출석이 완료 되었으면
                                 isCompleteAttendance = true
                                 // 출석 상태를 변경
@@ -98,7 +98,8 @@ struct CheckMapView: View {
                                 scheduleValue.absentCount = scheduleStore.publishedAbsentCount
                                 scheduleValue.officiallyAbsentCount = scheduleStore.publishedOfficiallyAbsentCount
                                 await scheduleStore.updateScheduleAttendanceCount(schedule: scheduleValue)
-                                guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
+//                                guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime) else { return }
+
                                 isCompleteAttendance = true
                                 // 출석 상태를 변경
                                 attendanceStore.updateAttendace(attendanceData: Attendance(id: userStore.user!.id, scheduleId: schedule.id, attendanceStatus: "\(timeCompareResult)", settlementStatus: false), scheduleID: schedule.id, uid: userStore.user!.id)
@@ -221,7 +222,8 @@ struct CheckMapView: View {
             }
             return .constant(false)
         }
-        guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime)
+//        guard let timeCompareResult = Date.dateCompare(schedule.startTime)
+        guard let timeCompareResult = Date.dateCompare(compareDate: schedule.startTime, agreeTime: schedule.agreeTime, lateTime: schedule.lateTime)
         else {
             DispatchQueue.main.async {
                 alertMode = .time
