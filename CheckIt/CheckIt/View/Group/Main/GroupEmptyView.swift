@@ -9,8 +9,18 @@ import SwiftUI
 
 struct GroupEmptyView: View {
     var body: some View {
-        Text("아직 가입된 동아리가 없어요. 동아리에 가입하여 일정에 참가하세요.")
-            .font(.title)
+        VStack(alignment: .center, spacing: UIScreen.screenHeight * 0.02) {
+            Image("grayBox")
+                .resizable()
+                .frame(width: UIScreen.screenWidth * 0.2, height: UIScreen.screenHeight * 0.1)
+                .padding()
+                
+            Text("아직 가입된 동아리가 없어요.😢")
+                .font(.system(size: 22, weight: .semibold))
+            
+            Text("+ 버튼으로 동아리를 개설하거나\n초대된 동아리에 가입해 보세요.")
+                .font(.system(size: 18, weight: .regular))
+        }
     }
 }
 

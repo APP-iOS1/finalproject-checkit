@@ -27,21 +27,27 @@ struct NotPenaltyCostCellView: View {
     }
     @State var userName: String = ""
     var body: some View {
-        HStack {
-            Text(userName)
-            Spacer()
-            RoundedRectangle(cornerRadius: 10)
-                .frame(width: 45, height: 25)
-                .foregroundColor(.white)
-                .overlay{
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(attendanceColor, lineWidth: 1)
-                    Text(data.attendanceStatus)
-                        .foregroundColor(attendanceColor)
-                        .font(.caption)
-                        .bold()
-                }
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                Text(userName)
+                    .font(.system(size: 16, weight: .regular))
+                Spacer()
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 45, height: 25)
+                    .foregroundColor(.white)
+                    .overlay{
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(attendanceColor, lineWidth: 1)
+                        Text(data.attendanceStatus)
+                            .foregroundColor(attendanceColor)
+                            .font(.caption)
+                            .bold()
+                    }
+                    .offset(x:-10)
+            }
         }
+//        .padding(.horizontal, 40)
+        .frame(height: 40)
         .onAppear {
             userName = userStore.userDictionaryList[data.id] ?? ""
         }

@@ -35,15 +35,15 @@ struct PenaltyCostCellView: View {
                     data.settlementStatus.toggle()
                     print(data, "ddddddddd")
                 } label: {
-                    ZStack {
-                        Image(systemName: "square")
-                        if data.settlementStatus == true {
-                            Image(systemName: "checkmark")
-                        }
-                    }
+                    Image(systemName: data.settlementStatus ? "checkmark.square" : "square")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(.primary)
                 }
-                Text(userName)
-                
+                .frame(width: 70)
+                Text(" \(userName)")
+                    .font(.system(size: 16, weight: .regular))
+                    .offset(x:-5)
                 Spacer()
             
                 RoundedRectangle(cornerRadius: 10)
@@ -58,7 +58,9 @@ struct PenaltyCostCellView: View {
                             .bold()
                     }
             }
+            .offset(x:-10)
         }
+        .frame(height: 40)
         .onAppear {
             userName = userStore.userDictionaryList[data.id] ?? ""
         }

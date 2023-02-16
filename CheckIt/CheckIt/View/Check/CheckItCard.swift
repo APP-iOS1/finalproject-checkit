@@ -6,120 +6,180 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct CheckItCard: View {
     @EnvironmentObject var groupStore: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
     
     @State var dDay: String = "D-day"
-//    @State var groupName: String = "허니미니의 또구 동아리"
-//    @State var place: String = "신촌 베이스볼클럽"
-//    @State var date: String = "3월 24일"
-//    @State var time: String = "오후 3:00 - 오후 7:00"
-    @State var groupImage: Image = Image("chocobi")
-//    var isActiveButton: Bool = true
-    
     @State private var schedules: [Schedule] = []
     
-    @State private var recentSchedule: Schedule = Schedule(id: "", groupName: "", lateFee: 0, absenteeFee: 0, location: "", startTime: Date(), endTime: Date(), agreeTime: 0, memo: "", attendanceCount: 0, lateCount: 0, absentCount: 0, officiallyAbsentCount: 0)
-    
     var group: Group
+    let groupImage: UIImage
     var index: Int
     var card: [Card]
+    @Binding var recentScheduleList: [Schedule]
+    @State var action: Int?
+    
+    
+    @State var coordinate: CLLocationCoordinate2D?
+    
+    @State private var filterSchedule: Schedule = Schedule.sampleSchedule
     
     var body: some View {
         VStack {
+            // 카드 프레임
             RoundedRectangle(cornerRadius: 10)
-                .frame(width: 330, height: 580)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .foregroundColor(.myLightGray)
                 .overlay {
+                    // 테두리 선
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.myGray)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+                .overlay {
                     VStack(alignment: .center) {
+                        Spacer()
+                        
                         VStack(alignment: .leading) {
                             HStack {
                                 TopSection
                                 Spacer()
                             }
+//                            .padding(.bottom)
+                            
                             HStack {
                                 InformationSection
                                 Spacer()
                             }
+                            .frame(width: 300, height: 100, alignment: .leading)
+                            .padding(.horizontal, 2)
+//                            .padding(.top, -10)
+                            
                         } // - VStack
-                        .frame(width: 280)
-                        .padding(10)
+                        .padding(.horizontal, 40)
+                        Spacer()
+                        
                         
                         //동아리 사진
-                        groupImage
-                            .resizable()
-                            .frame(width: 246, height: 186.81)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .padding(10)
+                        ZStack {
+                            // 플레이스 홀더
+                            Rectangle()
+                                .fill(Color.myGray)
+                                .frame(width: UIScreen.screenWidth * 0.7 , height: UIScreen.screenHeight / 5)
+                                .clipShape(RoundedRectangle(cornerRadius: 24))
+                                .overlay {
+                                    Image(systemName: "photo.on.rectangle.angled")
+                                        .foregroundColor(.myLightGray)
+                                }
+                            
+                            Image(uiImage: groupImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: UIScreen.screenWidth * 0.7 , height: UIScreen.screenHeight / 5)
+                                .clipShape(RoundedRectangle(cornerRadius: 24))
+                                .onTapGesture {
+                                    print("일정 전달 확인 \(recentScheduleList)")
+                                    print("그룹 확인 \(groupStore.groups)")
+                                }
+                        } // - ZStack
+                        
+                        Spacer()
                         
                         // Check It 버튼
-                        NavigationLink(destination: CheckMapView()) {
-                            CheckItButtonLabel(isActive: card[index].isActiveButton, text: "Check It!")
+                        if let filterSchedule = recentScheduleList.first(where: { schedule in
+                            schedule.groupName == group.name
+                        }){
+                            NavigationLink(destination: CheckMapView(group: group, schedule: filterSchedule, coordinate: filterSchedule.coordinate)
+                                .environmentObject(userStore)
+                                .environmentObject(attendanceStore) ,tag: 0, selection: $action) {}
                         }
-                        .frame(width: 200)
-                        .disabled(!card[index].isActiveButton)
+                      
+                        CheckItButton(isActive: .constant(card[index].isActiveButton), isAlert: .constant(false)) {
+                            action = 0
+                        }
+                        .frame(width: UIScreen.screenWidth * 0.7)
+                        
+                        Spacer()
                     } // - VStack
-                } // - overlay
+                }
+                .padding(.horizontal, 30)
+                .padding(.vertical, 50)
         }
-        .onAppear {
-            Task {
-                print("그룹명: \(group.name)")
-                await scheduleStore.fetchRecentSchedule(groupName: group.name)
-                print("schedule2: \(scheduleStore.recentSchedule)")
-                self.recentSchedule = scheduleStore.recentSchedule
-            }
-        }
-//        .onTapGesture {
-//            print("schedule: \(scheduleStore.recentSchedule)")
-//            print("\(group.name)'s recent schedule: \(scheduleStore.recentSchedule.groupName)")
-//        }
     }
-    
     //    MARK: - View(TopSection)
     private var TopSection: some View {
-        VStack(alignment: .leading) {
-            // 모임 날짜 나타내는 라벨
-            DdayLabel(dDay: dDay)
-                .padding(.top, 10)
+        VStack(alignment: .leading, spacing: 15) {
+            if let filterSchedule = recentScheduleList.first(where: { schedule in
+                return schedule.groupName == group.name
+            }) {
+                // 모임 날짜 나타내는 라벨
+                DdayLabel(dDay: D_days().days(to: filterSchedule.startTime))
+                    .padding(.top, 10)
+                
+            } else {
+                nonDdayLabel()
+                    .padding(.top, 10)
+            }
+            
             // 동아리 이름
             Text("\(group.name)")
-                .font(.title.bold())
-        } // - VStack
-    } // - TopSection
+                .font(.title2.bold())
+                .foregroundColor(.black)
+                .padding(.leading, 1)
+            //        }
+        } // - TopSection
+    }
     
     //    MARK: - View(InformationSection)
     private var InformationSection: some View {
         VStack(alignment: .leading) {
-            // 날짜
-            HStack {
-                customSymbols(name: "calendar")
-                Text("\(scheduleStore.recentSchedule.startTime, format: .dateTime.year().day().month())")
-            } // - HStack
-            .padding(.vertical, 3)
-            
-            // 시간
-            HStack {
-                customSymbols(name: "clock")
-                Text("\(scheduleStore.recentSchedule.startTime, format: .dateTime.hour().minute())")
-            } // - HStack
-            .padding(.vertical, 3)
-            
-            // 장소
-            HStack {
-                customSymbols(name: "mapPin")
-                Text("\(scheduleStore.recentSchedule.location)")
-            } // - HStack
-            .padding(.vertical, 3)
-        } // - VStack
-    } // - InformationSection
+            if let filterSchedule = recentScheduleList.first(where: { schedule in
+                return schedule.groupName == group.name
+            })
+            {
+                VStack(alignment: .leading) {
+                    // 날짜
+                    HStack {
+                        customSymbols(name: "calendar")
+                        
+                        Text("\(filterSchedule.startTime, format: .dateTime.year().day().month())")
+                            .foregroundColor(.black)
+                    } // - HStack
+                    // 시간
+                    HStack {
+                        customSymbols(name: "clock")
+                        
+                        Text("\(filterSchedule.startTime, format: .dateTime.hour().minute())")
+                            .foregroundColor(.black)
+                    } // - HStack
+                    // 장소
+                    HStack {
+                        customSymbols(name: "mapPin")
+                            
+                        Text("\(filterSchedule.location)")
+                            .foregroundColor(.black)
+                        
+                    } // - HStack
+                }
+                .font(.body)
+                .padding(.bottom, 7)
+            } else {
+                HStack {
+                    Spacer()
+                    Text("예정된 일정이 없습니다.")
+                        .font(.headline)
+                        //.frame(width: 300, height: 150, alignment: .center)
+                    
+                    Spacer()
+                
+                }
+            }
+        } // - InformationSection
+    }
 }
 
-
-
-//struct CheckItCard_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CheckItCard(data: <#Card#>)
-//    }
-//}

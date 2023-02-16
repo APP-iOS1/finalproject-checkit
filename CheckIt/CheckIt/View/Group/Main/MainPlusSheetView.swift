@@ -11,8 +11,10 @@ import AlertToast
 struct MainPlusSheetView: View {
     @State var isMakingGroup: Bool = false
     @State var isJoiningGroup: Bool = false
+    
     @Binding var showToast: Bool
-    @Binding var toastMessage: String
+    @Binding var toastObj: ToastMessage
+    
     @Environment(\.presentations) private var presentations
     
     var body: some View {
@@ -31,9 +33,9 @@ struct MainPlusSheetView: View {
                     .modifier(MainPlusSheetButtonModifier())
             }
             .sheet(isPresented: $isMakingGroup) {
-                MakeGroupModalView(showToast: $showToast, toastMessage: $toastMessage)
+                MakeGroupModalView(showToast: $showToast, toastObj: $toastObj)
                     .environment(\.presentations, presentations + [$isMakingGroup])
-                    .presentationDetents([.height(650)])
+                    .presentationDetents([.height(600)])
             }
             
             Text("아래 버튼을 누르고 코드를 입력해주세요.")
@@ -47,7 +49,7 @@ struct MainPlusSheetView: View {
                     .modifier(MainPlusSheetButtonModifier())
             }
             .sheet(isPresented: $isJoiningGroup) {
-                JoinGruopModalView(showToast: $showToast, toastMessage: $toastMessage)
+                JoinGruopModalView(showToast: $showToast, toastObj: $toastObj)
                     .environment(\.presentations, presentations + [$isJoiningGroup])
                     .presentationDetents([.height(415)])
             }
@@ -55,14 +57,14 @@ struct MainPlusSheetView: View {
         .padding(.horizontal, 40)
         .presentationDragIndicator(.visible)
         
-        .toast(isPresenting: $showToast){
-            AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
-        }
+//        .toast(isPresenting: $showToast){
+//            AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
+//        }
     }
 }
 
-struct MainPlusSheetView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainPlusSheetView(showToast: .constant(false), toastMessage: .constant(""))
-    }
-}
+//struct MainPlusSheetView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MainPlusSheetView(showToast: .constant(false), toastMessage: .constant(""))
+//    }
+//}

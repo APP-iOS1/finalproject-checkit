@@ -15,101 +15,141 @@ struct AttendanceDetailStatusView: View {
     @State var changedAbsentStatusList: [Attendance] = []
     var body: some View {
         
-        VStack(alignment: .center) {
+        VStack(spacing: 0) {
             switch category {
             case .lated:
                 HStack {
                     Spacer()
                     Text("지각비 :")
                     Text("\(schedule.lateFee)원 / 건")
-                        .foregroundColor(.myGray)
                         .font(.system(size: 16, weight: .medium))
+                        .padding(.trailing, 20)
                 }
                 .foregroundColor(.myGray)
                 .frame(height: 20)
+                .offset(y:-15)
+                HStack {
+                    HStack {
+                        Text("[정산 여부] ")
+                            .frame(width: 80)
+                        Text("이름")
+                    }
+                    .offset(x: -20)
+                    Spacer()
+                    Text("출석현황")
+                }
+                .font(.system(size: 16, weight: .bold))
+                .padding(.horizontal, 40)
             case .absented:
                 HStack {
                     Spacer()
                     Text("결석비 :")
-                    Text("\(schedule.lateFee)원 / 건")
+                    Text("\(schedule.absenteeFee)원 / 건")
                         .font(.system(size: 16, weight: .medium))
+                        .padding(.trailing, 20)
                 }
                 .foregroundColor(.myGray)
                 .frame(height: 20)
+                .offset(y:-15)
+                HStack {
+                    HStack {
+                        Text("[정산 여부] ")
+                            .frame(width: 80)
+                        Text("이름")
+                    }
+                    .offset(x: -20)
+                    Spacer()
+                    Text("출석현황")
+                }
+                .font(.system(size: 16, weight: .bold))
+                .padding(.horizontal, 40)
             case .attendanced:
                 HStack { }
                 .frame(height: 20)
+                HStack {
+                    Text("이름")
+                    Spacer()
+                    Text("출석현황")
+                }
+                .font(.system(size: 16, weight: .bold))
+                .padding(.horizontal, 40)
             case .officiallyAbsented:
                 HStack { }
                 .frame(height: 20)
+                HStack {
+                    Text("이름")
+                    Spacer()
+                    Text("출석현황")
+                }
+                .font(.system(size: 16, weight: .bold))
+                .padding(.horizontal, 40)
             }
-            makeView(.attendanced)
-                .padding(.bottom)
             switch category {
             case .attendanced:
-                ForEach(attendanceStore.attendanceStatusList.indices, id: \.self) { index in
-                    NotPenaltyCostCellView(data: attendanceStore.attendanceStatusList[index], category: category)
+                ScrollView {
+                    ForEach(attendanceStore.attendanceStatusList.indices, id: \.self) { index in
+                        NotPenaltyCostCellView(data: attendanceStore.attendanceStatusList[index], category: category)
+                            .padding(.top)
+                            .padding(.horizontal, 35)
 
-                    Divider()
-                        .frame(minWidth: UIScreen.main.bounds.width)
+                        Divider()
+                    }
                 }
-                .padding(.vertical, 5)
             case .lated:
-                ForEach(changedLatedStatusList.indices, id: \.self) { index in
-                    PenaltyCostCellView(data: $changedLatedStatusList[index], category: category)
+                ScrollView {
+                    ForEach(changedLatedStatusList.indices, id: \.self) { index in
+                        PenaltyCostCellView(data: $changedLatedStatusList[index], category: category)
+                            .padding(.top)
+                            .padding(.horizontal, 35)
 
-                    Divider()
-                        .frame(minWidth: UIScreen.main.bounds.width)
+                        Divider()
+                    }
                 }
-                .padding(.vertical, 5)
                 Spacer() //지각일 경우 총 지각비 표시하기
-                Text("총 지각비 \(schedule.lateFee * (changedLatedStatusList.filter({ $0.settlementStatus == false }).count))원")
+                HStack(spacing: 0) {
+                    Text("미정산 지각비: ")
+                        .font(.system(size: 20, weight: .bold))
+                        .padding(.leading, 20)
+                    Text("\(schedule.lateFee * (changedLatedStatusList.filter({ $0.settlementStatus == false }).count)) 원")
+                        .font(.system(size: 20, weight: .medium))
+                    Spacer()
+                }
+                .padding(.bottom)
             case .absented:
-                ForEach(changedAbsentStatusList.indices, id: \.self) { index in
-                    PenaltyCostCellView(data: $changedAbsentStatusList[index], category: category)
+                ScrollView {
+                    ForEach(changedAbsentStatusList.indices, id: \.self) { index in
+                        PenaltyCostCellView(data: $changedAbsentStatusList[index], category: category)
+                            .padding(.top)
+                            .padding(.horizontal, 35)
 
-                    Divider()
-                        .frame(minWidth: UIScreen.main.bounds.width)
+                        Divider()
+                            .frame(minWidth: UIScreen.main.bounds.width)
+                    }
                 }
-                .padding(.vertical, 5)
-                Spacer() //지각일 경우 총 지각비 표시하기
-                Text("총 결석비 \(schedule.lateFee * (changedAbsentStatusList.filter({ $0.settlementStatus == false }).count))원")
+                Spacer() //결석일 경우 총 결석비 표시하기
+                HStack(spacing: 0) {
+                    Text("미정산 결석비: ")
+                        .font(.system(size: 20, weight: .bold))
+                        .padding(.leading, 20)
+                    Text("\(schedule.absenteeFee * (changedAbsentStatusList.filter({ $0.settlementStatus == false }).count)) 원")
+                        .font(.system(size: 20, weight: .medium))
+                    Spacer()
+                }
+                .padding(.bottom)
             case .officiallyAbsented:
-                ForEach(attendanceStore.officiallyAbsentedStatusList.indices, id: \.self) { index in
-                    NotPenaltyCostCellView(data: attendanceStore.officiallyAbsentedStatusList[index], category: category)
+                ScrollView {
+                    ForEach(attendanceStore.officiallyAbsentedStatusList.indices, id: \.self) { index in
+                        NotPenaltyCostCellView(data: attendanceStore.officiallyAbsentedStatusList[index], category: category)
+                            .padding(.top)
+                            .padding(.horizontal, 35)
 
-                    Divider()
-                        .frame(minWidth: UIScreen.main.bounds.width)
+                        Divider()
+                    }
                 }
-                .padding(.vertical, 5)
+                
             }
         }
         .padding(.top, 20)
-        .padding(.horizontal, 20)
-    }
-    
-    func makeView(_ status: AttendanceCategory) -> some View {
-        HStack {
-            switch status {
-            case .attendanced:
-                Text("이름")
-                Spacer()
-                Text("출석현황")
-            case .lated:
-                Text("이름")
-                Spacer()
-                Text("출석현황")
-            case .absented:
-                Text("이름")
-                Spacer()
-                Text("출석현황")
-            case .officiallyAbsented:
-                Text("이름")
-                Spacer()
-                Text("출석현황")
-            }
-        }
-        .font(.title3)
         .onAppear {
             print(category, "?????/")
             Task {

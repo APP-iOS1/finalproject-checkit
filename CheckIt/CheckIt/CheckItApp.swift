@@ -12,6 +12,8 @@ import GoogleSignIn
 import FirebaseCore
 import KakaoSDKCommon
 import KakaoSDKAuth
+import GoogleMobileAds
+import AppTrackingTransparency
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -45,7 +47,14 @@ struct CheckItApp: App {
     
     init() {
         // Kakao SDK 초기화
-        KakaoSDK.initSDK(appKey: "7a4ee9f84ebf3bcf24029e1c6febb14d")
+        KakaoSDK.initSDK(appKey: "\(Bundle.main.object(forInfoDictionaryKey: "KAKAO_SDK_KEY") as? String ?? "")")
+        // admob 초기화
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
+        // DispatchQueue 이용
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            ATTrackingManager.requestTrackingAuthorization(completionHandler: { _ in })
+        }
     }
     
     var body: some Scene {
@@ -62,15 +71,32 @@ struct CheckItApp: App {
                     .environmentObject(scheduleStore)
                     .environmentObject(attendanceStore)
                     .environmentObject(memberStore)
-                    .task {
-                        guard let user = Auth.auth().currentUser else { return }
-                        userStore.isPresentedLoginView = false
-                        userStore.userData = user
-                        await userStore.fetchUser(user.uid)
-                        groupStore.startGroupListener(userStore)
-                        userStore.startUserListener(user.uid)
+                    .onAppear {
+                        Task {
+                            guard let user = Auth.auth().currentUser else { return }
+                            if userStore.isLogined {
+                                return
+                            }
+                            
+                            
+                            userStore.isLogined.toggle()
+                            userStore.isPresentedLoginView = false
+                            userStore.userData = user
+                            await userStore.fetchUser(user.uid)
+                            userStore.toggleLoginState()
+                            //groupStore.startGroupListener(userStore)
+                            await groupStore.fetchGroups(userStore.user!)
+                            userStore.startUserListener(user.uid)
+                            print("groups: \(groupStore.groups)")
+                            for group in groupStore.groups {
+                                await scheduleStore.fetchRecentSchedule(groupName: group.name)
+                                await scheduleStore.fetchCalendarSchedule(groupName: group.name)
+                            }
+                            for schedule in scheduleStore.calendarSchedule {
+                                await attendanceStore.checkUserAttendance(scheduleID: schedule.id, id: user.uid)
+                            }
+                        }
                     }
-                
             }
         }
     }
