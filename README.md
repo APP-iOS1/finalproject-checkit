@@ -1,9 +1,9 @@
 # Check It !
 
-앱스토어 이미지 들어갈 자리 (수정예정)
+<img src="https://user-images.githubusercontent.com/114602459/219393259-154fa9eb-4d3f-40cb-925a-08c50f1de041.png" width=190></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393295-0285e3a2-a2b9-4487-9a41-362659e35f45.png" width=190></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393301-0175a676-3e57-4cdc-b3ca-3bada492b241.png" width=190></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393310-9f9a604a-f92a-4a50-9f67-0443d1ac126e.png" width=190></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393314-f240605d-b9a3-41c9-ba43-00cb70d49d95.png" width=190></img>&nbsp;&nbsp;
 
 ```
-동아리 출석 관리 앱, Check It !
+✅ 동아리 출석 관리 앱, Check It !
 ```
 
 ### 프로젝트 기간
@@ -13,13 +13,13 @@
 
 ## 목차
 
-1. [앱 소개](#앱-소개)
-2. [주요 기능과 구현 동작](#주요기능과-구현-동작)
-3. [사용자 흐름도 및 아키텍쳐](#사용자-흐름도-및-아키텍쳐)
-4. [개발 환경](#개발-환경)
-5. [기술 스택](#기술-스택)
-6. [참여자](#참여자)
-7. [라이센스](#라이센스)
+1. [앱 소개](#1-앱-소개)
+2. [주요 기능과 구현 영상](#2-주요-기능과-구현-영상)
+3. [사용자 흐름도 및 아키텍쳐](#3-사용자-흐름도-및-아키텍쳐)
+4. [개발 환경](#4-개발-환경)
+5. [기술 스택](#5-기술-스택)
+6. [참여자](#6-참여자)
+7. [라이센스](#7-라이센스)
 
 <br/>
 
@@ -41,43 +41,45 @@
 
 ```
 실제 동아리 활동을 하면서 겪은 불편함을 바탕으로 직접 사용하기 위해서 앱 개발이 시작 되었습니다.
-그 밖에 예외상황 및 경우의 수를 대비해 범용성을 높이고, HIG를 지키며 사용자 중심의 UI, UX 디자인에 초점을 두고 개발에 임하였습니다.
+그 밖에 여러 예외 상황을 연구해 범용성을 높이고, HIG를 지키며 사용자 중심의 UI, UX 디자인에 초점을 두었습니다!
 ```
 
 <br/>
 
-## 2. 주요 기능과 구현 영상 (수정예정)
+## 2. 주요 기능과 구현 영상
 
-|<img src=""></img>|<img src=""></img>|<img src=""></img>|
-|:-:|:-:|:-:|
-|`0. Splash screen`|`1. Onboarding`|`2. Login`|
+|<img src="https://user-images.githubusercontent.com/114602459/219415770-1c2fc0ba-bf89-4c06-b406-cfd7b97e7d9a.gif" width=200></img>|<img src="https://user-images.githubusercontent.com/114602459/219415926-9f99b934-9f61-4426-a65e-a417e7dcdad3.gif" width=200></img>|
+|:-:|:-:|
+|`0. Onboarding, Login`|`1. Calendar View`|
 
 <br>
 
 ### 버튼 하나로 간편하게 출석하기
 > 사용자는 위치 기반 출첵 서비스, 길찾기, QR code 등, 다양한 방법으로 출석할 수 있어요!  
 >**약속된 일정 Check It! ➔ 반경 50m 이내 출석하기 버튼 활성화 ➔ 출석 완료 알림**
-- 방장 - 구성원 출석 시 Toast Message
-- 구성원 - 출석 시 Lottie Message
 
-|<img src=""></img>|<img src=""></img>|<img src=""></img>|
-|:-:|:-:|:-:|
-|`3. MapView`|`4. QR code`|`5. Calendar View`|
+|<img src="https://user-images.githubusercontent.com/114602459/219385715-09013c0b-5bb4-4071-bff0-26b36d0758ac.gif" width=500></img>|<img src="https://user-images.githubusercontent.com/114602459/219385462-ae5a5870-8ae4-46a2-bc65-4367058337aa.gif" width=500></img>|
+|:-:|:-:|
+|`2. MapView`|`3. MyPage View`|
 
 <br/>
 
 ### 동아리 더 쉽고 효율적으로 관리하기
 > 방장과 운영진 및 구성원 각자에게 보여지는 뷰가 달라서 디테일하게 출석부를 관리할 수 있어요!  
->**동아리 생성 ➔ 초대 코드 공유로 가입 ➔ 일정 추가 및 수정 ➔ 출석부 관리**
+>**동아리 개설 ➔ 초대 코드 공유로 가입 ➔ 일정 추가 및 수정 ➔ 출석부 관리**
 
-|<img src=""></img>|<img src=""></img>|<img src=""></img>|
-|:-:|:-:|:-:|
-|`6. 방장`|`7. 운영진`|`8. 구성원`|
+|<img src="https://user-images.githubusercontent.com/114602459/219385384-6422f1e5-bc96-4517-8c96-4e960ddc038e.gif" width=500></img>|<img src="https://user-images.githubusercontent.com/114602459/219385397-7e8cb939-2713-4b93-bf56-a33dc64f028b.gif" width=500></img>|
+|:-:|:-:|
+|`4. 동아리 개설`|`5. 동아리 참가`|
+
+|<img src="https://user-images.githubusercontent.com/114602459/219385423-2a66dc89-95b5-42e4-9da9-07f35df094f4.gif" width=500></img>|<img src="https://user-images.githubusercontent.com/114602459/219385438-bf4cac84-1912-4ee5-88f9-8cfe1f479d7a.gif" width=500></img>|
+|:-:|:-:|
+|`6. 방장 출석부`|`7. 개인 출석부`|
 
 <br/>
 
 ## 3. 사용자 흐름도 및 아키텍쳐
-|<img src="https://user-images.githubusercontent.com/114602459/218664674-71695d53-bc57-4502-b29f-623f1613ac05.png" width="500"></img>|<img src="https://user-images.githubusercontent.com/114602459/218670095-ef797fff-a1e2-4445-85e3-b0def6bbacbb.png" width="500"></img>|<img src="https://user-images.githubusercontent.com/114602459/218669916-fb598978-0029-4466-b97a-86805dc97333.png" width="500"></img>|
+|<img src="https://user-images.githubusercontent.com/114602459/218664674-71695d53-bc57-4502-b29f-623f1613ac05.png" width=500></img>|<img src="https://user-images.githubusercontent.com/114602459/218670095-ef797fff-a1e2-4445-85e3-b0def6bbacbb.png" width=500></img>|<img src="https://user-images.githubusercontent.com/114602459/218669916-fb598978-0029-4466-b97a-86805dc97333.png" width=500></img>|
 |:-:|:-:|:-:|
 |`User Flow`|`Wire-frame`|`Wire-frame`|
 
