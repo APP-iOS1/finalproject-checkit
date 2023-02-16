@@ -58,7 +58,7 @@
 > 사용자는 위치 기반 출첵 서비스, 길찾기, QR code 등, 다양한 방법으로 출석할 수 있어요!  
 >**약속된 일정 Check It! ➔ 반경 50m 이내 출석하기 버튼 활성화 ➔ 출석 완료 알림**
 
-|<img src="https://user-images.githubusercontent.com/114602459/219385715-09013c0b-5bb4-4071-bff0-26b36d0758ac.gif" width=500></img>|<img src="https://user-images.githubusercontent.com/114602459/219385462-ae5a5870-8ae4-46a2-bc65-4367058337aa.gif" width=500></img>|
+|<img src="https://user-images.githubusercontent.com/114602459/219385715-09013c0b-5bb4-4071-bff0-26b36d0758ac.gif" width=300></img>|<img src="https://user-images.githubusercontent.com/114602459/219385462-ae5a5870-8ae4-46a2-bc65-4367058337aa.gif" width=300></img>|
 |:-:|:-:|
 |`2. MapView`|`3. MyPage View`|
 
@@ -68,11 +68,11 @@
 > 방장과 운영진 및 구성원 각자에게 보여지는 뷰가 달라서 디테일하게 출석부를 관리할 수 있어요!  
 >**동아리 개설 ➔ 초대 코드 공유로 가입 ➔ 일정 추가 및 수정 ➔ 출석부 관리**
 
-|<img src="https://user-images.githubusercontent.com/114602459/219385384-6422f1e5-bc96-4517-8c96-4e960ddc038e.gif" width=500></img>|<img src="https://user-images.githubusercontent.com/114602459/219385397-7e8cb939-2713-4b93-bf56-a33dc64f028b.gif" width=500></img>|
+|<img src="https://user-images.githubusercontent.com/114602459/219385384-6422f1e5-bc96-4517-8c96-4e960ddc038e.gif" width=300></img>|<img src="https://user-images.githubusercontent.com/114602459/219385397-7e8cb939-2713-4b93-bf56-a33dc64f028b.gif" width=300></img>|
 |:-:|:-:|
 |`4. 동아리 개설`|`5. 동아리 참가`|
 
-|<img src="https://user-images.githubusercontent.com/114602459/219385423-2a66dc89-95b5-42e4-9da9-07f35df094f4.gif" width=500></img>|<img src="https://user-images.githubusercontent.com/114602459/219385438-bf4cac84-1912-4ee5-88f9-8cfe1f479d7a.gif" width=500></img>|
+|<img src="https://user-images.githubusercontent.com/114602459/219385423-2a66dc89-95b5-42e4-9da9-07f35df094f4.gif" width=300></img>|<img src="https://user-images.githubusercontent.com/114602459/219385438-bf4cac84-1912-4ee5-88f9-8cfe1f479d7a.gif" width=300></img>|
 |:-:|:-:|
 |`6. 방장 출석부`|`7. 개인 출석부`|
 
