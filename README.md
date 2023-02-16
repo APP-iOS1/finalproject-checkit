@@ -1,13 +1,29 @@
 # Check It !
 
-> **동아리 출석 관리 앱, Check It !**
-<br/>
-
 앱스토어 이미지 들어갈 자리 (수정예정)
 
+```
+동아리 출석 관리 앱, Check It !
+```
+
+### 프로젝트 기간
+> 2023.01.16 ~ 2023.02 (진행중)
+
 <br/>
 
-## 앱 소개
+## 목차
+
+1. [앱 소개](#앱-소개)
+2. [주요 기능과 구현 동작](#주요기능과-구현-동작)
+3. [사용자 흐름도 및 아키텍쳐](#사용자-흐름도-및-아키텍쳐)
+4. [개발 환경](#개발-환경)
+5. [기술 스택](#기술-스택)
+6. [참여자](#참여자)
+7. [라이센스](#라이센스)
+
+<br/>
+
+## 1. 앱 소개
 
 ### ＞ ADS
 
@@ -24,28 +40,17 @@
 ### ＞ 개발 목표
 
 ```
-이 앱을 개발하게 된 동기와 목표 (수정예정)
+실제 동아리 활동을 하면서 겪은 불편함을 바탕으로 직접 사용하기 위해서 앱 개발이 시작 되었습니다.
+그 밖에 예외상황 및 경우의 수를 대비해 범용성을 높이고, HIG를 지키며 사용자 중심의 UI, UX 디자인에 초점을 두고 개발에 임하였습니다.
 ```
 
 <br/>
 
-## 목차
-
-1. [앱 소개](#앱-소개)
-2. [주요 기능과 구동 화면](#주요기능과-구현-화면)
-3. [사용자 흐름도 및 아키텍쳐](#사용자-흐름도-및-아키텍쳐)
-4. [개발 환경](#개발-환경)
-5. [기술 스택](#기술-스택)
-6. [참여자](#참여자)
-7. [라이센스](#라이센스)
-
-<br/>
-
-## 주요 기능과 구현 영상 (수정예정)
+## 2. 주요 기능과 구현 영상 (수정예정)
 
 |<img src=""></img>|<img src=""></img>|<img src=""></img>|
 |:-:|:-:|:-:|
-|`Splash screen`|`Onboarding`|`Login`|
+|`0. Splash screen`|`1. Onboarding`|`2. Login`|
 
 <br>
 
@@ -57,7 +62,7 @@
 
 |<img src=""></img>|<img src=""></img>|<img src=""></img>|
 |:-:|:-:|:-:|
-|`MapView`|`QR code`|`Calendar View`|
+|`3. MapView`|`4. QR code`|`5. Calendar View`|
 
 <br/>
 
@@ -67,47 +72,58 @@
 
 |<img src=""></img>|<img src=""></img>|<img src=""></img>|
 |:-:|:-:|:-:|
-|`방장`|`운영진`|`구성원`|
+|`6. 방장`|`7. 운영진`|`8. 구성원`|
 
 <br/>
 
-## 사용자 흐름도 및 아키텍쳐
+## 3. 사용자 흐름도 및 아키텍쳐
 |<img src="https://user-images.githubusercontent.com/114602459/218664674-71695d53-bc57-4502-b29f-623f1613ac05.png" width="500"></img>|<img src="https://user-images.githubusercontent.com/114602459/218670095-ef797fff-a1e2-4445-85e3-b0def6bbacbb.png" width="500"></img>|<img src="https://user-images.githubusercontent.com/114602459/218669916-fb598978-0029-4466-b97a-86805dc97333.png" width="500"></img>|
 |:-:|:-:|:-:|
-|`User Flow`|`UI, UX Design`|`UI, UX Design`|
-||`(Login && Check Tap)`|`(Group Tap)`|
+|`User Flow`|`Wire-frame`|`Wire-frame`|
 
 <br/>
 
-## 개발 환경
+## 4. 개발 환경
 
+```
 - Xcode Version 14.2
 - SwiftUI, iOS 16.0
 - Auto layoout
 - Dark mode, Horizontal mode not supported
+```
+
+|개발환경|선택한 방식|
+|:---:|:---:|
+|브랜치 전략|git-flow|
+|이슈 관리|github-Issues|
+|구조 관리|MVVM 디자인 패턴|
+|Communication|Github와 & Discord를 Webhook 연동|
+|Design|Figma|
+|문서화|Notion|
 
 <br/>
 
-## 기술 스택
+## 5. 기술 스택
 
-#### Platforms
 
-<img src="https://img.shields.io/badge/iOS-000000?style=flat&logo=Apple&logoColor=white"/> 
+ [**Platforms**]
 
-#### Language & Tools
+ <img src="https://img.shields.io/badge/iOS-000000?style=flat&logo=Apple&logoColor=white"/> 
 
-<img src="https://img.shields.io/badge/Swift-dd2c00?style=flat&logo=swift&logoColor=white"/> <img src="https://img.shields.io/badge/SwiftUI-0D0D0D?style=flat&logo=swift&logoColor=blue"/> <img src="https://img.shields.io/badge/Xcode-00b0ff?style=flat&logo=Xcode&logoColor=white"/>
+ [**Language & Tools**]
+
+ <img src="https://img.shields.io/badge/Swift-dd2c00?style=flat&logo=swift&logoColor=white"/> <img src="https://img.shields.io/badge/SwiftUI-0D0D0D?style=flat&logo=swift&logoColor=blue"/> <img src="https://img.shields.io/badge/Xcode-00b0ff?style=flat&logo=Xcode&logoColor=white"/>
 <img src="https://img.shields.io/badge/Firebase-ff6d00?style=flat&logo=Firebase&logoColor=white"/> <img src="https://img.shields.io/badge/Figma-ff4081?style=flat&logo=Figma&logoColor=white"/>
 
-#### SNS Login
+ [**SNS Login**]
 
-<img src="https://img.shields.io/badge/kakaotalk-ffcd00?style=flat&logo=kakaotalk&logoColor=000000"/> <img src="https://img.shields.io/badge/Naver-00C300?style=flat&logo=naver&logoColor=white"/>
-<img src="https://img.shields.io/badge/Google-0288d1?style=flat&logo=Google&logoColor=white"/>
+ <img src="https://img.shields.io/badge/kakaotalk-ffcd00?style=flat&logo=kakaotalk&logoColor=000000"/> <img src="https://img.shields.io/badge/Naver-00C300?style=flat&logo=naver&logoColor=white"/> <img src="https://img.shields.io/badge/Google-0288d1?style=flat&logo=Google&logoColor=white"/>
+ 
 
 <br/>
 
 
-## 참여자
+## 6. 참여자
 
 |허혜민<br/>[@soletree](https://github.com/soletree)|류창휘<br/>[@ryuchanghwi](https://github.com/ryuchanghwi)|윤예린<br/>[@blaire-pi](https://github.com/blaire-pi)|이학진<br/>[@LEEHAKJIN-VV](https://github.com/LEEHAKJIN-VV)|조현호<br/>[@HHCHO0220](https://github.com/HHCHO0220)|황예리<br/>[@hwangyeri](https://github.com/hwangyeri)|
 |:-:|:-:|:-:|:-:|:-:|:-:|
@@ -115,7 +131,7 @@
 
 <br/>
 
-## 라이센스
+## 7. 라이센스
 
 ```
 Alamofire
