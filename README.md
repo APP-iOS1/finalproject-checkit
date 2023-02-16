@@ -1,6 +1,6 @@
 # Check It !
 
-<img src="https://user-images.githubusercontent.com/114602459/219393259-154fa9eb-4d3f-40cb-925a-08c50f1de041.png" width=190></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393295-0285e3a2-a2b9-4487-9a41-362659e35f45.png" width=190></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393301-0175a676-3e57-4cdc-b3ca-3bada492b241.png" width=190></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393310-9f9a604a-f92a-4a50-9f67-0443d1ac126e.png" width=190></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393314-f240605d-b9a3-41c9-ba43-00cb70d49d95.png" width=190></img>&nbsp;&nbsp;
+<img src="https://user-images.githubusercontent.com/114602459/219393259-154fa9eb-4d3f-40cb-925a-08c50f1de041.png" width=160></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393295-0285e3a2-a2b9-4487-9a41-362659e35f45.png" width=160></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393301-0175a676-3e57-4cdc-b3ca-3bada492b241.png" width=160></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393310-9f9a604a-f92a-4a50-9f67-0443d1ac126e.png" width=160></img>&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/114602459/219393314-f240605d-b9a3-41c9-ba43-00cb70d49d95.png" width=160></img>&nbsp;&nbsp;
 
 ```
 ✅ 동아리 출석 관리 앱, Check It !
