@@ -453,15 +453,16 @@ class ScheduleStore: ObservableObject {
     }
     
     func resetData() {
-        scheduleList.removeAll()
-        recentSchedule.removeAll()
-        userScheduleList.removeAll()
-        
-        publishedAttendanceCount = 0
-        publishedLateCount = 0
-        publishedAbsentCount = 0
-        publishedOfficiallyAbsentCount = 0
-    }
+            scheduleList.removeAll()
+            recentSchedule.removeAll()
+            userScheduleList.removeAll()
+            calendarSchedule.removeAll()
+            
+            publishedAttendanceCount = 0
+            publishedLateCount = 0
+            publishedAbsentCount = 0
+            publishedOfficiallyAbsentCount = 0
+        }
     
 //    func returnRecentScheduleList(groups: [Group]) async -> [Schedule] {
 //        var tempSchedule: [Schedule] = []
