@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct LicenseView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -34,12 +36,34 @@ FirebaseUI
 AlertToast
 - https://github.com/elai950/AlertToast
 
+Lottie
+- https://github.com/airbnb/lottie-ios
+
+GoogleMobileAds
+- https://github.com/google/GoogleAppMeasurement.git
+
+SkeletonUI
+- https://github.com/CSolanaM/SkeletonUI
+
+SkeletonView
+- https://github.com/Juanpe/SkeletonView
 """
                 )
             }
             .padding()
         }
         .navigationBarTitle("오픈소스 라이선스")
+        
+        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.backward")
+                }
+            }
+        }
     }
 }
 

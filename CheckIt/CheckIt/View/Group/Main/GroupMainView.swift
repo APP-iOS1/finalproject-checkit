@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AlertToast
+import GoogleMobileAds
 
 struct GroupMainView: View {
     @State var showingPlusSheet: Bool = false
@@ -16,6 +17,8 @@ struct GroupMainView: View {
     @State var showToast: Bool = false
     @State var toastMessage: String = ""
     
+    @State private var toastObj = ToastMessage(message: "", type: .failed)
+    
     @EnvironmentObject var groupStores: GroupStore
     @EnvironmentObject var scheduleStore: ScheduleStore
     @EnvironmentObject var userStores: UserStore
@@ -24,7 +27,6 @@ struct GroupMainView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                
                 if groupStores.groups.isEmpty {
                     Spacer()
                     GroupEmptyView()
@@ -32,25 +34,36 @@ struct GroupMainView: View {
                 } else {
                     ScrollView {
                         VStack(spacing: 20) {
-                            
+
                             // FIXME: - 동아리 리스트 데이터 연결하기
-                            
+
                             ForEach(groupStores.groups) { group in
                                 // MARK: - 동아리 리스트
-                                NavigationLink(destination: CategoryView(showToast: $showToast, toastMessage: $toastMessage, group: group)) {
-                                    GroupMainDetailView(group: group, groupImage: groupStores.groupImage[group.id] ?? UIImage())
+                                NavigationLink(destination: CategoryView(showToast: $showToast, toastMessage: $toastMessage, toastObj: $toastObj, group: group)) {
+                                    GroupMainDetailView(group: group, groupImage: groupStores.groupImage[group.image] ?? UIImage())
                                         .frame(height: 130)
                                         .background(Color.myLightGray)
                                         .cornerRadius(18)
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 18)
+                                                .stroke(Color.myGray)
+                                                .frame(height: 130)
+//                                                
+                                        }
                                 }
                             }
                         }
-                        .padding()
+                        .padding(.vertical, 20)
+                        .padding(.horizontal, 30)
+                    }
+                    .refreshable {
+                        guard let user = userStores.user else { return }
+                        groupStores.groups.removeAll()
+                        Task {
+                            await groupStores.fetchGroups(user)
+                        }
                     }
                 }
-            }
-            .onAppear {
-                scheduleStore.scheduleList = []
             }
             .navigationTitle("나의 동아리")
             .toolbar {
@@ -63,25 +76,51 @@ struct GroupMainView: View {
                             .resizable()
                             .frame(width: 20, height: 20)
                             .fontWeight(.medium)
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
+                            .padding(.trailing, 20)
                     }
                     .sheet(isPresented: $showingPlusSheet) {
-                        MainPlusSheetView(showToast: $showToast, toastMessage: $toastMessage)
+                        MainPlusSheetView(showToast: $showToast, toastObj: $toastObj)
                             .environment(\.presentations, presentations + [$showingPlusSheet])
                             .presentationDetents([.height(415)])
                     }
                 }
             }
+            
+            
             .toast(isPresenting: $showToast){
-                AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
+                switch toastObj.type {
+                case .competion:
+                    return AlertToast(displayMode: .banner(.slide), type: .complete(.myGreen), title: toastObj.message)
+                case .failed:
+                    return AlertToast(displayMode: .banner(.slide), type: .error(.red), title: toastObj.message)
+                }
+                
+//                AlertToast(displayMode: to, type: <#T##AlertToast.AlertType#>)
+//                AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
             }
 
         }
-        .padding()
         
         .onAppear {
+            //scheduleStore.scheduleList = []
+            
+            guard let user = userStores.user else { return }
+            let newGroup = Group.sortedGroup(groupStores.groups, userId: user.id)
+            groupStores.groups = newGroup
+            
+//            Task {
+//                await groupStores.fetchGroups(user)
+//            }
+            
             userStores.fetchUserDictionaryList()
         }
+    }
+    
+    @ViewBuilder func admob() -> some View {
+        // admob
+        GoogleAdMobView()
+            .frame(width: UIScreen.main.bounds.width, height: GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(UIScreen.main.bounds.width).size.height)
     }
 }
 

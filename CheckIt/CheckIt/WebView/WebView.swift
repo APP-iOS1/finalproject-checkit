@@ -10,33 +10,10 @@ import SwiftUI
 import Combine
 import WebKit
 import SwiftyJSON
+import CoreLocation
 
-struct Test: View {
-    @ObservedObject var viewModel = WebViewModel()
-    @State var bar = true
-    
-    var body: some View {
-        VStack {
-            WebView(url: "https://soletree.github.io/postNum/", viewModel: viewModel)
-            
-            HStack {
-                Text(bar ? "Before" : "After")
-            
-                Button(action: {
-                    self.viewModel.foo.send(true)
-                }) {
-                    Text("보내기")
-                }
-            }
-        }
-        .onReceive(self.viewModel.bar.receive(on: RunLoop.main)) { value in
-            
-            self.bar = value
-        }
-    }
-}
 
-@MainActor
+
 struct WebView: UIViewRepresentable, WebViewHandlerDelegate {
     var result: String?
     
@@ -49,7 +26,7 @@ struct WebView: UIViewRepresentable, WebViewHandlerDelegate {
 //        print("String 데이터가 웹으로부터 옴: \(value)")
     }
     
-    var url: String
+    var url: String = ""
     @ObservedObject var viewModel: WebViewModel
     
     
@@ -119,18 +96,7 @@ struct WebView: UIViewRepresentable, WebViewHandlerDelegate {
 //                   return decisionHandler(.cancel)
 //               }
             }
-            
-            // bar에 값을 send 해보자!
-            DispatchQueue.main.async {
-                self.parent.viewModel.bar.send(false)
-                
-                // foo로 값이 receive 되면 출력해보자!
-                self.foo = self.parent.viewModel.foo.receive(on: RunLoop.main)
-                    .sink(receiveValue: { value in
-                        print(value)
-                    })
-            }
-            
+           
             return decisionHandler(.allow)
         }
          
@@ -149,6 +115,7 @@ struct WebView: UIViewRepresentable, WebViewHandlerDelegate {
         // 탐색이 완료 되었음
         func webView(_ webview: WKWebView,
                        didFinish: WKNavigation!) {
+            
             print("탐색이 완료")
         }
         
@@ -181,14 +148,14 @@ extension WebView.Coordinator: WKScriptMessageHandler {
                                didReceive message: WKScriptMessage) {
         if message.name == "callBackHandler" {
             delegate?.receivedJsonValueFromWebView(value: message.body as? [String : Any?] ?? [:])
-            
-//            print("\(message.body)")
-            let a = JSON(message.body)
-            self.parent.viewModel.result = "\(a["roadAddress"] ?? "값이 없음")"
-            print("\(a["roadAddress"] ?? "값이 없음")")
+            let result = JSON(message.body)
+            self.parent.viewModel.result = "\(result["roadAddress"])"
+            self.parent.viewModel.jibunAddress = "\(result["jibunAddress"])"
+            self.parent.viewModel.isPresentedMapView = true
+             
+           
         } else if let body = message.body as? String {
             delegate?.receivedStringValueFromWebView(value: body)
-//            print("\(message.body)")
         }
     }
 }

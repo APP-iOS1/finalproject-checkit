@@ -13,55 +13,74 @@ struct AttendanceCellView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment:.leading) {
-                Text(Date().yearMonthDayDateToString(date: schedule.startTime)) // 출석 날짜
-                    .font(.headline)
+            VStack(alignment:.leading, spacing: 0) {
+                Text(Date().yearMonthDayHourMinuteToString(date: schedule.startTime)) // 출석 날짜
+                    .font(.system(size: 13, weight: .medium))
                     .foregroundColor(.black)
-                    .padding(.bottom, 15)
-                
-                Spacer()
+                    .padding(.bottom, 11)
+                    .padding(.leading, 21)
                 
                 HStack {
-                    Text("출석")
-                    Text("\(schedule.attendanceCount)")   //출석 횟수
-                        .foregroundColor(.myGreen)
-                        .bold()
+                    HStack {
+                        Text("출석")
+                        Text("\(schedule.attendanceCount)")   //출석 횟수
+                            .foregroundColor(.myGreen)
+                            .bold()
+                    }
                     
                     Divider().frame(height:20)
                     
-                    Text("지각")
-                    Text("\(schedule.lateCount)")   //지각 횟수
-                        .foregroundColor(.myOrange)
-                        .bold()
+                    HStack {
+                        Text("지각")
+                        Text("\(schedule.lateCount)")   //지각 횟수
+                            .foregroundColor(.myOrange)
+                            .bold()
+                    }
                     
                     Divider().frame(height:20)
                     
-                    Text("결석")
-                    Text("\(schedule.absentCount)")   //결석 횟수
-                        .foregroundColor(.myRed)
-                        .bold()
+                    HStack {
+                        Text("결석")
+                        Text("\(schedule.absentCount)")   //결석 횟수
+                            .foregroundColor(.myRed)
+                            .bold()
+                    }
                     
-                    Text("공결")
-                        
-                    Text("\(schedule.officiallyAbsentCount)")   //공결 횟수
-                        .foregroundColor(.myBlack)
-                        .bold()
+                    Divider().frame(height:20)
+                    
+                    HStack {
+                        Text("공결")
+                        Text("\(schedule.officiallyAbsentCount)")   //공결 횟수
+                            .foregroundColor(.myBlack)
+                            .bold()
+                    }
                 }
                 .foregroundColor(.black)
-                
-                Spacer()
+                .font(.system(size: 16, weight: .medium))
+                .padding(.leading, 21)
             }
-            .padding()
+            
             Spacer()
+            
+            Image(systemName: "greaterthan")
+                .resizable()
+                .frame(width: 10, height: 15)
+                .foregroundColor(.gray)
+                .padding(.trailing, 21)
         }
         .background {
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 18)
                 .foregroundColor(.myLightGray)
-                .frame(height: 120)
+                .frame(height: 90)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 18)
+                        .stroke(Color.myGray)
+                        .frame(height: 90)
+                }
             
         }
-        .frame(height: 120)
-        .padding()
+        .offset(y:1)
+        .frame(height: 90)
         .onAppear {
             print(attendanceStore.entireAttendanceList, "dd")
         }

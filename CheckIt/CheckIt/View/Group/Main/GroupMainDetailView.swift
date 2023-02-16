@@ -23,14 +23,21 @@ struct GroupMainDetailView: View {
     var body: some View {
         VStack {
             HStack {
-                Spacer()
-                
                 ZStack(alignment: .topLeading) {
                     // MARK: - 동아리 이미지
-                    Image(uiImage: groupImage)
-                        .resizable()
-                        .frame(width: 90, height: 90)
-                        .clipShape(Circle())
+                    ZStack {
+                        Circle()
+                            .foregroundColor(Color.myGray)
+                            .frame(width: 90, height: 90)
+                                
+                        Image(systemName: "person.3")
+                            .foregroundColor(Color.myLightGray)
+                        Image(uiImage: groupImage)
+                            .resizable()
+                            .frame(width: 90, height: 90)
+                            .clipShape(Circle())
+                    }
+                    .padding(.trailing, 20)
                     
                     if isHost {
                         ZStack {
@@ -48,7 +55,7 @@ struct GroupMainDetailView: View {
                     }
                 }
                 
-                Spacer()
+                //                Spacer()
                 
                 VStack(alignment: .leading, spacing: 10) {
                     // MARK: - 동아리 이름
@@ -58,12 +65,18 @@ struct GroupMainDetailView: View {
                     // MARK: - 동아리 상세 내용
                     Text(group.description)
                         .font(.system(size: 15, weight: .regular))
+                        .multilineTextAlignment(.leading)
+                    
+                    Spacer()
                 }
+                .padding(.top, 30)
                 .foregroundColor(.black)
                 
                 Spacer()
             }
+            .padding(.horizontal, 20)
         }
+        
     }
 }
 

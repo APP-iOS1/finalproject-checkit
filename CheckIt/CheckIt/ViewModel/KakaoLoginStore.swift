@@ -34,6 +34,14 @@ class KakaoLoginStore {
 //
 //
     
+    func returnFirebaseToken() async -> String? {
+        return await withCheckedContinuation { continuation in
+            returnFirebaseToken { result in
+                continuation.resume(returning: result)
+            }
+        }
+    }
+    
     func returnFirebaseToken(completion: @escaping (String?) -> ()) {
         getTokenWithKakaoTalkCompletionHanlder { accessToken in
             guard let accessToken else { completion(nil); return }
@@ -47,52 +55,115 @@ class KakaoLoginStore {
     
     
     private func getTokenWithKakaoTalkCompletionHanlder(completion: @escaping (String?) -> ()) {
-//        if (AuthApi.hasToken()) {
-//            UserApi.shared.accessTokenInfo { (accessTokenInfo, error) in
-//                if let error {
-//                    if let sdkError = error as? SdkError,
-//                       sdkError.isInvalidTokenError() == true {
-//                        print("로그인 필요")
-//                    }
-//                }
-//
-//            }
-//
-//        }
-        // 카카오톡 설치되어 있으면
-        if UserApi.isKakaoTalkLoginAvailable() {
-            UserApi.shared.loginWithKakaoTalk() { oauthToken, error in
+        if (AuthApi.hasToken()) {
+            UserApi.shared.accessTokenInfo { (accessTokenInfo, error) in
                 if let error {
-                    completion(nil)
-                    return
+                    if let sdkError = error as? SdkError,
+                       sdkError.isInvalidTokenError() == true {
+                        // 카카오톡 설치되어 있으면
+                        if UserApi.isKakaoTalkLoginAvailable() {
+                            UserApi.shared.loginWithKakaoTalk() { oauthToken, error in
+                                if let error {
+                                    completion(nil)
+                                    return
+                                }
+                                guard let oauthToken else {
+                                    completion(nil)
+                                    return
+                                }
+                                print("accessToken: \(oauthToken.accessToken)")
+                                
+                                completion(oauthToken.accessToken)
+                                
+                            }
+                        }
+                        
+                        // 카카오톡 설치가 안 되어 있는 경우
+                        else {
+                            UserApi.shared.loginWithKakaoAccount { oauthToken, error in
+                                if let error {
+                                    print("\(error.localizedDescription)")
+                                    return
+                                }
+                                guard let oauthToken else { return }
+                                completion(oauthToken.accessToken)
+                            } // - loginWithKakaoAccount
+                            
+                        } // - else
+                    } // - isInvalidTokenError
+                    else { print("\(error.localizedDescription)")
+                        completion(nil)
+                        return
+                    }
+                    
+                } // - if let error
+                // 카카오톡 설치되어 있으면
+                if UserApi.isKakaoTalkLoginAvailable() {
+                    UserApi.shared.loginWithKakaoTalk() { oauthToken, error in
+                        if let error {
+                            completion(nil)
+                            return
+                        }
+                        guard let oauthToken else {
+                            completion(nil)
+                            return
+                        }
+                        print("accessToken: \(oauthToken.accessToken)")
+                        
+                        completion(oauthToken.accessToken)
+                        
+                    }
                 }
-                guard let oauthToken else {
-                    completion(nil)
-                    return
-                }
-                print("accessToken: \(oauthToken.accessToken)")
-                completion(oauthToken.accessToken)
                 
+                // 카카오톡 설치가 안 되어 있는 경우
+                else {
+                    UserApi.shared.loginWithKakaoAccount { oauthToken, error in
+                        if let error {
+                            print("\(error.localizedDescription)")
+                            return
+                        }
+                        guard let oauthToken else { return }
+                        completion(oauthToken.accessToken)
+                    } // - loginWithKakaoAccount
+                    
+                } // - else
             }
-        }
-        
-        // 카카오톡 설치가 안 되어 있는 경우
-        else {
-            UserApi.shared.loginWithKakaoAccount { oauthToken, error in
-                if let error {
-                    print("\(error.localizedDescription)")
-                    return
+        } else {
+            // 카카오톡 설치되어 있으면
+            if UserApi.isKakaoTalkLoginAvailable() {
+                UserApi.shared.loginWithKakaoTalk() { oauthToken, error in
+                    if let error {
+                        completion(nil)
+                        return
+                    }
+                    guard let oauthToken else {
+                        completion(nil)
+                        return
+                    }
+                    print("accessToken: \(oauthToken.accessToken)")
+                    
+                    completion(oauthToken.accessToken)
+                    
                 }
-                guard let oauthToken else { return }
-                completion(oauthToken.accessToken)
             }
             
+            // 카카오톡 설치가 안 되어 있는 경우
+            else {
+                UserApi.shared.loginWithKakaoAccount { oauthToken, error in
+                    if let error {
+                        print("\(error.localizedDescription)")
+                        return
+                    }
+                    guard let oauthToken else { return }
+                    completion(oauthToken.accessToken)
+                } // - loginWithKakaoAccount
+            }
         }
     }
     
     
     private func requestKakaoCompletionHandler(accessToken: String, completion: @escaping (String?) -> ()) {
-        let url = URL(string: "https://verify-token.herokuapp.com/verifyToken")
+        let url = URL(string: "\(Bundle.main.object(forInfoDictionaryKey: "KAKAO_AUTHENTICATION_SERVER_URL") as? String ?? "")")
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

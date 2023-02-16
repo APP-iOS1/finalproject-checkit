@@ -114,6 +114,17 @@ class AttendanceStore: ObservableObject {
             
         }
     }
+    func asyncUpdateAttendance(attendanceData: Attendance, scheduleID: String, uid : String) async {
+        do {
+            let querySnapshot = try await database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: attendanceData.scheduleId).whereField("id", isEqualTo: attendanceData.id).getDocuments()
+            if querySnapshot.isEmpty { return }
+            
+            try await querySnapshot.documents.first!.reference.updateData([AttendanceConstants.attendanceStatus : attendanceData.attendanceStatus])
+        }
+        catch {
+            print("updateAttendace: \(error.localizedDescription)")
+        }
+    }
     //출석부 지각, 결석비 지불 상태 update
     func updateSettlementStatus(attendanceData: Attendance) {
         database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: attendanceData.scheduleId).whereField("id", isEqualTo: attendanceData.id).getDocuments { snapshot, error in
@@ -183,6 +194,87 @@ class AttendanceStore: ObservableObject {
         }
         return false
     }
-
     
+    /// 출석에 해당하는 스케줄의 id를 얻는 메소드 입니다.
+    /// - Parameter scheduleId: 가져올 출석이랑 연관된 일정
+    /// - Returns: 출석의 id
+    func getAttendanceId(_ scheduleId: String) async -> String {
+        do {
+           let querySnapshot = try await database.collection("Schedule").document(scheduleId)
+                .collection("Attendance")
+                .getDocuments()
+            if querySnapshot.isEmpty { return "Error"}
+            let document = querySnapshot.documents.first!
+            return document.documentID
+        } catch {
+            print("getAttendance error: \(error.localizedDescription)")
+        }
+        return "error"
+    }
+    
+    /// 일정을 삭제하는 메소드 입니다.
+    /// - Parameter attendanceId: 삭제할 출석의 id
+    func removeAttendance(_ scheduleId: String, attendanceId: String) async {
+        do {
+            try await database.collection("Schedule").document(scheduleId)
+                .collection("Attendance")
+                .document(attendanceId)
+                .delete()
+        } catch {
+            print("removeAttendance error: \(error.localizedDescription)")
+        }
+    }
+    
+    ///QR스캔을 통해 스캔이 완료되면 자동으로 결과를 반영할 수 있는 AddListener 메소드
+    private var listener: ListenerRegistration?
+    func responseAttendanceListner(schedule : Schedule, uid: String, completion: @escaping (Bool) -> Void) {
+        self.listener = database.collection("Schedule").document(schedule.id).collection("Attendance").whereField(AttendanceConstants.id, isEqualTo: uid).addSnapshotListener({ querySnapshot, error in
+            
+            guard let snapshot = querySnapshot else {
+                print("Error fetching attendance: \(error!)")
+                return
+            }
+            
+            snapshot.documentChanges.forEach({ diff in
+                switch diff.type {
+                case .added:
+                    print("New Attendance Data")
+                case .modified:
+                    print("Modify Attendance Data")
+                    completion(true)
+                case .removed:
+                    print("Remove Attendance Data")
+                }
+            })
+        })
+    }
+    
+    //MARK: - Method(isCompleteAttendance)
+    func isCompleteAttendance(schedule: Schedule, uid: String) async -> Bool {
+        do {
+            let snapshot = try await database.collection("Schedule").document(schedule.id)
+                .collection("Attendance").whereField(AttendanceConstants.id, isEqualTo: uid)
+                .getDocuments()
+            
+            if snapshot.documents.isEmpty { return false }
+            let document = snapshot.documents.first!
+            let attendance = document["attendance_status"] as? String ?? "N/A"
+            if attendance  == "출석" || attendance == "지각" {
+                return true
+            }
+        } catch {
+            print("\(error.localizedDescription)")
+        }
+        return false
+    } // - isCompleteAttendance
+    
+    func resetData() {
+        attendanceList.removeAll()
+        entireAttendanceList.removeAll()
+        
+        attendanceStatusList.removeAll()
+        latedStatusList.removeAll()
+        absentedStatusList.removeAll()
+        officiallyAbsentedStatusList.removeAll()
+    }
 }

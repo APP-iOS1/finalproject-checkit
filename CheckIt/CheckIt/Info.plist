@@ -2,6 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>개인에게 최적화된 광고를 수집하기 위해 사용자의 광고 활동 정보를 수집합니다.</string>
+	<key>SKAdNetworkItems</key>
+	<array>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>cstr6suwn9.skadnetwork</string>
+		</dict>
+	</array>
+	<key>GADIsAdManagerApp</key>
+	<true/>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-8771983832756290~4118257105</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -23,10 +38,21 @@
 			</array>
 		</dict>
 	</array>
+	<key>GEOCODING_URL</key>
+	<string>https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode</string>
+	<key>KAKAO_SDK_KEY</key>
+	<string>7a4ee9f84ebf3bcf24029e1c6febb14d</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
+		<string>maps</string>
 	</array>
+	<key>NAVER_API_KEY</key>
+	<string>sBaVUUJ5WEjPX7Q4WpStsfmBurzUvCulee2s39on</string>
+	<key>KAKAO_AUTHENTICATION_SERVER_URL</key>
+	<string>https://verify-token.herokuapp.com/verifyToken</string>
+	<key>NAVER_API_KEY_ID</key>
+	<string>653hfg2t7w</string>
 </dict>
 </plist>

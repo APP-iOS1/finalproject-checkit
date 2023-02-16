@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-struct LateCost: Identifiable, Hashable {
-    var id = UUID().uuidString
-    let name: String
-    var attendance: String
-    let cost: Int
-}
 
 struct AttendanceDetailView: View {
     @State private var selectedTap: AttendanceCategory = .attendanced
@@ -21,11 +15,12 @@ struct AttendanceDetailView: View {
     var schedule: Schedule
     var body: some View {
         VStack {
+            Text("\(Date().yearMonthDayDateToString(date: schedule.startTime)) 출석부")
+                .font(.system(size: 20, weight: .regular))
+                .padding(.top, 10)
+                .padding(.bottom, 20)
             AttendancePickerView(selectedTap: $selectedTap, schedule: schedule)
-                .padding()
-                .padding(.top, UIScreen.main.bounds.height / 30)
-            
-            AttendanceCategoryView(selection: $selectedTap, schedule: schedule)
+            AttendanceDetailStatusView(category: selectedTap, schedule: schedule)
             
             Spacer()
         }
@@ -39,8 +34,6 @@ struct AttendanceDetailView: View {
 
             }
         }
-        .navigationTitle("\(Date().yearMonthDayDateToString(date: schedule.startTime)) 출석부")
-        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             print(schedule.id, "스케줄 아이디")
             attendanceStore.fetchAttendance(scheduleID: schedule.id)

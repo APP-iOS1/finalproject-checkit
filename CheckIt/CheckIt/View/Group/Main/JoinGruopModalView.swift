@@ -15,9 +15,14 @@ struct JoinGruopModalView: View {
     @Environment(\.presentations) private var presentations
     
     @State private var invitationCode: String = ""
-    @State private var isJoined: Bool = false
+    @State private var isClicked: Bool = false
+    @State private var isLoading: Bool = false
+    
     @Binding var showToast: Bool
-    @Binding var toastMessage: String
+    @State private var toastMessage: String = ""
+    
+    @State private var showFaieldToast: Bool = false
+    @Binding var toastObj: ToastMessage
     
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
@@ -41,57 +46,84 @@ struct JoinGruopModalView: View {
                 .font(.system(size: 16, weight: .regular))
                 .padding()
                 .frame(height: 65)
-                .background(Color.myLightGray)
-                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.primary, lineWidth: 1)
+                )
             
             // MARK: - 동아리 참가하기 버튼
             Button {
-                isJoined.toggle()
+                if isClicked {
+                    return
+                }
+                isClicked.toggle()
+                
                 Task {
+                    isLoading.toggle()
                     let statusCode = await groupStores.joinGroup(invitationCode, user: userStores.user!)
-                    showToast.toggle()
                     
                     switch statusCode {
                     case .alreadyJoined:
                         toastMessage = "이미 가입된 동아리입니다."
+                        showFaieldToast.toggle()
                         presentations.forEach {
                             $0.wrappedValue = false
                         }
-                    case .newJoined:
-                        toastMessage = "동아리 가입이 완료되었습니다."
+                    case .newJoined(let newGroupId):
+                        toastObj.message = "동아리 가입이 완료되었습니다."
+                        toastObj.type = .competion
+                        
+                        showToast.toggle()
                         
                         presentations.forEach {
                             $0.wrappedValue = false
                         }
-                        
-                        await groupStores.fetchGroups(userStores.user!)
+                        let result = await groupStores.getGroup(newGroupId)
+                        switch result {
+                        case .success(let group):
+                            self.groupStores.groups.append(group)
+                        case .failure(let error):
+                            toastMessage = "참가한 동아리 정보를 읽는데 실패하였습니다."
+                            showFaieldToast.toggle()
+                            print(error)
+                        }
                         
                     case .notValidated:
                         toastMessage = "올바르지 않은 초대코드 입니다."
+                        showFaieldToast.toggle()
                     case .fulled:
                         toastMessage = "동아리 정원이 초과 했습니다."
+                        showFaieldToast.toggle()
+                        
                     }
+                    isLoading.toggle()
+                    isClicked.toggle()
                 }
                 
             } label: {
-                Text("동아리 참가하기")
-                    .modifier(GruopCustomButtonModifier())
+                if isLoading {
+                    ProgressView()
+                        .modifier(GruopCustomButtonModifier())
+                } else {
+                    Text("동아리 참가하기")
+                        .modifier(GruopCustomButtonModifier())
+                }
             }
         }
         .padding(40)
         .presentationDragIndicator(.visible)
-        .toast(isPresenting: $showToast){
-            AlertToast(displayMode: .banner(.slide), type: .regular, title: toastMessage)
+        .toast(isPresenting: $showFaieldToast){
+            AlertToast(displayMode: .banner(.slide), type: .error(.red), title: toastMessage)
         }
     }
 }
 
-struct JoinGruopModalView_Previews: PreviewProvider {
-    @State static var showToast: Bool = false
-    @State static var toastMessage: String = ""
-    
-    static var previews: some View {
-        JoinGruopModalView(showToast: $showToast, toastMessage: $toastMessage)
-            .environmentObject(GroupStore())
-    }
-}
+//struct JoinGruopModalView_Previews: PreviewProvider {
+//    @State static var showToast: Bool = false
+//    @State static var toastMessage: String = ""
+//    
+//    static var previews: some View {
+//        JoinGruopModalView(showToast: $showToast, toastMessage: $toastMessage)
+//            .environmentObject(GroupStore())
+//    }
+//}

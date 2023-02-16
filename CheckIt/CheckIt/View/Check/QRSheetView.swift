@@ -9,27 +9,52 @@ import SwiftUI
 import CoreImage.CIFilterBuiltins
 
 struct QRSheetView: View {
-    
+    var schedule: Schedule
+    @EnvironmentObject var userStore: UserStore
+    @EnvironmentObject var attendanceStore: AttendanceStore
+    @Binding var isCompleteAttendance: Bool
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
+
+    @Binding var showToast: Bool
+    @Binding var toastMessage: String
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.myGreen, .white]),
+            LinearGradient(gradient: Gradient(colors: [.qrCodeGreen, .qrCodeYellow]),
                            startPoint: .top, endPoint: .bottom)
             .edgesIgnoringSafeArea(.all)
             
+            RoundedRectangle(cornerRadius: 15)
+                .foregroundColor(.white)
+                .frame(width: 160, height: 160)
+            
+            
             VStack {
                 // 각 로그인 한 ID 정보 넣어줘야 함
-                Image(uiImage: generateQRCode(from: "사용자 정보"))
+                Image(uiImage: generateQRCode(from: userStore.user?.id ?? ""))
                     .resizable()
                     .interpolation(.none)
                     .scaledToFit()
                     .frame(width: 150, height: 150)
-                    .cornerRadius(15)
             }
         }
         .presentationDragIndicator(.visible)
+        .onAppear {
+            print(userStore.user?.id ?? "")
+            guard let userId = userStore.user?.id else { return }
+            attendanceStore.responseAttendanceListner(schedule: schedule, uid: userId) { result in
+                if result {
+                    dismiss()
+                    isCompleteAttendance = true
+                    //toastAlert toggle
+                    showToast.toggle()
+                    toastMessage = "출석체크가 완료되었습니다."
+                    print(result, "큐알")
+                }
+            }
+        }
     }
     
     
@@ -49,9 +74,9 @@ struct QRSheetView: View {
 }
 
 
-//MARK: - Previews
-struct QRSheetView_Previews: PreviewProvider {
-    static var previews: some View {
-        QRSheetView()
-    }
-}
+////MARK: - Previews
+//struct QRSheetView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        QRSheetView()
+//    }
+//}

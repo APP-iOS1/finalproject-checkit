@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum Status: String {
+    case attendance = "출석"
+    case late = "지각"
+    case absent = "결석"
+    case prev = "이전"
+}
+
 extension Date {
     /// date 인스턴스를 시간과 분으로 반환하는 메소드
     func getTimeString() -> String {
@@ -18,7 +25,7 @@ extension Date {
     /// date 인스턴스를 연도-월-일로 반환하는 메소드
     func getDateString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "y-m-d"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         
         return dateFormatter.string(from: self)
     }
@@ -42,4 +49,64 @@ extension Date {
         let dateString = dateFormatter.string(from: date)
         return dateString
     }
+    func dotHourMinuteDateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "a h:mm"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateString = dateFormatter.string(from: date)
+        return dateString
+    }
+    func yearMonthDayHourMinuteToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 a hh:mm"
+        dateFormatter.amSymbol = "오전"
+        dateFormatter.pmSymbol = "오후"
+        let dateString = dateFormatter.string(from: date)
+        return dateString
+    }
+    
+    //FIXME: 사용자 설정 시간에 따라 메서드가 바뀌어야 함
+    static func dateCompare(compareDate: Date, agreeTime: Int, lateTime: Int) -> String? {
+        let now = Date.now
+        // 출석 인정 시작 시각입니다.
+        // 40분 스케줄이면
+        // 35분 이전은 "이전
+        // 35 ~ 45 "출석"
+        // 45 ~ 50 "지각"
+        
+        let start = -(agreeTime * 60)
+        let absent = 300 + (lateTime * 60)
+        
+        let startTime = compareDate.addingTimeInterval(TimeInterval(start))
+        let lateTime = compareDate.addingTimeInterval(300)
+        let absentTime = compareDate.addingTimeInterval(TimeInterval(absent)) //5분 지나면
+        if now < startTime {
+            return Status.prev.rawValue
+        }
+        else if now >= startTime && now < lateTime {
+            return Status.attendance.rawValue
+        }
+        else if lateTime < now && now <= absentTime {
+            return Status.late.rawValue
+        }
+//        else {
+//            return Status.absent.rawValue
+//        }
+        // 출석(지각) 인정 시간이 아님
+        return nil
+        
+    }
+    func pastDateCompare(compareDate: Date) -> Bool {
+        let now = Date.now
+        
+        //수정 가능 시간
+        if now < compareDate {
+            return true
+        }
+        //수정 불가능
+        else {
+            return false
+        }
+    }
 }
+

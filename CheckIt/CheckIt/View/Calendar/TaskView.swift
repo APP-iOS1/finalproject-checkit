@@ -12,31 +12,55 @@ struct TaskView: View {
     
     @Binding var currentDate: Date
     @Binding var totalSchedule: [Schedule]
+    @Binding var totalAttendance: [Attendance]
     @Binding var selectedGroup: String
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 10) {
-                //MARK: - 일정 날짜
-                Text("To Do List")
-                    .font(.title3)
-                    .padding(.top, 25)
-                
-                ScrollView(showsIndicators: true) {
-                    //MARK: - 일정 디테일
-                    if let filterSchedule = totalSchedule.filter({ schedule in
-                        if selectedGroup != "전체" {
-                            return extraData.isSameDay(date1: schedule.startTime, date2: currentDate) && (schedule.groupName == selectedGroup)
-                        } else {
-                            return extraData.isSameDay(date1: schedule.startTime, date2: currentDate)
-                        }
-                    }) {
-                        if !filterSchedule.isEmpty {
-                            ForEach(filterSchedule) { schedule in
-                                HStack(spacing: 30) {
-                                    ExDivider(color: .myRed)
+            if let filterSchedules = totalSchedule.filter({ schedule in
+                if selectedGroup != "전체" {
+                    return extraData.isSameDay(date1: schedule.startTime, date2: currentDate) && (schedule.groupName == selectedGroup)
+                } else {
+                    return extraData.isSameDay(date1: schedule.startTime, date2: currentDate)
+                }
+            }) {
+                if !filterSchedules.isEmpty {
+                    VStack(alignment: .leading, spacing: 9) {
+                        //MARK: - 일정 날짜
+                            Text("예정된 일정")
+                                .font(.title3)
+                                .padding(.top, 25)
+                                .bold()
+                        ScrollView(showsIndicators: true) {
+                            // MARK: - selectedGroup에 맞춰 필터된 스케줄을 시간순으로 정렬(과거순)
+                            let sortedSchedules = filterSchedules.sorted {
+                                $0.startTime < $1.startTime
+                            }
+                            //MARK: - 일정 디테일
+                            ForEach(sortedSchedules) { schedule in
+                                HStack(spacing: 20) {
+                                    switch Date().dateCompare(fromDate: schedule.startTime) {
+                                    case "Future":
+                                        ExDivider(color: .myGray)
+                                    default:
+                                        if let filterAttendance = totalAttendance.first(where: { attendance in
+                                            return attendance.scheduleId == schedule.id
+                                        }) {
+                                            switch filterAttendance.attendanceStatus {
+                                            case "출석":
+                                                ExDivider(color: .myGreen)
+                                            case "지각":
+                                                ExDivider(color: .myOrange)
+                                            case "공결":
+                                                ExDivider(color: .myBlack)
+                                            default:
+                                                ExDivider(color: .myRed)
+                                            }
+                                        }
+                                    }
+                                    
                                     VStack(alignment: .leading, spacing: 5) {
-                                        Text("\(extraData.selectedDate(date: schedule.startTime)[5]):\(extraData.selectedDate(date: schedule.startTime)[6]) \(extraData.selectedDate(date: schedule.startTime)[4])")
+                                        Text("\(extraData.selectedDate(date: schedule.startTime)[4]) \(extraData.selectedDate(date: schedule.startTime)[5]):\(extraData.selectedDate(date: schedule.startTime)[6])")
                                             .font(.body)
                                         Text(schedule.groupName)
                                             .font(.body.bold())
@@ -48,11 +72,22 @@ struct TaskView: View {
                             }
                         }
                     }
+                    .padding(.leading,30)
+                    .padding(.top, -8)
+                    Spacer()
+                } else {
+                    VStack {
+                        Spacer()
+                        
+                        Text("일정 없음")
+                            .foregroundColor(Color.myGray)
+                            .font(.title3)
+                            .bold()
+                        Spacer()
+                    }
                 }
             }
-            .padding(.leading,30)
-            .padding(.top, -8)
-            Spacer()
+            
         }
     }
 }

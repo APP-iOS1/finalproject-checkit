@@ -8,22 +8,43 @@
 import SwiftUI
 
 struct DdayLabel: View {
-    var dDay: String = "D-day"
+    var dDay: Int = 0
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
-            .frame(width: 65, height: 35.16)
+            .frame(width: 60, height: 28.16)
             .foregroundColor(.white)
             .overlay {
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.myOrange)
-                        .frame(width: 65, height: 35)
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.myOrange)
+                    .frame(width: 60, height: 28)
             }
             .overlay {
-                Text("\(dDay)")
-                    .font(.system(size: 13).bold())
-                    .foregroundColor(.myOrange)
-                    
+                if dDay != 0 {
+                    Text("D-\(dDay)")
+                } else {
+                    Text("D-day")
+                }
             }
+            .font(.system(size: 13).bold())
+            .foregroundColor(.myOrange)
+    }
+}
+
+struct nonDdayLabel: View {
+    var body: some View {
+        RoundedRectangle(cornerRadius: 10)
+            .frame(width: 60, height: 28.16)
+            .foregroundColor(Color.white)
+            .overlay {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray)
+                    .frame(width: 60, height: 28)
+            }
+            .overlay {
+                    Text("-")
+            }
+            .font(.system(size: 13).bold())
+            .foregroundColor(.gray)
     }
 }
 

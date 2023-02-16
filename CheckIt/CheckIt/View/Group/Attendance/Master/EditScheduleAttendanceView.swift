@@ -15,21 +15,25 @@ struct EditScheduleAttendanceView: View {
     @State private var attendanceStatus: [Int] = [0, 0, 0, 0]
     @State var schedule: Schedule
     @State var isLoading: Bool = false
+    @State private var changedAttendance: Bool = false
+    @State private var lottieAnimationCompletion: Bool = false
+    @State private var idDismiss: Bool = false
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
                 Text("\(Date().yearMonthDayDateToString(date: schedule.startTime)) 출석부")
                     .font(.system(size: 20, weight: .regular))
-                    .padding(.top, 34)
+                    .padding(.top, 10)
                     .padding(.bottom, 30)
                 HStack(alignment: .center) {
                     Text("이름")
+                        .offset(x:10)
                     Spacer()
                     Text("출석 현황")
-                    
                 }
                 .font(.system(size: 16, weight: .bold))
                 .padding(.horizontal, 40)
+                .padding(.bottom)
                 
                 ScrollView {
                     ForEach(changedAttendancList.indices, id: \.self) { index in
@@ -43,6 +47,7 @@ struct EditScheduleAttendanceView: View {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {
                         isLoading = true
+                        changedAttendance = false
                         for index in 0..<attendanceStore.attendanceList.count {
                             //schedule update함수
                                 switch changedAttendancList[index].attendanceStatus {
@@ -74,13 +79,19 @@ struct EditScheduleAttendanceView: View {
 
                         Task {
                             await scheduleStore.updateScheduleAttendanceCount(schedule: schedule)
-                            await scheduleStore.fetchSchedule(gruopName: schedule.groupName)
+                            await scheduleStore.fetchSchedule(groupName: schedule.groupName)
+                            
+
                             isLoading = false
                             dismiss()
+                            print(lottieAnimationCompletion, "컴플리션")
+
                         }
                     } label: {
                         Text("수정완료")
+                            .foregroundColor(Color.myGreen)
                     }
+                    .disabled(!changedAttendance)
 
                 }
                 
@@ -90,9 +101,11 @@ struct EditScheduleAttendanceView: View {
                     Color(.systemBackground)
                         .ignoresSafeArea()
                         .opacity(0.8)
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .myGreen))
-                        .scaleEffect(4)
+                    LottieView(filename: "ThirdIndicator", completion: { value in
+                        lottieAnimationCompletion = value
+                        print(value, "로티애니메이션")
+                    })
+                        .frame(width: 150, height: 150)
                     }
 
                 }
@@ -103,8 +116,18 @@ struct EditScheduleAttendanceView: View {
             print(changedAttendancList, "생성")
             print(attendanceStore.attendanceList, "원래")
         }
-        .onDisappear {
+        .onChange(of: changedAttendancList) { _ in
+            if changedAttendancList != attendanceStore.attendanceList {
+                changedAttendance = true
+            }
+            else {
+                changedAttendance = false
+            }
         }
+//        .onChange(of: lottieAnimationCompletion) { newValue in
+//            isLoading = false
+//            dismiss()
+//        }
     }
 }
 
@@ -113,3 +136,4 @@ struct EditScheduleAttendanceView: View {
 //        EditScheduleAttendanceView(, schedule: <#Schedule#>)
 //    }
 //}
+
