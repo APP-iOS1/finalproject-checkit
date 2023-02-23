@@ -104,7 +104,7 @@ struct EditScheduleAttendanceView: View {
                     LottieView(filename: "ThirdIndicator", completion: { value in
                         lottieAnimationCompletion = value
                         print(value, "로티애니메이션")
-                    })
+                    }, toFrame: 120)
                         .frame(width: 150, height: 150)
                     }
 
