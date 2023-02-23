@@ -197,10 +197,11 @@ struct ScheduleDetailView: View {
                 Button("취소하기", role: .cancel) { }
                 Button("삭제하기", role: .destructive) {
                     Task {
-                        print("==scheduleStore.scheduleList==: \(scheduleStore.scheduleList)")
+                        async let attendanceList = await attendanceStore.getAttendanceList(schedule.id)
+                        for id in await attendanceList {
+                            await attendanceStore.removeAttendance(schedule.id, attendanceId: id)
+                        }
                         
-                        async let attendanceId = await attendanceStore.getAttendanceId(schedule.id)
-                        await attendanceStore.removeAttendance(schedule.id, attendanceId: attendanceId) // 1.
                         await groupStore.removeScheduleInGroup(group.id, scheduleList: scheduleStore.scheduleList, scheduleId: schedule.id) // 2.
                         await scheduleStore.removeSchedule(schedule.id)
                         
