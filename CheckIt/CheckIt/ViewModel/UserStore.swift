@@ -25,6 +25,7 @@ class UserStore: ObservableObject {
     @Published var isLoginError: Bool = false
 
     @Published var userDictionaryList: [String : String] = [:] //key uid, value nickname
+    @Published var userNumberDictionaryList: [String : String] = [:]
 
     var userData: FirebaseAuth.User? = nil
     
@@ -125,7 +126,10 @@ class UserStore: ObservableObject {
                     let docData = document.data()
                     let id: String = docData[UserConstants.id] as? String ?? ""
                     let name: String = docData[UserConstants.name] as? String ?? ""
+                    let userNumber: String = docData["user_number"] as? String ?? ""
+                    
                     self.userDictionaryList[id] = name
+                    self.userNumberDictionaryList[id] = userNumber
                 }
             }
         }
@@ -138,8 +142,9 @@ class UserStore: ObservableObject {
         let name = user["name"] as? String ?? ""
         let groupId = user["group_id"] as? [String] ?? []
         let loginCenter = user["login_center"] as? String ?? ""
-        
-        self.user = User(id: id, email: email, name: name, groupID: groupId)
+        let userNumber = user["user_number"] as? String ?? ""
+       
+        self.user = User(id: id, email: email, name: name, userNumber: userNumber, groupID: groupId)
     } // - userUpdate
     
     
@@ -168,14 +173,17 @@ class UserStore: ObservableObject {
             self.userData = user
             let result = await isUserInDatabaseWithKakao(uid: "\(String(describing: user.uid))")
 
+            // 회원가입
             if !result {
                 DispatchQueue.main.async {
                     self.isFirstLogin = true
                 }
-                self.addUser(userData: self.userData)
-                await self.fetchUser(user.uid)
-                self.toggleLoginState()
-                return
+                
+                
+                let userNumber = await userNumberGenerator()
+                
+                let newUser: User = .init(id: userData?.uid ?? "N/A", email: userData?.email ?? "N/A", name: userData?.displayName ?? "N/A", userNumber: userNumber, groupID: [])
+                self.addUser(user: newUser)
             }
             await self.fetchUser(user.uid)
             self.toggleLoginState()
@@ -215,17 +223,21 @@ class UserStore: ObservableObject {
     /// 구글, 애플 로그인
     func loginWithCredential(_ result: Result<ASAuthorization, Error>? = nil) async {
         var credential: AuthCredential?
+        var name: String?
         switch loginCenter {
         case .apple:
             guard let result else { return }
-            credential = await AppleLoginStore().logIn(result: result)
+            let credentialAndName = await AppleLoginStore().logIn(result: result)
+            credential = credentialAndName.0
+            name = personNameComponentsToStringName(credentialAndName.1)
+            
         case .google:
             credential = await GoogleLoginStore().signIn()
         default:
             return
         }
         guard let credential else { return }
-        await signInWithCredential(credential: credential)
+        await signInWithCredential(credential: credential, name: name)
         
     } // - loginWithCredential
     
@@ -274,7 +286,7 @@ class UserStore: ObservableObject {
     //MARK: - Method(signIn)
     /// Firebase 로그인 메서드입니다. credential을 제3자(애플, 구글)로부터  파라미터로 제공받아 파이어베이스 로그인에 연결합니다.
     /// Return (로그인 성공 여부)
-    func signInWithCredential(credential: AuthCredential?) async -> Bool {
+    func signInWithCredential(credential: AuthCredential?, name: String?) async -> Bool {
         guard let credential = credential else { return false }
         let (authResult, error) = await firebaseSignIn(credential: credential)
         if let error {
@@ -288,13 +300,15 @@ class UserStore: ObservableObject {
         self.userData = authResult.user
         
         let isUser = await isUserInDatabase(email: userData?.email ?? "N/A")
-        print(isUser, userData?.email)
-        //FIXME: 회원가입 -> 간편 회원가입 뷰로 넘겨줘야 함
+        // 회원가입
         if !isUser {
-            addUser(userData: self.userData)
-            DispatchQueue.main.async {
-                self.isFirstLogin = true
-            }
+            // 애플 로그인인 경우 회원가입 시에만 이름을 받습니다.
+            let isAppleLogin = (loginCenter == .apple  && name != nil)
+            let userNumber = await userNumberGenerator()
+            print(userNumber)
+            let newUser: User = .init(id: userData?.uid ?? "N/A", email: userData?.email ?? "N/A", name: isAppleLogin ? name! : userData?.displayName ?? "N/A", userNumber: userNumber, groupID: [])
+            self.addUser(user: newUser)
+            
         }
         await fetchUser(self.userData?.uid ?? "N/A")
         self.toggleLoginState()
@@ -329,14 +343,15 @@ class UserStore: ObservableObject {
             let email = data["email"] as? String ?? ""
             let name = data["name"] as? String ?? ""
             let groupId = data["group_id"] as? [String] ?? []
+            let userNumber = data["user_number"] as? String ?? ""
             let loginCenter = data["login_center"] as? String ?? ""
             
             let user = User(id: id,
                             email: email,
                             name: name,
+                            userNumber: userNumber,
                             groupID: groupId)
             
-            print("파베에서 가져온 user: \(user)")
             
             DispatchQueue.main.async {
                 self.user = user
@@ -424,14 +439,14 @@ class UserStore: ObservableObject {
     
     //MARK: - Method(addUser)
     /// db에 새로운 User 정보를 추가하는 메서드입니다.
-    func addUser(userData: FirebaseAuth.User?) {
-        guard let user = userData else { return }
+    func addUser(user: User) {
         database.collection("User")
-            .document("\(user.uid)")
+            .document("\(user.id)")
             .setData([
-                "id" : user.uid ,
-                "name" : user.displayName ?? "N/A",
-                "email" : user.email ?? "N/A",
+                "id" : user.id ,
+                "name" : user.name,
+                "email" : user.email,
+                "user_number" : user.userNumber,
                 "group_id" : [],
                 "login_center": self.loginCenter?.rawValue
             ])
@@ -447,6 +462,7 @@ class UserStore: ObservableObject {
                 "name" : user.name,
                 "email" : user.email,
                 "group_id" : user.groupID,
+                "user_number" : user.userNumber,
                 "login_center": self.loginCenter?.rawValue
             ])
     } // - updateUser
@@ -499,6 +515,7 @@ class UserStore: ObservableObject {
         self.user?.name = name
         updateUser(user: self.user!)
     } // - changeUserName
+
 }
 
 extension UserStore: Store {
@@ -512,8 +529,84 @@ extension UserStore: Store {
         
         userData = nil
         isLogined = false
+    } // - resetData
+    
+    func userNumberGenerator() async -> String {
+        var result = ""
+        // 만번이상 반복했으면 반복문 탈출
+        var count = 0
+        while count < 10001 {
+            result = fourDigitNumberGenerator()
+            let isUserNumber = await isUserNumber(result)
+            if !isUserNumber {
+                break
+            }
+            count += 1
+        }
+        
+        do {
+            try await database.collection("UserNumber").document(result)
+                .setData([:])
+        } catch {
+            print("\(error.localizedDescription)")
+        }
+        
+        
+        return result
     }
+    
+    
+    //
+    func fourDigitNumberGenerator() -> String {
+            var number: String = ""
+            for _ in 0...3 {
+                number += "\(Int.random(in: Range(0...9)))"
+            }
+            return number
+        }
+    
+    
+    
+    //MARK: - Method(isUserNumber)
+    /// 유저 고유 번호가 컬렉션에 이미 생성 됐는지 확인하는 메서드입니다.
+    func isUserNumber(_ userNumber: String) async -> Bool {
+        do {
+            let document = try await database.collection("UserNumber")
+            .document(userNumber).getDocument()
+            
+            // 아직 생성되지 않음
+            if !document.exists {
+                return false
+            }
+            
+            return true
+        } catch {
+            print("\(error.localizedDescription)")
+        }
+        
+        return true
+    } // - isUserNumber
+    
 }
 
 
 
+
+
+//MARK: - Method(personNameComponentsToStringName)
+/// personNameComponents로 선언되어 있는 이름을 String 타입으로 변환하여 반환하는 메서드입니다.
+func personNameComponentsToStringName(_ personNameComponents: PersonNameComponents?) -> String {
+    guard let personNameComponents else { return "" }
+    var result: String = ""
+    if let familyName = personNameComponents.familyName {
+        result += familyName
+    }
+    if let middleName = personNameComponents.middleName {
+        result += middleName
+    }
+    if let givenName = personNameComponents.givenName {
+        result += givenName
+    }
+    
+    return result
+} // - personNameComponentsToStringName

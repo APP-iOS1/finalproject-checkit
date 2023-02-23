@@ -26,10 +26,11 @@ struct NotPenaltyCostCellView: View {
         }
     }
     @State var userName: String = ""
+    @State var userNumber: String = ""
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                Text(userName)
+                Text("\(userName)(\(userNumber))")
                     .font(.system(size: 16, weight: .regular))
                 Spacer()
                 RoundedRectangle(cornerRadius: 10)
@@ -50,6 +51,7 @@ struct NotPenaltyCostCellView: View {
         .frame(height: 40)
         .onAppear {
             userName = userStore.userDictionaryList[data.id] ?? ""
+            userNumber = userStore.userNumberDictionaryList[data.id] ?? ""
         }
     }
 }

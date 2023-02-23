@@ -32,8 +32,9 @@ class MemberStore: ObservableObject {
             
             let uid = data[MemberConstants.uid] as? String ?? ""
             let position = data[MemberConstants.position] as? String ?? ""
+            let userNumber = data["user_number"] as? String ?? ""
             
-            let member = Member(uid: uid, position: position)
+            let member = Member(uid: uid, position: position, userNumber: userNumber)
             
             DispatchQueue.main.async {
                 self.members.append(member)
@@ -45,20 +46,20 @@ class MemberStore: ObservableObject {
     /// - Parameter groupdId: 변경할 멤버가 속한 동아리
     /// - Parameter uid: 역할을 변경할 유저
     /// - Parameter position: 변경할 역할(직책)
-    func updatePosition(_ groupId: String, uid: String, newPosition: String) async {
+    func updatePosition(_ groupId: String, uid: String, newPosition: String, userNumber: String) async {
         do {
             try await database.collection("Group")
                 .document(groupId)
                 .collection("Member")
                 .document(uid)
                 .updateData([
-                    "position" : newPosition
+                    "position" : newPosition,
                 ])
             
             // 실시간 Update를 위해 members 배열 업데이트
             DispatchQueue.main.async {
                 let index = self.members.firstIndex { $0.uid == uid } ?? 0
-                self.members[index] = Member(uid: uid, position: newPosition)
+                self.members[index] = Member(uid: uid, position: newPosition, userNumber: userNumber)
             }
             
         } catch {
