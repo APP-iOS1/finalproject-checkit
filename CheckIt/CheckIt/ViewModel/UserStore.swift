@@ -499,7 +499,9 @@ class UserStore: ObservableObject {
         self.user?.name = name
         updateUser(user: self.user!)
     } // - changeUserName
-    
+}
+
+extension UserStore: Store {
     func resetData() {
         user = nil
         //loginState = .logout
