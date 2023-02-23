@@ -10,4 +10,5 @@ import Foundation
 struct Member {
     var uid: String
     var position: String
+    var userNumber: String
 }

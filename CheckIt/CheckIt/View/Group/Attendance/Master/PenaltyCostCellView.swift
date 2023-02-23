@@ -28,6 +28,7 @@ struct PenaltyCostCellView: View {
     @State var userName: String = {
         return ""
     }()
+    @State var userNumber: String = ""
     var body: some View {
         VStack {
             HStack {
@@ -41,7 +42,7 @@ struct PenaltyCostCellView: View {
                         .foregroundColor(.primary)
                 }
                 .frame(width: 70)
-                Text(" \(userName)")
+                Text("\(userName)(\(userNumber))")
                     .font(.system(size: 16, weight: .regular))
                     .offset(x:-5)
                 Spacer()
@@ -63,6 +64,7 @@ struct PenaltyCostCellView: View {
         .frame(height: 40)
         .onAppear {
             userName = userStore.userDictionaryList[data.id] ?? ""
+            userNumber = userStore.userNumberDictionaryList[data.id] ?? ""
         }
     }
 }
