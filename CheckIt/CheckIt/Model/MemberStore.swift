@@ -84,10 +84,6 @@ class MemberStore: ObservableObject {
             print("remove member error: \(error.localizedDescription)")
         }
     }
-    
-    func resetData() {
-        members.removeAll()
-    }
 }
 
 // MARK: - 데이터 crud외 작업
@@ -106,6 +102,12 @@ extension MemberStore {
         
         let members = host + mangement + general
         return members
+    }
+}
+
+extension MemberStore: Store {
+    func resetData() {
+        members.removeAll()
     }
 }
 

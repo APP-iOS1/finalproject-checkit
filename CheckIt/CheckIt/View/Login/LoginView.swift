@@ -21,7 +21,7 @@ struct LoginView: View {
         VStack {
             Spacer()
             
-            Image("checkItLogo")
+            Image("CheckItLogo")
                 .resizable()
                 .scaledToFit()
             
