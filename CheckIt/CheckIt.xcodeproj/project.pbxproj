@@ -1142,7 +1142,7 @@
 				INFOPLIST_FILE = CheckIt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Check It!";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Check It이 사진을 촬영하여 출석을 확인을 위해 카메라에 접근하도록 허용합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Check It!이 사진을 촬영하여 출석을 확인을 위해 카메라에 접근하도록 허용합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Check It!이 일정 장소 확인을 위해 위치 정보를 사용하도록 허용합니다.";
@@ -1185,7 +1185,7 @@
 				INFOPLIST_FILE = CheckIt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Check It!";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Check It이 사진을 촬영하여 출석을 확인을 위해 카메라에 접근하도록 허용합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Check It!이 사진을 촬영하여 출석을 확인을 위해 카메라에 접근하도록 허용합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Check It!이 일정 장소 확인을 위해 위치 정보를 사용하도록 허용합니다.";
