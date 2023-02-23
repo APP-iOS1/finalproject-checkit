@@ -20,7 +20,7 @@ struct GoogleAdMobView: UIViewControllerRepresentable {
         viewController.view.addSubview(banner)
         viewController.view.frame = CGRect(origin: .zero, size: bannerSize.size)
         
-        banner.adUnitID = Constants.testAdID
+        banner.adUnitID = Constants.adID
         banner.load(GADRequest())
         
         return viewController
