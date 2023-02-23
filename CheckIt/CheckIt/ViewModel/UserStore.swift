@@ -462,6 +462,7 @@ class UserStore: ObservableObject {
                 "name" : user.name,
                 "email" : user.email,
                 "group_id" : user.groupID,
+                "user_number" : user.userNumber,
                 "login_center": self.loginCenter?.rawValue
             ])
     } // - updateUser
