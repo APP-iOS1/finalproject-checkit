@@ -20,11 +20,13 @@ struct LogoutAlert: View {
         ZStack(alignment: .top) {
             RoundedRectangle(cornerRadius: 10)
                 .foregroundColor(.white)
-                .frame(width: 250, height: 130)
+                .frame(height: 160)
             VStack {
                 Text("로그아웃하시겠습니까?")
                     .font(.system(size: 20, weight: .bold))
-                    .padding(.top, 25)
+                    .padding(25)
+                    .padding(.top, 10)
+                    
                   
                 
                 HStack {
@@ -63,7 +65,7 @@ struct LogoutAlert: View {
                     
                     
                 }
-                .padding(.bottom, 27)
+//                .padding(.top, 27)
             }
         } // - ZStack
         .frame(height: 200)
