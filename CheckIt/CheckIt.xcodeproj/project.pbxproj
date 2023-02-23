@@ -107,6 +107,9 @@
 		FD2D07FB297BFDEC00CC010E /* GeoCodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */; };
 		FD2D07FE297BFE3000CC010E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FD2D07FD297BFE3000CC010E /* Alamofire */; };
 		FD2D0800297C0FB100CC010E /* CustomSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D07FF297C0FB100CC010E /* CustomSymbols.swift */; };
+		FD32E22329A7C15400D670D2 /* checklist.json in Resources */ = {isa = PBXBuildFile; fileRef = FD32E22229A7C15400D670D2 /* checklist.json */; };
+		FD32E22729A7C16700D670D2 /* map-navigation.json in Resources */ = {isa = PBXBuildFile; fileRef = FD32E22629A7C16700D670D2 /* map-navigation.json */; };
+		FD32E22D29A7CB9800D670D2 /* send-invitation.json in Resources */ = {isa = PBXBuildFile; fileRef = FD32E22C29A7CB9800D670D2 /* send-invitation.json */; };
 		FD4971D1299A3E6A0012E9F5 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4971D0299A3E6A0012E9F5 /* SafariView.swift */; };
 		FD4971D3299A3E770012E9F5 /* WithdrawalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4971D2299A3E770012E9F5 /* WithdrawalAlert.swift */; };
 		FD4971D5299A3E870012E9F5 /* LogoutAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4971D4299A3E870012E9F5 /* LogoutAlert.swift */; };
@@ -265,6 +268,9 @@
 		FD2D07F6297BFCB900CC010E /* GeoCodingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCodingResponse.swift; sourceTree = "<group>"; };
 		FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCodingService.swift; sourceTree = "<group>"; };
 		FD2D07FF297C0FB100CC010E /* CustomSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSymbols.swift; sourceTree = "<group>"; };
+		FD32E22229A7C15400D670D2 /* checklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = checklist.json; sourceTree = "<group>"; };
+		FD32E22629A7C16700D670D2 /* map-navigation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "map-navigation.json"; sourceTree = "<group>"; };
+		FD32E22C29A7CB9800D670D2 /* send-invitation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "send-invitation.json"; sourceTree = "<group>"; };
 		FD4971D0299A3E6A0012E9F5 /* SafariView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		FD4971D2299A3E770012E9F5 /* WithdrawalAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawalAlert.swift; sourceTree = "<group>"; };
 		FD4971D4299A3E870012E9F5 /* LogoutAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutAlert.swift; sourceTree = "<group>"; };
@@ -433,6 +439,19 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		FD32E22129A7C11700D670D2 /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				FD32E22C29A7CB9800D670D2 /* send-invitation.json */,
+				FD32E22629A7C16700D670D2 /* map-navigation.json */,
+				FD32E22229A7C15400D670D2 /* checklist.json */,
+				A58CF9D12995380A0032E004 /* Indicator.json */,
+				FD909F9D299558E40002F55F /* SecondIndicator.json */,
+				A572A5732997CD2B001C70DD /* ThirdIndicator.json */,
+			);
+			path = Lottie;
+			sourceTree = "<group>";
+		};
 		FD4E2590297783CC00F6F875 = {
 			isa = PBXGroup;
 			children = (
@@ -470,9 +489,6 @@
 				FD4E25C8297783E000F6F875 /* ViewModel */,
 				FD4E25C6297783D000F6F875 /* View */,
 				FD4E25A0297783CC00F6F875 /* Assets.xcassets */,
-				A572A5732997CD2B001C70DD /* ThirdIndicator.json */,
-				FD909F9D299558E40002F55F /* SecondIndicator.json */,
-				A58CF9D12995380A0032E004 /* Indicator.json */,
 				FD4E25A2297783CC00F6F875 /* Preview Content */,
 				2859C001299925B200CB6062 /* ImageCacheManager.swift */,
 			);
@@ -516,6 +532,7 @@
 				FD4E25CB2977840F00F6F875 /* Login */,
 				A58CF9CF29952D480032E004 /* LottieView.swift */,
 				2B0A72572999CFEB0039C855 /* OnBoardingView.swift */,
+				FD32E22129A7C11700D670D2 /* Lottie */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -840,7 +857,10 @@
 				FD909F9E299558E40002F55F /* SecondIndicator.json in Resources */,
 				A572A5742997CD2B001C70DD /* ThirdIndicator.json in Resources */,
 				FD4E25A4297783CC00F6F875 /* Preview Assets.xcassets in Resources */,
+				FD32E22729A7C16700D670D2 /* map-navigation.json in Resources */,
 				FD4E25A1297783CC00F6F875 /* Assets.xcassets in Resources */,
+				FD32E22D29A7CB9800D670D2 /* send-invitation.json in Resources */,
+				FD32E22329A7C15400D670D2 /* checklist.json in Resources */,
 				FDEE491C298ECE93009DF195 /* GoogleService-Info.plist in Resources */,
 				A58CF9D22995380B0032E004 /* Indicator.json in Resources */,
 			);

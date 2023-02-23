@@ -134,7 +134,7 @@ struct CategoryView: View {
                         .opacity(0.8)
                     LottieView(filename: "ThirdIndicator", completion: { value in
                         print(value, "로티애니메이션")
-                    })
+                    }, toFrame: 120)
                     .frame(width: 150, height: 150)
                 }
             }

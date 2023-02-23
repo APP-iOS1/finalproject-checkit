@@ -12,12 +12,13 @@ struct OnBoardingStep {
     let title: String
     let subTitle: String
     let description: String
+    let toFrame: Int
 }
 
 private let onBoardingSteps = [
-    OnBoardingStep(image: "checkItIcon", title: "위치 기반 서비스로 출석하기", subTitle: "QR code 출첵, 길찾기 기능", description: "50m 반경 안에서 출석 버튼이 활성화되어요!"),
-    OnBoardingStep(image: "checkItIcon", title: "우리만의 동아리 운영하기", subTitle: "운영진 권한 부여 및 구성원 강퇴 기능", description: "방장은 초대 코드를 공유해서\n동아리에 초대할 수 있어요!"),
-    OnBoardingStep(image: "checkItIcon", title: "일정별 출석부로 정산하기", subTitle: "출결 인정시간 및 지각비 설정 기능", description: "방장은 정산 여부를 체크할 수 있어요!")
+    OnBoardingStep(image: "map-navigation", title: "위치 기반 서비스로 출석하기", subTitle: "QR code 출첵, 길찾기 기능", description: "50m 반경 안에서 출석 버튼이 활성화되어요!", toFrame: 177),
+    OnBoardingStep(image: "send-invitation", title: "우리만의 동아리 운영하기", subTitle: "운영진 권한 부여 및 구성원 강퇴 기능", description: "방장은 초대 코드를 공유해서\n동아리에 초대할 수 있어요!", toFrame: 150),
+    OnBoardingStep(image: "checklist", title: "일정별 출석부로 정산하기", subTitle: "출결 인정시간 및 지각비 설정 기능", description: "방장은 정산 여부를 체크할 수 있어요!", toFrame: 75)
 ]
 
 struct OnBoardingView: View {
@@ -49,9 +50,9 @@ struct OnBoardingView: View {
             TabView(selection: $currentStep) {
                 ForEach(0..<onBoardingSteps.count) { it in
                     VStack {
-                        Image(onBoardingSteps[it].image)
-                            .resizable()
-                            .frame(width: UIScreen.screenWidth * 0.4, height: UIScreen.screenHeight * 0.25)
+                        LottieView(filename: "\(onBoardingSteps[it].image)", toFrame: onBoardingSteps[it].toFrame)
+                            .modifier(LottieAnimationFrameModifier(index: it))
+                        
                         
                         Text(onBoardingSteps[it].title)
                             .font(.system(size: 22, weight: .bold))
@@ -101,6 +102,23 @@ struct OnBoardingView: View {
             }
         }
         .padding(.horizontal, 30)
+    }
+}
+
+struct LottieAnimationFrameModifier: ViewModifier {
+    var index: Int
+    func body(content: Content) -> some View {
+        // 2번째 로티 애니메이션 크기 조절
+        if index == 1 {
+            content
+                .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight * 0.25)
+                .padding(.bottom, 28)
+        } else {
+            content
+                .frame(width: UIScreen.screenWidth * 0.4, height: UIScreen.screenHeight * 0.25)
+                .padding(.bottom, 10)
+        }
+           
     }
 }
 
