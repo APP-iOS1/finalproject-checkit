@@ -52,6 +52,7 @@
 		2869DE402977CC8800D8CAFB /* AttendanceCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */; };
 		2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */; };
 		2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */; };
+		289B62DF29A72D2A00F9B0CD /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B62DE29A72D2A00F9B0CD /* Store.swift */; };
 		28D63A9C2996375E002BF5F4 /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 28D63A9B2996375E002BF5F4 /* SkeletonUI */; };
 		2B0A72582999CFEB0039C855 /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0A72572999CFEB0039C855 /* OnBoardingView.swift */; };
 		2B0A725A299A89DC0039C855 /* Ex+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0A7259299A89DC0039C855 /* Ex+View.swift */; };
@@ -215,6 +216,7 @@
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
 		2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceDetailView.swift; sourceTree = "<group>"; };
 		2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltyCostCellView.swift; sourceTree = "<group>"; };
+		289B62DE29A72D2A00F9B0CD /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		2B0A72572999CFEB0039C855 /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
 		2B0A7259299A89DC0039C855 /* Ex+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+View.swift"; sourceTree = "<group>"; };
 		2B52E0332997D68100A4A1FD /* TermsAndPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPolicyView.swift; sourceTree = "<group>"; };
@@ -401,6 +403,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		289B62DD29A72CE700F9B0CD /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				289B62DE29A72D2A00F9B0CD /* Store.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		A529BD41298CA79A00AE232B /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -446,6 +456,7 @@
 		FD4E259B297783CC00F6F875 /* CheckIt */ = {
 			isa = PBXGroup;
 			children = (
+				289B62DD29A72CE700F9B0CD /* Protocols */,
 				1A3CB25F2990B8B300EA5E84 /* WebView */,
 				FDEE4907298D606B009DF195 /* CheckIt.entitlements */,
 				A529BD41298CA79A00AE232B /* Constants */,
@@ -961,6 +972,7 @@
 				864DC48F2977B962005DB201 /* DateValue.swift in Sources */,
 				FDEA39A5299C718500D18282 /* AddressSearchManager.swift in Sources */,
 				2822CE202988DDC600316139 /* UserStore.swift in Sources */,
+				289B62DF29A72D2A00F9B0CD /* Store.swift in Sources */,
 				864DC4892977B2F9005DB201 /* CustomDatePickerView.swift in Sources */,
 				2822CE1C2988B3E500316139 /* Schedule.swift in Sources */,
 				2822CE1A2988B14400316139 /* Member.swift in Sources */,

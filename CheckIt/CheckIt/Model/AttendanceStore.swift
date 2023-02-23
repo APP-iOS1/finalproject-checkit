@@ -286,7 +286,9 @@ class AttendanceStore: ObservableObject {
         }
         return false
     } // - isCompleteAttendance
-    
+}
+
+extension AttendanceStore: Store {
     func resetData() {
         attendanceList.removeAll()
         entireAttendanceList.removeAll()

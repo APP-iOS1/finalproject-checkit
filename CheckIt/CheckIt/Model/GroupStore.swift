@@ -699,7 +699,9 @@ class GroupStore: ObservableObject {
             }
         }
     }
-    
+}
+
+extension GroupStore: Store {
     func resetData() {
         groups.removeAll()
     }
