@@ -29,7 +29,7 @@ extension String {
                     numberString = "0"
                 }
                 guard let doubleValue = Double(numberString)
-                    else { return self }
+                else { return self }
                 return numberFormatter.string(from: NSNumber(value: doubleValue)) ?? self
             } else if numberArray.count == 2 {
                 var numberString = numberArray[0]
@@ -37,19 +37,36 @@ extension String {
                     numberString = "0"
                 }
                 guard let doubleValue = Double(numberString)
-                    else {
-                        return self
+                else {
+                    return self
                 }
                 return (numberFormatter.string(from: NSNumber(value: doubleValue)) ?? numberString) + ".\(numberArray[1])"
             }
         }
         else {
             guard let doubleValue = Double(self)
-                else {
-                    return self
+            else {
+                return self
             }
             return numberFormatter.string(from: NSNumber(value: doubleValue)) ?? self
         }
         return self
     }
 }
+
+
+extension String {
+    /// 첫번째 글자부터 지정한 글자까지 출력할 수 있는 메서드입니다. 
+    // to는 출력할 글자 수 3글자 출력 시 to에 3 입력
+    func subString(to: Int) -> String {
+        var ans: String = ""
+        var len: Int = self.count < to ? self.count : to
+        
+        for index in 0 ..< len {
+            ans += String(self[String.Index(encodedOffset: index)])
+        }
+        
+        return ans
+    }
+}
+
