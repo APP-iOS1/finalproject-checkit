@@ -134,7 +134,7 @@ struct CategoryView: View {
                         .opacity(0.8)
                     LottieView(filename: "ThirdIndicator", completion: { value in
                         print(value, "로티애니메이션")
-                    })
+                    }, toFrame: 120)
                     .frame(width: 150, height: 150)
                 }
             }
@@ -243,11 +243,12 @@ struct CategoryView: View {
                 Task {
                     isLoading = true //로티 애니메이션 시작
                     
-                    
                     // 동아리 내의 일정 및 연관된 출석부 컬렉션 삭제
                     for scheduleId in group.scheduleID {
-                        async let attendanceId = await attendanceStore.getAttendanceId(scheduleId)
-                        await attendanceStore.removeAttendance(scheduleId, attendanceId: attendanceId)
+                        async let attendanceList = await attendanceStore.getAttendanceList(scheduleId)
+                        for id in await attendanceList {
+                            await attendanceStore.removeAttendance(scheduleId, attendanceId: id)
+                        }
                         await scheduleStore.removeSchedule(scheduleId)
                     }
                     

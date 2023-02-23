@@ -69,7 +69,7 @@ class AttendanceStore: ObservableObject {
                 self.latedStatusList.removeAll()
                 self.absentedStatusList.removeAll()
                 self.officiallyAbsentedStatusList.removeAll()
-
+                
             }
             let querySnapshot = try await database.collectionGroup("Attendance").order(by: "settlement_status", descending: true).whereField(AttendanceConstants.scheduleId, isEqualTo: scheduleID)
                 .getDocuments()
@@ -195,6 +195,24 @@ class AttendanceStore: ObservableObject {
         return false
     }
     
+    /// 해당 일정에 참가한 모든 사람의 출석부 id를 가져오는 메소드입니다.
+    /// - Parameter scheduleId: 삭제할 일정의 id
+    /// - Returns: 일정에 참가한 출석부 id 리스트
+    
+    func getAttendanceList(_ scheduleId: String) async -> [String] {
+        do {
+            let querySnapshot = try await database.collection("Schedule").document(scheduleId)
+                .collection("Attendance")
+                .getDocuments()
+            let idList = querySnapshot.documents.map { $0.documentID }
+            print("idList: \(idList)")
+            return idList
+        } catch {
+            print("error: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
     /// 출석에 해당하는 스케줄의 id를 얻는 메소드 입니다.
     /// - Parameter scheduleId: 가져올 출석이랑 연관된 일정
     /// - Returns: 출석의 id
@@ -216,6 +234,7 @@ class AttendanceStore: ObservableObject {
     /// - Parameter attendanceId: 삭제할 출석의 id
     func removeAttendance(_ scheduleId: String, attendanceId: String) async {
         do {
+            print("삭제할 scheduleId: \(attendanceId)")
             try await database.collection("Schedule").document(scheduleId)
                 .collection("Attendance")
                 .document(attendanceId)
@@ -267,7 +286,9 @@ class AttendanceStore: ObservableObject {
         }
         return false
     } // - isCompleteAttendance
-    
+}
+
+extension AttendanceStore: Store {
     func resetData() {
         attendanceList.removeAll()
         entireAttendanceList.removeAll()

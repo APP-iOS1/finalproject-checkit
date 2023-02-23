@@ -28,18 +28,18 @@ struct GroupMemberListCell: View {
                 GroupPosition(position: member.position)
                     .padding(.leading, 17)
                 
-                Text(nameDict[member.uid] ?? "N/A")
+                Text("\(nameDict[member.uid] ?? "N/A") (\(member.userNumber))")
                     .foregroundColor(.black)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(.system(size: 14, weight: .regular))
                     .lineLimit(1)
                     .padding(.leading, 7)
                 
                 HStack {
                     Menu {
                         if member.position == "운영진" {
-                            Button("구성원") { changePosition(member.uid, position: "구성원") }
+                            Button("구성원") { changePosition(member.uid, member.userNumber, position: "구성원") }
                         } else {
-                            Button("운영진") { changePosition(member.uid, position: "운영진") }
+                            Button("운영진") { changePosition(member.uid, member.userNumber, position: "운영진") }
                         }
                     } label: {
                         Image(systemName: "person.circle.fill")
@@ -92,9 +92,9 @@ struct GroupMemberListCell: View {
         }
     }
     
-    func changePosition(_ uid: String, position: String) {
+    func changePosition(_ uid: String, _ userNumber: String, position: String) {
         Task {
-            await memberStore.updatePosition(group.id, uid: uid, newPosition: position)
+            await memberStore.updatePosition(group.id, uid: uid, newPosition: position, userNumber: userNumber)
         }
     }
 }

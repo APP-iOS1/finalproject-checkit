@@ -52,6 +52,7 @@
 		2869DE402977CC8800D8CAFB /* AttendanceCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */; };
 		2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */; };
 		2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */; };
+		289B62DF29A72D2A00F9B0CD /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B62DE29A72D2A00F9B0CD /* Store.swift */; };
 		28D63A9C2996375E002BF5F4 /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 28D63A9B2996375E002BF5F4 /* SkeletonUI */; };
 		2B0A72582999CFEB0039C855 /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0A72572999CFEB0039C855 /* OnBoardingView.swift */; };
 		2B0A725A299A89DC0039C855 /* Ex+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0A7259299A89DC0039C855 /* Ex+View.swift */; };
@@ -106,6 +107,9 @@
 		FD2D07FB297BFDEC00CC010E /* GeoCodingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */; };
 		FD2D07FE297BFE3000CC010E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FD2D07FD297BFE3000CC010E /* Alamofire */; };
 		FD2D0800297C0FB100CC010E /* CustomSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2D07FF297C0FB100CC010E /* CustomSymbols.swift */; };
+		FD32E22329A7C15400D670D2 /* checklist.json in Resources */ = {isa = PBXBuildFile; fileRef = FD32E22229A7C15400D670D2 /* checklist.json */; };
+		FD32E22729A7C16700D670D2 /* map-navigation.json in Resources */ = {isa = PBXBuildFile; fileRef = FD32E22629A7C16700D670D2 /* map-navigation.json */; };
+		FD32E22D29A7CB9800D670D2 /* send-invitation.json in Resources */ = {isa = PBXBuildFile; fileRef = FD32E22C29A7CB9800D670D2 /* send-invitation.json */; };
 		FD4971D1299A3E6A0012E9F5 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4971D0299A3E6A0012E9F5 /* SafariView.swift */; };
 		FD4971D3299A3E770012E9F5 /* WithdrawalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4971D2299A3E770012E9F5 /* WithdrawalAlert.swift */; };
 		FD4971D5299A3E870012E9F5 /* LogoutAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4971D4299A3E870012E9F5 /* LogoutAlert.swift */; };
@@ -215,6 +219,7 @@
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
 		2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceDetailView.swift; sourceTree = "<group>"; };
 		2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltyCostCellView.swift; sourceTree = "<group>"; };
+		289B62DE29A72D2A00F9B0CD /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		2B0A72572999CFEB0039C855 /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
 		2B0A7259299A89DC0039C855 /* Ex+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+View.swift"; sourceTree = "<group>"; };
 		2B52E0332997D68100A4A1FD /* TermsAndPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPolicyView.swift; sourceTree = "<group>"; };
@@ -263,6 +268,9 @@
 		FD2D07F6297BFCB900CC010E /* GeoCodingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCodingResponse.swift; sourceTree = "<group>"; };
 		FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCodingService.swift; sourceTree = "<group>"; };
 		FD2D07FF297C0FB100CC010E /* CustomSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSymbols.swift; sourceTree = "<group>"; };
+		FD32E22229A7C15400D670D2 /* checklist.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = checklist.json; sourceTree = "<group>"; };
+		FD32E22629A7C16700D670D2 /* map-navigation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "map-navigation.json"; sourceTree = "<group>"; };
+		FD32E22C29A7CB9800D670D2 /* send-invitation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "send-invitation.json"; sourceTree = "<group>"; };
 		FD4971D0299A3E6A0012E9F5 /* SafariView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		FD4971D2299A3E770012E9F5 /* WithdrawalAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WithdrawalAlert.swift; sourceTree = "<group>"; };
 		FD4971D4299A3E870012E9F5 /* LogoutAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutAlert.swift; sourceTree = "<group>"; };
@@ -401,6 +409,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		289B62DD29A72CE700F9B0CD /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				289B62DE29A72D2A00F9B0CD /* Store.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		A529BD41298CA79A00AE232B /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,6 +437,19 @@
 				FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		FD32E22129A7C11700D670D2 /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				FD32E22C29A7CB9800D670D2 /* send-invitation.json */,
+				FD32E22629A7C16700D670D2 /* map-navigation.json */,
+				FD32E22229A7C15400D670D2 /* checklist.json */,
+				A58CF9D12995380A0032E004 /* Indicator.json */,
+				FD909F9D299558E40002F55F /* SecondIndicator.json */,
+				A572A5732997CD2B001C70DD /* ThirdIndicator.json */,
+			);
+			path = Lottie;
 			sourceTree = "<group>";
 		};
 		FD4E2590297783CC00F6F875 = {
@@ -446,6 +475,7 @@
 		FD4E259B297783CC00F6F875 /* CheckIt */ = {
 			isa = PBXGroup;
 			children = (
+				289B62DD29A72CE700F9B0CD /* Protocols */,
 				1A3CB25F2990B8B300EA5E84 /* WebView */,
 				FDEE4907298D606B009DF195 /* CheckIt.entitlements */,
 				A529BD41298CA79A00AE232B /* Constants */,
@@ -459,9 +489,6 @@
 				FD4E25C8297783E000F6F875 /* ViewModel */,
 				FD4E25C6297783D000F6F875 /* View */,
 				FD4E25A0297783CC00F6F875 /* Assets.xcassets */,
-				A572A5732997CD2B001C70DD /* ThirdIndicator.json */,
-				FD909F9D299558E40002F55F /* SecondIndicator.json */,
-				A58CF9D12995380A0032E004 /* Indicator.json */,
 				FD4E25A2297783CC00F6F875 /* Preview Content */,
 				2859C001299925B200CB6062 /* ImageCacheManager.swift */,
 			);
@@ -505,6 +532,7 @@
 				FD4E25CB2977840F00F6F875 /* Login */,
 				A58CF9CF29952D480032E004 /* LottieView.swift */,
 				2B0A72572999CFEB0039C855 /* OnBoardingView.swift */,
+				FD32E22129A7C11700D670D2 /* Lottie */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -789,10 +817,10 @@
 			};
 			buildConfigurationList = FD4E2594297783CC00F6F875 /* Build configuration list for PBXProject "CheckIt" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				ko,
 				Base,
 			);
 			mainGroup = FD4E2590297783CC00F6F875;
@@ -829,7 +857,10 @@
 				FD909F9E299558E40002F55F /* SecondIndicator.json in Resources */,
 				A572A5742997CD2B001C70DD /* ThirdIndicator.json in Resources */,
 				FD4E25A4297783CC00F6F875 /* Preview Assets.xcassets in Resources */,
+				FD32E22729A7C16700D670D2 /* map-navigation.json in Resources */,
 				FD4E25A1297783CC00F6F875 /* Assets.xcassets in Resources */,
+				FD32E22D29A7CB9800D670D2 /* send-invitation.json in Resources */,
+				FD32E22329A7C15400D670D2 /* checklist.json in Resources */,
 				FDEE491C298ECE93009DF195 /* GoogleService-Info.plist in Resources */,
 				A58CF9D22995380B0032E004 /* Indicator.json in Resources */,
 			);
@@ -961,6 +992,7 @@
 				864DC48F2977B962005DB201 /* DateValue.swift in Sources */,
 				FDEA39A5299C718500D18282 /* AddressSearchManager.swift in Sources */,
 				2822CE202988DDC600316139 /* UserStore.swift in Sources */,
+				289B62DF29A72D2A00F9B0CD /* Store.swift in Sources */,
 				864DC4892977B2F9005DB201 /* CustomDatePickerView.swift in Sources */,
 				2822CE1C2988B3E500316139 /* Schedule.swift in Sources */,
 				2822CE1A2988B14400316139 /* Member.swift in Sources */,
@@ -1051,7 +1083,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1105,7 +1137,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1128,14 +1160,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckIt/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "Check It!";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Check It!에서 카메라에 접근하고자 합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Check It!이 사진을 촬영하여 출석을 확인을 위해 카메라에 접근하도록 허용합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
-				INFOPLIST_KEY_NSLocationUsageDescription = "Check It!에서 지도에 접근하고자 합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "개인에게 최적화된 광고를 수집하기 위해 사용자의 광고 활동 정보를 수집합니다.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Check It!이 일정 장소 확인을 위해 위치 정보를 사용하도록 허용합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Check It!이 일정 장소 확인을 위해 위치 정보를 사용하도록 허용합니다.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Check It!이 개인에게 최적화된 광고를 수집하기 위해 사용자의 광고 활동 정보를 수집합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1171,14 +1203,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CheckIt/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "Check It!";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Check It!에서 카메라에 접근하고자 합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Check It!이 사진을 촬영하여 출석을 확인을 위해 카메라에 접근하도록 허용합니다.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
-				INFOPLIST_KEY_NSLocationUsageDescription = "Check It!에서 지도에 접근하고자 합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "개인에게 최적화된 광고를 수집하기 위해 사용자의 광고 활동 정보를 수집합니다.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Check It!이 일정 장소 확인을 위해 위치 정보를 사용하도록 허용합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Check It!이 일정 장소 확인을 위해 위치 정보를 사용하도록 허용합니다.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Check It!이 개인에게 최적화된 광고를 수집하기 위해 사용자의 광고 활동 정보를 수집합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1210,7 +1242,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BW4MN2W69K;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codeline.CheckItTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1230,7 +1262,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BW4MN2W69K;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.codeline.CheckItTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

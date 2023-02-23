@@ -192,7 +192,7 @@ class GroupStore: ObservableObject {
             }
             
             // FIXME: - position관련 정보는 enum으로 수정 필요
-            await createMember(database.collection("Group"), documentID: group.id, uid: user.id, position: "방장")
+            await createMember(database.collection("Group"), documentID: group.id, uid: user.id, position: "방장", userNumber: user.userNumber)
             
             await createImages(image, path: group.image)
             
@@ -212,12 +212,13 @@ class GroupStore: ObservableObject {
     /// - Parameter position: 멤버의 직책
     ///
     /// 동아리에 멤버를 추가하는 메소드입니다.
-    func createMember(_ ref: CollectionReference, documentID: String, uid: String, position: String) async {
+    func createMember(_ ref: CollectionReference, documentID: String, uid: String, position: String, userNumber: String) async {
         do {
             try await ref.document(documentID).collection("Member")
                 .document(uid)
                 .setData([
                     "uid": uid,
+                    "user_number": userNumber,
                     "position": position
                 ])
         } catch {
@@ -412,6 +413,7 @@ class GroupStore: ObservableObject {
                     .document(user.id)
                     .setData([
                         "uid": user.id,
+                        "user_number" : user.userNumber,
                         "position": "구성원"
                     ])
                 await addGroupsInUser(user, joinedGroupId: groupId)
@@ -699,7 +701,9 @@ class GroupStore: ObservableObject {
             }
         }
     }
-    
+}
+
+extension GroupStore: Store {
     func resetData() {
         groups.removeAll()
     }

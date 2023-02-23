@@ -12,16 +12,18 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class AppleLoginStore {
-    func logIn(result: Result<ASAuthorization, Error>) -> AuthCredential? {
+    func logIn(result: Result<ASAuthorization, Error>) -> (AuthCredential?, PersonNameComponents?) {
         switch result {
         case .success(let authResult):
-            guard let idCredential = authResult.credential as? ASAuthorizationAppleIDCredential, let identityToken = idCredential.identityToken, let identityTokenString = String(data: identityToken, encoding: .utf8) else { return nil}
+            guard let idCredential = authResult.credential as? ASAuthorizationAppleIDCredential, let identityToken = idCredential.identityToken, let identityTokenString = String(data: identityToken, encoding: .utf8) else { return (nil, nil)}
+            
+            let name = idCredential.fullName
             let nonce = AppleLoginStore().sha256(AppleLoginStore().randomNonceString())
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: identityTokenString, rawNonce: nonce)
-            return credential
+            return (credential, name)
         case .failure(let error):
             print("\(error.localizedDescription)")
-            return nil
+            return (nil, nil)
         }
 
     }
