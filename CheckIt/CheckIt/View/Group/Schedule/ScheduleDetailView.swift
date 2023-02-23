@@ -199,8 +199,14 @@ struct ScheduleDetailView: View {
                     Task {
                         print("==scheduleStore.scheduleList==: \(scheduleStore.scheduleList)")
                         
-                        async let attendanceId = await attendanceStore.getAttendanceId(schedule.id)
-                        await attendanceStore.removeAttendance(schedule.id, attendanceId: attendanceId) // 1.
+                        async let attendanceList = await attendanceStore.getAttendanceList(schedule.id)
+                        print("attendanceList: \(await attendanceList)")
+                        for id in await attendanceList {
+                            await attendanceStore.removeAttendance(schedule.id, attendanceId: id)
+                        }
+                        
+//                        async let attendanceId = await attendanceStore.getAttendanceId(schedule.id)
+//                        await attendanceStore.removeAttendance(schedule.id, attendanceId: attendanceId) // 1.
                         await groupStore.removeScheduleInGroup(group.id, scheduleList: scheduleStore.scheduleList, scheduleId: schedule.id) // 2.
                         await scheduleStore.removeSchedule(schedule.id)
                         
