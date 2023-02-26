@@ -130,7 +130,7 @@ struct CategoryView: View {
                 
                 
                 if clickedIndex == 0 {
-                    GroupScheduleView(group: groupStore.groupDetail, isGroupManager: $isGroupManager, isScheduleLoading: $isScheduleLoading)
+                    GroupScheduleView(group: groupStore.groupDetail, isScheduleLoading: $isScheduleLoading, isHost: isHost)
                 } else if clickedIndex == 1 {
                     AttendanceStatusView(isGroupManager: $isGroupManager, group: group, scheduleIDList: group.scheduleID, hostId: group.hostID)
                 } else if clickedIndex == 2 {
