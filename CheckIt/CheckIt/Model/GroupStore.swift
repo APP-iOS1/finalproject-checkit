@@ -96,6 +96,7 @@ class GroupStore: ObservableObject {
         let description = group[GroupConstants.description] as? String ?? ""
         let scheduleID = group[GroupConstants.scheduleID] as? [String] ?? []
         let memberLimit = group[GroupConstants.memberLimit] as? Int ?? 0
+        let isStop = group["is_stop"] as? Bool ?? false
         
         let group = Group(id: id,
                           name: name,
@@ -104,7 +105,9 @@ class GroupStore: ObservableObject {
                           hostID: hostID,
                           description: description,
                           scheduleID: scheduleID,
-                          memberLimit: memberLimit)
+                          memberLimit: memberLimit,
+                          isStop: isStop
+        )
         
         //readImages("group_images/\(id)", groupId: group.id)
         
@@ -144,6 +147,7 @@ class GroupStore: ObservableObject {
         let description = group[GroupConstants.description] as? String ?? ""
         let scheduleID = group[GroupConstants.scheduleID] as? [String] ?? []
         let memberLimit = group[GroupConstants.memberLimit] as? Int ?? 0
+        let isStop = group["is_stop"] as? Bool ?? false
         
         let group = Group(id: id,
                           name: name,
@@ -152,7 +156,9 @@ class GroupStore: ObservableObject {
                           hostID: hostID,
                           description: description,
                           scheduleID: scheduleID,
-                          memberLimit: memberLimit)
+                          memberLimit: memberLimit,
+                          isStop: isStop
+        )
         
         //readImages("group_images/\(id)", groupId: group.id)
         
@@ -185,7 +191,8 @@ class GroupStore: ObservableObject {
                     "\(GroupConstants.image)": group.image,
                     "\(GroupConstants.description)": group.description,
                     "\(GroupConstants.scheduleID)": group.scheduleID,
-                    "\(GroupConstants.memberLimit)": group.memberLimit
+                    "\(GroupConstants.memberLimit)": group.memberLimit,
+                    "is_stop": group.isStop
                 ])
             DispatchQueue.main.async {
                 self.groups.append(group)
@@ -284,6 +291,7 @@ class GroupStore: ObservableObject {
         do {
             let querySnapshot = try await database.collection("Group")
                 .whereField("id", in: groupID)
+                .whereField("is_stop", isEqualTo: false)
                 .getDocuments()
 
             for document in querySnapshot.documents {
@@ -297,6 +305,7 @@ class GroupStore: ObservableObject {
                 let description = data[GroupConstants.description] as? String ?? ""
                 let scheduleID = data[GroupConstants.scheduleID] as? [String] ?? []
                 let memberLimit = data[GroupConstants.memberLimit] as? Int ?? 0
+                let isStop = data["is_stop"] as? Bool ?? false
                 
                 
                 //readImages("group_images/\(id)", groupId: id)
@@ -310,7 +319,8 @@ class GroupStore: ObservableObject {
                                   hostID: hostID,
                                   description: description,
                                   scheduleID: scheduleID,
-                                  memberLimit: memberLimit)
+                                  memberLimit: memberLimit,
+                                  isStop: false)
                 
                 DispatchQueue.main.async {
                     self.groups.append(group)
@@ -352,6 +362,9 @@ class GroupStore: ObservableObject {
             let description = group[GroupConstants.description] as? String ?? ""
             let scheduleID = group[GroupConstants.scheduleID] as? [String] ?? []
             let memberLimit = group[GroupConstants.memberLimit] as? Int ?? 0
+            let isStop = group["is_stop"] as? Bool ?? false
+            
+            if isStop == true { return .failure(GroupGetError.getGroupFailed)}
             
             let newGroup = Group(id: id,
                               name: name,
@@ -360,7 +373,7 @@ class GroupStore: ObservableObject {
                               hostID: hostID,
                               description: description,
                               scheduleID: scheduleID,
-                              memberLimit: memberLimit)
+                                 memberLimit: memberLimit, isStop: isStop)
             
             //readImages("group_images/\(id)", groupId: newGroup.id)
             

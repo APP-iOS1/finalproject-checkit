@@ -142,7 +142,9 @@ struct EditGroupView: View {
                                              hostID: group.hostID,
                                              description: group.description,
                                              scheduleID: group.scheduleID,
-                                             memberLimit: group.memberLimit)
+                                             memberLimit: group.memberLimit,
+                                             isStop: false
+                        )
                         
                         await groupStores.editGroup(newGroup: newGroup, newImage: selectedPhotoData.first ?? groupStores.groupImage[group.image] ?? UIImage())
                         

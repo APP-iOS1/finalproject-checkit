@@ -16,6 +16,7 @@ struct Group: Identifiable, Hashable {
     var description: String    
     var scheduleID: [String]
     var memberLimit: Int
+    var isStop: Bool
     
     static var randomCode: String {
         let stringData = UUID().uuidString.suffix(8)
@@ -34,7 +35,8 @@ struct Group: Identifiable, Hashable {
                                           hostID: "",
                                           description: "야구동아리입니다",
                                           scheduleID: [],
-                                          memberLimit: 0
+                                          memberLimit: 0,
+                                          isStop: false
     )
     
     static func sortedGroup(_ groups: [Group], userId: String) -> [Group]{
