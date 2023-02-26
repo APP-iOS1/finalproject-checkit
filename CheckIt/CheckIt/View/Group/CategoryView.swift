@@ -50,7 +50,7 @@ struct CategoryView: View {
             Rectangle()
                 .foregroundColor(.black.opacity(0.4))
                 .ignoresSafeArea()
-            ReportView(cancelButtonTapped: $isPresentedReportAlert)
+            ReportView(cancelButtonTapped: $isPresentedReportAlert, showToast: $showToast, toastObj: $toastObj)
                 .padding(.horizontal, 30)
         }
         .transition(AnyTransition.opacity.animation(.easeOut(duration: 0.5)))

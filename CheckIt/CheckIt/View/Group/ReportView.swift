@@ -15,7 +15,11 @@ struct ReportView: View {
     @EnvironmentObject var memberStore: MemberStore
     
     @State private var content: String = ""
+    @State private var placeholder: String = Constants.contentPlaceholder
+    
     @Binding var cancelButtonTapped: Bool
+    @Binding var showToast: Bool
+    @Binding var toastObj: ToastMessage
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -28,19 +32,35 @@ struct ReportView: View {
                     .font(.system(size: 20, weight: .bold))
                     .padding(.bottom)
                 
-                TextEditor(text: $content)
-                    .multilineTextAlignment(.leading)
-                    .textFieldStyle(.roundedBorder)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.myGray, lineWidth: 2)
-                    )
-                    .onChange(of: content) { value in
-                        if value.count > Constants.reportContentLimit {
-                            content.removeLast()
-                        }
+                ZStack {
+                    if content.isEmpty {
+                        TextEditor(text: $placeholder)
+                            .foregroundColor(.gray)
+                            .multilineTextAlignment(.leading)
+                            .textFieldStyle(.roundedBorder)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.myGray, lineWidth: 2)
+                            )
+                        
+                            .disabled(true)
+                            .padding(.bottom)
                     }
-                    .padding(.bottom)
+                    TextEditor(text: $content)
+                        .multilineTextAlignment(.leading)
+                        .textFieldStyle(.roundedBorder)
+                        .opacity(self.content.isEmpty ? 0.25 : 1)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.myGray, lineWidth: 2)
+                        )
+                        .onChange(of: content) { value in
+                            if value.count > Constants.reportContentLimit {
+                                content.removeLast()
+                            }
+                        }
+                        .padding(.bottom)
+                }
                 
                 HStack {
                     Spacer()
@@ -68,7 +88,12 @@ struct ReportView: View {
                     .padding(.trailing, 18)
                     
                     Button {
+                        showToast.toggle()
+                        cancelButtonTapped.toggle()
+                        toastObj.message = Constants.toastMeesage
+                        toastObj.type = .competion
                         
+                        print("신고 내용: \(content)")
                     } label: {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(width: 100, height: 50)
@@ -91,4 +116,6 @@ struct ReportView: View {
 
 private enum Constants {
     static let reportContentLimit: Int = 300
+    static let toastMeesage: String = "신고가 완료되었습니다."
+    static let contentPlaceholder: String = "신고 내용을 입력해주세요."
 }
