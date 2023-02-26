@@ -100,7 +100,9 @@ struct MakeGroupModalView: View {
                                       hostID: userStores.user?.id ?? "N/A",
                                       description: groupDescription,
                                       scheduleID: [],
-                                      memberLimit: 8)
+                                      memberLimit: 8,
+                                      isStop: false
+                    )
                     Task {
                         if isClicked {
                             return
