@@ -52,6 +52,7 @@
 		2869DE402977CC8800D8CAFB /* AttendanceCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */; };
 		2869DE422977CD4B00D8CAFB /* AttendanceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */; };
 		2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */; };
+		287D06D529AB3D2200C3AFC4 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287D06D429AB3D2200C3AFC4 /* Report.swift */; };
 		289B62DF29A72D2A00F9B0CD /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B62DE29A72D2A00F9B0CD /* Store.swift */; };
 		28D63A9C2996375E002BF5F4 /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 28D63A9B2996375E002BF5F4 /* SkeletonUI */; };
 		2B0A72582999CFEB0039C855 /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0A72572999CFEB0039C855 /* OnBoardingView.swift */; };
@@ -219,6 +220,7 @@
 		2869DE3F2977CC8800D8CAFB /* AttendanceCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceCellView.swift; sourceTree = "<group>"; };
 		2869DE412977CD4B00D8CAFB /* AttendanceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceDetailView.swift; sourceTree = "<group>"; };
 		2869DE432977CF0200D8CAFB /* PenaltyCostCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltyCostCellView.swift; sourceTree = "<group>"; };
+		287D06D429AB3D2200C3AFC4 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		289B62DE29A72D2A00F9B0CD /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		2B0A72572999CFEB0039C855 /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
 		2B0A7259299A89DC0039C855 /* Ex+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+View.swift"; sourceTree = "<group>"; };
@@ -549,6 +551,7 @@
 				2822CE1B2988B3E500316139 /* Schedule.swift */,
 				2822CE1D2988B61900316139 /* Attendance.swift */,
 				2840FC952999F4F400F24499 /* ToastMessage.swift */,
+				287D06D429AB3D2200C3AFC4 /* Report.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -946,6 +949,7 @@
 				2B0A725A299A89DC0039C855 /* Ex+View.swift in Sources */,
 				FD4E25F82977B9E900F6F875 /* CheckMapView.swift in Sources */,
 				FD4E25F02977AC8500F6F875 /* CheckItCard.swift in Sources */,
+				287D06D529AB3D2200C3AFC4 /* Report.swift in Sources */,
 				283B70B7298C98EF003782C3 /* GroupEmptyView.swift in Sources */,
 				285437C22993753A00E29CE1 /* ScheduleDetailCellView.swift in Sources */,
 				FD4E259F297783CC00F6F875 /* ContentView.swift in Sources */,
