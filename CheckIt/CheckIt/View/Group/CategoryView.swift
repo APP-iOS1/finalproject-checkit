@@ -35,12 +35,25 @@ struct CategoryView: View {
     
     var group: Group
     @State private var changedGroup: Group = Group.sampleGroup
+    @State private var isPresentedReportAlert: Bool = false
     
     // FIXME: - 현재는 방장인지 아닌지만 여부를 나타내는데 운영진도 고려해야함
     /// 현재 동아리가 자신이 방장인지 확인하는 연산 프로퍼티
     /// true값이면 자신이 방장이며 fasle이면 방장이 아님
     var isHost: Bool {
         group.hostID == userStore.user?.id ?? ""
+    }
+    
+    //MARK: - ReportAlert
+    private var reportAlert: some View {
+        ZStack {
+            Rectangle()
+                .foregroundColor(.black.opacity(0.4))
+                .ignoresSafeArea()
+            ReportView(cancelButtonTapped: $isPresentedReportAlert, showToast: $showToast, toastObj: $toastObj, group: group)
+                .padding(.horizontal, 30)
+        }
+        .transition(AnyTransition.opacity.animation(.easeOut(duration: 0.5)))
     }
     
     var body: some View {
@@ -138,8 +151,13 @@ struct CategoryView: View {
                     .frame(width: 150, height: 150)
                 }
             }
-            
         }
+        .overlay {
+            if isPresentedReportAlert {
+                reportAlert
+            }
+        }
+        
         .navigationTitle("\(group.name)")
         .navigationBarBackButtonHidden()
         .toolbar {
@@ -161,6 +179,12 @@ struct CategoryView: View {
                                 isEditGroup.toggle()
                             } label: {
                                 Label("동아리 정보 수정하기", systemImage: "highlighter")
+                            }
+                            Button {
+                                isPresentedReportAlert.toggle()
+                            } label: {
+                                Label("동아리 신고하기", systemImage: "exclamationmark.bubble")
+                                    .foregroundColor(.red)
                             }
                             
                             Button(role: .destructive) {
@@ -184,6 +208,13 @@ struct CategoryView: View {
                         
                     } else {
                         Section {
+                            Button {
+                                isPresentedReportAlert.toggle()
+                            } label: {
+                                Label("동아리 신고하기", systemImage: "exclamationmark.bubble")
+                                    .foregroundColor(.red)
+                            }
+                            
                             Button(role: .destructive) {
                                 isCheckExsit.toggle()
                             } label: {
@@ -192,6 +223,7 @@ struct CategoryView: View {
                             }
                         }
                     }
+                    
                 } label: {
                     Image(systemName: "ellipsis")
                 }
