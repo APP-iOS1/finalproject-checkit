@@ -112,8 +112,10 @@ struct ReportView: View {
                                 Text("신고하기")
                                     .foregroundColor(.white)
                                     .font(.system(size: 16, weight: .bold))
+                                    .opacity(content.isEmpty ? 0.4 : 1)
                             }
                     }
+                    .disabled(content.isEmpty ? true : false)
                     .padding(.leading, 0)
                     Spacer()
                 }
