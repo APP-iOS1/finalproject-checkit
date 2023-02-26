@@ -8,8 +8,8 @@
 import Foundation
 import Firebase
 
-enum ReportError: Error {
-    case reportError
+enum ReportError: String, Error {
+    case reportError = "신고가 실패하였습니다."
 }
 
 // Singleton
@@ -22,9 +22,9 @@ class ReportManager {
     /// 유저가 동아리를 신고 하는 메소드
     /// - Parameter report: 신고 인스턴스
     /// - Returns:  Result<String, ReportError>:  성공시, 성공 메시지 실패시 에러를 반환함
-    static func reportGroup(_ report: Report) async -> Result<String, ReportError> {
+    func reportGroup(_ report: Report) async -> Result<String, ReportError> {
         do {
-            try await shared.database.collection("Report")
+            try await ReportManager.shared.database.collection("Report")
                 .document(report.id)
                 .setData([
                     "id": report.id,
@@ -33,10 +33,14 @@ class ReportManager {
                     "content": report.content,
                     "date": report.date
                 ])
-            return .success("신고가 완료되었습니다.")
+            return .success(Constants.reportSuccessMessage)
         } catch {
             print("error: \(error.localizedDescription)")
             return .failure(.reportError)
         }
     }
+}
+
+private enum Constants {
+    static let reportSuccessMessage: String = "신고가 완료되었습니다."
 }

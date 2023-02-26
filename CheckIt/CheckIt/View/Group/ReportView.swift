@@ -9,10 +9,6 @@ import SwiftUI
 
 struct ReportView: View {
     @EnvironmentObject var userStore: UserStore
-    @EnvironmentObject var groupStore: GroupStore
-    @EnvironmentObject var scheduleStore: ScheduleStore
-    @EnvironmentObject var attendanceStore: AttendanceStore
-    @EnvironmentObject var memberStore: MemberStore
     
     @State private var content: String = ""
     @State private var placeholder: String = Constants.contentPlaceholder
@@ -20,6 +16,8 @@ struct ReportView: View {
     @Binding var cancelButtonTapped: Bool
     @Binding var showToast: Bool
     @Binding var toastObj: ToastMessage
+    
+    var group: Group
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -88,11 +86,24 @@ struct ReportView: View {
                     .padding(.trailing, 18)
                     
                     Button {
-                        showToast.toggle()
-                        cancelButtonTapped.toggle()
-                        toastObj.message = Constants.toastMeesage
-                        toastObj.type = .competion
-                        
+                        Task {
+                            guard let user = userStore.user else {
+                                showToast.toggle()
+                                cancelButtonTapped.toggle()
+                                toastObj.message = Constants.userErrorMessage
+                                toastObj.type = .competion
+                                return
+                            }
+                            
+                            let report = Report(id: UUID().uuidString,
+                                                groupId: group.id,
+                                                reporterId: user.id,
+                                                content: self.content,
+                                                date: Date())
+                            
+                            let result = await ReportManager.shared.reportGroup(report)
+                            reportClub(result: result)
+                        }
                         print("신고 내용: \(content)")
                     } label: {
                         RoundedRectangle(cornerRadius: 10)
@@ -112,10 +123,24 @@ struct ReportView: View {
         } // - ZStack
         .frame(height: UIScreen.screenHeight / 3)
     }
+    
+    private func reportClub(result: Result<String, ReportError>) {
+        showToast.toggle()
+        cancelButtonTapped.toggle()
+        
+        switch result {
+        case .success(let success):
+            toastObj.message = success
+            toastObj.type = .competion
+        case .failure(let failure):
+            toastObj.message = failure.rawValue
+            toastObj.type = .failed
+        }
+    }
 }
 
 private enum Constants {
     static let reportContentLimit: Int = 300
-    static let toastMeesage: String = "신고가 완료되었습니다."
     static let contentPlaceholder: String = "신고 내용을 입력해주세요."
+    static let userErrorMessage: String = "알수 없는 에러 입니다."
 }
