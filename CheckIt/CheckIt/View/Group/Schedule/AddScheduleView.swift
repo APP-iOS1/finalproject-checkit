@@ -161,6 +161,12 @@ struct AddScheduleView: View {
                     }
                     .padding(5)
                     
+                    Text("일정 생성시 부적절하거나 불쾌감을 줄수 있는 메모를 작성하는 경우, 동아리는 제제받을 수 있습니다.")
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 14, weight: .regular))
+                        .padding(.top, -10)
+                    
+                    
                     Divider()
                         .padding(.bottom)
                     

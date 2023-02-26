@@ -26,9 +26,10 @@ struct GroupScheduleView: View {
     @State private var isGroupManagerInfoLabel: String = "+ 버튼으로 일정을 추가해서\n 출석 현황을 관리해 보세요."
     @State private var isGroupMemberInfoLabel: String = "동아리 일정이 생성될 예정입니다."
     
-    @Binding var isGroupManager: Bool
+    // @Binding var isGroupManager: Bool
     @Binding var isScheduleLoading: Bool
     
+    var isHost: Bool
     
     var body: some View {
         NavigationStack {
@@ -36,7 +37,7 @@ struct GroupScheduleView: View {
                 HStack {
                     Spacer()
                     
-                    if isGroupManager {
+                    if isHost {
                         Button {
                             isAddSheet.toggle()
                         } label: {
@@ -57,7 +58,7 @@ struct GroupScheduleView: View {
             VStack {
                 if scheduleStore.scheduleList.isEmpty && isCheckScheduleEmpty {
                     Spacer()
-                    if isGroupManager {
+                    if isHost {
                         ScheduleEmptyView(infoLabel: $isGroupManagerInfoLabel)
                     } else {
                         ScheduleEmptyView(infoLabel: $isGroupMemberInfoLabel)
