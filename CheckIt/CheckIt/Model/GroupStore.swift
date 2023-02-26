@@ -291,6 +291,7 @@ class GroupStore: ObservableObject {
         do {
             let querySnapshot = try await database.collection("Group")
                 .whereField("id", in: groupID)
+                .whereField("is_stop", isEqualTo: false)
                 .getDocuments()
 
             for document in querySnapshot.documents {
@@ -363,6 +364,7 @@ class GroupStore: ObservableObject {
             let memberLimit = group[GroupConstants.memberLimit] as? Int ?? 0
             let isStop = group["is_stop"] as? Bool ?? false
             
+            if isStop == true { return .failure(GroupGetError.getGroupFailed)}
             
             let newGroup = Group(id: id,
                               name: name,
@@ -371,7 +373,7 @@ class GroupStore: ObservableObject {
                               hostID: hostID,
                               description: description,
                               scheduleID: scheduleID,
-                                 memberLimit: memberLimit, isStop: false)
+                                 memberLimit: memberLimit, isStop: isStop)
             
             //readImages("group_images/\(id)", groupId: newGroup.id)
             
