@@ -25,6 +25,8 @@ struct MakeGroupModalView: View {
     @State private var selectedPhotoData: [UIImage] = []
     
     @State private var isClicked: Bool = false
+    @State private var isAgreeTerms: Bool = false
+    @State private var isClickTerms: Bool = false
     
     @Binding var showToast: Bool
     
@@ -88,6 +90,41 @@ struct MakeGroupModalView: View {
                     placeholder: "동아리의 상세 내용을 적어주세요. (필수)",
                     maximumCount: maxGroupDescriptionCount)
                 .font(.system(size: 14, weight: .regular))
+                // "부적절하거나 불쾌감을 줄 수 있는 컨텐츠는 제재를 받을 수 있습니다."
+                HStack {
+                    Toggle(isOn: $isAgreeTerms) {
+                        Text("동아리 개설 준수 사항 동의")
+                    }
+                    .toggleStyle(iOSCheckboxToggleStyle())
+                    .foregroundColor(.black)
+                    
+                    Spacer()
+                    
+                    Button {
+                        isClickTerms.toggle()
+                    } label: {
+                        if isClickTerms {
+                            Image(systemName: "chevron.up")
+                        } else {
+                            Image(systemName: "chevron.down")
+                        }
+                    }
+                    .foregroundColor(.black)
+                }
+                .padding(.bottom, 0)
+                
+                if isClickTerms {
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("부적절하거나 불쾌감을 줄 수 있는 이미지 금지")
+                        Text("부적절하거나 불쾌감을 줄 수 있는 이름 금지")
+                        Text("부적절하거나 불쾌감을 줄 수 있는 상세 내용 금지")
+                    }
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundColor(.secondary)
+                    .padding(.top, 0)
+                }
+                
+                
                 
                 // MARK: - 동아리 개설하기 버튼
                 Button {
@@ -141,13 +178,13 @@ struct MakeGroupModalView: View {
                 } label: {
                     if isLoading {
                         ProgressView()
-                            .modifier(GruopCustomButtonModifier())
+                            .modifier(GroupCreateButton(disable: false))
                     } else {
                         Text("동아리 개설하기")
-                            .modifier(GruopCustomButtonModifier())
+                            .modifier(GroupCreateButton(disable: !isAgreeTerms))
                     }
                 }
-                .disabled(!isCountValid())
+                .disabled(!isCountValid() || !isAgreeTerms)
                 .onTapGesture{
                     showAlert.toggle()
                 }
@@ -164,10 +201,13 @@ struct MakeGroupModalView: View {
     //MARK: - isCountValid
     /// 글자수 조건이 맞는지 확인하는 메서드입니다.
     private func isCountValid() -> Bool {
+        print("groupName: \(groupName)")
+        print("groupDescription: \(groupDescription)")
         if groupName.isEmpty || groupDescription.isEmpty {
             DispatchQueue.main.async{
                 self.alertMessage = "한 글자 이상 입력해야 합니다!"
             }
+            print("1")
             return false
         }
         
@@ -175,9 +215,17 @@ struct MakeGroupModalView: View {
             DispatchQueue.main.async{
                 self.alertMessage = "입력 가능한 글자 수를 넘었습니다!"
             }
+            print("2")
+            return false
+        }
+        if !isAgreeTerms {
+            DispatchQueue.main.async{
+                self.alertMessage = "준수 사항을 동의해주세요."
+            }
             return false
         }
         
+        print("3")
         return true
     } // - isCountValid
 }
@@ -191,3 +239,17 @@ struct MakeGroupModalView: View {
 //            .environmentObject(GroupStore())
 //    }
 //}
+
+struct iOSCheckboxToggleStyle: ToggleStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        Button(action: {
+            configuration.isOn.toggle()
+        }, label: {
+            HStack {
+                Image(systemName: configuration.isOn ? "checkmark.square" : "square")
+
+                configuration.label
+            }
+        })
+    }
+}
