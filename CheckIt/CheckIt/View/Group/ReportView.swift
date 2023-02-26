@@ -104,7 +104,6 @@ struct ReportView: View {
                             let result = await ReportManager.shared.reportGroup(report)
                             reportClub(result: result)
                         }
-                        print("신고 내용: \(content)")
                     } label: {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(width: 100, height: 50)
