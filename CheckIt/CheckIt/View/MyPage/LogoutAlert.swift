@@ -20,12 +20,12 @@ struct LogoutAlert: View {
         ZStack(alignment: .top) {
             RoundedRectangle(cornerRadius: 10)
                 .foregroundColor(.white)
-                .frame(height: 160)
+                .frame(width: UIScreen.screenWidth * 0.7, height: UIScreen.screenHeight * 0.2)
             VStack {
                 Text("로그아웃하시겠습니까?")
-                    .font(.system(size: 20, weight: .bold))
-                    .padding(25)
-                    .padding(.top, 10)
+                    .font(.system(size: UIScreen.screenHeight * 0.025, weight: .bold))
+                    .padding(UIScreen.screenHeight * 0.03)
+                    .padding(.top, UIScreen.screenHeight * 0.01)
                     
                   
                 
@@ -36,7 +36,7 @@ struct LogoutAlert: View {
                         
                     } label: {
                         RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 100, height: 50)
+                            .frame(width: UIScreen.screenWidth * 0.22, height: UIScreen.screenHeight * 0.06)
                             .foregroundColor(.myGray)
                             .overlay {
                                 Text("취소하기")
@@ -53,7 +53,7 @@ struct LogoutAlert: View {
                         
                     } label: {
                         RoundedRectangle(cornerRadius: 10)
-                            .frame(width: 100, height: 50)
+                            .frame(width: UIScreen.screenWidth * 0.22, height: UIScreen.screenHeight * 0.06)
                             .foregroundColor(.myGreen)
                             .overlay {
                                 Text("로그아웃")
@@ -68,7 +68,7 @@ struct LogoutAlert: View {
 //                .padding(.top, 27)
             }
         } // - ZStack
-        .frame(height: 200)
+        .frame(height: UIScreen.screenHeight * 0.7)
     }
     
     func resetStoresData() {
