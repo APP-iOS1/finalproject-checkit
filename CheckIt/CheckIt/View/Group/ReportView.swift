@@ -193,7 +193,7 @@ private enum Constants {
     static let reportContentLimit: Int = 300
     static let contentPlaceholder: String = "신고 내용을 입력해주세요."
     static let userErrorMessage: String = "알수 없는 에러 입니다."
-    static let managerEmail: String = "hmheo128@gmail.com"
+    static let managerEmail: String = "ckit.contact@gmail.com"
     static let reportConfirmMessage: String =
     """
     신고가 접수되었습니다. 신고된 동아리는 담당자가 이용약관 및 운영원칙에 따라 적절한 조치를 취하고 있습니다.
