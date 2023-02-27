@@ -112,7 +112,7 @@ struct QuestionView: View {
         .alert(isPresented: $isPresentedMailAlert) {
             Alert(title: Text("개발자에게 문의하기"), message: Text("문의사항은 ckit.contact@gmail.com 으로 보내주시길 바랍니다."))
         }
-        .sheet(isPresented: $isPresentedContactView) {
+        .fullScreenCover(isPresented: $isPresentedContactView) {
             ContactView(data: $mailData) { result in
                 switch result {
                 case .success(let result):
