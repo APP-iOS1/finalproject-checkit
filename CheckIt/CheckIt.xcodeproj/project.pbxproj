@@ -147,6 +147,8 @@
 		FD74973F298F1ABB001C424D /* LoginRouteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD74973E298F1ABB001C424D /* LoginRouteView.swift */; };
 		FD909F9C299388900002F55F /* MapViewWithUserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD909F9B299388900002F55F /* MapViewWithUserLocation.swift */; };
 		FD909F9E299558E40002F55F /* SecondIndicator.json in Resources */ = {isa = PBXBuildFile; fileRef = FD909F9D299558E40002F55F /* SecondIndicator.json */; };
+		FDCA1E7729ACA7890038725D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDCA1E7629ACA7890038725D /* GoogleService-Info.plist */; };
+		FDCA1E7929ACAB910038725D /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCA1E7829ACAB910038725D /* ContactView.swift */; };
 		FDE58061297A53A600B7AC28 /* CustomToastAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE58060297A53A500B7AC28 /* CustomToastAlert.swift */; };
 		FDEA39A5299C718500D18282 /* AddressSearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEA39A4299C718500D18282 /* AddressSearchManager.swift */; };
 		FDEE4904298D4D92009DF195 /* GoogleLoginStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4903298D4D92009DF195 /* GoogleLoginStore.swift */; };
@@ -160,7 +162,6 @@
 		FDEE4916298E3AEA009DF195 /* KakaoSDKTemplate in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE4915298E3AEA009DF195 /* KakaoSDKTemplate */; };
 		FDEE4918298E3AEA009DF195 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE4917298E3AEA009DF195 /* KakaoSDKUser */; };
 		FDEE491A298EAB04009DF195 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE4919298EAB04009DF195 /* SignUpView.swift */; };
-		FDEE491C298ECE93009DF195 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDEE491B298ECE93009DF195 /* GoogleService-Info.plist */; };
 		FDEE491F298EEE67009DF195 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = FDEE491E298EEE67009DF195 /* SwiftyJSON */; };
 /* End PBXBuildFile section */
 
@@ -270,7 +271,6 @@
 		A5FF27A72977C3F30059C312 /* PremiumRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumRateView.swift; sourceTree = "<group>"; };
 		A5FF27A92977D1D00059C312 /* QuitGroupAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitGroupAlert.swift; sourceTree = "<group>"; };
 		A5FF27AB2977D2640059C312 /* alertTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = alertTestView.swift; sourceTree = "<group>"; };
-		FD03F4BC2988F4BD005B355D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FD2D07F6297BFCB900CC010E /* GeoCodingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCodingResponse.swift; sourceTree = "<group>"; };
 		FD2D07FA297BFDEC00CC010E /* GeoCodingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoCodingService.swift; sourceTree = "<group>"; };
 		FD2D07FF297C0FB100CC010E /* CustomSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSymbols.swift; sourceTree = "<group>"; };
@@ -301,6 +301,9 @@
 		FD74973E298F1ABB001C424D /* LoginRouteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouteView.swift; sourceTree = "<group>"; };
 		FD909F9B299388900002F55F /* MapViewWithUserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewWithUserLocation.swift; sourceTree = "<group>"; };
 		FD909F9D299558E40002F55F /* SecondIndicator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SecondIndicator.json; sourceTree = "<group>"; };
+		FDCA1E7429ACA6E10038725D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FDCA1E7629ACA7890038725D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FDCA1E7829ACAB910038725D /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		FDE58060297A53A500B7AC28 /* CustomToastAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToastAlert.swift; sourceTree = "<group>"; };
 		FDEA39A4299C718500D18282 /* AddressSearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressSearchManager.swift; sourceTree = "<group>"; };
 		FDEE4903298D4D92009DF195 /* GoogleLoginStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginStore.swift; sourceTree = "<group>"; };
@@ -308,7 +311,6 @@
 		FDEE4907298D606B009DF195 /* CheckIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CheckIt.entitlements; sourceTree = "<group>"; };
 		FDEE4908298D7DAD009DF195 /* KakaoLoginStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginStore.swift; sourceTree = "<group>"; };
 		FDEE4919298EAB04009DF195 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		FDEE491B298ECE93009DF195 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -486,8 +488,8 @@
 				FDEE4907298D606B009DF195 /* CheckIt.entitlements */,
 				A529BD41298CA79A00AE232B /* Constants */,
 				283B27B4298A266800E4D400 /* Extensions */,
-				FD03F4BC2988F4BD005B355D /* Info.plist */,
-				FDEE491B298ECE93009DF195 /* GoogleService-Info.plist */,
+				FDCA1E7429ACA6E10038725D /* Info.plist */,
+				FDCA1E7629ACA7890038725D /* GoogleService-Info.plist */,
 				FD4E259C297783CC00F6F875 /* CheckItApp.swift */,
 				FD2D07F8297BFD2500CC010E /* API */,
 				FD4E25C9297783F000F6F875 /* UIConfig */,
@@ -629,6 +631,7 @@
 				FD4971D4299A3E870012E9F5 /* LogoutAlert.swift */,
 				A5FF279F2977AD3E0059C312 /* MyPageView.swift */,
 				A5FF27A12977AD630059C312 /* QuestionView.swift */,
+				FDCA1E7829ACAB910038725D /* ContactView.swift */,
 				A5FF27A32977AEF80059C312 /* MyPageButton.swift */,
 				A5FF27A52977BD130059C312 /* Profile.swift */,
 				FD4971D0299A3E6A0012E9F5 /* SafariView.swift */,
@@ -865,12 +868,12 @@
 			files = (
 				FD909F9E299558E40002F55F /* SecondIndicator.json in Resources */,
 				A572A5742997CD2B001C70DD /* ThirdIndicator.json in Resources */,
+				FDCA1E7729ACA7890038725D /* GoogleService-Info.plist in Resources */,
 				FD4E25A4297783CC00F6F875 /* Preview Assets.xcassets in Resources */,
 				FD32E22729A7C16700D670D2 /* map-navigation.json in Resources */,
 				FD4E25A1297783CC00F6F875 /* Assets.xcassets in Resources */,
 				FD32E22D29A7CB9800D670D2 /* send-invitation.json in Resources */,
 				FD32E22329A7C15400D670D2 /* checklist.json in Resources */,
-				FDEE491C298ECE93009DF195 /* GoogleService-Info.plist in Resources */,
 				A58CF9D22995380B0032E004 /* Indicator.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -963,6 +966,7 @@
 				A529BD512990C1EC00AE232B /* EditScheduleAttendanceListCell.swift in Sources */,
 				A529BD4D298CABF500AE232B /* MemberStoreConstants.swift in Sources */,
 				2869DE442977CF0200D8CAFB /* PenaltyCostCellView.swift in Sources */,
+				FDCA1E7929ACAB910038725D /* ContactView.swift in Sources */,
 				2B661EBD2994D44900CAE64D /* Ex+UIScreen.swift in Sources */,
 				2822CE162988AFEC00316139 /* User.swift in Sources */,
 				1AC25B8529953AF500BFBF12 /* ScheduleEmptyView.swift in Sources */,
